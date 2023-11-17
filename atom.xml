@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-11-17T09:18:03.541Z</updated>
+  <updated>2023-11-17T09:34:13.372Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,12 +17,19 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>HalloWorld</title>
+    <title>Clf&#39;s personal blog</title>
     <link href="http://example.com/2023/11/17/HalloWorld/"/>
     <id>http://example.com/2023/11/17/HalloWorld/</id>
-    <published>2023-11-17T09:18:03.000Z</published>
-    <updated>2023-11-17T09:18:03.541Z</updated>
+    <published>2023-11-17T09:18:03.541Z</published>
+    <updated>2023-11-17T09:34:13.372Z</updated>
     
+    <content type="html"><![CDATA[<p>I create this blog to send something interesting and awesome. But now I haven’t strong enough to command it well. So this blog might be silent for quite a while.</p><p>Thanks for <a href="https://www.xdu-inspur.club/blog/site/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/get_a_blog.html#_10">teaching</a>.</p><p><img src="/./HalloWorld/imige.jpg.jpg"><br>date: 2023-11-17 17:18:03<br>tags:</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;I create this blog to send something interesting and awesome. But now I haven’t strong enough to command it well. So this blog might be s</summary>
+      
     
     
     

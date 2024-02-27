@@ -73,6 +73,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-JavaLearning" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/02/27/JavaLearning/" class="article-date">
+  <time class="dt-published" datetime="2024-02-27T10:54:37.000Z" itemprop="datePublished">2024-02-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/02/27/JavaLearning/">JavaLearning</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本markdown用于记录各种方法，以供查找</p>
+<h3 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileName</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * CODE</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数学方法"><a href="#数学方法" class="headerlink" title="数学方法"></a>数学方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Math.sqrt()</span><br><span class="line">Math.pow()   <span class="comment">//double类型</span></span><br><span class="line">Math.sin()</span><br><span class="line">Math.atan()</span><br><span class="line">Math.exp()</span><br><span class="line">Math.PI     <span class="comment">//常数pi</span></span><br><span class="line">Math.E      <span class="comment">//常数e</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">String.join(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;S&quot;</span>,<span class="string">&quot;M&quot;</span>,<span class="string">&quot;L&quot;</span>, <span class="string">&quot;XL&quot;</span>)     <span class="comment">//拼接后面的字符串，结果为  S/M/L/XL</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.repeat()   <span class="comment">//重复字符串内容固定次数</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.substring( , )    <span class="comment">//提取需要的子串，若没有后一个数，则直到最后</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.equals()   <span class="comment">//检测两字符串是否相等</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.equalsIgnoreCase() <span class="comment">//检测两字符串是否相等，但忽略大小写</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.length()   <span class="comment">//检测字符串长度</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.codePointCount( , )    <span class="comment">//检测指定区域的码点大小</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.codePointAt()  <span class="comment">//检测指定点的UTF-16码</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.charAt()   <span class="comment">//返回位置n的代码单元</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.offsetByCodePoints( , )    <span class="comment">//返回从上个码点开始，下个码点后的索引</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.compareTo()    <span class="comment">//若字符串位于括号内的前，返回负数，反之返回正数，若相等返回0</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.isEmpty() 或 <span class="string">&quot;string&quot;</span>.isBlank()    <span class="comment">//检测字符串是否为空或空格</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.startWith()    <span class="comment">//检测字符串是否以括号内开始</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.endWith()  <span class="comment">//检测字符串是否以括号内结束</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.toLowerCase()  <span class="comment">//字符串大写改小写</span></span><br><span class="line"><span class="string">&quot;string&quot;</span>.toUpperCase()  <span class="comment">//字符串大写改小写</span></span><br><span class="line"></span><br><span class="line">StringBuilder()     <span class="comment">//构建空的字符串构建器</span></span><br><span class="line">builder.append()    <span class="comment">//追加一个字符串</span></span><br><span class="line">builder.appendCodePoint()   <span class="comment">//追加一个码点</span></span><br><span class="line">builder.setCharAt(i, c) <span class="comment">//将第i个代码单元设置为c</span></span><br><span class="line">builder.insert(i, s)    <span class="comment">//在i位置后插入c</span></span><br><span class="line">builder.delete( , )     <span class="comment">//在指定位删除</span></span><br><span class="line">builder.toString()      <span class="comment">//返回一个字符串</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/02/27/JavaLearning/" data-id="clt4cwio800015gubfbuj2kf3" data-title="JavaLearning" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-fuck-XDOJ" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/12/27/fuck-XDOJ/" class="article-date">
@@ -128,7 +173,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/27/fuck-XDOJ/" data-id="clqym6r9v0000boub9zyw2obh" data-title="byd xdoj" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/27/fuck-XDOJ/" data-id="clt4cwioa00045gubcs306lat" data-title="byd xdoj" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -174,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/22/zScan/" data-id="clqym6ra40003boub4v4m3yg2" data-title="zigzagScan" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/22/zScan/" data-id="clt4cwio900025gubbao58g37" data-title="zigzagScan" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -213,7 +258,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/11/17/HalloWorld/" data-id="clqym6r9z0001boub077lglyx" data-title="Clf&#39;s 1st personal blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/11/17/HalloWorld/" data-id="clt4cwio400005gub4q1pbn9z" data-title="Clf&#39;s 1st personal blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -264,7 +309,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/11/17/hello-world/" data-id="clqym6ra10002boub6ta5gg37" data-title="Clf&#39;s personal blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/11/17/hello-world/" data-id="clt4cwiob00055gub2drbhfdp" data-title="Clf&#39;s personal blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -286,15 +331,29 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/learning/" rel="tag">learning</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/learning/" style="font-size: 10px;">learning</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a></li></ul>
     </div>
   </div>
 
@@ -305,6 +364,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/02/27/JavaLearning/">JavaLearning</a>
+          </li>
         
           <li>
             <a href="/2023/12/27/fuck-XDOJ/">byd xdoj</a>

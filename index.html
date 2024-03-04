@@ -73,9 +73,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-javalearning" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-javalearning - Chapter 2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2024/03/04/javalearning/" class="article-date">
+    <a href="/2024/03/04/javalearning%20-%20Chapter%202/" class="article-date">
   <time class="dt-published" datetime="2024-03-04T11:20:54.000Z" itemprop="datePublished">2024-03-04</time>
 </a>
     
@@ -87,7 +87,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/03/04/javalearning/">javalearning</a>
+      <a class="p-name article-title" href="/2024/03/04/javalearning%20-%20Chapter%202/">javalearning</a>
     </h1>
   
 
@@ -99,7 +99,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/03/04/javalearning/" data-id="cltcuovnl0005tkubacxy2re0" data-title="javalearning" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/03/04/javalearning%20-%20Chapter%202/" data-id="cltcwqe0m0005noub92g49qnv" data-title="javalearning" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -141,10 +141,11 @@
 <h3 id="输入与输出"><a href="#输入与输出" class="headerlink" title="输入与输出"></a>输入与输出</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="type">Scanner</span> <span class="variable">inputname</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);     <span class="comment">// 先构造一个与System.in流相关联的Scanner对象</span></span><br><span class="line">Scanner (<span class="string">&quot;string&quot;</span>)  <span class="comment">// 从指定字符串读取数据</span></span><br><span class="line">in.nextLine()   <span class="comment">// 读取一行输入，作字符串</span></span><br><span class="line">in.next()       <span class="comment">// 读取一个词</span></span><br><span class="line">in.nextInt()    <span class="comment">// 读取一个整数</span></span><br><span class="line">in.nextDouble() <span class="comment">// 读取一个浮点数</span></span><br><span class="line"></span><br><span class="line">System.out.print()  <span class="comment">// 打印内容</span></span><br><span class="line">System.out.println()    <span class="comment">// 打印后换行</span></span><br><span class="line">System.out.printf(<span class="string">&quot;%tc&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>())    <span class="comment">// 打印当前日期和时间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line">PrintStream <span class="title function_">printf</span><span class="params">()</span> <span class="comment">// 格式化打印</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException&#123;&#125; <span class="comment">// 对于可能出现文件不存在的情况的处理，向编译器表明已知晓可能出现的情况</span></span><br><span class="line"><span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(Path.of(<span class="string">&quot;filePath\\filename&quot;</span>, String.valueOf(StandardCharsets.UTF_8)));    <span class="comment">// 读取文件需要构造的对象</span></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="type">PrintWriter</span> <span class="variable">out</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PrintWriter</span>(<span class="string">&quot;filePath\\filename&quot;</span>, StandardCharsets.UTF_8);</span><br></pre></td></tr></table></figure>
 <h3 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">L:</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * CODE</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">break</span> L;    <span class="comment">//可用带标签的break实现goto的效果</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] a;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span>[] row : <span class="string">&quot;arrayName&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> line : row)  <span class="comment">// 遍历多维数组中的每一个元素</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line">Arrays.copyOf(<span class="string">&quot;arrayName&quot;</span>, <span class="string">&quot;arrayLength&quot;</span>)    <span class="comment">// 将一个数组的所有值拷贝到一个新数组中</span></span><br><span class="line">Arrays.sort(<span class="string">&quot;arrayName&quot;</span>)    <span class="comment">// 快速排序</span></span><br><span class="line">Arrays.toString(<span class="string">&quot;arrayName&quot;</span>)    <span class="comment">// 返回字符串</span></span><br><span class="line">Arrays.binarySearch(<span class="string">&quot;arrayName&quot;</span>, <span class="string">&quot;startNumber&quot;</span>, <span class="string">&quot;endNumber&quot;</span>, <span class="string">&quot;searchNumber&quot;</span>)    <span class="comment">// 在有序数组中找某个数，找回则返回下标，否则返回负数值。该值 + 1是查找数应插入的位置</span></span><br><span class="line">Arrays.fill(<span class="string">&quot;arrayName&quot;</span>, <span class="string">&quot;number&quot;</span>)  <span class="comment">// 将所有数据元素设置为某个数</span></span><br><span class="line">Arrays.equals(<span class="string">&quot;array1&quot;</span>, <span class="string">&quot;array2&quot;</span>)   <span class="comment">//  两数组大小和对应元素相等则为true</span></span><br></pre></td></tr></table></figure>
+<h3 id="LocalDate类"><a href="#LocalDate类" class="headerlink" title="LocalDate类"></a>LocalDate类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LocalDate.now() <span class="comment">// 当前日期</span></span><br><span class="line">a = LocalDate.of(<span class="string">&quot;year&quot;</span>, <span class="string">&quot;month&quot;</span>, <span class="string">&quot;day&quot;</span>)    <span class="comment">// 指定日期</span></span><br><span class="line">a.getYear()     <span class="comment">// 获取年份</span></span><br><span class="line">a.getMonthValue()   <span class="comment">// 获取月份</span></span><br><span class="line">a.getDayOfMonth() <span class="comment">// 获取月份中的日期</span></span><br><span class="line">a.getDayOfYear()    <span class="comment">// 获取年份中的天数</span></span><br><span class="line">a.plusDays()    <span class="comment">// 加天数</span></span><br><span class="line">a.getDayOfWeek()    <span class="comment">// 星期几</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/02/27/JavaLearning%20-%20Chapter%201/" data-id="cltcuovnf0001tkub7c4s3yhg" data-title="JavaLearning" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/02/27/JavaLearning%20-%20Chapter%201/" data-id="cltcwqe0i0002noub247106cn" data-title="JavaLearning" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -213,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/27/fuck-XDOJ/" data-id="cltcuovnh0002tkub9b6a8p30" data-title="byd xdoj" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/27/fuck-XDOJ/" data-id="cltcwqe0g0001noubfcyg9gtw" data-title="byd xdoj" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -259,7 +260,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/22/zScan/" data-id="cltcuovnm0006tkubfl8vevw5" data-title="zigzagScan" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/22/zScan/" data-id="cltcwqe0n0006noub16rgh6on" data-title="zigzagScan" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -298,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/11/17/HalloWorld/" data-id="cltcuovn80000tkubex7z1egf" data-title="Clf&#39;s 1st personal blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/11/17/HalloWorld/" data-id="cltcwqe0b0000noubb9k59t5c" data-title="Clf&#39;s 1st personal blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -349,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/11/17/hello-world/" data-id="cltcuovnk0004tkubf9gj2kec" data-title="Clf&#39;s personal blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/11/17/hello-world/" data-id="cltcwqe0j0003noubbavo8igm" data-title="Clf&#39;s personal blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -406,7 +407,7 @@
       <ul>
         
           <li>
-            <a href="/2024/03/04/javalearning/">javalearning</a>
+            <a href="/2024/03/04/javalearning%20-%20Chapter%202/">javalearning</a>
           </li>
         
           <li>

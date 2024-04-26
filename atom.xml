@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-04-26T07:04:40.388Z</updated>
+  <updated>2024-04-26T16:28:20.688Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,69 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++容器</title>
+    <link href="http://example.com/2024/04/26/cplus-contain/"/>
+    <id>http://example.com/2024/04/26/cplus-contain/</id>
+    <published>2024-04-26T15:43:14.000Z</published>
+    <updated>2024-04-26T16:28:20.688Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p>与Java的arrayList类似，vector是一类动态大小的数组，声明如下</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>vector&lt;&quot;type_name&quot;&gt; vector_name[<span class="hljs-string">&quot;default_size&quot;</span>];<br></code></pre></td></tr></table></figure><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>栈操作</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">push_back</span>(element); <span class="hljs-comment">// 在最后添加一个数据</span><br><span class="hljs-built_in">pop_back</span>(element);  <span class="hljs-comment">// 在最后除去一个数据</span><br></code></pre></td></tr></table></figure><p>辅助函数</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">size</span>(); <span class="hljs-comment">// 返回元素个数</span><br><span class="hljs-built_in">empty</span>();    <span class="hljs-comment">// 判断向量是否为空</span><br><span class="hljs-built_in">resize</span>(integer);   <span class="hljs-comment">// 改变使用容器的大小</span><br><span class="hljs-built_in">reverse</span>(integer);   <span class="hljs-comment">// 使容器至少能容纳这么多个元素</span><br><span class="hljs-built_in">clear</span>();    <span class="hljs-comment">// 清空元素</span><br><span class="hljs-built_in">at</span>(integer);    <span class="hljs-comment">// 到所在索引的元素，越界则报错，直接使用[]不会报错</span><br></code></pre></td></tr></table></figure><p>迭代操作</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;<span class="hljs-type">int</span>&gt;::iterator iterator_name = vector_name.<span class="hljs-built_in">begin</span>();  <span class="hljs-comment">// begin()数组头的指针</span><br><span class="hljs-keyword">while</span> (iterator_name != vector_name.<span class="hljs-built_in">end</span>())&#123;                 <span class="hljs-comment">// end()数组尾的指针</span><br>    <span class="hljs-comment">/*code*/</span><br>    v++;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><h3 id="声明-1"><a href="#声明-1" class="headerlink" title="声明"></a>声明</h3><p>deque可以向两端增加或删除元素，声明如下</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;deque&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>deque&lt;&quot;type_name&quot;&gt;deque_name[<span class="hljs-string">&quot;default_size&quot;</span>];<br></code></pre></td></tr></table></figure><h3 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h3><p>（一些常规方法略）<br>增删元素</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">push_front</span>(element);    <span class="hljs-comment">// 头部添加元素</span><br><span class="hljs-built_in">push_back</span>(element);     <span class="hljs-comment">// 尾部添加元素</span><br><span class="hljs-built_in">insert</span>(iterator_name, amount, element);  <span class="hljs-comment">// 任意位置插入元素</span><br><span class="hljs-built_in">pop_front</span>(element);      <span class="hljs-comment">// 头部删除</span><br><span class="hljs-built_in">pop_back</span>(element);      <span class="hljs-comment">// 尾部删除</span><br><span class="hljs-built_in">erase</span>(iterator_name);   <span class="hljs-comment">// 任意位置删除元素</span><br><span class="hljs-built_in">erase</span>(iterator_first, iterator_last);   <span class="hljs-comment">// 删除区域内元素   </span><br></code></pre></td></tr></table></figure><p>访问元素</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">front</span>();    <span class="hljs-comment">// 第一个元素</span><br><span class="hljs-built_in">back</span>();     <span class="hljs-comment">// 最后一个元素</span><br></code></pre></td></tr></table></figure><h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;vector&quot;&gt;&lt;a href=&quot;#vector&quot; class=&quot;headerlink&quot; title=&quot;vector&quot;&gt;&lt;/a&gt;vector&lt;/h2&gt;&lt;h3 id=&quot;声明&quot;&gt;&lt;a href=&quot;#声明&quot; class=&quot;headerlink&quot; title=&quot;声明&quot;&gt;&lt;</summary>
+      
+    
+    
+    
+    <category term="C++" scheme="http://example.com/categories/C/"/>
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+    <category term="向量" scheme="http://example.com/tags/%E5%90%91%E9%87%8F/"/>
+    
+    <category term="栈" scheme="http://example.com/tags/%E6%A0%88/"/>
+    
+    <category term="堆" scheme="http://example.com/tags/%E5%A0%86/"/>
+    
+    <category term="集合" scheme="http://example.com/tags/%E9%9B%86%E5%90%88/"/>
+    
+    <category term="队列" scheme="http://example.com/tags/%E9%98%9F%E5%88%97/"/>
+    
+    <category term="映射" scheme="http://example.com/tags/%E6%98%A0%E5%B0%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面向对象 - 运作逻辑</title>
+    <link href="http://example.com/2024/04/26/object-oriented-3/"/>
+    <id>http://example.com/2024/04/26/object-oriented-3/</id>
+    <published>2024-04-26T07:15:33.000Z</published>
+    <updated>2024-04-26T07:16:53.856Z</updated>
+    
+    <content type="html"><![CDATA[<p>当我们创建一系列对象的时候，编译器和解释器到底在做什么？</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;当我们创建一系列对象的时候，编译器和解释器到底在做什么？&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="Java" scheme="http://example.com/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    
+    <category term="面向对象" scheme="http://example.com/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>面向对象 - 继承与多态</title>

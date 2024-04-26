@@ -4,6 +4,70 @@
   
   
   <entry>
+    <title>C++容器</title>
+    <link href="/2024/04/26/cplus-contain/"/>
+    <url>/2024/04/26/cplus-contain/</url>
+    
+    <content type="html"><![CDATA[<h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p>与Java的arrayList类似，vector是一类动态大小的数组，声明如下</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>vector&lt;&quot;type_name&quot;&gt; vector_name[<span class="hljs-string">&quot;default_size&quot;</span>];<br></code></pre></td></tr></table></figure><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>栈操作</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">push_back</span>(element); <span class="hljs-comment">// 在最后添加一个数据</span><br><span class="hljs-built_in">pop_back</span>(element);  <span class="hljs-comment">// 在最后除去一个数据</span><br></code></pre></td></tr></table></figure><p>辅助函数</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">size</span>(); <span class="hljs-comment">// 返回元素个数</span><br><span class="hljs-built_in">empty</span>();    <span class="hljs-comment">// 判断向量是否为空</span><br><span class="hljs-built_in">resize</span>(integer);   <span class="hljs-comment">// 改变使用容器的大小</span><br><span class="hljs-built_in">reverse</span>(integer);   <span class="hljs-comment">// 使容器至少能容纳这么多个元素</span><br><span class="hljs-built_in">clear</span>();    <span class="hljs-comment">// 清空元素</span><br><span class="hljs-built_in">at</span>(integer);    <span class="hljs-comment">// 到所在索引的元素，越界则报错，直接使用[]不会报错</span><br></code></pre></td></tr></table></figure><p>迭代操作</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;<span class="hljs-type">int</span>&gt;::iterator iterator_name = vector_name.<span class="hljs-built_in">begin</span>();  <span class="hljs-comment">// begin()数组头的指针</span><br><span class="hljs-keyword">while</span> (iterator_name != vector_name.<span class="hljs-built_in">end</span>())&#123;                 <span class="hljs-comment">// end()数组尾的指针</span><br>    <span class="hljs-comment">/*code*/</span><br>    v++;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><h3 id="声明-1"><a href="#声明-1" class="headerlink" title="声明"></a>声明</h3><p>deque可以向两端增加或删除元素，声明如下</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;deque&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>deque&lt;&quot;type_name&quot;&gt;deque_name[<span class="hljs-string">&quot;default_size&quot;</span>];<br></code></pre></td></tr></table></figure><h3 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h3><p>（一些常规方法略）<br>增删元素</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">push_front</span>(element);    <span class="hljs-comment">// 头部添加元素</span><br><span class="hljs-built_in">push_back</span>(element);     <span class="hljs-comment">// 尾部添加元素</span><br><span class="hljs-built_in">insert</span>(iterator_name, amount, element);  <span class="hljs-comment">// 任意位置插入元素</span><br><span class="hljs-built_in">pop_front</span>(element);      <span class="hljs-comment">// 头部删除</span><br><span class="hljs-built_in">pop_back</span>(element);      <span class="hljs-comment">// 尾部删除</span><br><span class="hljs-built_in">erase</span>(iterator_name);   <span class="hljs-comment">// 任意位置删除元素</span><br><span class="hljs-built_in">erase</span>(iterator_first, iterator_last);   <span class="hljs-comment">// 删除区域内元素   </span><br></code></pre></td></tr></table></figure><p>访问元素</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">front</span>();    <span class="hljs-comment">// 第一个元素</span><br><span class="hljs-built_in">back</span>();     <span class="hljs-comment">// 最后一个元素</span><br></code></pre></td></tr></table></figure><h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>C++</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+      <tag>向量</tag>
+      
+      <tag>栈</tag>
+      
+      <tag>堆</tag>
+      
+      <tag>集合</tag>
+      
+      <tag>队列</tag>
+      
+      <tag>映射</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>面向对象 - 运作逻辑</title>
+    <link href="/2024/04/26/object-oriented-3/"/>
+    <url>/2024/04/26/object-oriented-3/</url>
+    
+    <content type="html"><![CDATA[<p>当我们创建一系列对象的时候，编译器和解释器到底在做什么？</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+      <tag>面向对象</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>面向对象 - 继承与多态</title>
     <link href="/2024/04/24/object-oriented-2/"/>
     <url>/2024/04/24/object-oriented-2/</url>

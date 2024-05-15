@@ -16,28 +16,30 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="vector声明与Java的arrayList类似，vector是一类动态大小的数组，声明如下 123#include&lt;vector&gt;using namespace std;vector&lt;&quot;type_name&quot;&gt; vector_name[&quot;default_size&quot;]; 方法栈操作 12push_back(element); &#x2F;&#x2F; 在">
+    <meta name="description" content="本例用于演示如何将本地文件上传到GitHub上。 GitHub操作输入以下指令以验证是否成功连上GitHub。 12$ ssh -T git@github.comHi Ivanclf! You&#x27;ve successfully authenticated, but GitHub does not provide shell access. 然后在GitHub上新建一个仓库，建好后，弹出以下">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++容器">
-<meta property="og:url" content="http://example.com/2024/04/26/cplus-contain/index.html">
+<meta property="og:title" content="git上传到GitHub">
+<meta property="og:url" content="http://example.com/2024/05/15/git-use/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="vector声明与Java的arrayList类似，vector是一类动态大小的数组，声明如下 123#include&lt;vector&gt;using namespace std;vector&lt;&quot;type_name&quot;&gt; vector_name[&quot;default_size&quot;]; 方法栈操作 12push_back(element); &#x2F;&#x2F; 在">
+<meta property="og:description" content="本例用于演示如何将本地文件上传到GitHub上。 GitHub操作输入以下指令以验证是否成功连上GitHub。 12$ ssh -T git@github.comHi Ivanclf! You&#x27;ve successfully authenticated, but GitHub does not provide shell access. 然后在GitHub上新建一个仓库，建好后，弹出以下">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-26T15:43:14.000Z">
-<meta property="article:modified_time" content="2024-04-26T16:28:20.688Z">
+<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_1.png">
+<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_2.png">
+<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_3.png">
+<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_4.png">
+<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_5.png">
+<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_6.png">
+<meta property="article:published_time" content="2024-05-15T13:09:04.000Z">
+<meta property="article:modified_time" content="2024-05-15T14:05:36.217Z">
 <meta property="article:author" content="Ivan Chen">
-<meta property="article:tag" content="C++">
-<meta property="article:tag" content="向量">
-<meta property="article:tag" content="栈">
-<meta property="article:tag" content="堆">
-<meta property="article:tag" content="集合">
-<meta property="article:tag" content="队列">
-<meta property="article:tag" content="映射">
+<meta property="article:tag" content="杂谈">
+<meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/05/15/git-use/git_1.png">
   
   
   
-  <title>C++容器 - Hexo</title>
+  <title>git上传到GitHub - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -204,7 +206,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="C++容器"></span>
+            <span id="subtitle" data-typed-text="git上传到GitHub"></span>
           
         </div>
 
@@ -215,8 +217,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-26 23:43" pubdate>
-          2024年4月26日 晚上
+        <time datetime="2024-05-15 21:09" pubdate>
+          2024年5月15日 晚上
         </time>
       </span>
     
@@ -227,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          299 字
+          318 字
         
       </span>
     
@@ -275,26 +277,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">C++容器</h1>
+            <h1 id="seo-header">git上传到GitHub</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p>与Java的arrayList类似，vector是一类动态大小的数组，声明如下</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>vector&lt;&quot;type_name&quot;&gt; vector_name[<span class="hljs-string">&quot;default_size&quot;</span>];<br></code></pre></td></tr></table></figure>
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>栈操作</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">push_back</span>(element); <span class="hljs-comment">// 在最后添加一个数据</span><br><span class="hljs-built_in">pop_back</span>(element);  <span class="hljs-comment">// 在最后除去一个数据</span><br></code></pre></td></tr></table></figure>
-<p>辅助函数</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">size</span>(); <span class="hljs-comment">// 返回元素个数</span><br><span class="hljs-built_in">empty</span>();    <span class="hljs-comment">// 判断向量是否为空</span><br><span class="hljs-built_in">resize</span>(integer);   <span class="hljs-comment">// 改变使用容器的大小</span><br><span class="hljs-built_in">reverse</span>(integer);   <span class="hljs-comment">// 使容器至少能容纳这么多个元素</span><br><span class="hljs-built_in">clear</span>();    <span class="hljs-comment">// 清空元素</span><br><span class="hljs-built_in">at</span>(integer);    <span class="hljs-comment">// 到所在索引的元素，越界则报错，直接使用[]不会报错</span><br></code></pre></td></tr></table></figure>
-<p>迭代操作</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;<span class="hljs-type">int</span>&gt;::iterator iterator_name = vector_name.<span class="hljs-built_in">begin</span>();  <span class="hljs-comment">// begin()数组头的指针</span><br><span class="hljs-keyword">while</span> (iterator_name != vector_name.<span class="hljs-built_in">end</span>())&#123;                 <span class="hljs-comment">// end()数组尾的指针</span><br>    <span class="hljs-comment">/*code*/</span><br>    v++;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><h3 id="声明-1"><a href="#声明-1" class="headerlink" title="声明"></a>声明</h3><p>deque可以向两端增加或删除元素，声明如下</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;deque&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>deque&lt;&quot;type_name&quot;&gt;deque_name[<span class="hljs-string">&quot;default_size&quot;</span>];<br></code></pre></td></tr></table></figure>
-<h3 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h3><p>（一些常规方法略）<br>增删元素</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">push_front</span>(element);    <span class="hljs-comment">// 头部添加元素</span><br><span class="hljs-built_in">push_back</span>(element);     <span class="hljs-comment">// 尾部添加元素</span><br><span class="hljs-built_in">insert</span>(iterator_name, amount, element);  <span class="hljs-comment">// 任意位置插入元素</span><br><span class="hljs-built_in">pop_front</span>(element);      <span class="hljs-comment">// 头部删除</span><br><span class="hljs-built_in">pop_back</span>(element);      <span class="hljs-comment">// 尾部删除</span><br><span class="hljs-built_in">erase</span>(iterator_name);   <span class="hljs-comment">// 任意位置删除元素</span><br><span class="hljs-built_in">erase</span>(iterator_first, iterator_last);   <span class="hljs-comment">// 删除区域内元素   </span><br></code></pre></td></tr></table></figure>
-<p>访问元素</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">front</span>();    <span class="hljs-comment">// 第一个元素</span><br><span class="hljs-built_in">back</span>();     <span class="hljs-comment">// 最后一个元素</span><br></code></pre></td></tr></table></figure>
-<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2>
+                <p>本例用于演示如何将本地文件上传到GitHub上。</p>
+<h3 id="GitHub操作"><a href="#GitHub操作" class="headerlink" title="GitHub操作"></a>GitHub操作</h3><p>输入以下指令以验证是否成功连上GitHub。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ ssh -T git@github.com<br>Hi Ivanclf! You<span class="hljs-string">&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span><br></code></pre></td></tr></table></figure>
+<p>然后在GitHub上新建一个仓库，建好后，弹出以下页面<br><img src="/2024/05/15/git-use/git_1.png" srcset="/img/loading.gif" lazyload alt="页面内容"><br>我们需要复制其ssh地址</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss">git<span class="hljs-keyword">@github</span>.<span class="hljs-attribute">com</span>:Ivanclf/trans-trial.git<br></code></pre></td></tr></table></figure>
+<h3 id="本地操作"><a href="#本地操作" class="headerlink" title="本地操作"></a>本地操作</h3><p>建好一个文件夹，按照上图提示，在git bash中进行操作<br><img src="/2024/05/15/git-use/git_2.png" srcset="/img/loading.gif" lazyload alt="新建README.md， 并往里面添加标题"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;# trans trial&quot;</span> &gt;&gt; README.md<br></code></pre></td></tr></table></figure>
+<p><img src="/2024/05/15/git-use/git_3.png" srcset="/img/loading.gif" lazyload alt="初始化"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git init<br></code></pre></td></tr></table></figure>
+<p>加入文件到暂存区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git add README.md<br></code></pre></td></tr></table></figure>
+<p>加入文件到版本库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git commit -m <span class="hljs-string">&quot;first commit&quot;</span><br></code></pre></td></tr></table></figure>
+<p>如果直接git commit，就需要在vim窗口中进行操作。<br>vim窗口中，常用的操作为：<strong>a</strong>输入，<strong>q</strong>退出，<strong>w</strong>保存。先按a输入，然后esc退出输入，最后清除.符并输入wq保存退出。<br><img src="/2024/05/15/git-use/git_4.png" srcset="/img/loading.gif" lazyload alt="输入wq"><br><img src="/2024/05/15/git-use/git_5.png" srcset="/img/loading.gif" lazyload alt="退出后的样子"><br>查看当前的分支</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git branch<br>* master<br></code></pre></td></tr></table></figure>
+<p>可以看到尽管GitHub上的默认分支是main，但git上的分支是master，可使用以下指令创建默认分支main。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git branch -M main<br></code></pre></td></tr></table></figure>
+<p>再添加远程仓库，与GitHub连接起来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git remote add origin git@github.com:Ivanclf/trans-trial.git<br></code></pre></td></tr></table></figure>
+<p>可利用以下指令查看远程库情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git remote<br></code></pre></td></tr></table></figure>
+<p>最后上传代码就可以了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git push -u origin main<br></code></pre></td></tr></table></figure>
+<p><img src="/2024/05/15/git-use/git_6.png" srcset="/img/loading.gif" lazyload alt="最终结果"><br>日后可能会更新新GitHub账户与电脑链接的情况，以及git的其他操作。</p>
+
                 
               </div>
             
@@ -312,7 +324,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/C/" class="category-chain-item">C++</a>
+  <a href="/categories/%E6%9D%82%E8%B0%88/" class="category-chain-item">杂谈</a>
   
   
 
@@ -327,19 +339,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/C/" class="print-no-link">#C++</a>
+        <a href="/tags/%E6%9D%82%E8%B0%88/" class="print-no-link">#杂谈</a>
       
-        <a href="/tags/%E5%90%91%E9%87%8F/" class="print-no-link">#向量</a>
-      
-        <a href="/tags/%E6%A0%88/" class="print-no-link">#栈</a>
-      
-        <a href="/tags/%E5%A0%86/" class="print-no-link">#堆</a>
-      
-        <a href="/tags/%E9%9B%86%E5%90%88/" class="print-no-link">#集合</a>
-      
-        <a href="/tags/%E9%98%9F%E5%88%97/" class="print-no-link">#队列</a>
-      
-        <a href="/tags/%E6%98%A0%E5%B0%84/" class="print-no-link">#映射</a>
+        <a href="/tags/git/" class="print-no-link">#git</a>
       
     </div>
   
@@ -351,8 +353,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>C++容器</div>
-      <div>http://example.com/2024/04/26/cplus-contain/</div>
+      <div>git上传到GitHub</div>
+      <div>http://example.com/2024/05/15/git-use/</div>
     </div>
     <div class="license-meta">
       
@@ -364,7 +366,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月26日</div>
+          <div>2024年5月15日</div>
         </div>
       
       
@@ -389,18 +391,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/15/git-use/" title="git上传到GitHub">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">git上传到GitHub</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/26/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E7%AE%97%E7%AB%9E%E5%B8%B8%E7%94%A8%20C++%20STL%20%E7%94%A8%E6%B3%95/" title="（转载）算竞常用 C++ STL 用法">
-                        <span class="hidden-mobile">（转载）算竞常用 C++ STL 用法</span>
+                      <a href="/2024/04/26/cplus-contain/" title="C++容器">
+                        <span class="hidden-mobile">C++容器</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

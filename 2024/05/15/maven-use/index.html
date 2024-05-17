@@ -16,30 +16,26 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本例用于演示如何将本地文件上传到GitHub上。 GitHub操作输入以下指令以验证是否成功连上GitHub。 12$ ssh -T git@github.comHi Ivanclf! You&#x27;ve successfully authenticated, but GitHub does not provide shell access. 然后在GitHub上新建一个仓库，建好后，弹出以下">
+    <meta name="description" content="在使用json存储并传输文件前，需要先将其变成maven依赖的工程文件。以下便是在IDEA编辑器中将普通工程文件添加到maven依赖的方法 下载与配置下载地址https:&#x2F;&#x2F;maven.apache.org&#x2F;download.cgi然后和往常一样，添加环境变量 在IDEA中创建maven项目 添加json依赖maven项目创建完成后，需要往配置文件中添加相关依赖。本次使用的是Jackson 123">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git上传到GitHub">
-<meta property="og:url" content="http://example.com/2024/05/15/git-use/index.html">
+<meta property="og:title" content="jsons的使用">
+<meta property="og:url" content="http://example.com/2024/05/15/maven-use/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="本例用于演示如何将本地文件上传到GitHub上。 GitHub操作输入以下指令以验证是否成功连上GitHub。 12$ ssh -T git@github.comHi Ivanclf! You&#x27;ve successfully authenticated, but GitHub does not provide shell access. 然后在GitHub上新建一个仓库，建好后，弹出以下">
+<meta property="og:description" content="在使用json存储并传输文件前，需要先将其变成maven依赖的工程文件。以下便是在IDEA编辑器中将普通工程文件添加到maven依赖的方法 下载与配置下载地址https:&#x2F;&#x2F;maven.apache.org&#x2F;download.cgi然后和往常一样，添加环境变量 在IDEA中创建maven项目 添加json依赖maven项目创建完成后，需要往配置文件中添加相关依赖。本次使用的是Jackson 123">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_1.png">
-<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_2.png">
-<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_3.png">
-<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_4.png">
-<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_5.png">
-<meta property="og:image" content="http://example.com/2024/05/15/git-use/git_6.png">
-<meta property="article:published_time" content="2024-05-15T13:09:04.000Z">
-<meta property="article:modified_time" content="2024-05-15T14:25:44.184Z">
+<meta property="og:image" content="http://example.com/2024/05/15/maven-use/maven_1.png">
+<meta property="og:image" content="http://example.com/2024/05/15/maven-use/maven_2.png">
+<meta property="article:published_time" content="2024-05-15T14:19:36.000Z">
+<meta property="article:modified_time" content="2024-05-17T03:19:13.319Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="碎片知识">
-<meta property="article:tag" content="git">
+<meta property="article:tag" content="maven">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2024/05/15/git-use/git_1.png">
+<meta name="twitter:image" content="http://example.com/2024/05/15/maven-use/maven_1.png">
   
   
   
-  <title>git上传到GitHub - Ivanclf</title>
+  <title>jsons的使用 - Ivanclf</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -206,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="git上传到GitHub"></span>
+            <span id="subtitle" data-typed-text="jsons的使用"></span>
           
         </div>
 
@@ -217,7 +213,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-15 21:09" pubdate>
+        <time datetime="2024-05-15 22:19" pubdate>
           2024年5月15日 晚上
         </time>
       </span>
@@ -229,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          318 字
+          366 字
         
       </span>
     
@@ -240,7 +236,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -277,35 +273,22 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">git上传到GitHub</h1>
+            <h1 id="seo-header">jsons的使用</h1>
             
             
               <div class="markdown-body">
                 
-                <p>本例用于演示如何将本地文件上传到GitHub上。</p>
-<h3 id="GitHub操作"><a href="#GitHub操作" class="headerlink" title="GitHub操作"></a>GitHub操作</h3><p>输入以下指令以验证是否成功连上GitHub。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ ssh -T git@github.com<br>Hi Ivanclf! You<span class="hljs-string">&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span><br></code></pre></td></tr></table></figure>
-<p>然后在GitHub上新建一个仓库，建好后，弹出以下页面<br><img src="/2024/05/15/git-use/git_1.png" srcset="/img/loading.gif" lazyload alt="页面内容"><br>我们需要复制其ssh地址</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss">git<span class="hljs-keyword">@github</span>.<span class="hljs-attribute">com</span>:Ivanclf/trans-trial.git<br></code></pre></td></tr></table></figure>
-<h3 id="本地操作"><a href="#本地操作" class="headerlink" title="本地操作"></a>本地操作</h3><p>建好一个文件夹，按照上图提示，在git bash中进行操作<br><img src="/2024/05/15/git-use/git_2.png" srcset="/img/loading.gif" lazyload alt="新建README.md， 并往里面添加标题"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;# trans trial&quot;</span> &gt;&gt; README.md<br></code></pre></td></tr></table></figure>
-<p><img src="/2024/05/15/git-use/git_3.png" srcset="/img/loading.gif" lazyload alt="初始化"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git init<br></code></pre></td></tr></table></figure>
-<p>加入文件到暂存区</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git add README.md<br></code></pre></td></tr></table></figure>
-<p>加入文件到版本库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git commit -m <span class="hljs-string">&quot;first commit&quot;</span><br></code></pre></td></tr></table></figure>
-<p>如果直接git commit，就需要在vim窗口中进行操作。<br>vim窗口中，常用的操作为：<strong>a</strong>输入，<strong>q</strong>退出，<strong>w</strong>保存。先按a输入，然后esc退出输入，最后清除.符并输入wq保存退出。<br><img src="/2024/05/15/git-use/git_4.png" srcset="/img/loading.gif" lazyload alt="输入wq"><br><img src="/2024/05/15/git-use/git_5.png" srcset="/img/loading.gif" lazyload alt="退出后的样子"><br>查看当前的分支</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git branch<br>* master<br></code></pre></td></tr></table></figure>
-<p>可以看到尽管GitHub上的默认分支是main，但git上的分支是master，可使用以下指令创建默认分支main。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git branch -M main<br></code></pre></td></tr></table></figure>
-<p>再添加远程仓库，与GitHub连接起来</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git remote add origin git@github.com:Ivanclf/trans-trial.git<br></code></pre></td></tr></table></figure>
-<p>可利用以下指令查看远程库情况</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git remote<br></code></pre></td></tr></table></figure>
-<p>最后上传代码就可以了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git push -u origin main<br></code></pre></td></tr></table></figure>
-<p><img src="/2024/05/15/git-use/git_6.png" srcset="/img/loading.gif" lazyload alt="最终结果"><br>日后可能会更新新GitHub账户与电脑链接的情况，以及git的其他操作。</p>
+                <p>在使用json存储并传输文件前，需要先将其变成maven依赖的工程文件。以下便是在IDEA编辑器中将普通工程文件添加到maven依赖的方法</p>
+<h3 id="下载与配置"><a href="#下载与配置" class="headerlink" title="下载与配置"></a>下载与配置</h3><p>下载地址<br><a target="_blank" rel="noopener" href="https://maven.apache.org/download.cgi">https://maven.apache.org/download.cgi</a><br>然后和往常一样，添加环境变量<br><img src="/2024/05/15/maven-use/maven_1.png" srcset="/img/loading.gif" lazyload alt="最后效果"></p>
+<h3 id="在IDEA中创建maven项目"><a href="#在IDEA中创建maven项目" class="headerlink" title="在IDEA中创建maven项目"></a>在IDEA中创建maven项目</h3><p><img src="/2024/05/15/maven-use/maven_2.png" srcset="/img/loading.gif" lazyload alt="在IDEA中创建maven项目"></p>
+<h3 id="添加json依赖"><a href="#添加json依赖" class="headerlink" title="添加json依赖"></a>添加json依赖</h3><p>maven项目创建完成后，需要往配置文件中添加相关依赖。本次使用的是Jackson</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jackson-databind<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>  <span class="hljs-comment">&lt;!--2.13.4.1 --&gt;</span>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jackson-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jackson-annotations<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="Jackson相关操作"><a href="#Jackson相关操作" class="headerlink" title="Jackson相关操作"></a>Jackson相关操作</h3><p>想实现Jackson类相关操作，需要先创建相关类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">var</span> <span class="hljs-variable">om</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectMapper</span>();<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;String, Object&gt; bookData = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br></code></pre></td></tr></table></figure>
+<p>写入（序列化），通过创建输入流实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">FileWriter</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileWriter</span>( filename <span class="hljs-string">&quot;.json&quot;</span>);<br>temp.write(book.writerWithDefaultPrettyPrinter().writeValueAsString(bookData) + <span class="hljs-string">&quot;\n&quot;</span>);<br>temp.close();<br></code></pre></td></tr></table></figure>
+<p>读取为Map（反序列化），创建文件类。当然也可以创建输出流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">File</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(filename + <span class="hljs-string">&quot;.json&quot;</span>);<br><span class="hljs-keyword">try</span> &#123;<br>    fileDocument = om.readValue(file, Map.class);<br>&#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>    e.printStackTrace();<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -341,7 +324,7 @@
       
         <a href="/tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
       
-        <a href="/tags/git/" class="print-no-link">#git</a>
+        <a href="/tags/maven/" class="print-no-link">#maven</a>
       
     </div>
   
@@ -353,8 +336,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>git上传到GitHub</div>
-      <div>http://example.com/2024/05/15/git-use/</div>
+      <div>jsons的使用</div>
+      <div>http://example.com/2024/05/15/maven-use/</div>
     </div>
     <div class="license-meta">
       
@@ -391,18 +374,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/15/maven-use/" title="jsons的使用">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">jsons的使用</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/26/cplus-contain/" title="C++容器">
-                        <span class="hidden-mobile">C++容器</span>
+                      <a href="/2024/05/15/git-use/" title="git上传到GitHub">
+                        <span class="hidden-mobile">git上传到GitHub</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

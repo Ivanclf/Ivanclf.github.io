@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>diary_1</title>
+    <link href="/2024/05/27/diary-1/"/>
+    <url>/2024/05/27/diary-1/</url>
+    
+    <content type="html"><![CDATA[<p>离散数学居然也要上机？这是要模拟算法题了吗？而且还给了100道题，大部分还都是图论的，应该期末前写不完。<br>而且感觉它看似在考离散实则在考字符串处理（哭）<br><img src="/2024/05/27/diary-1/diary_1.png" alt="比如这个，字符串处理始终搞不明白 :("><br>而使用集合类也是各种编译错误…</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>日常</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>日常</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>json的使用</title>
     <link href="/2024/05/15/maven-use/"/>
     <url>/2024/05/15/maven-use/</url>

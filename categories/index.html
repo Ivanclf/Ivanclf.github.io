@@ -58,7 +58,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -158,6 +158,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -187,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="分类"></span>
+            <span id="subtitle">分类</span>
           
         </div>
 
@@ -304,57 +316,6 @@
     
     <div class="category row nomargin-x">
       <a class="category-item collapsed
-          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="C++"
-        id="heading-f6f87c9fdcf8b3c3f07f93f1ee8712c9" role="tab" data-toggle="collapse" href="#collapse-f6f87c9fdcf8b3c3f07f93f1ee8712c9"
-        aria-expanded="false"
-      >
-        C++
-        <span class="list-group-count"></span>
-        <i class="iconfont icon-arrowright"></i>
-      </a>
-      
-        <a href="/categories/C/" class="category-count col-2 col-md-1 col-xm-1">
-          <i class="iconfont icon-articles"></i>
-          <span>2</span>
-        </a>
-      
-      <div class="category-collapse collapse " id="collapse-f6f87c9fdcf8b3c3f07f93f1ee8712c9"
-           role="tabpanel" aria-labelledby="heading-f6f87c9fdcf8b3c3f07f93f1ee8712c9">
-        
-        
-          
-  <div class="category-post-list">
-    
-    
-      
-      
-        <a href="/2024/04/26/cplus-contain/" title="C++容器"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">C++容器</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2024/04/26/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E7%AE%97%E7%AB%9E%E5%B8%B8%E7%94%A8%20C++%20STL%20%E7%94%A8%E6%B3%95/" title="（转载）算竞常用 C++ STL 用法"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">（转载）算竞常用 C++ STL 用法</span>
-        </a>
-      
-    
-  </div>
-
-        
-      </div>
-    </div>
-  
-    
-    
-    
-    <div class="category row nomargin-x">
-      <a class="category-item collapsed
           list-group-item category-item-action col-10 col-md-11 col-xm-11" title="日常"
         id="heading-943e6d3324693188a3f1955a7f921a69" role="tab" data-toggle="collapse" href="#collapse-943e6d3324693188a3f1955a7f921a69"
         aria-expanded="false"
@@ -392,6 +353,57 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">byd xdoj</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="C++"
+        id="heading-f6f87c9fdcf8b3c3f07f93f1ee8712c9" role="tab" data-toggle="collapse" href="#collapse-f6f87c9fdcf8b3c3f07f93f1ee8712c9"
+        aria-expanded="false"
+      >
+        C++
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/C/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>2</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-f6f87c9fdcf8b3c3f07f93f1ee8712c9"
+           role="tabpanel" aria-labelledby="heading-f6f87c9fdcf8b3c3f07f93f1ee8712c9">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/04/26/cplus-contain/" title="C++容器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">C++容器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/04/26/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E7%AE%97%E7%AB%9E%E5%B8%B8%E7%94%A8%20C++%20STL%20%E7%94%A8%E6%B3%95/" title="（转载）算竞常用 C++ STL 用法"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">（转载）算竞常用 C++ STL 用法</span>
         </a>
       
     
@@ -570,21 +582,6 @@
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 

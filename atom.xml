@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-05-27T15:20:55.016Z</updated>
+  <updated>2024-05-27T16:15:09.077Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://example.com/2024/05/27/diary-1/"/>
     <id>http://example.com/2024/05/27/diary-1/</id>
     <published>2024-05-27T15:08:55.000Z</published>
-    <updated>2024-05-27T15:20:55.016Z</updated>
+    <updated>2024-05-27T16:15:09.077Z</updated>
     
     <content type="html"><![CDATA[<p>离散数学居然也要上机？这是要模拟算法题了吗？而且还给了100道题，大部分还都是图论的，应该期末前写不完。<br>而且感觉它看似在考离散实则在考字符串处理（哭）<br><img src="/2024/05/27/diary-1/diary_1.png" alt="比如这个，字符串处理始终搞不明白 :("><br>而使用集合类也是各种编译错误…</p>]]></content>
     

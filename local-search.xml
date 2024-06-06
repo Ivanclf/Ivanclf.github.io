@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Java中socket的使用</title>
+    <link href="/2024/06/06/socket/"/>
+    <url>/2024/06/06/socket/</url>
+    
+    <content type="html"><![CDATA[<h2 id="socket简述"><a href="#socket简述" class="headerlink" title="socket简述"></a>socket简述</h2><p>socket通讯一般由一个地址加一个端口号来标识。每个服务程序都在一个众所周知的端口上提供服务。<br>该机制提供两种通信服务，有链接方式（TCP）和无连接方式（UDP）。TCP必须进行一次连接过程，建立一条通路。而UDP不存在这样的连接方式，而是通过发送数据报的形式进行。一次网络I&#x2F;O以一个数据报形式进行。<br>在TCP方式中，java.net包中的<strong>Socket</strong>类和<strong>ServerSocket</strong>类分别表示链接的Client端和Server端；UDP方式中，<strong>DataSocket</strong>类表示发送和接收数据报的端点。</p><h2 id="TCP使用"><a href="#TCP使用" class="headerlink" title="TCP使用"></a>TCP使用</h2><h3 id="建立连接"><a href="#建立连接" class="headerlink" title="建立连接"></a>建立连接</h3><p>可通过如下方法连接到指定主机的指定端口</p><p><strong><code>Socket(String host, int port);</code></strong><br><strong><code>Socket(InetAddress address, int port);</code></strong><br>输入IP地址&#x2F;主机名，端口</p><p>也可以额外输入本地端口。<br>Server端的Socket链接<br><strong><code>ServerSocket(int port);</code></strong><br>可以额外输入额外的int参数指出请求队列的最大长度。</p><h3 id="建立连接的过程"><a href="#建立连接的过程" class="headerlink" title="建立连接的过程"></a>建立连接的过程</h3><p>Client和Server建立前，Server端程序将监听一个众所周知的端口。当Client端的连接请求达到时，若Server端同意建立连接，则将建立一个新的socket并绑定到另一个端口，并建立连接。</p><h3 id="数据传输"><a href="#数据传输" class="headerlink" title="数据传输"></a>数据传输</h3><p>Socket提供了getInputStream()和getOutputString()方法来获取连接上的输入&#x2F;输出流，分别返回InputStream和OutputStream类的对象。</p><h3 id="Socket的关闭"><a href="#Socket的关闭" class="headerlink" title="Socket的关闭"></a>Socket的关闭</h3><p>关闭Socket可使用close()方法。但在关闭Socket前，应该先关闭相关的输入输出流。</p><h2 id="UDP使用"><a href="#UDP使用" class="headerlink" title="UDP使用"></a>UDP使用</h2><h3 id="建立连接-1"><a href="#建立连接-1" class="headerlink" title="建立连接"></a>建立连接</h3><p>可以使用DataSocket对象建立数据报通信的据点，其构造方法为<br><strong><code>DataSocket(int port, InetAddress iaddr);</code></strong><br>与指定的端口，指定本地地址进行绑定，括号里也可以什么都不填。<br>可以使用DataPacket对象封装数据报（数据）、数据长度、数据包地址等信息。<br>该构造方法可以用来构造两种用途的数据报：接受外来的数据报和要向外发送的数据报。<br>用于接收的数据报<br><strong><code>DataPacket(byte[] buf, int length);</code></strong><br>用于接收长度为length的数据报，数据报将保存在数组buf中，注意length必须小于等于buf.length。<br>用于发送的数据报<br><strong><code>DataPacket(byte[] buf, int length, InetAddress address, int port);</code></strong><br>用于发送长度为length的数据报，该数据报将发送到指定主机的指定端口</p><h3 id="通信过程"><a href="#通信过程" class="headerlink" title="通信过程"></a>通信过程</h3><ul><li>创建数据报Socket。</li><li>创建用于接收或发送的数据报，使用receive()方法来进行数据报接收或send()方法来发送数据报。</li><li>通信结束，关闭socket。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+      <tag>socket</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>水个博客 - 1</title>
     <link href="/2024/05/27/diary-1/"/>
     <url>/2024/05/27/diary-1/</url>

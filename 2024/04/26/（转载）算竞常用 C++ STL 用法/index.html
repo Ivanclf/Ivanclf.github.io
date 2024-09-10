@@ -24,7 +24,7 @@
 <meta property="og:description" content="**C++ 标准模板库 (STL, Standard Template Library)**：包含一些常用数据结构与算法的模板的 C++ 软件库。其包含四个组件——算法 (Algorithms)、容器 (Containers)、仿函数 (Functors)、迭代器 (Iterators).">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-26T15:43:14.000Z">
-<meta property="article:modified_time" content="2024-09-07T04:13:49.014Z">
+<meta property="article:modified_time" content="2024-09-07T04:26:33.062Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="向量">
@@ -454,10 +454,9 @@
 <li>类型：要储存的数据类型</li>
 <li>容器：储存数据的底层容器，默认为 <code>vector&lt;类型&gt;</code>，竞赛中保持默认即可</li>
 <li>比较器：比较大小使用的比较器，默认为 <code>less&lt;类型&gt;</code>，可自定义<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">priority_queue&lt;<span class="hljs-type">int</span>&gt; pque1;                            <span class="hljs-comment">// 储存int的大顶堆</span><br>priority_queue&lt;<span class="hljs-type">int</span>, vector&lt;<span class="hljs-type">int</span>&gt;, greater&lt;<span class="hljs-type">int</span>&gt;&gt; pque2; <span class="hljs-comment">// 储存int的小顶堆</span><br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>对于需要自定义比较器的情况，涉及一些初学时容易看迷糊的语法（重载小括号运算符 &#x2F; lambda 表达式），在此就不展开讲了。如果想要了解，可以查阅 cppreference 中的代码示例。</p>
-</blockquote>
-</li>
+<div class="note note-success">
+            <p>对于需要自定义比较器的情况，涉及一些初学时容易看迷糊的语法（重载小括号运算符 &#x2F; lambda 表达式），在此就不展开讲了。如果想要了解，可以查阅 cppreference 中的代码示例。</p>
+          </div></li>
 </ul>
 <h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><table>
 <thead>
@@ -537,10 +536,9 @@
 <ul>
 <li>类型：要储存的数据类型</li>
 <li>比较器：比较大小使用的比较器，默认为 <code>less&lt;类型&gt;</code>，可自定义<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">set&lt;<span class="hljs-type">int</span>&gt; st1;               <span class="hljs-comment">// 储存int的集合（从小到大）</span><br>set&lt;<span class="hljs-type">int</span>, greater&lt;<span class="hljs-type">int</span>&gt;&gt; st2; <span class="hljs-comment">// 储存int的集合（从大到小）</span><br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>对于需要自定义比较器的情况，涉及一些初学时容易看迷糊的语法（重载小括号运算符 &#x2F; lambda 表达式），在此就不展开讲了。</p>
-</blockquote>
-</li>
+<div class="note note-success">
+            <p>对于需要自定义比较器的情况，涉及一些初学时容易看迷糊的语法（重载小括号运算符 &#x2F; lambda 表达式），在此就不展开讲了。</p>
+          </div></li>
 </ul>
 <h4 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h4><p>可使用迭代器进行遍历：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (set&lt;<span class="hljs-type">int</span>&gt;::iterator it = st.<span class="hljs-built_in">begin</span>(); it != st.<span class="hljs-built_in">end</span>(); ++it)<br>    cout &lt;&lt; *it &lt;&lt; endl;<br></code></pre></td></tr></table></figure>
@@ -623,10 +621,9 @@
 <li>键类型：要储存键的数据类型</li>
 <li>值类型：要储存值的数据类型</li>
 <li>比较器：键比较大小使用的比较器，默认为 <code>less&lt;类型&gt;</code>，可自定义<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">map&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; mp1;               <span class="hljs-comment">// int-&gt;int 的映射（键从小到大）</span><br>map&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>, greater&lt;<span class="hljs-type">int</span>&gt;&gt; st2; <span class="hljs-comment">// int-&gt;int 的映射（键从大到小）</span><br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>对于需要自定义比较器的情况，涉及一些初学时容易看迷糊的语法（重载小括号运算符 &#x2F; lambda 表达式），在此就不展开讲了。</p>
-</blockquote>
-</li>
+<div class="note note-success">
+            <p>对于需要自定义比较器的情况，涉及一些初学时容易看迷糊的语法（重载小括号运算符 &#x2F; lambda 表达式），在此就不展开讲了。</p>
+          </div></li>
 </ul>
 <h4 id="遍历-1"><a href="#遍历-1" class="headerlink" title="遍历"></a>遍历</h4><p>可使用迭代器进行遍历：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (map&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;::iterator it = mp.<span class="hljs-built_in">begin</span>(); it != mp.<span class="hljs-built_in">end</span>(); ++it)<br>    cout &lt;&lt; it-&gt;first &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span> &lt;&lt; it-&gt;second &lt;&lt; endl;<br></code></pre></td></tr></table></figure>
@@ -951,9 +948,9 @@
 </tr>
 </tbody></table>
 <p><strong>注意事项</strong><br>由于浮点误差，有些的数学函数的行为可能与预期不符，导致 WA。如果你的操作数都是整型，那么用下面的写法会更稳妥。</p>
-<blockquote>
-<p>原文地址：<a target="_blank" rel="noopener" href="https://codeforces.com/blog/entry/107717">https://codeforces.com/blog/entry/107717</a></p>
-</blockquote>
+<div class="note note-info">
+            <p>原文地址：<a target="_blank" rel="noopener" href="https://codeforces.com/blog/entry/107717">https://codeforces.com/blog/entry/107717</a></p>
+          </div>
 <ul>
 <li>$\lfloor\frac{a}{b}\rfloor$<ul>
 <li>别用：<code>floor(1.0 * a / b)</code></li>

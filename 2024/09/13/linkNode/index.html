@@ -16,24 +16,23 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="希腊字母需要大写希腊字母时，首字母大写即可。    显示 命令 显示 命令    $\alpha$ \alpha $\beta$ \beta   $\gamma$ \gamma $\delta$ \delta   $\epsilon$ \epsilon $\zeta$ \zeta   $\eta$ \eta $\theta$ \theta   $\iota$ \lota $\kappa$ \kap">
+    <meta name="description" content="在一种数据类型中加入指向下一个同样数据类型的指针，就构成了一个链表。而在其他语言中，则由链表抽象出了vector(C++)和ArrayList(Java)的链表型数据。 链表的声明C语言中的链表需要通过结构体声明。 12345typedef struct Node&#123;    int value;    struct Node *next;&#125; node; 其中的typedef可以省">
 <meta property="og:type" content="article">
-<meta property="og:title" content="latex">
-<meta property="og:url" content="http://example.com/2024/09/09/latex/index.html">
+<meta property="og:title" content="链表的C语言实现">
+<meta property="og:url" content="http://example.com/2024/09/13/linkNode/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="希腊字母需要大写希腊字母时，首字母大写即可。    显示 命令 显示 命令    $\alpha$ \alpha $\beta$ \beta   $\gamma$ \gamma $\delta$ \delta   $\epsilon$ \epsilon $\zeta$ \zeta   $\eta$ \eta $\theta$ \theta   $\iota$ \lota $\kappa$ \kap">
+<meta property="og:description" content="在一种数据类型中加入指向下一个同样数据类型的指针，就构成了一个链表。而在其他语言中，则由链表抽象出了vector(C++)和ArrayList(Java)的链表型数据。 链表的声明C语言中的链表需要通过结构体声明。 12345typedef struct Node&#123;    int value;    struct Node *next;&#125; node; 其中的typedef可以省">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-09T13:54:47.000Z">
-<meta property="article:modified_time" content="2024-09-10T05:30:04.748Z">
+<meta property="article:published_time" content="2024-09-13T04:54:10.000Z">
+<meta property="article:modified_time" content="2024-09-13T06:35:59.784Z">
 <meta property="article:author" content="Ivan Chen">
-<meta property="article:tag" content="速查">
-<meta property="article:tag" content="latex">
-<meta property="article:tag" content="工具">
+<meta property="article:tag" content="碎片知识">
+<meta property="article:tag" content="链表">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>latex - Ivanclf</title>
+  <title>链表的C语言实现 - Ivanclf</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +211,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">latex</span>
+            <span id="subtitle">链表的C语言实现</span>
           
         </div>
 
@@ -223,8 +222,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-09 21:54" pubdate>
-          2024年9月9日 晚上
+        <time datetime="2024-09-13 12:54" pubdate>
+          2024年9月13日 下午
         </time>
       </span>
     
@@ -235,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          402 字
+          557 字
         
       </span>
     
@@ -274,299 +273,29 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">latex</h1>
+            <h1 id="seo-header">链表的C语言实现</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h1><p>需要大写希腊字母时，首字母大写即可。</p>
-<table>
-<thead>
-<tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$\alpha$</td>
-<td><code>\alpha</code></td>
-<td>$\beta$</td>
-<td><code>\beta</code></td>
-</tr>
-<tr>
-<td>$\gamma$</td>
-<td><code>\gamma</code></td>
-<td>$\delta$</td>
-<td><code>\delta</code></td>
-</tr>
-<tr>
-<td>$\epsilon$</td>
-<td><code>\epsilon</code></td>
-<td>$\zeta$</td>
-<td><code>\zeta</code></td>
-</tr>
-<tr>
-<td>$\eta$</td>
-<td><code>\eta</code></td>
-<td>$\theta$</td>
-<td><code>\theta</code></td>
-</tr>
-<tr>
-<td>$\iota$</td>
-<td><code>\lota</code></td>
-<td>$\kappa$</td>
-<td><code>\kappa</code></td>
-</tr>
-<tr>
-<td>$\lambda$</td>
-<td><code>\lambda</code></td>
-<td>$\mu$</td>
-<td><code>\mu</code></td>
-</tr>
-<tr>
-<td>$\nu$</td>
-<td><code>\nu</code></td>
-<td>$\xi$</td>
-<td><code>\xi</code></td>
-</tr>
-<tr>
-<td>$\pi$</td>
-<td><code>\pi</code></td>
-<td>$\rho$</td>
-<td><code>\rho</code></td>
-</tr>
-<tr>
-<td>$\sigma$</td>
-<td><code>\sigma</code></td>
-<td>$\tau$</td>
-<td><code>\tau</code></td>
-</tr>
-<tr>
-<td>$\upsilon$</td>
-<td><code>\upsilon</code></td>
-<td>$\phi$</td>
-<td><code>\phi</code></td>
-</tr>
-<tr>
-<td>$\chi$</td>
-<td><code>\chi</code></td>
-<td>$\psi$</td>
-<td><code>\psi</code></td>
-</tr>
-<tr>
-<td>$\omega$</td>
-<td><code>\omega</code></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h1 id="常见符号"><a href="#常见符号" class="headerlink" title="常见符号"></a>常见符号</h1><table>
-<thead>
-<tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>${x}\cdot{y}$</td>
-<td><code>&#123;x&#125;\cdot&#123;y&#125;</code></td>
-<td>${x}*{y}$</td>
-<td><code>&#123;x&#125;*&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>${x}\colon{y}$</td>
-<td><code>&#123;x&#125;\colon&#123;y&#125;</code></td>
-<td>${x}\times{y}$</td>
-<td><code>&#123;x&#125;\times&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>${x}.{y}$</td>
-<td><code>&#123;x&#125;.&#123;y&#125;</code></td>
-<td>${x},{y}$</td>
-<td><code>&#123;x&#125;,&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>${x}\pm{y}$</td>
-<td><code>&#123;x&#125;\pm&#123;y&#125;</code></td>
-<td>${x}\over{y}$</td>
-<td><code>&#123;x&#125;\over&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>$\vdots$</td>
-<td><code>\vdots</code></td>
-<td>$\ddots$</td>
-<td><code>\ddots</code></td>
-</tr>
-<tr>
-<td>$\dot{x}$</td>
-<td><code>\dot&#123;x&#125;</code></td>
-<td>$\ddot{x}$</td>
-<td><code>\ddot&#123;x&#125;</code></td>
-</tr>
-<tr>
-<td>$\breve{x}$</td>
-<td><code>\breve&#123;x&#125;</code></td>
-<td>$\widehat{xxx}$</td>
-<td><code>\widehat&#123;xxx&#125;</code></td>
-</tr>
-<tr>
-<td>$\acute{x}$</td>
-<td><code>\acute&#123;x&#125;</code></td>
-<td>$\check{x}$</td>
-<td><code>\check&#123;x&#125;</code></td>
-</tr>
-<tr>
-<td>$\grave{x}$</td>
-<td><code>\grave&#123;x&#125;</code></td>
-<td>$\tilde{x}$</td>
-<td><code>\tilde&#123;x&#125;</code></td>
-</tr>
-<tr>
-<td>$\bar{x}$</td>
-<td><code>\bar&#123;x&#125;</code></td>
-<td>$\hat{x}$</td>
-<td><code>\hat&#123;x&#125;</code></td>
-</tr>
-<tr>
-<td>$\vec{xy}$</td>
-<td><code>\vec&#123;xy&#125;</code></td>
-<td>${x}\dotsm{y}$</td>
-<td><code>&#123;x&#125;\dotsm&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>${x}\dotso{y}$</td>
-<td><code>&#123;x&#125;\dotso&#123;y&#125;</code></td>
-<td>$\widetilde{xxx}$</td>
-<td><code>\widetilde&#123;xxx&#125;</code></td>
-</tr>
-<tr>
-<td>$\neq$</td>
-<td><code>\neq</code></td>
-<td>$\backslash$</td>
-<td><code>\backslash</code></td>
-</tr>
-<tr>
-<td>$\smallsetminus$</td>
-<td><code>\smallsetminus</code></td>
-<td>${x}\quad{y}$</td>
-<td><code>&#123;x&#125;\quad&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>$\lbrace$</td>
-<td><code>\lbrace</code></td>
-<td>$\rbrace$</td>
-<td><code>\rbrace</code></td>
-</tr>
-<tr>
-<td>$\lgroup$</td>
-<td><code>\lgroup</code></td>
-<td>$\rgroup$</td>
-<td><code>\rgroup</code></td>
-</tr>
-<tr>
-<td>$\langle$</td>
-<td><code>\langle</code></td>
-<td>$\rangle$</td>
-<td><code>\rangle</code></td>
-</tr>
-<tr>
-<td>$\lmoustache$</td>
-<td><code>\lmoustache</code></td>
-<td>$\rmoustache$</td>
-<td><code>\rmoustache</code></td>
-</tr>
-<tr>
-<td>$\lVert$</td>
-<td><code>\lVert</code></td>
-<td>$\rVert$</td>
-<td><code>\rVert</code></td>
-</tr>
-<tr>
-<td>$\lvert$</td>
-<td><code>\lvert</code></td>
-<td>$\rvert$</td>
-<td><code>\rvert</code></td>
-</tr>
-<tr>
-<td>$\lfloor$</td>
-<td><code>\lfloor</code></td>
-<td>$\rfloor$</td>
-<td><code>\rfloor</code></td>
-</tr>
-<tr>
-<td>$\lceil$</td>
-<td><code>\lceil</code></td>
-<td>$\rceil$</td>
-<td><code>\rcei</code></td>
-</tr>
-<tr>
-<td>$\cdots$</td>
-<td><code>\cdots</code></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h1 id="修饰"><a href="#修饰" class="headerlink" title="修饰"></a>修饰</h1><table>
-<thead>
-<tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$^{a}$</td>
-<td><code>^&#123;a&#125;</code></td>
-<td>$_{a}$</td>
-<td><code>_&#123;a&#125;</code></td>
-</tr>
-</tbody></table>
-<h1 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h1><table>
-<thead>
-<tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$\frac{n}{n-1}$</td>
-<td><code>\frac&#123;n&#125;&#123;n-1&#125;</code></td>
-<td>$\sqrt[n]{ab}$</td>
-<td><code>\sqrt[n]&#123;ab&#125;</code></td>
-</tr>
-<tr>
-<td>$\sqrt{ab}​$</td>
-<td><code>\sqrt&#123;ab&#125;​</code></td>
-<td>$\log_{a}{b}$</td>
-<td><code>\log_&#123;a&#125;&#123;b&#125;</code></td>
-</tr>
-<tr>
-<td>$\lg{ab}$</td>
-<td><code>\lg&#123;ab&#125;</code></td>
-<td>$\text{d}x$</td>
-<td><code>\text&#123;d&#125;x</code></td>
-</tr>
-<tr>
-<td>$\int$</td>
-<td><code>\int</code></td>
-<td>$\int_{a}^{b}$</td>
-<td><code>\int_&#123;a&#125;^&#123;b&#125;</code></td>
-</tr>
-<tr>
-<td>$\lim$</td>
-<td><code>\lim</code></td>
-<td>$\sum$</td>
-<td><code>\sum</code></td>
-</tr>
-</tbody></table>
-
+                <p>在一种数据类型中加入指向下一个同样数据类型的指针，就构成了一个链表。而在其他语言中，则由链表抽象出了<code>vector</code>(C++)和<code>ArrayList</code>(Java)的链表型数据。</p>
+<h2 id="链表的声明"><a href="#链表的声明" class="headerlink" title="链表的声明"></a>链表的声明</h2><p>C语言中的链表需要通过结构体声明。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span><br>&#123;<br>    <span class="hljs-type">int</span> value;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span> *next;<br>&#125; node;<br></code></pre></td></tr></table></figure>
+<p>其中的<code>typedef</code>可以省略，即不将<code>struct Node</code>重命名为<code>node</code>。在C++和Java中，可在关键字后直接用 <code>&lt; &gt;</code>指定数据类型，甚至对象的实例。</p>
+<div class="note note-info">
+            <p>也可以指定两个指针，一个左指针，一个右指针，这样该链表就变成了二叉树。当然，这是后话了。</p>
+          </div>
+<h2 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h2><p>在插入数据前，需要先指定用于进行链表操作的指针。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">node *head = <span class="hljs-literal">NULL</span>;<br></code></pre></td></tr></table></figure>
+<p>插入链表时，需要先为该节内容创建内存空间，再写入数据，最后将上一个节点的<code>*next</code>指针指向该节点(若为头节点从<code>NULL</code>指向)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">node *<span class="hljs-title">insert</span><span class="hljs-params">(node *head, <span class="hljs-type">int</span> value)</span></span><br><span class="hljs-function"></span>&#123;<br>    node *to_node = (node *)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">sizeof</span>(node));<br>    <span class="hljs-keyword">if</span>(to_node == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Error!&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">-1</span>);<br>    &#125;<br>    to_node-&gt;value = value;<br>    to_node-&gt;next = head;<br>    <span class="hljs-keyword">return</span> to_node;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>需要进行插入操作时，可调用该函数，并获取下一节点的内存地址。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">head = <span class="hljs-built_in">insert</span>(head, n);<br></code></pre></td></tr></table></figure>
+<p>这样一来，当加入操作结束后，我们能获取最后一个节点的指针。遍历时则按从后到前的顺序——这又何尝不是一种栈呢？</p>
+<h2 id="寻找链表中的数据"><a href="#寻找链表中的数据" class="headerlink" title="寻找链表中的数据"></a>寻找链表中的数据</h2><p>一般而言，链表的寻找只能通过由后向前的遍历进行。在找寻到数据后返回该节点的指针。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">node *<span class="hljs-title">search</span><span class="hljs-params">(node *head, <span class="hljs-type">int</span> value)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span>(node *temp = head; temp != <span class="hljs-literal">NULL</span>; temp = temp-&gt;next)<br>    &#123;<br>        <span class="hljs-keyword">if</span>(temp-&gt;value == value)<br>            <span class="hljs-keyword">return</span> temp;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="删除链表的某节点"><a href="#删除链表的某节点" class="headerlink" title="删除链表的某节点"></a>删除链表的某节点</h2><p>删除节点，需要找到符合要求的节点，将该节点的上一个节点中<code>*next</code>指到下一节点，最后释放该节点的内存。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">node *<span class="hljs-title">delete</span><span class="hljs-params">(node *head, <span class="hljs-type">int</span> value)</span></span><br><span class="hljs-function"></span>&#123;<br>    node *prev, *cur;<br>    <span class="hljs-keyword">for</span>(prev = <span class="hljs-literal">NULL</span>, cur = head; cur &amp;&amp; cur-&gt;value != value; prev = cur, cur = cur-&gt;next);<br>    <br>    <span class="hljs-keyword">if</span>(cur == <span class="hljs-literal">NULL</span>) <span class="hljs-comment">// 找不到的情况</span><br>        <span class="hljs-keyword">return</span> head;<br>    <span class="hljs-keyword">if</span>(prev == <span class="hljs-literal">NULL</span>) <span class="hljs-comment">// 在第一个节点就找到了的特殊情况</span><br>        head = head-&gt;next;<br>    <span class="hljs-keyword">else</span> <span class="hljs-comment">// 略过该节点</span><br>        prev-&gt;next = cur-&gt;next;<br>    <span class="hljs-built_in">free</span>(cur);<br>    <span class="hljs-keyword">return</span> head;<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -599,11 +328,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E9%80%9F%E6%9F%A5/" class="print-no-link">#速查</a>
+        <a href="/tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
       
-        <a href="/tags/latex/" class="print-no-link">#latex</a>
-      
-        <a href="/tags/%E5%B7%A5%E5%85%B7/" class="print-no-link">#工具</a>
+        <a href="/tags/%E9%93%BE%E8%A1%A8/" class="print-no-link">#链表</a>
       
     </div>
   
@@ -615,8 +342,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>latex</div>
-      <div>http://example.com/2024/09/09/latex/</div>
+      <div>链表的C语言实现</div>
+      <div>http://example.com/2024/09/13/linkNode/</div>
     </div>
     <div class="license-meta">
       
@@ -628,7 +355,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月9日</div>
+          <div>2024年9月13日</div>
         </div>
       
       
@@ -653,18 +380,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/13/linkNode/" title="链表的C语言实现">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">链表的C语言实现</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/05/css/" title="css速查">
-                        <span class="hidden-mobile">css速查</span>
+                      <a href="/2024/09/09/latex/" title="latex">
+                        <span class="hidden-mobile">latex</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

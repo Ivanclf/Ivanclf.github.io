@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-09-10T05:30:04.748Z</updated>
+  <updated>2024-09-13T06:35:59.784Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>链表的C语言实现</title>
+    <link href="http://example.com/2024/09/13/linkNode/"/>
+    <id>http://example.com/2024/09/13/linkNode/</id>
+    <published>2024-09-13T04:54:10.000Z</published>
+    <updated>2024-09-13T06:35:59.784Z</updated>
+    
+    <content type="html"><![CDATA[<p>在一种数据类型中加入指向下一个同样数据类型的指针，就构成了一个链表。而在其他语言中，则由链表抽象出了<code>vector</code>(C++)和<code>ArrayList</code>(Java)的链表型数据。</p><h2 id="链表的声明"><a href="#链表的声明" class="headerlink" title="链表的声明"></a>链表的声明</h2><p>C语言中的链表需要通过结构体声明。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span><br>&#123;<br>    <span class="hljs-type">int</span> value;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span> *next;<br>&#125; node;<br></code></pre></td></tr></table></figure><p>其中的<code>typedef</code>可以省略，即不将<code>struct Node</code>重命名为<code>node</code>。在C++和Java中，可在关键字后直接用 <code>&lt; &gt;</code>指定数据类型，甚至对象的实例。</p><div class="note note-info">            <p>也可以指定两个指针，一个左指针，一个右指针，这样该链表就变成了二叉树。当然，这是后话了。</p>          </div><h2 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h2><p>在插入数据前，需要先指定用于进行链表操作的指针。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">node *head = <span class="hljs-literal">NULL</span>;<br></code></pre></td></tr></table></figure><p>插入链表时，需要先为该节内容创建内存空间，再写入数据，最后将上一个节点的<code>*next</code>指针指向该节点(若为头节点从<code>NULL</code>指向)。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">node *<span class="hljs-title">insert</span><span class="hljs-params">(node *head, <span class="hljs-type">int</span> value)</span></span><br><span class="hljs-function"></span>&#123;<br>    node *to_node = (node *)<span class="hljs-built_in">malloc</span>(<span class="hljs-built_in">sizeof</span>(node));<br>    <span class="hljs-keyword">if</span>(to_node == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Error!&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">-1</span>);<br>    &#125;<br>    to_node-&gt;value = value;<br>    to_node-&gt;next = head;<br>    <span class="hljs-keyword">return</span> to_node;<br>&#125;<br></code></pre></td></tr></table></figure><p>需要进行插入操作时，可调用该函数，并获取下一节点的内存地址。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">head = <span class="hljs-built_in">insert</span>(head, n);<br></code></pre></td></tr></table></figure><p>这样一来，当加入操作结束后，我们能获取最后一个节点的指针。遍历时则按从后到前的顺序——这又何尝不是一种栈呢？</p><h2 id="寻找链表中的数据"><a href="#寻找链表中的数据" class="headerlink" title="寻找链表中的数据"></a>寻找链表中的数据</h2><p>一般而言，链表的寻找只能通过由后向前的遍历进行。在找寻到数据后返回该节点的指针。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">node *<span class="hljs-title">search</span><span class="hljs-params">(node *head, <span class="hljs-type">int</span> value)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span>(node *temp = head; temp != <span class="hljs-literal">NULL</span>; temp = temp-&gt;next)<br>    &#123;<br>        <span class="hljs-keyword">if</span>(temp-&gt;value == value)<br>            <span class="hljs-keyword">return</span> temp;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="删除链表的某节点"><a href="#删除链表的某节点" class="headerlink" title="删除链表的某节点"></a>删除链表的某节点</h2><p>删除节点，需要找到符合要求的节点，将该节点的上一个节点中<code>*next</code>指到下一节点，最后释放该节点的内存。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">node *<span class="hljs-title">delete</span><span class="hljs-params">(node *head, <span class="hljs-type">int</span> value)</span></span><br><span class="hljs-function"></span>&#123;<br>    node *prev, *cur;<br>    <span class="hljs-keyword">for</span>(prev = <span class="hljs-literal">NULL</span>, cur = head; cur &amp;&amp; cur-&gt;value != value; prev = cur, cur = cur-&gt;next);<br>    <br>    <span class="hljs-keyword">if</span>(cur == <span class="hljs-literal">NULL</span>) <span class="hljs-comment">// 找不到的情况</span><br>        <span class="hljs-keyword">return</span> head;<br>    <span class="hljs-keyword">if</span>(prev == <span class="hljs-literal">NULL</span>) <span class="hljs-comment">// 在第一个节点就找到了的特殊情况</span><br>        head = head-&gt;next;<br>    <span class="hljs-keyword">else</span> <span class="hljs-comment">// 略过该节点</span><br>        prev-&gt;next = cur-&gt;next;<br>    <span class="hljs-built_in">free</span>(cur);<br>    <span class="hljs-keyword">return</span> head;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;在一种数据类型中加入指向下一个同样数据类型的指针，就构成了一个链表。而在其他语言中，则由链表抽象出了&lt;code&gt;vector&lt;/code&gt;(C++)和&lt;code&gt;ArrayList&lt;/code&gt;(Java)的链表型数据。&lt;/p&gt;
+&lt;h2 id=&quot;链表的声明&quot;&gt;&lt;a href</summary>
+      
+    
+    
+    
+    <category term="碎片知识" scheme="http://example.com/categories/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/"/>
+    
+    
+    <category term="碎片知识" scheme="http://example.com/tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/"/>
+    
+    <category term="链表" scheme="http://example.com/tags/%E9%93%BE%E8%A1%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>latex</title>

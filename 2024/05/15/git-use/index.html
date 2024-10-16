@@ -16,12 +16,12 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本例用于演示如何将本地文件上传到GitHub上。 GitHub操作输入以下指令以验证是否成功连上GitHub。 12$ ssh -T git@github.comHi Ivanclf! You&#x27;ve successfully authenticated, but GitHub does not provide shell access. 然后在GitHub上新建一个仓库，建好后，弹出以下">
+    <meta name="description" content="本例用于演示如何将本地文件上传到GitHub上。 GitHub操作输入以下指令以验证是否成功连上GitHub。 12$ ssh -T git@github.comHi Ivanclf! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.  然后在GitHub上新建一个仓库，建好后，弹出以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git上传到GitHub">
 <meta property="og:url" content="http://example.com/2024/05/15/git-use/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="本例用于演示如何将本地文件上传到GitHub上。 GitHub操作输入以下指令以验证是否成功连上GitHub。 12$ ssh -T git@github.comHi Ivanclf! You&#x27;ve successfully authenticated, but GitHub does not provide shell access. 然后在GitHub上新建一个仓库，建好后，弹出以下">
+<meta property="og:description" content="本例用于演示如何将本地文件上传到GitHub上。 GitHub操作输入以下指令以验证是否成功连上GitHub。 12$ ssh -T git@github.comHi Ivanclf! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.  然后在GitHub上新建一个仓库，建好后，弹出以">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2024/05/15/git-use/git_1.png">
 <meta property="og:image" content="http://example.com/2024/05/15/git-use/git_2.png">
@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://example.com/2024/05/15/git-use/git_5.png">
 <meta property="og:image" content="http://example.com/2024/05/15/git-use/git_6.png">
 <meta property="article:published_time" content="2024-05-15T13:09:04.000Z">
-<meta property="article:modified_time" content="2024-05-15T14:25:44.184Z">
+<meta property="article:modified_time" content="2024-10-16T03:14:37.633Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="碎片知识">
 <meta property="article:tag" content="git">
@@ -241,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          318 字
+          310 字
         
       </span>
     
@@ -288,26 +288,37 @@
                 <p>本例用于演示如何将本地文件上传到GitHub上。</p>
 <h3 id="GitHub操作"><a href="#GitHub操作" class="headerlink" title="GitHub操作"></a>GitHub操作</h3><p>输入以下指令以验证是否成功连上GitHub。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ ssh -T git@github.com<br>Hi Ivanclf! You<span class="hljs-string">&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span><br></code></pre></td></tr></table></figure>
+
 <p>然后在GitHub上新建一个仓库，建好后，弹出以下页面<br><img src="/2024/05/15/git-use/git_1.png" srcset="/img/loading.gif" lazyload alt="页面内容"><br>我们需要复制其ssh地址</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss">git<span class="hljs-keyword">@github</span>.<span class="hljs-attribute">com</span>:Ivanclf/trans-trial.git<br></code></pre></td></tr></table></figure>
+
 <h3 id="本地操作"><a href="#本地操作" class="headerlink" title="本地操作"></a>本地操作</h3><p>建好一个文件夹，按照上图提示，在git bash中进行操作<br><img src="/2024/05/15/git-use/git_2.png" srcset="/img/loading.gif" lazyload alt="新建README.md， 并往里面添加标题"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;# trans trial&quot;</span> &gt;&gt; README.md<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;# trans trial&quot;</span> &gt;&gt; README.md<br></code></pre></td></tr></table></figure>
+
 <p><img src="/2024/05/15/git-use/git_3.png" srcset="/img/loading.gif" lazyload alt="初始化"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git init<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git init<br></code></pre></td></tr></table></figure>
+
 <p>加入文件到暂存区</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git add README.md<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git add README.md<br></code></pre></td></tr></table></figure>
+
 <p>加入文件到版本库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git commit -m <span class="hljs-string">&quot;first commit&quot;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git commit -m <span class="hljs-string">&quot;first commit&quot;</span><br></code></pre></td></tr></table></figure>
+
 <p>如果直接git commit，就需要在vim窗口中进行操作。<br>vim窗口中，常用的操作为：<strong>a</strong>输入，<strong>q</strong>退出，<strong>w</strong>保存。先按a输入，然后esc退出输入，最后清除.符并输入wq保存退出。<br><img src="/2024/05/15/git-use/git_4.png" srcset="/img/loading.gif" lazyload alt="输入wq"><br><img src="/2024/05/15/git-use/git_5.png" srcset="/img/loading.gif" lazyload alt="退出后的样子"><br>查看当前的分支</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git branch<br>* master<br></code></pre></td></tr></table></figure>
+
 <p>可以看到尽管GitHub上的默认分支是main，但git上的分支是master，可使用以下指令创建默认分支main。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git branch -M main<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch -M main<br></code></pre></td></tr></table></figure>
+
 <p>再添加远程仓库，与GitHub连接起来</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git remote add origin git@github.com:Ivanclf/trans-trial.git<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git remote add origin git@github.com:Ivanclf/trans-trial.git<br></code></pre></td></tr></table></figure>
+
 <p>可利用以下指令查看远程库情况</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git remote<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git remote<br></code></pre></td></tr></table></figure>
+
 <p>最后上传代码就可以了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git push -u origin main<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git push -u origin main<br></code></pre></td></tr></table></figure>
+
 <p><img src="/2024/05/15/git-use/git_6.png" srcset="/img/loading.gif" lazyload alt="最终结果"><br>日后可能会更新新GitHub账户与电脑链接的情况，以及git的其他操作。</p>
 
                 

@@ -16,24 +16,24 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="希腊字母需要大写希腊字母时，首字母大写即可。    显示 命令 显示 命令    $\alpha$ \alpha $\beta$ \beta   $\gamma$ \gamma $\delta$ \delta   $\epsilon$ \epsilon $\zeta$ \zeta   $\eta$ \eta $\theta$ \theta   $\iota$ \lota $\kappa$ \kap">
+    <meta name="description" content="TeX格式在TeX中，左引号是 &#96;&#96;，右引号是 ‘’。将文本转化为TeX格式。该题涉及字符串的转化，需要将原文中的双引号转化为另一种格式。可以边读边处理,遇到双引号时进行替换。 12345678910111213141516#include &lt;stdio.h&gt;int main()&#123;    int c, q &#x3D; 1;    while ((c &#x3D; getchar">
 <meta property="og:type" content="article">
-<meta property="og:title" content="latex">
-<meta property="og:url" content="http://example.com/2024/09/09/latex/index.html">
+<meta property="og:title" content="算法题汇总：其一">
+<meta property="og:url" content="http://example.com/2024/09/19/topic-1/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="希腊字母需要大写希腊字母时，首字母大写即可。    显示 命令 显示 命令    $\alpha$ \alpha $\beta$ \beta   $\gamma$ \gamma $\delta$ \delta   $\epsilon$ \epsilon $\zeta$ \zeta   $\eta$ \eta $\theta$ \theta   $\iota$ \lota $\kappa$ \kap">
+<meta property="og:description" content="TeX格式在TeX中，左引号是 &#96;&#96;，右引号是 ‘’。将文本转化为TeX格式。该题涉及字符串的转化，需要将原文中的双引号转化为另一种格式。可以边读边处理,遇到双引号时进行替换。 12345678910111213141516#include &lt;stdio.h&gt;int main()&#123;    int c, q &#x3D; 1;    while ((c &#x3D; getchar">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-09T13:54:47.000Z">
-<meta property="article:modified_time" content="2024-09-10T05:30:04.748Z">
+<meta property="article:published_time" content="2024-09-19T06:03:33.000Z">
+<meta property="article:modified_time" content="2024-10-16T03:10:10.402Z">
 <meta property="article:author" content="Ivan Chen">
-<meta property="article:tag" content="速查">
-<meta property="article:tag" content="latex">
-<meta property="article:tag" content="工具">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="字符串">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>latex - Ivanclf</title>
+  <title>算法题汇总：其一 - Ivanclf</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +212,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">latex</span>
+            <span id="subtitle">算法题汇总：其一</span>
           
         </div>
 
@@ -223,8 +223,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-09 21:54" pubdate>
-          2024年9月9日 晚上
+        <time datetime="2024-09-19 14:03" pubdate>
+          2024年9月19日 下午
         </time>
       </span>
     
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          402 字
+          749 字
         
       </span>
     
@@ -274,298 +274,27 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">latex</h1>
+            <h1 id="seo-header">算法题汇总：其一</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h1><p>需要大写希腊字母时，首字母大写即可。</p>
-<table>
-<thead>
-<tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$\alpha$</td>
-<td><code>\alpha</code></td>
-<td>$\beta$</td>
-<td><code>\beta</code></td>
-</tr>
-<tr>
-<td>$\gamma$</td>
-<td><code>\gamma</code></td>
-<td>$\delta$</td>
-<td><code>\delta</code></td>
-</tr>
-<tr>
-<td>$\epsilon$</td>
-<td><code>\epsilon</code></td>
-<td>$\zeta$</td>
-<td><code>\zeta</code></td>
-</tr>
-<tr>
-<td>$\eta$</td>
-<td><code>\eta</code></td>
-<td>$\theta$</td>
-<td><code>\theta</code></td>
-</tr>
-<tr>
-<td>$\iota$</td>
-<td><code>\lota</code></td>
-<td>$\kappa$</td>
-<td><code>\kappa</code></td>
-</tr>
-<tr>
-<td>$\lambda$</td>
-<td><code>\lambda</code></td>
-<td>$\mu$</td>
-<td><code>\mu</code></td>
-</tr>
-<tr>
-<td>$\nu$</td>
-<td><code>\nu</code></td>
-<td>$\xi$</td>
-<td><code>\xi</code></td>
-</tr>
-<tr>
-<td>$\pi$</td>
-<td><code>\pi</code></td>
-<td>$\rho$</td>
-<td><code>\rho</code></td>
-</tr>
-<tr>
-<td>$\sigma$</td>
-<td><code>\sigma</code></td>
-<td>$\tau$</td>
-<td><code>\tau</code></td>
-</tr>
-<tr>
-<td>$\upsilon$</td>
-<td><code>\upsilon</code></td>
-<td>$\phi$</td>
-<td><code>\phi</code></td>
-</tr>
-<tr>
-<td>$\chi$</td>
-<td><code>\chi</code></td>
-<td>$\psi$</td>
-<td><code>\psi</code></td>
-</tr>
-<tr>
-<td>$\omega$</td>
-<td><code>\omega</code></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h1 id="常见符号"><a href="#常见符号" class="headerlink" title="常见符号"></a>常见符号</h1><table>
-<thead>
-<tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>${x}\cdot{y}$</td>
-<td><code>&#123;x&#125;\cdot&#123;y&#125;</code></td>
-<td>${x}*{y}$</td>
-<td><code>&#123;x&#125;*&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>${x}\colon{y}$</td>
-<td><code>&#123;x&#125;\colon&#123;y&#125;</code></td>
-<td>${x}\times{y}$</td>
-<td><code>&#123;x&#125;\times&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>${x}.{y}$</td>
-<td><code>&#123;x&#125;.&#123;y&#125;</code></td>
-<td>${x},{y}$</td>
-<td><code>&#123;x&#125;,&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>${x}\pm{y}$</td>
-<td><code>&#123;x&#125;\pm&#123;y&#125;</code></td>
-<td>${x}\over{y}$</td>
-<td><code>&#123;x&#125;\over&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>$\vdots$</td>
-<td><code>\vdots</code></td>
-<td>$\ddots$</td>
-<td><code>\ddots</code></td>
-</tr>
-<tr>
-<td>$\dot{x}$</td>
-<td><code>\dot&#123;x&#125;</code></td>
-<td>$\ddot{x}$</td>
-<td><code>\ddot&#123;x&#125;</code></td>
-</tr>
-<tr>
-<td>$\breve{x}$</td>
-<td><code>\breve&#123;x&#125;</code></td>
-<td>$\widehat{xxx}$</td>
-<td><code>\widehat&#123;xxx&#125;</code></td>
-</tr>
-<tr>
-<td>$\acute{x}$</td>
-<td><code>\acute&#123;x&#125;</code></td>
-<td>$\check{x}$</td>
-<td><code>\check&#123;x&#125;</code></td>
-</tr>
-<tr>
-<td>$\grave{x}$</td>
-<td><code>\grave&#123;x&#125;</code></td>
-<td>$\tilde{x}$</td>
-<td><code>\tilde&#123;x&#125;</code></td>
-</tr>
-<tr>
-<td>$\bar{x}$</td>
-<td><code>\bar&#123;x&#125;</code></td>
-<td>$\hat{x}$</td>
-<td><code>\hat&#123;x&#125;</code></td>
-</tr>
-<tr>
-<td>$\vec{xy}$</td>
-<td><code>\vec&#123;xy&#125;</code></td>
-<td>${x}\dotsm{y}$</td>
-<td><code>&#123;x&#125;\dotsm&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>${x}\dotso{y}$</td>
-<td><code>&#123;x&#125;\dotso&#123;y&#125;</code></td>
-<td>$\widetilde{xxx}$</td>
-<td><code>\widetilde&#123;xxx&#125;</code></td>
-</tr>
-<tr>
-<td>$\neq$</td>
-<td><code>\neq</code></td>
-<td>$\backslash$</td>
-<td><code>\backslash</code></td>
-</tr>
-<tr>
-<td>$\smallsetminus$</td>
-<td><code>\smallsetminus</code></td>
-<td>${x}\quad{y}$</td>
-<td><code>&#123;x&#125;\quad&#123;y&#125;</code></td>
-</tr>
-<tr>
-<td>$\lbrace$</td>
-<td><code>\lbrace</code></td>
-<td>$\rbrace$</td>
-<td><code>\rbrace</code></td>
-</tr>
-<tr>
-<td>$\lgroup$</td>
-<td><code>\lgroup</code></td>
-<td>$\rgroup$</td>
-<td><code>\rgroup</code></td>
-</tr>
-<tr>
-<td>$\langle$</td>
-<td><code>\langle</code></td>
-<td>$\rangle$</td>
-<td><code>\rangle</code></td>
-</tr>
-<tr>
-<td>$\lmoustache$</td>
-<td><code>\lmoustache</code></td>
-<td>$\rmoustache$</td>
-<td><code>\rmoustache</code></td>
-</tr>
-<tr>
-<td>$\lVert$</td>
-<td><code>\lVert</code></td>
-<td>$\rVert$</td>
-<td><code>\rVert</code></td>
-</tr>
-<tr>
-<td>$\lvert$</td>
-<td><code>\lvert</code></td>
-<td>$\rvert$</td>
-<td><code>\rvert</code></td>
-</tr>
-<tr>
-<td>$\lfloor$</td>
-<td><code>\lfloor</code></td>
-<td>$\rfloor$</td>
-<td><code>\rfloor</code></td>
-</tr>
-<tr>
-<td>$\lceil$</td>
-<td><code>\lceil</code></td>
-<td>$\rceil$</td>
-<td><code>\rcei</code></td>
-</tr>
-<tr>
-<td>$\cdots$</td>
-<td><code>\cdots</code></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h1 id="修饰"><a href="#修饰" class="headerlink" title="修饰"></a>修饰</h1><table>
-<thead>
-<tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$^{a}$</td>
-<td><code>^&#123;a&#125;</code></td>
-<td>$_{a}$</td>
-<td><code>_&#123;a&#125;</code></td>
-</tr>
-</tbody></table>
-<h1 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h1><table>
-<thead>
-<tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$\frac{n}{n-1}$</td>
-<td><code>\frac&#123;n&#125;&#123;n-1&#125;</code></td>
-<td>$\sqrt[n]{ab}$</td>
-<td><code>\sqrt[n]&#123;ab&#125;</code></td>
-</tr>
-<tr>
-<td>$\sqrt{ab}​$</td>
-<td><code>\sqrt&#123;ab&#125;​</code></td>
-<td>$\log_{a}{b}$</td>
-<td><code>\log_&#123;a&#125;&#123;b&#125;</code></td>
-</tr>
-<tr>
-<td>$\lg{ab}$</td>
-<td><code>\lg&#123;ab&#125;</code></td>
-<td>$\text{d}x$</td>
-<td><code>\text&#123;d&#125;x</code></td>
-</tr>
-<tr>
-<td>$\int$</td>
-<td><code>\int</code></td>
-<td>$\int_{a}^{b}$</td>
-<td><code>\int_&#123;a&#125;^&#123;b&#125;</code></td>
-</tr>
-<tr>
-<td>$\lim$</td>
-<td><code>\lim</code></td>
-<td>$\sum$</td>
-<td><code>\sum</code></td>
-</tr>
-</tbody></table>
+                <h1 id="TeX格式"><a href="#TeX格式" class="headerlink" title="TeX格式"></a>TeX格式</h1><p>在TeX中，左引号是 &#96;&#96;，右引号是 ‘’。将文本转化为TeX格式。<br>该题涉及字符串的转化，需要将原文中的双引号转化为另一种格式。可以边读边处理,遇到双引号时进行替换。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> c, q = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> ((c = getchar()) != EOF) <span class="hljs-comment">// 读取到文件结束后结束</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (c == <span class="hljs-string">&#x27;&quot;&#x27;</span>)<br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, q ? <span class="hljs-string">&quot;``&quot;</span> : <span class="hljs-string">&quot;&#x27;&#x27;&quot;</span>); <span class="hljs-comment">// p为真时为一个值，假为另一个值</span><br>            q = !q;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>, c);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="WERTYU"><a href="#WERTYU" class="headerlink" title="WERTYU"></a>WERTYU</h1><p>输出键盘上往右错一位的字符串原先的样子。<br>此题并不难，但如果使用<code>switch</code>，代码量会比较大。可以使用字符数组存储字符序，然后在输入中寻找位置，再输出正确的字母。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;1234567890-=QWERTYUIOP[]\\ASDFGHJKL;&#x27;ZXCVBNM,./&quot;</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> i,c;<br>    <span class="hljs-keyword">while</span> ((c = getchar()) != EOF)<br>    &#123;<br>        <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; s[i] &amp;&amp; s[i] != c; i++); <span class="hljs-comment">// 没有操作的循环，用于寻找输入字母的位置</span><br>        <span class="hljs-keyword">if</span>(s[i]) <span class="hljs-comment">// 找到了</span><br>            <span class="hljs-built_in">putchar</span>(s[i - <span class="hljs-number">1</span>]);<br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-built_in">putchar</span>(c);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="生成元"><a href="#生成元" class="headerlink" title="生成元"></a>生成元</h1><p>若x加上各个数字之和得到y，就说x是y的生成元。给出n &lt; 1e6，求最小生成元。先输入个数，再输入元素。<br>此处一次性枚举1e6内所有的的正整数，标记其生成元，最后查表即可。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> maxn 100005</span><br><span class="hljs-type">int</span> ans[maxn];<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> T, n;<br>    <span class="hljs-built_in">memset</span>(ans, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(ans)); <span class="hljs-comment">// 将该块内容全部设定成指定的值</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> m = <span class="hljs-number">1</span>; m &lt; maxn; m++) <span class="hljs-comment">// 枚举所有正整数</span><br>    &#123;<br>        <span class="hljs-type">int</span> x = m, y = m;<br>        <span class="hljs-keyword">while</span> (x &gt; <span class="hljs-number">0</span>) <span class="hljs-comment">// x是y的生成元</span><br>        &#123;<br>            y += x % <span class="hljs-number">10</span>;<br>            x /= <span class="hljs-number">10</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (ans[y] == <span class="hljs-number">0</span> || m &lt; ans[y])<br>            ans[y] = m; <span class="hljs-comment">// 在生成元位进行标记</span><br>    &#125;<br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;T);<br>    <span class="hljs-keyword">while</span> (T--)<br>    &#123;<br>        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans[n]);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="环状序"><a href="#环状序" class="headerlink" title="环状序"></a>环状序</h1><p>指定一串字符串环装序列，找出其字典串最小的排序（指定其开头）。<br>字典序比较示例：</p>
+<ul>
+<li>在<code>abandon</code>和<code>abuse</code>中，因为前两个字母相同，<code>abandon</code>中第三个字母<code>a</code>比<code>abuse</code>中的<code>u</code>大，因此前者字典序比后者前；</li>
+<li>在<code>can</code>和<code>canteen</code>中，二者前面字母相同，但前者字母较少，则前者字典序较前。但在这题中给出的顺序是确定的，不需要考虑该状况。</li>
+</ul>
+<p>可以使用<code>a[(p + i) % n]</code>来表示环状数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> max 105</span><br><br><span class="hljs-comment">// 环状串s的表示法p是否比表示法q的字典序小</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">less</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s, <span class="hljs-type">int</span> p, <span class="hljs-type">int</span> q)</span><br>&#123;<br>    <span class="hljs-type">int</span> n = <span class="hljs-built_in">strlen</span>(s);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)<br>        <span class="hljs-keyword">if</span> (s[(p + i) % n] != s[(q + i) % n])   <span class="hljs-comment">// 达到上限后又会回到第一位</span><br>            <span class="hljs-keyword">return</span> s[(p + i) % n] &lt; s[(q + i) % n];<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">int</span> T;<br>    <span class="hljs-type">char</span> s[max];<br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;T);<br>    <span class="hljs-keyword">while</span> (T--)<br>    &#123;<br>        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, s);<br>        <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;    <span class="hljs-comment">// 表示目前为止字典序最小串的位置</span><br>        <span class="hljs-type">int</span> n = <span class="hljs-built_in">strlen</span>(s);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)<br>            <span class="hljs-keyword">if</span> (less(s, i, ans))<br>                ans = i;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)<br>            <span class="hljs-built_in">putchar</span>(s[(i + ans) % n]);<br>        <span class="hljs-built_in">putchar</span>(<span class="hljs-string">&#x27;\n&#x27;</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -584,7 +313,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="category-chain-item">碎片知识</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
 
@@ -599,11 +328,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E9%80%9F%E6%9F%A5/" class="print-no-link">#速查</a>
+        <a href="/tags/C/" class="print-no-link">#C</a>
       
-        <a href="/tags/latex/" class="print-no-link">#latex</a>
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
       
-        <a href="/tags/%E5%B7%A5%E5%85%B7/" class="print-no-link">#工具</a>
+        <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="print-no-link">#字符串</a>
       
     </div>
   
@@ -615,8 +344,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>latex</div>
-      <div>http://example.com/2024/09/09/latex/</div>
+      <div>算法题汇总：其一</div>
+      <div>http://example.com/2024/09/19/topic-1/</div>
     </div>
     <div class="license-meta">
       
@@ -628,7 +357,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月9日</div>
+          <div>2024年9月19日</div>
         </div>
       
       
@@ -653,9 +382,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/19/topic-1/" title="算法题汇总：其一">
+                      <a href="/2024/09/24/topic-2/" title="算法题汇总：其二">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">算法题汇总：其一</span>
+                        <span class="hidden-mobile">算法题汇总：其二</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -663,8 +392,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/05/css/" title="css速查">
-                        <span class="hidden-mobile">css速查</span>
+                      <a href="/2024/09/09/latex/" title="latex">
+                        <span class="hidden-mobile">latex</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2024/08/05/css/box-model.gif">
 <meta property="article:published_time" content="2024-08-05T03:15:52.000Z">
-<meta property="article:modified_time" content="2024-08-19T06:38:56.464Z">
+<meta property="article:modified_time" content="2024-10-16T03:22:10.871Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="速查">
 <meta property="article:tag" content="CSS">
@@ -294,18 +294,24 @@
 
 <h2 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h2><p>CSS主要描述网页内容的样式，其规则为：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">p</span> <span class="hljs-comment">/* 选择器，选择一个需要修改的HTML元素 */</span><br>&#123;<br>    <span class="hljs-comment">/* 声明 */</span><br>    <span class="hljs-attribute">color</span>: red;<br>    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">12px</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <p><strong>目录在右侧</strong></p>
 <h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><h3 id="外部样式表"><a href="#外部样式表" class="headerlink" title="外部样式表"></a>外部样式表</h3><p>在HTML文件外部的样式表，以 <code>.css</code> 为后缀进行保存。在HTML中则需要进行引用：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;name.css&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
 <p>再在css文件内直接指定样式。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">p</span> &#123;<span class="hljs-attribute">margin-left</span>:<span class="hljs-number">20px</span>;&#125;<br><span class="hljs-selector-tag">body</span> &#123;<span class="hljs-attribute">background-image</span>:<span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;/images/name.gif&quot;</span>);&#125;<br></code></pre></td></tr></table></figure>
+
 <h3 id="内部样式表"><a href="#内部样式表" class="headerlink" title="内部样式表"></a>内部样式表</h3><p>使用 <code>&lt;style&gt;</code> 标签在文档头部定义内部样式表</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">p</span> &#123;<span class="hljs-attribute">margin-left</span>:<span class="hljs-number">20px</span>;&#125;</span><br><span class="language-css">        <span class="hljs-selector-tag">body</span> &#123;<span class="hljs-attribute">background-image</span>:<span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;images/name.gif&quot;</span>);&#125;</span><br><span class="language-css">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
 <h3 id="内联样式"><a href="#内联样式" class="headerlink" title="内联样式"></a>内联样式</h3><p>在标签内使用 <code>style</code> 属性进行指定。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-left:20px&quot;</span>&gt;</span>这是一个段落。<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
 <p>大体优先级为内联样式 &gt; 内部样式 &gt; 外部样式。但如果将外部样式放在内部样式后面，那么外部样式将覆盖内部样式。</p>
 <h2 id="background"><a href="#background" class="headerlink" title="background"></a>background</h2><p>指定HTML元素的背景</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span><br>&#123;<br>    <span class="hljs-attribute">background-color</span>: <span class="hljs-string">&quot;#ff0000&quot;</span>; <span class="hljs-comment">/* 指定颜色 */</span><br>    <span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;name1.gif&quot;</span>), <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;name2.gif&quot;</span>); <span class="hljs-comment">/* 指定背景图*/</span><br>    <span class="hljs-attribute">background-repeat</span>: repeat-x; <span class="hljs-comment">/* 指定平铺属性，以及其重复的方式 */</span><br>    <span class="hljs-attribute">background-attachment</span>: local, scroll; <span class="hljs-comment">/* 指定背景图像是否随区块滚动*/</span><br>    <span class="hljs-attribute">background-position</span>: top, left <span class="hljs-comment">/* 指定图片位置 */</span><br>&#125;<br><span class="hljs-comment">/* 简写形式，属性值顺序与上面一致 */</span><br><span class="hljs-selector-tag">body</span>&#123;<span class="hljs-attribute">background</span>: <span class="hljs-number">#ff0000</span> <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;name1.gif&quot;</span>),<span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;name2.gif&quot;</span>) repeat-x local, scroll top, left&#125;<br></code></pre></td></tr></table></figure>
+
 <h3 id="repeat属性"><a href="#repeat属性" class="headerlink" title="repeat属性"></a>repeat属性</h3><p>单值语法（可以理解为双值语法的缩写）</p>
 <table>
 <thead>
@@ -359,6 +365,7 @@
 <p>可以使用逗号分隔不同的属性值以支持多张背景的图片。</p>
 <h3 id="position属性"><a href="#position属性" class="headerlink" title="position属性"></a>position属性</h3><p><strong>一个字：</strong> <code>center</code>，<code>top</code>，<code>bottom</code>，<code>left</code>，<code>right</code>，指定其放在哪个边界。也可以是 <code>&lt;length&gt;</code> 或 <code>&lt;percentage&gt;</code>，指定相对左边界的x坐标。y坐标默认为50%。<br><strong>两个字或四个字：</strong> 一个定义x坐标，另一个定义y坐标。可以指定边界，并通过 <code>&lt;length&gt;</code> 或 <code>&lt;percentage&gt;</code>指定偏移量。</p>
 <h2 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">p</span><br>&#123;<br>    <span class="hljs-attribute">color</span>: <span class="hljs-built_in">rgb</span>(<span class="hljs-number">255</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <span class="hljs-comment">/* 指定颜色 */</span><br>    <span class="hljs-attribute">font-family</span>: arial; <span class="hljs-comment">/* 指定字体 */</span><br>    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">10px</span>; <span class="hljs-comment">/* 指定字体大小 */</span><br>    <span class="hljs-attribute">font-style</span>: normal; <span class="hljs-comment">/* 设置斜体 */</span><br>    <span class="hljs-attribute">font-weight</span>: normal; <span class="hljs-comment">/* 设置粗体 */</span><br>    <span class="hljs-attribute">font-variant</span>: normal; <span class="hljs-comment">/* 指定多种属性 */</span><br>    <span class="hljs-attribute">font-stretch</span>: normal; <span class="hljs-comment">/* 指定字体的扩展与压缩 */</span><br>    <span class="hljs-attribute">text-indent</span>: <span class="hljs-number">0</span>; <span class="hljs-comment">/* 指定文本前面缩进的长度 */</span><br>    <span class="hljs-attribute">text-align</span>: left; <span class="hljs-comment">/* 指定文本对齐的方式 */</span><br>    <span class="hljs-attribute">text-decoration</span>: none; <span class="hljs-comment">/* 给文本添加修饰 */</span><br>    <span class="hljs-attribute">text-transform</span>: none; <span class="hljs-comment">/* 指定文本的大小写字母 */</span><br>    <span class="hljs-attribute">text-shadow</span>: <span class="hljs-number">4px</span> <span class="hljs-number">4px</span> <span class="hljs-number">5px</span> red; <span class="hljs-comment">/* 指定阴影 */</span><br>    <span class="hljs-attribute">text-overflow</span>: ellipsis; <span class="hljs-comment">/* 指定溢出状况 */</span><br>    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.5</span>; <span class="hljs-comment">/* 指定行高 */</span><br>    <span class="hljs-attribute">line-break</span>: auto; <span class="hljs-comment">/* 指定中文文本行 */</span><br>    <span class="hljs-attribute">hyphens</span>: none; <span class="hljs-comment">/* 指定是否使用换行符 */</span><br>    <span class="hljs-attribute">letter-spacing</span>: <span class="hljs-number">2px</span>; <span class="hljs-comment">/* 指定字母间距 */</span><br>    <span class="hljs-attribute">word-spacing</span>: <span class="hljs-number">4px</span>; <span class="hljs-comment">/* 指定单词间间距 */</span><br>    <span class="hljs-attribute">white-space</span>: normal; <span class="hljs-comment">/* 指定元素内空白的处理方式 */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
 <h3 id="font-family属性"><a href="#font-family属性" class="headerlink" title="font-family属性"></a>font-family属性</h3><p>css定义了5种泛型字体名称，注意：在不同的浏览器中显示的结果可能不同。在确保均能显示的情况下，可以指定具体的名称。也可指定多种字体，以选用备用字体，中间用逗号分隔。</p>
 <table>
 <thead>
@@ -663,6 +670,7 @@
 </tbody></table>
 <h3 id="font简写"><a href="#font简写" class="headerlink" title="font简写"></a>font简写</h3><p>简写的格式为</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-attribute">font</span>:<br>    italic normal bold normal <span class="hljs-number">3em</span>/<span class="hljs-number">1.5</span> Helvetica,<br>    Arial,<br>    sans-serif;<br></code></pre></td></tr></table></figure>
+
 <p>顺序为： <code>font-style</code>, <code>font-variant</code>, <code>font-weight</code>, <code>font-stretch</code>, <code>font-size</code>&#x2F;(这两个属性中间一定要放 <code>/</code>) <code>line-height</code>, <code>font-family</code>。<br>若需要使用简写，则必须要指定 <code>font-size</code>和 <code>font-family</code>。</p>
 <h3 id="text-indent属性"><a href="#text-indent属性" class="headerlink" title="text-indent属性"></a>text-indent属性</h3><p>用于指定文本的缩进，需要指定缩进长度（单位为px，em，rem等）或百分率。还可以指定一些参数。</p>
 <table>
@@ -1450,7 +1458,7 @@
 </tr>
 <tr>
 <td><a href="#%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8">关系选择器</a></td>
-<td><code> </code>&#x2F;<code>&gt;</code>&#x2F;<code>+</code>&#x2F;<code>~</code></td>
+<td>&#96;&#96;&#x2F;<code>&gt;</code>&#x2F;<code>+</code>&#x2F;<code>~</code></td>
 <td>在该选择器与其他选择器间建立关系</td>
 </tr>
 </tbody></table>
@@ -1745,7 +1753,7 @@
 </thead>
 <tbody><tr>
 <td>后代选择器</td>
-<td><code> </code></td>
+<td>&#96;&#96;</td>
 <td>表示后者是前者的子元素</td>
 </tr>
 <tr>

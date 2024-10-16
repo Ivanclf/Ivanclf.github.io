@@ -24,7 +24,7 @@
 <meta property="og:description" content="链表的初始化链表的最基础初始化，可以使用C语言的结构体。 1234typedef struct Node &#123;    int value;    struct Node *next;&#125;node, *list_node;  也可以使用c++中对象的定义 123456789class node &#123;public:    int value;    node *next;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-10-13T02:28:33.000Z">
-<meta property="article:modified_time" content="2024-10-14T12:42:18.808Z">
+<meta property="article:modified_time" content="2024-10-16T08:34:42.585Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="链表">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          309 字
+          472 字
         
       </span>
     
@@ -294,7 +294,14 @@
 <h3 id="头插法"><a href="#头插法" class="headerlink" title="头插法"></a>头插法</h3><p>在头部插入新节点，返回新的头节点<br>C语言</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c">list_node <span class="hljs-title function_">insert_to_head</span><span class="hljs-params">(list_node operation, <span class="hljs-type">int</span> value)</span> &#123;<br>    <span class="hljs-keyword">if</span>(!operation) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;list Error!\n&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">-1</span>);<br>    &#125;<br>    list_node to_node;<br>    to_node-&gt;value = value;<br>    to_node-&gt;next = operation;<br>    <span class="hljs-keyword">return</span> to_node;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id="链表节点的删除"><a href="#链表节点的删除" class="headerlink" title="链表节点的删除"></a>链表节点的删除</h2><h2 id="链表相关函数"><a href="#链表相关函数" class="headerlink" title="链表相关函数"></a>链表相关函数</h2><h3 id="求尺寸或搜索"><a href="#求尺寸或搜索" class="headerlink" title="求尺寸或搜索"></a>求尺寸或搜索</h3><p>求尺寸需要从头节点开始遍历，而遍历可以通过迭代或递归实现<br>迭代</p>
+<h2 id="链表节点的删除"><a href="#链表节点的删除" class="headerlink" title="链表节点的删除"></a>链表节点的删除</h2><p>当不存在头部节点时，对节点的删除操作较为复杂。首先，我们需要找到头节点，然后开始向下遍历，搜索到需要的节点</p>
+<ul>
+<li>若头节点就是待删除的节点，则头节点指针下移，删除头节点。</li>
+<li>若尾节点就是待删除的节点，则删除尾节点，前一节点的next指针赋空值。</li>
+<li>其余的一般情况下，找到待删除节点的前一节点，让其指向待删除节点的下一节点，再删除指定节点。</li>
+</ul>
+<p>存在头部节点时，可以省略对第一种情况的讨论。</p>
+<h2 id="链表相关功能"><a href="#链表相关功能" class="headerlink" title="链表相关功能"></a>链表相关功能</h2><h3 id="求尺寸或搜索"><a href="#求尺寸或搜索" class="headerlink" title="求尺寸或搜索"></a>求尺寸或搜索</h3><p>求尺寸需要从头节点开始遍历，而遍历可以通过迭代或递归实现<br>迭代</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">size</span><span class="hljs-params">(list_node head)</span> &#123;<br>    <span class="hljs-type">int</span> i;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; head != <span class="hljs-literal">NULL</span>; head = head-&gt;next, ++i);<br>    <span class="hljs-keyword">return</span> i;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>递归</p>

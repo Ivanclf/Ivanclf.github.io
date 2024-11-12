@@ -16,26 +16,23 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在使用json存储并传输文件前，需要先将其变成maven依赖的工程文件。以下便是在IDEA编辑器中将普通工程文件添加到maven依赖的方法 下载与配置下载地址https:&#x2F;&#x2F;maven.apache.org&#x2F;download.cgi然后和往常一样，添加环境变量 在IDEA中创建maven项目 添加json依赖maven项目创建完成后，需要往配置文件中添加相关依赖。本次使用的是Jackson 123">
+    <meta name="description" content="span.through         {             font-weight: lighter;             text-decoration: line-through;         }         span.bold         {             color: red;             font-weight:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="maven的下载和json的使用">
-<meta property="og:url" content="http://example.com/2024/05/15/maven-and-json/index.html">
+<meta property="og:title" content="CS61B">
+<meta property="og:url" content="http://example.com/2024/11/07/cs61b/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="在使用json存储并传输文件前，需要先将其变成maven依赖的工程文件。以下便是在IDEA编辑器中将普通工程文件添加到maven依赖的方法 下载与配置下载地址https:&#x2F;&#x2F;maven.apache.org&#x2F;download.cgi然后和往常一样，添加环境变量 在IDEA中创建maven项目 添加json依赖maven项目创建完成后，需要往配置文件中添加相关依赖。本次使用的是Jackson 123">
+<meta property="og:description" content="span.through         {             font-weight: lighter;             text-decoration: line-through;         }         span.bold         {             color: red;             font-weight:">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/05/15/maven-and-json/maven_1.png">
-<meta property="og:image" content="http://example.com/2024/05/15/maven-and-json/maven_2.png">
-<meta property="article:published_time" content="2024-05-15T14:19:36.000Z">
-<meta property="article:modified_time" content="2024-10-16T09:03:10.965Z">
+<meta property="article:published_time" content="2024-11-07T01:10:44.000Z">
+<meta property="article:modified_time" content="2024-11-12T06:05:03.543Z">
 <meta property="article:author" content="Ivan Chen">
-<meta property="article:tag" content="碎片知识">
-<meta property="article:tag" content="maven">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2024/05/15/maven-and-json/maven_1.png">
   
   
   
-  <title>maven的下载和json的使用 - Ivanclf</title>
+  <title>CS61B - Ivanclf</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +211,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">maven的下载和json的使用</span>
+            <span id="subtitle">CS61B</span>
           
         </div>
 
@@ -225,8 +222,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-15 22:19" pubdate>
-          2024年5月15日 晚上
+        <time datetime="2024-11-07 09:10" pubdate>
+          2024年11月7日 上午
         </time>
       </span>
     
@@ -237,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          366 字
+          655 字
         
       </span>
     
@@ -276,25 +273,129 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">maven的下载和json的使用</h1>
+            <h1 id="seo-header">CS61B</h1>
             
             
               <div class="markdown-body">
                 
-                <p>在使用json存储并传输文件前，需要先将其变成maven依赖的工程文件。以下便是在IDEA编辑器中将普通工程文件添加到maven依赖的方法</p>
-<h3 id="下载与配置"><a href="#下载与配置" class="headerlink" title="下载与配置"></a>下载与配置</h3><p>下载地址<br><a target="_blank" rel="noopener" href="https://maven.apache.org/download.cgi">https://maven.apache.org/download.cgi</a><br>然后和往常一样，添加环境变量<br><img src="/2024/05/15/maven-and-json/maven_1.png" srcset="/img/loading.gif" lazyload alt="最后效果"></p>
-<h3 id="在IDEA中创建maven项目"><a href="#在IDEA中创建maven项目" class="headerlink" title="在IDEA中创建maven项目"></a>在IDEA中创建maven项目</h3><p><img src="/2024/05/15/maven-and-json/maven_2.png" srcset="/img/loading.gif" lazyload alt="在IDEA中创建maven项目"></p>
-<h3 id="添加json依赖"><a href="#添加json依赖" class="headerlink" title="添加json依赖"></a>添加json依赖</h3><p>maven项目创建完成后，需要往配置文件中添加相关依赖。本次使用的是Jackson</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jackson-databind<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>  <span class="hljs-comment">&lt;!--2.13.4.1 --&gt;</span>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jackson-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jackson-annotations<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+                <head>
+    <style>
+        span.through
+        {
+            font-weight: lighter;
+            text-decoration: line-through;
+        }
+        span.bold
+        {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
 
-<h3 id="Jackson相关操作"><a href="#Jackson相关操作" class="headerlink" title="Jackson相关操作"></a>Jackson相关操作</h3><p>想实现Jackson类相关操作，需要先创建相关类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">var</span> <span class="hljs-variable">om</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectMapper</span>();<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;String, Object&gt; bookData = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br></code></pre></td></tr></table></figure>
+<p>以下是看CS61B时做的笔记</p>
+<h2 id="Disjoint-Sets-（不相交集）"><a href="#Disjoint-Sets-（不相交集）" class="headerlink" title="Disjoint Sets （不相交集）"></a>Disjoint Sets （不相交集）</h2><p>对于以下链式结构</p>
+<pre><code class=" mermaid">graph TD
+A[0] --&gt;B[1] --&gt;C[2]--&gt;D[3]
+E[4]--&gt;F[5]
+G[6]
+</code></pre>
 
-<p>写入（序列化），通过创建输入流实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">FileWriter</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileWriter</span>( filename <span class="hljs-string">&quot;.json&quot;</span>);<br>temp.write(book.writerWithDefaultPrettyPrinter().writeValueAsString(bookData) + <span class="hljs-string">&quot;\n&quot;</span>);<br>temp.close();<br></code></pre></td></tr></table></figure>
+<p>需要设计以下函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ds = DisjointSets(<span class="hljs-number">7</span>);<br>ds.connect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 链接两个数</span><br>ds.isConnect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 检测两个数是否链接</span><br></code></pre></td></tr></table></figure>
 
-<p>读取为Map（反序列化），创建文件类。当然也可以创建输出流</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">File</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(filename + <span class="hljs-string">&quot;.json&quot;</span>);<br><span class="hljs-keyword">try</span> &#123;<br>    fileDocument = om.readValue(file, Map.class);<br>&#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>    e.printStackTrace();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>需要寻求其高效的实现方式。</p>
+<h3 id="表与集合的嵌套"><a href="#表与集合的嵌套" class="headerlink" title="表与集合的嵌套"></a>表与集合的嵌套</h3><p>这是最显而易见的办法。<br>指定<code>List&lt;Set&lt;Integer&gt;&gt;</code>，实现方法时，先逐个寻找数字所在的集合，然后进行集合的合并或判断其是不是在同一个集合内。但该方法耗时较长。其构建、链接、判断的复杂度均为$O(n)$。<br><strong>[{1，2，3，4}, {5,6}, {7}]</strong></p>
+<div class="note note-info">
+            <p>但是用封装好的集合类总让人有一种复杂度其实是$O(1)$的感觉。</p>
+          </div>
+
+<h3 id="数组索引"><a href="#数组索引" class="headerlink" title="数组索引"></a>数组索引</h3><p>通过构建与元素<strong>等长</strong>的数组，用数组的索引值指代数字，数组的数字指代集合。当进行链接时，全组改为同一个数字。检查两数是否链接，只需要判断其索引对应的数字是否相同即可。</p>
+<table>
+<tr>
+<td>element </td><td>3 </td><td>3 </td><td>3 </td><td>3 </td><td>5 </td><td>5 </td><td>7
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>需要进行<code>connect()</code>函数操作时，将两个集合中的数改为同一个数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">connect(<span class="hljs-number">0</span>, <span class="hljs-number">4</span>);<br></code></pre></td></tr></table></figure>
+
+<table>
+<tr>
+<td>element </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>7
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+由此，虽然构建、链接的复杂度仍为$O(n)$，但判断的复杂度变成了$O(1)$。
+
+<h3 id="用数组实现树"><a href="#用数组实现树" class="headerlink" title="用数组实现树"></a>用数组实现树</h3><p>将集合变成树的形式，在一维数组中显示，仍然用索引值表示数字，但同时指明树的关系<br>对于以下树</p>
+<pre><code class=" mermaid">graph TD
+A[0]--&gt;B[1]--&gt;C[2]
+A--&gt;D[4]
+E[3]--&gt;F[5]
+G[6]
+</code></pre>
+
+<p>构建等长数组</p>
+<table>
+<tr>
+<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td>-1 </td><td>0 </td><td>3 </td><td>-1
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>分析其数组中的值。为<code>-1</code>时，表明索引中的数是根节点。为大于<code>-1</code>的数时，表明索引中的数的父节点。<br>进行<code>connect</code>操作时，爬取两个节点的根节点，再将一个根节点连接到另一个即可。如图所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">connect(<span class="hljs-number">4</span>, <span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure>
+
+<p>等效于</p>
+<pre><code class=" mermaid">graph TD
+A[0]--&gt;B[1]--&gt;C[2]
+A--&gt;D[4]
+A--&gt;E[3]--&gt;F[5]
+G[6]
+</code></pre>
+
+<p>数组</p>
+<table>
+<tr>
+<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td><span class="bold">3 <td>0 </td><td>3 </td><td>-1
+</td></span></td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>但为了确保小树能拼接到大树上（确保树的高度较小），需要另外构建一个尺寸数组</p>
+<table>
+<tr>
+<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td><span class="through">-1</span><span class="bold">  3</span></td><td>0 </td><td>3 </td><td>-1
+</td></tr>
+<tr>
+<td>size </td><td><span class="through">3</span><span class="bold">  6</span> </td><td>2 </td><td>1 </td><td>2 </td><td>1 </td><td>1 </td><td>1
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>或者实行更好的办法：给该数组中的根节点加上权重</p>
+<table>
+<tr>
+<td>element </td><td><span class="through">-4</span><span class="bold">  -6</span> </td><td>0 </td><td>1 </td><td><span class="through">-1</span><span class="bold">  3</span></td><td>0 </td><td>3 </td><td>-1
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>进行<code>connect</code>操作时需比较其尺寸大小。如此，该图结构就不会是线序的了。其构建复杂度不变，但链接和查找的难度均降为$O(\log N)$。</p>
 
                 
               </div>
@@ -313,7 +414,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="category-chain-item">碎片知识</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
 
@@ -328,9 +429,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
       
-        <a href="/tags/maven/" class="print-no-link">#maven</a>
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
       
     </div>
   
@@ -342,8 +443,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>maven的下载和json的使用</div>
-      <div>http://example.com/2024/05/15/maven-and-json/</div>
+      <div>CS61B</div>
+      <div>http://example.com/2024/11/07/cs61b/</div>
     </div>
     <div class="license-meta">
       
@@ -355,7 +456,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月15日</div>
+          <div>2024年11月7日</div>
         </div>
       
       
@@ -380,18 +481,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/06/java-socket/" title="Java中socket的使用">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java中socket的使用</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/15/git-use/" title="git上传到GitHub">
-                        <span class="hidden-mobile">git上传到GitHub</span>
+                      <a href="/2024/10/16/topic-3/" title="算法题汇总：其三">
+                        <span class="hidden-mobile">算法题汇总：其三</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>CS61B</title>
+    <link href="/2024/11/07/cs61b/"/>
+    <url>/2024/11/07/cs61b/</url>
+    
+    <content type="html"><![CDATA[<head>    <style>        span.through        {            font-weight: lighter;            text-decoration: line-through;        }        span.bold        {            color: red;            font-weight: bold;        }    </style></head><p>以下是看CS61B时做的笔记</p><h2 id="Disjoint-Sets-（不相交集）"><a href="#Disjoint-Sets-（不相交集）" class="headerlink" title="Disjoint Sets （不相交集）"></a>Disjoint Sets （不相交集）</h2><p>对于以下链式结构</p><pre><code class=" mermaid">graph TDA[0] --&gt;B[1] --&gt;C[2]--&gt;D[3]E[4]--&gt;F[5]G[6]</code></pre><p>需要设计以下函数</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ds = DisjointSets(<span class="hljs-number">7</span>);<br>ds.connect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 链接两个数</span><br>ds.isConnect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 检测两个数是否链接</span><br></code></pre></td></tr></table></figure><p>需要寻求其高效的实现方式。</p><h3 id="表与集合的嵌套"><a href="#表与集合的嵌套" class="headerlink" title="表与集合的嵌套"></a>表与集合的嵌套</h3><p>这是最显而易见的办法。<br>指定<code>List&lt;Set&lt;Integer&gt;&gt;</code>，实现方法时，先逐个寻找数字所在的集合，然后进行集合的合并或判断其是不是在同一个集合内。但该方法耗时较长。其构建、链接、判断的复杂度均为$O(n)$。<br><strong>[{1，2，3，4}, {5,6}, {7}]</strong></p><div class="note note-info">            <p>但是用封装好的集合类总让人有一种复杂度其实是$O(1)$的感觉。</p>          </div><h3 id="数组索引"><a href="#数组索引" class="headerlink" title="数组索引"></a>数组索引</h3><p>通过构建与元素<strong>等长</strong>的数组，用数组的索引值指代数字，数组的数字指代集合。当进行链接时，全组改为同一个数字。检查两数是否链接，只需要判断其索引对应的数字是否相同即可。</p><table><tr><td>element </td><td>3 </td><td>3 </td><td>3 </td><td>3 </td><td>5 </td><td>5 </td><td>7</td></tr><tr><td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6</td></tr></table><p>需要进行<code>connect()</code>函数操作时，将两个集合中的数改为同一个数。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">connect(<span class="hljs-number">0</span>, <span class="hljs-number">4</span>);<br></code></pre></td></tr></table></figure><table><tr><td>element </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>7</td></tr><tr><td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6</td></tr></table>由此，虽然构建、链接的复杂度仍为$O(n)$，但判断的复杂度变成了$O(1)$。<h3 id="用数组实现树"><a href="#用数组实现树" class="headerlink" title="用数组实现树"></a>用数组实现树</h3><p>将集合变成树的形式，在一维数组中显示，仍然用索引值表示数字，但同时指明树的关系<br>对于以下树</p><pre><code class=" mermaid">graph TDA[0]--&gt;B[1]--&gt;C[2]A--&gt;D[4]E[3]--&gt;F[5]G[6]</code></pre><p>构建等长数组</p><table><tr><td>element </td><td>-1 </td><td>0 </td><td>1 </td><td>-1 </td><td>0 </td><td>3 </td><td>-1</td></tr><tr><td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6</td></tr></table><p>分析其数组中的值。为<code>-1</code>时，表明索引中的数是根节点。为大于<code>-1</code>的数时，表明索引中的数的父节点。<br>进行<code>connect</code>操作时，爬取两个节点的根节点，再将一个根节点连接到另一个即可。如图所示</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">connect(<span class="hljs-number">4</span>, <span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure><p>等效于</p><pre><code class=" mermaid">graph TDA[0]--&gt;B[1]--&gt;C[2]A--&gt;D[4]A--&gt;E[3]--&gt;F[5]G[6]</code></pre><p>数组</p><table><tr><td>element </td><td>-1 </td><td>0 </td><td>1 </td><td><span class="bold">3 <td>0 </td><td>3 </td><td>-1</td></span></td></tr><tr><td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6</td></tr></table><p>但为了确保小树能拼接到大树上（确保树的高度较小），需要另外构建一个尺寸数组</p><table><tr><td>element </td><td>-1 </td><td>0 </td><td>1 </td><td><span class="through">-1</span><span class="bold">  3</span></td><td>0 </td><td>3 </td><td>-1</td></tr><tr><td>size </td><td><span class="through">3</span><span class="bold">  6</span> </td><td>2 </td><td>1 </td><td>2 </td><td>1 </td><td>1 </td><td>1</td></tr><tr><td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6</td></tr></table><p>或者实行更好的办法：给该数组中的根节点加上权重</p><table><tr><td>element </td><td><span class="through">-4</span><span class="bold">  -6</span> </td><td>0 </td><td>1 </td><td><span class="through">-1</span><span class="bold">  3</span></td><td>0 </td><td>3 </td><td>-1</td></tr><tr><td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6</td></tr></table><p>进行<code>connect</code>操作时需比较其尺寸大小。如此，该图结构就不会是线序的了。其构建复杂度不变，但链接和查找的难度均降为$O(\log N)$。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+      <tag>算法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>算法题汇总：其三</title>
     <link href="/2024/10/16/topic-3/"/>
     <url>/2024/10/16/topic-3/</url>
@@ -163,11 +190,11 @@
     
     <tags>
       
+      <tag>速查</tag>
+      
       <tag>CSS</tag>
       
       <tag>前端</tag>
-      
-      <tag>速查</tag>
       
     </tags>
     
@@ -244,9 +271,9 @@
     
     <tags>
       
-      <tag>前端</tag>
-      
       <tag>速查</tag>
+      
+      <tag>前端</tag>
       
       <tag>HTML</tag>
       
@@ -509,9 +536,9 @@
     
     <tags>
       
-      <tag>前端</tag>
-      
       <tag>Java</tag>
+      
+      <tag>前端</tag>
       
       <tag>工程</tag>
       
@@ -544,9 +571,9 @@
     
     <tags>
       
-      <tag>速查</tag>
-      
       <tag>Java</tag>
+      
+      <tag>速查</tag>
       
     </tags>
     

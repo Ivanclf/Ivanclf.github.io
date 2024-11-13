@@ -24,7 +24,7 @@
 <meta property="og:description" content="span.through         {             font-weight: lighter;             text-decoration: line-through;         }         span.bold         {             color: red;             font-weight:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-07T01:10:44.000Z">
-<meta property="article:modified_time" content="2024-11-12T07:27:58.016Z">
+<meta property="article:modified_time" content="2024-11-13T11:16:47.951Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="算法">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          781 字
+          1.5k 字
         
       </span>
     
@@ -400,8 +400,84 @@ G[6]
 </table>
 
 <p>进行<code>connect</code>操作时需比较其尺寸大小。如此，该图结构就不会是线序的了。其构建复杂度不变，但链接和查找的难度均降为$O(\log N)$。</p>
-<h3 id="进一步优化的方法"><a href="#进一步优化的方法" class="headerlink" title="进一步优化的方法"></a>进一步优化的方法</h3><p>在叶子结点向上回溯时，将涉及到的结点全部断连并链接至根节点，这样，日后进行查找时，可以大大节省时间。</p>
+<h3 id="进一步优化的方法"><a href="#进一步优化的方法" class="headerlink" title="进一步优化的方法"></a>进一步优化的方法</h3><p>在叶子节点向上回溯时，将涉及到的节点全部断连并链接至根节点，这样，日后进行查找时，可以大大节省时间。</p>
+<h2 id="Binary-Search-Tree-（二叉搜索树）"><a href="#Binary-Search-Tree-（二叉搜索树）" class="headerlink" title="Binary Search Tree （二叉搜索树）"></a>Binary Search Tree （二叉搜索树）</h2><p>二叉搜索树是这样一种二叉树，对存放的数据有这样的要求：某节点的左侧子树数据均比其小，右侧子树的数据均比其大。显而易见，其算法复杂度为$O(\log N)$。</p>
+<div class="note note-warning">
+            <p>理想状况下，一科二叉搜索树足够浓密，搜索的算法复杂度则为$O(\log N)$，但如若操作不当，使插入的结点都在树的一侧，那么查找算法复杂度将退化为$O(N)$。</p>
+          </div>
 
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>BST通过递归查找，其过程较为简单。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> BST <span class="hljs-title function_">find</span><span class="hljs-params">(BST T, key k)</span> &#123;<br>    <span class="hljs-keyword">if</span>(T == <span class="hljs-literal">null</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    k.equals(T.key)<br>        <span class="hljs-keyword">return</span> T;<br>    <span class="hljs-keyword">if</span>(k &lt; T.key)<br>        <span class="hljs-keyword">return</span> find(T.left, k);<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> find(T.right, k);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>插入的过程也很简单。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> BST <span class="hljs-title function_">insert</span><span class="hljs-params">(BST T, key k)</span> &#123;<br>    <span class="hljs-keyword">if</span>(T == <span class="hljs-literal">null</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BST</span>(k);<br>    <span class="hljs-keyword">if</span>(k &lt; T.key)<br>        T.left = insert(T.left, k);<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(k &gt; T.key)<br>        T.right = insert(T.right, k);<br>    <span class="hljs-keyword">return</span> T;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除过程较为复杂，可将其拆成3种情况</p>
+<ol>
+<li>叶子节点：找到后直接删除。</li>
+<li>只有一个孩子节点的节点，可以将其父节点指向其子节点，该节点将自动删除（如果不是Java，则需要手动清理内存）</li>
+<li>有两个孩子节点的节点，需要找到该节点左子树中最大的节点或右子树中最小的节点将其替换掉。</li>
+</ol>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h2><p>对于以下树</p>
+<pre><code class=" mermaid">graph TD
+13--&gt;5--&gt;2
+5--&gt;7
+13--&gt;15--&gt;14
+15--&gt;16
+</code></pre>
+
+<p>如果插入数据16、17、18、19，那么数据将会挤在右子树一侧，并不高效。一种可行的办法是几个数据挤在一个枝叶节点中。</p>
+<pre><code class=" mermaid">graph TD
+13--&gt;5--&gt;2
+5--&gt;7
+13--&gt;15--&gt;14
+15--&gt;a[16 17 18 19]
+</code></pre>
+
+<p>但单侧插入得多后，顺序表的寻找也同样有$O(N)$的复杂度。因此需要为顺序表大小设定一个限度。当一个表中数据溢出时，就将其中中间的一个节点放到父节点中。假设以下的树中一个节点最多只能存放3个数字。</p>
+<pre><code class=" mermaid">graph TD
+13--&gt;5--&gt;2
+5--&gt;7
+13--&gt;b[15 17]--&gt;14
+b--&gt;16
+b--&gt;a[18 19]
+</code></pre>
+
+<p>其中的[15, 17]节点上，小于15的数在其左子树，在15和17之间的数在中间子树，大于17的数在右子树。当继续插入数据时，也依次进行类似操作。</p>
+<pre><code class=" mermaid">graph TD
+a[13]--&gt;5--&gt;2
+5--&gt;7
+a--&gt;b[15 17 19]--&gt;14
+b--&gt;16
+b--&gt;18
+b--&gt;c[20 21 25 26]
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>最小项生成靠左的子树，第二项向上移动</p>
+<pre><code class=" mermaid">graph TD
+a[13]--&gt;5--&gt;2
+5--&gt;7
+a--&gt;b[15 17 19 21]--&gt;14
+b--&gt;16
+b--&gt;18
+b--&gt;20
+b--&gt;c[25 26]
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>最小项生成靠左的子树，第二项向上移动</p>
+<pre><code class=" mermaid">graph TD
+a[13 17]--&gt;5--&gt;2
+5--&gt;7
+a--&gt;15--&gt;14
+15--&gt;16
+a--&gt;b[19 21]
+b--&gt;18
+b--&gt;20
+b--&gt;c[25 26]
+</code></pre>
+
+<p>如果根节点也满了，就向上生成新的根节点。<br>对于具有以上特点的树，称作<strong>B-树</strong>。当其被赋予特定规则时，则另称<strong>2-3树</strong>和<strong>2-3-4树</strong>。</p>
+<h2 id="Left-Leaning-Red-Black-Tree-（左倾红黑树）"><a href="#Left-Leaning-Red-Black-Tree-（左倾红黑树）" class="headerlink" title="Left Leaning Red-Black Tree （左倾红黑树）"></a>Left Leaning Red-Black Tree （左倾红黑树）</h2>
                 
               </div>
             

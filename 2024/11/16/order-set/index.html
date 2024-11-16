@@ -16,23 +16,22 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="span.through         {             font-weight: lighter;             text-decoration: line-through;         }         span.bold         {             color: red;             font-weight:">
+    <meta name="description" content="有时间了补表格。             git指令             git文档在这里。CS61B中的教程。             类unix的控制台指令             参考来源。             vim指令             参考来源。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS61B">
-<meta property="og:url" content="http://example.com/2024/11/07/cs61b/index.html">
+<meta property="og:title" content="指令集">
+<meta property="og:url" content="http://example.com/2024/11/16/order-set/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="span.through         {             font-weight: lighter;             text-decoration: line-through;         }         span.bold         {             color: red;             font-weight:">
+<meta property="og:description" content="有时间了补表格。             git指令             git文档在这里。CS61B中的教程。             类unix的控制台指令             参考来源。             vim指令             参考来源。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-11-07T01:10:44.000Z">
-<meta property="article:modified_time" content="2024-11-13T11:16:47.951Z">
+<meta property="article:published_time" content="2024-11-16T07:37:30.000Z">
+<meta property="article:modified_time" content="2024-11-16T07:53:52.387Z">
 <meta property="article:author" content="Ivan Chen">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="Java">
+<meta property="article:tag" content="速查">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>CS61B - Ivanclf</title>
+  <title>指令集 - Ivanclf</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -211,7 +210,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">CS61B</span>
+            <span id="subtitle">指令集</span>
           
         </div>
 
@@ -222,8 +221,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-07 09:10" pubdate>
-          2024年11月7日 上午
+        <time datetime="2024-11-16 15:37" pubdate>
+          2024年11月16日 下午
         </time>
       </span>
     
@@ -234,7 +233,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          39 字
         
       </span>
     
@@ -273,211 +272,27 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">CS61B</h1>
+            <h1 id="seo-header">指令集</h1>
             
             
               <div class="markdown-body">
                 
-                <head>
-    <style>
-        span.through
-        {
-            font-weight: lighter;
-            text-decoration: line-through;
-        }
-        span.bold
-        {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<p>以下是看CS61B时做的笔记。CS61B主要教授Java语言的应用和算法与数据结构，本篇侧重算法与数据结构。</p>
-<h2 id="List-（链表）"><a href="#List-（链表）" class="headerlink" title="List （链表）"></a>List （链表）</h2><p><a target="_blank" rel="noopener" href="https://ivanclf.github.io/2024/10/13/list/">查看这里。</a></p>
-<div class="note note-info">
-            <p>原本计划的是一种数据结构开一篇，但计划赶不上变化，故只能将网课内容合做一篇了。</p>
-          </div>
-<h2 id="Disjoint-Sets-（不相交集）"><a href="#Disjoint-Sets-（不相交集）" class="headerlink" title="Disjoint Sets （不相交集）"></a>Disjoint Sets （不相交集）</h2><p>对于以下链式结构</p>
-<pre><code class=" mermaid">graph TD
-A[0] --&gt;B[1] --&gt;C[2]--&gt;D[3]
-E[4]--&gt;F[5]
-G[6]
-</code></pre>
-
-<p>需要设计以下函数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ds = DisjointSets(<span class="hljs-number">7</span>);<br>ds.connect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 链接两个数</span><br>ds.isConnect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 检测两个数是否链接</span><br></code></pre></td></tr></table></figure>
-
-<p>需要寻求其高效的实现方式。</p>
-<h3 id="表与集合的嵌套"><a href="#表与集合的嵌套" class="headerlink" title="表与集合的嵌套"></a>表与集合的嵌套</h3><p>这是最显而易见的办法。<br>指定<code>List&lt;Set&lt;Integer&gt;&gt;</code>，实现方法时，先逐个寻找数字所在的集合，然后进行集合的合并或判断其是不是在同一个集合内。但该方法耗时较长。其构建、链接、判断的复杂度均为$O(n)$。<br><strong>[{1，2，3，4}, {5,6}, {7}]</strong></p>
-<div class="note note-info">
-            <p>但是用封装好的集合类总让人有一种复杂度其实是$O(1)$的感觉。</p>
+                <div class="note note-info">
+            <p>有时间了补表格。</p>
           </div>
 
-<h3 id="数组索引"><a href="#数组索引" class="headerlink" title="数组索引"></a>数组索引</h3><p>通过构建与元素<strong>等长</strong>的数组，用数组的索引值指代数字，数组的数字指代集合。当进行链接时，全组改为同一个数字。检查两数是否链接，只需要判断其索引对应的数字是否相同即可。</p>
-<table>
-<tr>
-<td>element </td><td>3 </td><td>3 </td><td>3 </td><td>3 </td><td>5 </td><td>5 </td><td>7
-</td></tr>
-<tr>
-<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
-</td></tr>
-</table>
-
-<p>需要进行<code>connect()</code>函数操作时，将两个集合中的数改为同一个数。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">connect(<span class="hljs-number">0</span>, <span class="hljs-number">4</span>);<br></code></pre></td></tr></table></figure>
-
-<table>
-<tr>
-<td>element </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>7
-</td></tr>
-<tr>
-<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
-</td></tr>
-</table>
-由此，虽然构建、链接的复杂度仍为$O(n)$，但判断的复杂度变成了$O(1)$。
-
-<h3 id="用数组实现树"><a href="#用数组实现树" class="headerlink" title="用数组实现树"></a>用数组实现树</h3><p>将集合变成树的形式，在一维数组中显示，仍然用索引值表示数字，但同时指明树的关系<br>对于以下树</p>
-<pre><code class=" mermaid">graph TD
-A[0]--&gt;B[1]--&gt;C[2]
-A--&gt;D[4]
-E[3]--&gt;F[5]
-G[6]
-</code></pre>
-
-<p>构建等长数组</p>
-<table>
-<tr>
-<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td>-1 </td><td>0 </td><td>3 </td><td>-1
-</td></tr>
-<tr>
-<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
-</td></tr>
-</table>
-
-<p>分析其数组中的值。为<code>-1</code>时，表明索引中的数是根节点。为大于<code>-1</code>的数时，表明索引中的数的父节点。<br>进行<code>connect</code>操作时，爬取两个节点的根节点，再将一个根节点连接到另一个即可。如图所示</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">connect(<span class="hljs-number">4</span>, <span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure>
-
-<p>等效于</p>
-<pre><code class=" mermaid">graph TD
-A[0]--&gt;B[1]--&gt;C[2]
-A--&gt;D[4]
-A--&gt;E[3]--&gt;F[5]
-G[6]
-</code></pre>
-
-<p>数组</p>
-<table>
-<tr>
-<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td><span class="bold">3 <td>0 </td><td>3 </td><td>-1
-</td></span></td></tr>
-<tr>
-<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
-</td></tr>
-</table>
-
-<p>但为了确保小树能拼接到大树上（确保树的高度较小），需要另外构建一个尺寸数组</p>
-<table>
-<tr>
-<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td><span class="through">-1</span><span class="bold">  3</span></td><td>0 </td><td>3 </td><td>-1
-</td></tr>
-<tr>
-<td>size </td><td><span class="through">3</span><span class="bold">  6</span> </td><td>2 </td><td>1 </td><td>2 </td><td>1 </td><td>1 </td><td>1
-</td></tr>
-<tr>
-<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
-</td></tr>
-</table>
-
-<p>或者实行更好的办法：给该数组中的根节点加上权重</p>
-<table>
-<tr>
-<td>element </td><td><span class="through">-4</span><span class="bold">  -6</span> </td><td>0 </td><td>1 </td><td><span class="through">-1</span><span class="bold">  3</span></td><td>0 </td><td>3 </td><td>-1
-</td></tr>
-<tr>
-<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
-</td></tr>
-</table>
-
-<p>进行<code>connect</code>操作时需比较其尺寸大小。如此，该图结构就不会是线序的了。其构建复杂度不变，但链接和查找的难度均降为$O(\log N)$。</p>
-<h3 id="进一步优化的方法"><a href="#进一步优化的方法" class="headerlink" title="进一步优化的方法"></a>进一步优化的方法</h3><p>在叶子节点向上回溯时，将涉及到的节点全部断连并链接至根节点，这样，日后进行查找时，可以大大节省时间。</p>
-<h2 id="Binary-Search-Tree-（二叉搜索树）"><a href="#Binary-Search-Tree-（二叉搜索树）" class="headerlink" title="Binary Search Tree （二叉搜索树）"></a>Binary Search Tree （二叉搜索树）</h2><p>二叉搜索树是这样一种二叉树，对存放的数据有这样的要求：某节点的左侧子树数据均比其小，右侧子树的数据均比其大。显而易见，其算法复杂度为$O(\log N)$。</p>
-<div class="note note-warning">
-            <p>理想状况下，一科二叉搜索树足够浓密，搜索的算法复杂度则为$O(\log N)$，但如若操作不当，使插入的结点都在树的一侧，那么查找算法复杂度将退化为$O(N)$。</p>
+<h2 id="git指令"><a href="#git指令" class="headerlink" title="git指令"></a>git指令</h2><div class="note note-warning">
+            <p>git文档在<a target="_blank" rel="noopener" href="https://git-scm.com/book/en/v2/Appendix-C%3A-Git-Commands-Setup-and-Config">这里</a>。<br>CS61B中的<a target="_blank" rel="noopener" href="https://sp24.datastructur.es/labs/lab04/">教程</a>。</p>
           </div>
 
-<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>BST通过递归查找，其过程较为简单。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> BST <span class="hljs-title function_">find</span><span class="hljs-params">(BST T, key k)</span> &#123;<br>    <span class="hljs-keyword">if</span>(T == <span class="hljs-literal">null</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    k.equals(T.key)<br>        <span class="hljs-keyword">return</span> T;<br>    <span class="hljs-keyword">if</span>(k &lt; T.key)<br>        <span class="hljs-keyword">return</span> find(T.left, k);<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> find(T.right, k);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="类unix的控制台指令"><a href="#类unix的控制台指令" class="headerlink" title="类unix的控制台指令"></a>类unix的控制台指令</h2><div class="note note-warning">
+            <p><a target="_blank" rel="noopener" href="https://sp24.datastructur.es/labs/lab04/terminal/">参考来源</a>。</p>
+          </div>
 
-<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>插入的过程也很简单。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> BST <span class="hljs-title function_">insert</span><span class="hljs-params">(BST T, key k)</span> &#123;<br>    <span class="hljs-keyword">if</span>(T == <span class="hljs-literal">null</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BST</span>(k);<br>    <span class="hljs-keyword">if</span>(k &lt; T.key)<br>        T.left = insert(T.left, k);<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(k &gt; T.key)<br>        T.right = insert(T.right, k);<br>    <span class="hljs-keyword">return</span> T;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="vim指令"><a href="#vim指令" class="headerlink" title="vim指令"></a>vim指令</h2><div class="note note-warning">
+            <p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-vim.html">参考来源</a>。</p>
+          </div>
 
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除过程较为复杂，可将其拆成3种情况</p>
-<ol>
-<li>叶子节点：找到后直接删除。</li>
-<li>只有一个孩子节点的节点，可以将其父节点指向其子节点，该节点将自动删除（如果不是Java，则需要手动清理内存）</li>
-<li>有两个孩子节点的节点，需要找到该节点左子树中最大的节点或右子树中最小的节点将其替换掉。</li>
-</ol>
-<h2 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h2><p>对于以下树</p>
-<pre><code class=" mermaid">graph TD
-13--&gt;5--&gt;2
-5--&gt;7
-13--&gt;15--&gt;14
-15--&gt;16
-</code></pre>
-
-<p>如果插入数据16、17、18、19，那么数据将会挤在右子树一侧，并不高效。一种可行的办法是几个数据挤在一个枝叶节点中。</p>
-<pre><code class=" mermaid">graph TD
-13--&gt;5--&gt;2
-5--&gt;7
-13--&gt;15--&gt;14
-15--&gt;a[16 17 18 19]
-</code></pre>
-
-<p>但单侧插入得多后，顺序表的寻找也同样有$O(N)$的复杂度。因此需要为顺序表大小设定一个限度。当一个表中数据溢出时，就将其中中间的一个节点放到父节点中。假设以下的树中一个节点最多只能存放3个数字。</p>
-<pre><code class=" mermaid">graph TD
-13--&gt;5--&gt;2
-5--&gt;7
-13--&gt;b[15 17]--&gt;14
-b--&gt;16
-b--&gt;a[18 19]
-</code></pre>
-
-<p>其中的[15, 17]节点上，小于15的数在其左子树，在15和17之间的数在中间子树，大于17的数在右子树。当继续插入数据时，也依次进行类似操作。</p>
-<pre><code class=" mermaid">graph TD
-a[13]--&gt;5--&gt;2
-5--&gt;7
-a--&gt;b[15 17 19]--&gt;14
-b--&gt;16
-b--&gt;18
-b--&gt;c[20 21 25 26]
-</code></pre>
-
-<p>$$<br>\downarrow<br>$$<br>最小项生成靠左的子树，第二项向上移动</p>
-<pre><code class=" mermaid">graph TD
-a[13]--&gt;5--&gt;2
-5--&gt;7
-a--&gt;b[15 17 19 21]--&gt;14
-b--&gt;16
-b--&gt;18
-b--&gt;20
-b--&gt;c[25 26]
-</code></pre>
-
-<p>$$<br>\downarrow<br>$$<br>最小项生成靠左的子树，第二项向上移动</p>
-<pre><code class=" mermaid">graph TD
-a[13 17]--&gt;5--&gt;2
-5--&gt;7
-a--&gt;15--&gt;14
-15--&gt;16
-a--&gt;b[19 21]
-b--&gt;18
-b--&gt;20
-b--&gt;c[25 26]
-</code></pre>
-
-<p>如果根节点也满了，就向上生成新的根节点。<br>对于具有以上特点的树，称作<strong>B-树</strong>。当其被赋予特定规则时，则另称<strong>2-3树</strong>和<strong>2-3-4树</strong>。</p>
-<h2 id="Left-Leaning-Red-Black-Tree-（左倾红黑树）"><a href="#Left-Leaning-Red-Black-Tree-（左倾红黑树）" class="headerlink" title="Left Leaning Red-Black Tree （左倾红黑树）"></a>Left Leaning Red-Black Tree （左倾红黑树）</h2>
                 
               </div>
             
@@ -495,7 +310,7 @@ b--&gt;c[25 26]
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  <a href="/categories/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="category-chain-item">碎片知识</a>
   
   
 
@@ -510,9 +325,7 @@ b--&gt;c[25 26]
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
-      
-        <a href="/tags/Java/" class="print-no-link">#Java</a>
+        <a href="/tags/%E9%80%9F%E6%9F%A5/" class="print-no-link">#速查</a>
       
     </div>
   
@@ -524,8 +337,8 @@ b--&gt;c[25 26]
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>CS61B</div>
-      <div>http://example.com/2024/11/07/cs61b/</div>
+      <div>指令集</div>
+      <div>http://example.com/2024/11/16/order-set/</div>
     </div>
     <div class="license-meta">
       
@@ -537,7 +350,7 @@ b--&gt;c[25 26]
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月7日</div>
+          <div>2024年11月16日</div>
         </div>
       
       
@@ -562,18 +375,12 @@ b--&gt;c[25 26]
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/15/b-tree/" title="B-树">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">B-树</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/16/topic-3/" title="算法题汇总：其三">
-                        <span class="hidden-mobile">算法题汇总：其三</span>
+                      <a href="/2024/11/15/b-tree/" title="B-树">
+                        <span class="hidden-mobile">B-树</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

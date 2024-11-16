@@ -19,12 +19,12 @@
     <meta name="description" content="**C++ 标准模板库 (STL, Standard Template Library)**：包含一些常用数据结构与算法的模板的 C++ 软件库。其包含四个组件——算法 (Algorithms)、容器 (Containers)、仿函数 (Functors)、迭代器 (Iterators).">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算竞常用 C++ STL 用法（转载，排版有改动）">
-<meta property="og:url" content="http://example.com/2024/04/26/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E7%AE%97%E7%AB%9E%E5%B8%B8%E7%94%A8%20C++%20STL%20%E7%94%A8%E6%B3%95/index.html">
+<meta property="og:url" content="http://example.com/2024/04/26/C++%20STL/index.html">
 <meta property="og:site_name" content="Ivanclf">
 <meta property="og:description" content="**C++ 标准模板库 (STL, Standard Template Library)**：包含一些常用数据结构与算法的模板的 C++ 软件库。其包含四个组件——算法 (Algorithms)、容器 (Containers)、仿函数 (Functors)、迭代器 (Iterators).">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-26T15:43:14.000Z">
-<meta property="article:modified_time" content="2024-11-07T00:53:00.044Z">
+<meta property="article:modified_time" content="2024-11-16T07:31:11.061Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="向量">
@@ -1045,6 +1045,7 @@
 
 <p>如果不是 C++17，但是是 GNU 编译器（g++），那么可以用内置函数 <code>__gcd()</code>.<br>当然，<code>gcd</code> &#x2F; <code>lcm</code> 函数也挺好写，直接写也行（欧几里得算法）：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">gcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!b)<br>        <span class="hljs-keyword">return</span> a;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">gcd</span>(b, a % b);<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">lcm</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> a / <span class="hljs-built_in">gcd</span>(a, b) * b;<br>&#125;<br></code></pre></td></tr></table></figure>
+
                 
               </div>
             
@@ -1102,7 +1103,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>算竞常用 C++ STL 用法（转载，排版有改动）</div>
-      <div>http://example.com/2024/04/26/（转载）算竞常用 C++ STL 用法/</div>
+      <div>http://example.com/2024/04/26/C++ STL/</div>
     </div>
     <div class="license-meta">
       

@@ -24,7 +24,7 @@
 <meta property="og:description" content="span.through         {             font-weight: lighter;             text-decoration: line-through;         }         span.bold         {             color: red;             font-weight:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-07T01:10:44.000Z">
-<meta property="article:modified_time" content="2024-11-13T11:16:47.951Z">
+<meta property="article:modified_time" content="2024-11-20T14:47:29.270Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="Java">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          2.1k 字
         
       </span>
     
@@ -298,6 +298,7 @@
 <div class="note note-info">
             <p>原本计划的是一种数据结构开一篇，但计划赶不上变化，故只能将网课内容合做一篇了。</p>
           </div>
+
 <h2 id="Disjoint-Sets-（不相交集）"><a href="#Disjoint-Sets-（不相交集）" class="headerlink" title="Disjoint Sets （不相交集）"></a>Disjoint Sets （不相交集）</h2><p>对于以下链式结构</p>
 <pre><code class=" mermaid">graph TD
 A[0] --&gt;B[1] --&gt;C[2]--&gt;D[3]
@@ -476,8 +477,78 @@ b--&gt;20
 b--&gt;c[25 26]
 </code></pre>
 
-<p>如果根节点也满了，就向上生成新的根节点。<br>对于具有以上特点的树，称作<strong>B-树</strong>。当其被赋予特定规则时，则另称<strong>2-3树</strong>和<strong>2-3-4树</strong>。</p>
-<h2 id="Left-Leaning-Red-Black-Tree-（左倾红黑树）"><a href="#Left-Leaning-Red-Black-Tree-（左倾红黑树）" class="headerlink" title="Left Leaning Red-Black Tree （左倾红黑树）"></a>Left Leaning Red-Black Tree （左倾红黑树）</h2>
+<p>如果根节点也满了，就向上生成新的根节点。<br>对于具有以上特点的树，称作<strong>B-树</strong>。当其被赋予特定规则时，则另称<strong>2-3树</strong>和<strong>2-3-4树</strong>。<br>对源代码感兴趣的可以看<a target="_blank" rel="noopener" href="https://ivanclf.github.io/2024/11/15/b-tree/">这里</a>。</p>
+<h2 id="树的旋转"><a href="#树的旋转" class="headerlink" title="树的旋转"></a>树的旋转</h2><p>树的旋转能够在改变结构的同时不改变节点的值，是实现avl树和红黑树的基本操作。</p>
+<h3 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h3><p>对于以下结构</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;A[9]--&gt;7
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<p>要实现5的左旋操作，即将5从根节点变成左节点。由此。需要将右节点9变成根节点。</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;c&#123;null&#125;
+A[9]--&gt;5
+A--&gt;7
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<p>此时这棵树有一个不合理的地方，就是根节点9分出的树枝有3个，不符合二叉树的定义。恰好，5的右节点由于旋转空了出来，刚好可以容纳多余的节点。于是结果变成了</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;7
+A[9]--&gt;5
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<p>以上就是将一个节点左旋的过程。右旋也遵循类似的操作。如果不太明白上述的操作，也可以借助B-树的知识进行理解。<br>同样的一棵树</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;A[9]--&gt;7
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<p>在进行左旋时，可以将需要变换主从次序的两个节点暂时合到一起。即先和右节点合并，再将5分配下去。</p>
+<pre><code class=" mermaid">graph TD
+A[5  9]
+A--&gt;B&#123;child&#125;
+A--&gt;7
+A--&gt;C&#123;child&#125;
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>然后分开</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;7
+A[9]--&gt;5
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<h3 id="多次旋转"><a href="#多次旋转" class="headerlink" title="多次旋转"></a>多次旋转</h3><p>经过多次旋转，可以将一棵不平衡树转变成平衡树</p>
+<pre><code class=" mermaid">graph TD
+1--&gt;A[null]
+1--&gt;C[3]--&gt;2
+C--&gt;B[null]
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>3右旋</p>
+<pre><code class=" mermaid">graph TD
+1--&gt;A[null]
+1--&gt;C[2]--&gt;B[null]
+C--&gt;3
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>1左旋</p>
+<pre><code class=" mermaid">graph TD
+2--&gt;1
+2--&gt;3
+</code></pre>
+
+<p>成功变成了平衡树。</p>
+<h2 id="AVL树简介"><a href="#AVL树简介" class="headerlink" title="AVL树简介"></a>AVL树简介</h2><p>AVL树在普通BST的基础上，给每个节点添加了平衡因子，<strong>平衡因子&#x3D;左子树高度-右子树高度</strong>，<br>插入一个元素时，从该节点回溯到其根节点的所有节点的平衡因子都会发生变化。当平衡因子的绝对值 <strong>&gt;1</strong>时，进行旋转操作。</p>
+<h2 id="Left-Leaning-Red-Black-Tree-（左倾红黑树）"><a href="#Left-Leaning-Red-Black-Tree-（左倾红黑树）" class="headerlink" title="Left Leaning Red-Black Tree （左倾红黑树）"></a>Left Leaning Red-Black Tree （左倾红黑树）</h2><h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2>
                 
               </div>
             

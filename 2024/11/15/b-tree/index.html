@@ -16,15 +16,15 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="B-树用于减少树的长度和减少插入节点操作时的OI次数。以下主要讨论其具体的代码实现。抽象过程和图示则移步至CS61B相关内容。              原文多出的解释或有不准确之处（因为我并不是很清楚）。             定义12345int *keys; &#x2F;&#x2F; 存储关键字的数组int t;  &#x2F;&#x2F; 最小度 (定义一个结点包含关键字的个数 t-1 &lt;&#x3D; num &lt;&#x3D; 2t -">
+    <meta name="description" content="B-树用于减少树的长度和减少插入节点操作时的OI次数。以下主要讨论其具体的代码实现。抽象过程和图示则移步至CS61B相关内容。              点这看原文多出的解释或有不准确之处（因为我并不是很清楚）。             定义12345int *keys; &#x2F;&#x2F; 存储关键字的数组int t;  &#x2F;&#x2F; 最小度 (定义一个结点包含关键字的个数 t-1 &lt;&#x3D; num &lt;&#x3D; 2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="心中有B树，做人要虚心">
 <meta property="og:url" content="http://example.com/2024/11/15/b-tree/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="B-树用于减少树的长度和减少插入节点操作时的OI次数。以下主要讨论其具体的代码实现。抽象过程和图示则移步至CS61B相关内容。              原文多出的解释或有不准确之处（因为我并不是很清楚）。             定义12345int *keys; &#x2F;&#x2F; 存储关键字的数组int t;  &#x2F;&#x2F; 最小度 (定义一个结点包含关键字的个数 t-1 &lt;&#x3D; num &lt;&#x3D; 2t -">
+<meta property="og:description" content="B-树用于减少树的长度和减少插入节点操作时的OI次数。以下主要讨论其具体的代码实现。抽象过程和图示则移步至CS61B相关内容。              点这看原文多出的解释或有不准确之处（因为我并不是很清楚）。             定义12345int *keys; &#x2F;&#x2F; 存储关键字的数组int t;  &#x2F;&#x2F; 最小度 (定义一个结点包含关键字的个数 t-1 &lt;&#x3D; num &lt;&#x3D; 2">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-15T07:57:11.000Z">
-<meta property="article:modified_time" content="2024-11-16T09:06:56.886Z">
+<meta property="article:modified_time" content="2024-11-20T11:21:52.032Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="算法">
@@ -280,7 +280,7 @@
                 
                 <p>B-树用于减少树的长度和减少插入节点操作时的OI次数。以下主要讨论其具体的代码实现。抽象过程和图示则移步至<a target="_blank" rel="noopener" href="https://ivanclf.github.io/2024/11/07/cs61b/#B-%E6%A0%91">CS61B相关内容</a>。</p>
 <div class="note note-info">
-            <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/146252512">原文</a><br>多出的解释或有不准确之处（因为我并不是很清楚）。</p>
+            <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/146252512">点这看原文</a><br>多出的解释或有不准确之处（因为我并不是很清楚）。</p>
           </div>
 
 <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> *keys; <span class="hljs-comment">// 存储关键字的数组</span><br><span class="hljs-type">int</span> t;  <span class="hljs-comment">// 最小度 (定义一个结点包含关键字的个数 t-1 &lt;= num &lt;= 2t -1) </span><br>BTreeNode **C; <span class="hljs-comment">// 存储孩子结点指针的数组</span><br><span class="hljs-type">int</span> n;  <span class="hljs-comment">// 记录当前结点包含的关键字的个数</span><br><span class="hljs-type">bool</span> leaf; <span class="hljs-comment">// 叶子结点的一个标记，如果是叶子结点则为true,否则false</span><br></code></pre></td></tr></table></figure>

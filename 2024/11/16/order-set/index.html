@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2024/11/16/order-set/vi-vim-cheat-sheet-sch.gif">
 <meta property="article:published_time" content="2024-11-16T07:37:30.000Z">
-<meta property="article:modified_time" content="2024-11-27T06:50:59.260Z">
+<meta property="article:modified_time" content="2024-12-30T12:17:54.591Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="速查">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          688 字
+          868 字
         
       </span>
     
@@ -380,6 +380,12 @@
 </tr>
 </thead>
 <tbody><tr>
+<td>$^{a}$</td>
+<td><code>^&#123;a&#125;</code></td>
+<td>$_{a}$</td>
+<td><code>_&#123;a&#125;</code></td>
+</tr>
+<tr>
 <td>${x}\cdot{y}$</td>
 <td><code>&#123;x&#125;\cdot&#123;y&#125;</code></td>
 <td>${x}*{y}$</td>
@@ -517,21 +523,17 @@
 <td>$\infty$</td>
 <td><code>\infty</code></td>
 </tr>
-</tbody></table>
-<h3 id="修饰"><a href="#修饰" class="headerlink" title="修饰"></a>修饰</h3><table>
-<thead>
 <tr>
-<th>显示</th>
-<th>命令</th>
-<th>显示</th>
-<th>命令</th>
+<td>$\approx$</td>
+<td><code>\approx</code></td>
+<td>$\geq$</td>
+<td><code>\geq</code></td>
 </tr>
-</thead>
-<tbody><tr>
-<td>$^{a}$</td>
-<td><code>^&#123;a&#125;</code></td>
-<td>$_{a}$</td>
-<td><code>_&#123;a&#125;</code></td>
+<tr>
+<td>$\leq$</td>
+<td><code>\leq</code></td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
 <h3 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h3><table>
@@ -573,21 +575,63 @@
 <td>$\sum$</td>
 <td><code>\sum</code></td>
 </tr>
+<tr>
+<td>$\prod$</td>
+<td><code>\prod</code></td>
+<td></td>
+<td></td>
+</tr>
 </tbody></table>
 <h3 id="辅助符号"><a href="#辅助符号" class="headerlink" title="辅助符号"></a>辅助符号</h3><table>
 <thead>
 <tr>
-<th>显示</th>
+<th>示例</th>
 <th>命令</th>
 <th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>$\displaystyle\int$ 或 $\displaystyle\sum$</td>
+<td>$\displaystyle\sum$</td>
 <td><code>\displaystyle</code></td>
-<td>自适应大小，适合于在积分号或求和号等后面套分式的情况</td>
+<td>显示模式，适合于式子太小，需要换行显示或加大的情况</td>
+</tr>
+<tr>
+<td>$\boxed{E&#x3D;mc^2}$</td>
+<td><code>\boxed&#123;&#125;</code></td>
+<td>在指定位置加方框</td>
+</tr>
+<tr>
+<td>$\overbrace{E&#x3D;mc^2}^{质能守恒公式}$</td>
+<td><code>\overbrace&#123;&#125;^&#123;\text&#125;</code></td>
+<td>指定上括号</td>
+</tr>
+<tr>
+<td>$\underbrace{E&#x3D;mc^2}_{质能守恒公式}$</td>
+<td><code>\underbrace&#123;&#125;_&#123;\text&#125;</code></td>
+<td>指定下括号</td>
+</tr>
+<tr>
+<td>$a\ b$</td>
+<td><code>\ </code></td>
+<td>空出一格</td>
+</tr>
+<tr>
+<td>$a\quad b$</td>
+<td><code>\quad</code></td>
+<td>空出四格</td>
+</tr>
+<tr>
+<td>$a\\b$</td>
+<td><code>\\</code></td>
+<td>换行（markdown中需要输入<code>\\\\</code>）</td>
 </tr>
 </tbody></table>
+<h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><p><code>$$\begin&#123;matrix&#125; 1 &amp; 5 \\\\ 4 &amp; 6 \end&#123;matrix&#125;</code><br>$$\begin{matrix} 1 &amp; 5 \\ 4 &amp; 6 \end{matrix}$$</p>
+<p>花括号中的<code>matrix</code>可变化，由此给矩阵套上不同的括号<br><code>matrix</code><br>$$\begin{matrix} 1 &amp; 5 \\ 4 &amp; 6 \end{matrix}$$</p>
+<p><code>pmatrix</code><br>$$\begin{pmatrix} 1 &amp; 5 \\ 4 &amp; 6  \end{pmatrix}$$</p>
+<p><code>bmatrix</code><br>$$\begin{bmatrix}  1 &amp; 5 \\ 4 &amp; 6 \end{bmatrix}$$</p>
+<p><code>Bmatrix</code><br>$$\begin{Bmatrix} 1 &amp; 5 \\ 4 &amp; 6 \end{Bmatrix}$$</p>
+<p><code>vmatrix</code><br>$$\begin{vmatrix} 1 &amp; 5 \\ 4 &amp; 6  \end{vmatrix}$$</p>
 <h2 id="git指令"><a href="#git指令" class="headerlink" title="git指令"></a>git指令</h2><div class="note note-warning">
             <p>git文档在<a target="_blank" rel="noopener" href="https://git-scm.com/book/en/v2/Appendix-C%3A-Git-Commands-Setup-and-Config">这里</a>。<br>CS61B中的<a target="_blank" rel="noopener" href="https://sp24.datastructur.es/labs/lab04/">教程</a>。</p>
           </div>
@@ -759,6 +803,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/12/30/review-1/" title="数据结构和数值分析复习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据结构和数值分析复习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

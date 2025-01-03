@@ -123,9 +123,9 @@
     <category term="算法" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-    <category term="Java" scheme="http://example.com/tags/Java/"/>
-    
     <category term="算法" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="Java" scheme="http://example.com/tags/Java/"/>
     
   </entry>
   
@@ -233,9 +233,9 @@
     <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
     
     
-    <category term="C" scheme="http://example.com/tags/C/"/>
-    
     <category term="算法题" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    <category term="C" scheme="http://example.com/tags/C/"/>
     
     <category term="字符串" scheme="http://example.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
     

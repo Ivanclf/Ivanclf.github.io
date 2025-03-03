@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2024/11/16/order-set/vi-vim-cheat-sheet-sch.gif">
 <meta property="article:published_time" content="2024-11-16T07:37:30.000Z">
-<meta property="article:modified_time" content="2024-12-30T12:17:54.591Z">
+<meta property="article:modified_time" content="2025-03-03T07:16:05.184Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="速查">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          868 字
+          1k 字
         
       </span>
     
@@ -466,8 +466,8 @@
 <tr>
 <td>$\smallsetminus$</td>
 <td><code>\smallsetminus</code></td>
-<td>${x}\quad{y}$</td>
-<td><code>&#123;x&#125;\quad&#123;y&#125;</code></td>
+<td></td>
+<td><code> </code></td>
 </tr>
 <tr>
 <td>$\lbrace$</td>
@@ -526,14 +526,26 @@
 <tr>
 <td>$\approx$</td>
 <td><code>\approx</code></td>
-<td>$\geq$</td>
-<td><code>\geq</code></td>
+<td>$\subseteq$</td>
+<td><code>\subseteq</code></td>
+</tr>
+<tr>
+<td>$\cap$</td>
+<td><code>\cap</code></td>
+<td>$\cup$</td>
+<td><code>\cup</code></td>
 </tr>
 <tr>
 <td>$\leq$</td>
 <td><code>\leq</code></td>
-<td></td>
-<td></td>
+<td>$\geq$</td>
+<td><code>\geq</code></td>
+</tr>
+<tr>
+<td>$\overline{A}$</td>
+<td><code>\overline&#123;A&#125;</code></td>
+<td>$\bar{A}$</td>
+<td><code>\bar&#123;A&#125;</code></td>
 </tr>
 </tbody></table>
 <h3 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h3><table>
@@ -722,6 +734,101 @@
 <div class="note note-info">
             <p>而输入模式与平时的输入没有什么不同，在此省略。</p>
           </div>
+
+<h2 id="Linux上的bush指令"><a href="#Linux上的bush指令" class="headerlink" title="Linux上的bush指令"></a>Linux上的bush指令</h2><p>学习OS需要，现列出部分指令</p>
+<h3 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ls</code></td>
+<td>显示该目录下的所有文件</td>
+</tr>
+<tr>
+<td><code>ls example</code></td>
+<td>打开目录下的文件<code>example</code></td>
+</tr>
+<tr>
+<td><code>ls ..</code></td>
+<td>打开上级目录</td>
+</tr>
+<tr>
+<td><code>vi example</code> <code>vim example</code></td>
+<td>通过vim新建或打开某文本文件</td>
+</tr>
+<tr>
+<td><code>rm file1 file2</code></td>
+<td>删除<code>file1</code>和<code>file2</code></td>
+</tr>
+<tr>
+<td><code>rm -r dir</code></td>
+<td>删除<code>dir</code>文件夹下的所有文件</td>
+</tr>
+<tr>
+<td><code>rm -f file</code></td>
+<td>强制删除<code>file</code></td>
+</tr>
+</tbody></table>
+<h3 id="gcc"><a href="#gcc" class="headerlink" title="gcc"></a>gcc</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gcc example.c -o example</code></td>
+<td>编译C语言文件<code>example.c</code>，生成可执行文件<code>example</code></td>
+</tr>
+</tbody></table>
+<h3 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gdb ./example</code></td>
+<td>使用gdb调试</td>
+</tr>
+<tr>
+<td><code>break filename: line</code></td>
+<td>在某文件的特定行设定断点</td>
+</tr>
+<tr>
+<td><code>break f</code></td>
+<td>在函数<code>f</code>中设置断点</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td>运行指令</td>
+</tr>
+<tr>
+<td><code>next</code> <code>n</code></td>
+<td>逐行执行</td>
+</tr>
+<tr>
+<td><code>step</code> <code>s</code></td>
+<td>步进</td>
+</tr>
+<tr>
+<td><code>print x</code></td>
+<td>查看变量x的值</td>
+</tr>
+<tr>
+<td><code>continue</code> <code>c</code></td>
+<td>继续</td>
+</tr>
+<tr>
+<td><code>quit</code></td>
+<td>退出</td>
+</tr>
+</tbody></table>
+
                 
               </div>
             

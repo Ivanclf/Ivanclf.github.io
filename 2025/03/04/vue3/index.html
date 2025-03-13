@@ -16,12 +16,12 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="环境构建本篇中仅介绍Vite配置vue的方法（确保已经安装了npm）在项目所在的文件夹下打开命令行，输入 1npm create vite@latest &lt;name&gt; --template vue    这样，大体的框架就搭建好了，还需要按照终端上的指示行动 123cd testnpm installnpm run dev  最后会指示一个本地端口，用于打开一个HelloWorld网页">
+    <meta name="description" content="JavaScript提要变量与函数变量声明有3种    变量声明 描述    const 定义常量   let 局部变量，只在该大括号内生效   var 具有函数作用域   变量类型有多种    类型 示例    number var x &#x3D; 15   string var s &#x3D; &quot;RuiRui&quot;   boolean var b &#x3D; false   object.Array">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue-3 的使用">
 <meta property="og:url" content="http://example.com/2025/03/04/vue3/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="环境构建本篇中仅介绍Vite配置vue的方法（确保已经安装了npm）在项目所在的文件夹下打开命令行，输入 1npm create vite@latest &lt;name&gt; --template vue    这样，大体的框架就搭建好了，还需要按照终端上的指示行动 123cd testnpm installnpm run dev  最后会指示一个本地端口，用于打开一个HelloWorld网页">
+<meta property="og:description" content="JavaScript提要变量与函数变量声明有3种    变量声明 描述    const 定义常量   let 局部变量，只在该大括号内生效   var 具有函数作用域   变量类型有多种    类型 示例    number var x &#x3D; 15   string var s &#x3D; &quot;RuiRui&quot;   boolean var b &#x3D; false   object.Array">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2025/03/04/vue3/config1.png">
 <meta property="og:image" content="http://example.com/2025/03/04/vue3/config2.png">
@@ -31,10 +31,11 @@
 <meta property="og:image" content="http://example.com/2025/03/04/vue3/v-on.png">
 <meta property="og:image" content="http://example.com/2025/03/04/vue3/v-model.png">
 <meta property="article:published_time" content="2025-03-04T03:02:54.000Z">
-<meta property="article:modified_time" content="2025-03-10T08:31:37.891Z">
+<meta property="article:modified_time" content="2025-03-13T07:00:55.243Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="前端">
 <meta property="article:tag" content="vue">
+<meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2025/03/04/vue3/config1.png">
   
@@ -242,7 +243,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          2.7k 字
         
       </span>
     
@@ -286,7 +287,224 @@
             
               <div class="markdown-body">
                 
-                <h2 id="环境构建"><a href="#环境构建" class="headerlink" title="环境构建"></a>环境构建</h2><p>本篇中仅介绍Vite配置vue的方法（确保已经安装了npm）<br>在项目所在的文件夹下打开命令行，输入</p>
+                <h2 id="JavaScript提要"><a href="#JavaScript提要" class="headerlink" title="JavaScript提要"></a>JavaScript提要</h2><h3 id="变量与函数"><a href="#变量与函数" class="headerlink" title="变量与函数"></a>变量与函数</h3><p>变量声明有3种</p>
+<table>
+<thead>
+<tr>
+<th>变量声明</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>const</code></td>
+<td>定义常量</td>
+</tr>
+<tr>
+<td><code>let</code></td>
+<td>局部变量，只在该大括号内生效</td>
+</tr>
+<tr>
+<td><code>var</code></td>
+<td>具有函数作用域</td>
+</tr>
+</tbody></table>
+<p>变量类型有多种</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>number</code></td>
+<td><code>var x = 15</code></td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td><code>var s = &quot;RuiRui&quot;</code></td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>var b = false</code></td>
+</tr>
+<tr>
+<td><code>object.Array</code></td>
+<td><code>var a = new Array(1, 2, 3)</code> <code>var a = [1, 2, 3]</code></td>
+</tr>
+<tr>
+<td><code>object</code></td>
+<td><code>var person = &#123;name: RuiRui, age: 19, id: 10&#125;</code></td>
+</tr>
+<tr>
+<td><code>undefined</code></td>
+<td><code>var i</code></td>
+</tr>
+<tr>
+<td><code>null</code></td>
+<td><code>var i = null</code></td>
+</tr>
+</tbody></table>
+<p><strong>注解</strong></p>
+<ol>
+<li><p>也可以使用 “<strong>` `</strong>“字符生成字符串模板，在字符串模板中使用 <code>$&#123;variable&#125;</code> 插入变量</p>
+</li>
+<li><p>可以使用<code>typeof</code>方法查看变量的数据类型</p>
+</li>
+<li><p>函数使用<code>function</code>声明</p>
+</li>
+<li><p>比较用<code>==</code>，严格比较（值和类型都相等）用<code>===</code>，严格不等于（值和类型至少有一个不相等）用<code>!==</code></p>
+</li>
+</ol>
+<h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><p>术语为HTML的DOM事件。以下为常用的事件</p>
+<table>
+  <tbody>
+    <tr><th>事件</th> <th>描述</th></tr>
+    <tr><td>onchange</td><td> HTML 元素改变</td></tr>
+    <tr><td>onclick</td><td>用户点击 HTML 元素</td></tr>
+    <tr><td>onmouseover</td><td>鼠标指针移动到指定的元素上时发生</td></tr>
+    <tr><td>onmouseout</td><td>用户从一个 HTML 元素上移开鼠标时发生</td></tr>
+    <tr><td>onkeydown</td><td>用户按下键盘按键</td></tr>
+    <tr><td>onload</td><td>浏览器已完成页面的加载</td></tr>
+</tbody>
+</table>
+
+<p>更多事件可以点击<a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/dom-obj-event.html">这里</a></p>
+<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>使用<code>/    /</code>框住正则表达式</p>
+<p>后面可以添加<strong>修饰符</strong></p>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i</td>
+<td>大小写不敏感匹配</td>
+</tr>
+<tr>
+<td>g</td>
+<td>全局匹配，查找所有匹配</td>
+</tr>
+<tr>
+<td>m</td>
+<td>多行匹配</td>
+</tr>
+</tbody></table>
+<p><strong>括号</strong>用于查找某个范围内的字符</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[abc]</code></td>
+<td>查找方括号内任何字符</td>
+</tr>
+<tr>
+<td><code>[^abc]</code></td>
+<td>查找集合内的任何字符</td>
+</tr>
+<tr>
+<td><code>[0-9]</code></td>
+<td>查找0-9内的数字</td>
+</tr>
+<tr>
+<td><code>[A-Z]</code></td>
+<td>查找任何大写字符</td>
+</tr>
+<tr>
+<td><code>(r|g|b)</code></td>
+<td>查找任意指定选项</td>
+</tr>
+</tbody></table>
+<p><strong>元字符</strong>表示特殊含义</p>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>\d</code></td>
+<td>查找数字</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>查找数字、字母和下划线</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>查找空白字符</td>
+</tr>
+<tr>
+<td><code>\b</code></td>
+<td>查找空白边界</td>
+</tr>
+<tr>
+<td><code>\uxxxx</code></td>
+<td>查找十六进制Unicode字符</td>
+</tr>
+</tbody></table>
+<p><strong>量词</strong>表示字符的次数</p>
+<table>
+<thead>
+<tr>
+<th>量词</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>n+</code></td>
+<td>包含至少一个n的字符串</td>
+</tr>
+<tr>
+<td><code>n*</code></td>
+<td>除只包含一个外全部包含</td>
+</tr>
+<tr>
+<td><code>n?</code></td>
+<td>除包含多个外全部包含</td>
+</tr>
+<tr>
+<td><code>n&#123;X&#125;</code> <code>n&#123;X,&#125;</code> <code>n&#123;X,Y&#125;</code></td>
+<td>包含X个   至少包含X个   包含个数在[X, Y]之间</td>
+</tr>
+<tr>
+<td><code>n$</code></td>
+<td>结尾为n时匹配</td>
+</tr>
+<tr>
+<td><code>^n</code></td>
+<td>开头为n时匹配</td>
+</tr>
+<tr>
+<td><code>?=n</code></td>
+<td>紧接n前的字符串</td>
+</tr>
+<tr>
+<td><code>?!n</code></td>
+<td>不紧接n前的字符串</td>
+</tr>
+</tbody></table>
+<div class="note note-info">
+            <p>多数情况下，元字符的大写表示寻找不符合的字符</p>
+          </div>
+
+<p>更多规则可以点击<a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-obj-regexp.html">这里</a></p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包通常在以下场景中形成：</p>
+<ul>
+<li>当一个函数被定义在另一个函数内部时，内部函数可以访问外部函数的变量。</li>
+<li>当内部函数被外部函数返回时，内部函数可以继续访问外部函数的变量，即使外部函数的执行上下文已经结束。</li>
+</ul>
+<p>闭包的典型结构如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">outerFunction</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">let</span> outerVariable = <span class="hljs-string">&quot;I am from outer function&quot;</span>;<br><br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">innerFunction</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(outerVariable); <span class="hljs-comment">// 访问外部函数的变量</span><br>    &#125;<br><br>    <span class="hljs-keyword">return</span> innerFunction; <span class="hljs-comment">// 返回内部函数</span><br>&#125;<br><br><span class="hljs-keyword">const</span> myClosure = <span class="hljs-title function_">outerFunction</span>(); <span class="hljs-comment">// myClosure 是闭包</span><br><span class="hljs-title function_">myClosure</span>(); <span class="hljs-comment">// 输出: I am from outer function</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="环境构建"><a href="#环境构建" class="headerlink" title="环境构建"></a>环境构建</h2><p>本篇中仅介绍Vite配置vue的方法（确保已经安装了npm）<br>在项目所在的文件夹下打开命令行，输入</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm create vite@latest &lt;name&gt; --template vue<br></code></pre></td></tr></table></figure>
 
 <p><img src="/2025/03/04/vue3/config1.png" srcset="/img/loading.gif" lazyload alt="选择vue"></p>
@@ -465,6 +683,8 @@
       
         <a href="/tags/vue/" class="print-no-link">#vue</a>
       
+        <a href="/tags/JavaScript/" class="print-no-link">#JavaScript</a>
+      
     </div>
   
 </div>
@@ -512,6 +732,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2025/03/10/mall-front/" title="vue实践之商场app">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vue实践之商场app</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

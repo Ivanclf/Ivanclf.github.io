@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://example.com/2025/03/04/vue3/v-on.png">
 <meta property="og:image" content="http://example.com/2025/03/04/vue3/v-model.png">
 <meta property="article:published_time" content="2025-03-04T03:02:54.000Z">
-<meta property="article:modified_time" content="2025-03-13T07:00:55.243Z">
+<meta property="article:modified_time" content="2025-03-20T08:16:46.623Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="前端">
 <meta property="article:tag" content="vue">
@@ -243,7 +243,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          3.7k 字
         
       </span>
     
@@ -345,7 +345,7 @@
 <td><code>var i = null</code></td>
 </tr>
 </tbody></table>
-<p><strong>注解</strong></p>
+<p><strong>注解：</strong></p>
 <ol>
 <li><p>也可以使用 “<strong>` `</strong>“字符生成字符串模板，在字符串模板中使用 <code>$&#123;variable&#125;</code> 插入变量</p>
 </li>
@@ -353,9 +353,15 @@
 </li>
 <li><p>函数使用<code>function</code>声明</p>
 </li>
+<li><p>可以使用箭头<code>=&gt;</code>函数来简化操作</p>
+</li>
 <li><p>比较用<code>==</code>，严格比较（值和类型都相等）用<code>===</code>，严格不等于（值和类型至少有一个不相等）用<code>!==</code></p>
 </li>
 </ol>
+<div class="note note-success">
+            <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 传统函数</span><br><span class="hljs-keyword">const</span> square = <span class="hljs-keyword">function</span>(<span class="hljs-params">x</span>) &#123;<br>    <span class="hljs-keyword">return</span> x * x;<br>&#125;;<br><br><span class="hljs-comment">// 箭头函数</span><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">square</span> = x =&gt; x * x;<br></code></pre></td></tr></table></figure><p>箭头函数形式简单适合作为回调函数，也没有<code>this</code></p>
+          </div>
+
 <h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><p>术语为HTML的DOM事件。以下为常用的事件</p>
 <table>
   <tbody>
@@ -504,7 +510,12 @@
 <p>闭包的典型结构如下</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">outerFunction</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">let</span> outerVariable = <span class="hljs-string">&quot;I am from outer function&quot;</span>;<br><br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">innerFunction</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(outerVariable); <span class="hljs-comment">// 访问外部函数的变量</span><br>    &#125;<br><br>    <span class="hljs-keyword">return</span> innerFunction; <span class="hljs-comment">// 返回内部函数</span><br>&#125;<br><br><span class="hljs-keyword">const</span> myClosure = <span class="hljs-title function_">outerFunction</span>(); <span class="hljs-comment">// myClosure 是闭包</span><br><span class="hljs-title function_">myClosure</span>(); <span class="hljs-comment">// 输出: I am from outer function</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="环境构建"><a href="#环境构建" class="headerlink" title="环境构建"></a>环境构建</h2><p>本篇中仅介绍Vite配置vue的方法（确保已经安装了npm）<br>在项目所在的文件夹下打开命令行，输入</p>
+<h2 id="环境构建"><a href="#环境构建" class="headerlink" title="环境构建"></a>环境构建</h2><h3 id="cdn"><a href="#cdn" class="headerlink" title="cdn"></a>cdn</h3><p>在 <code>&lt;script&gt;</code> 标签中加入src路径</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/vue@3/dist/vue.global.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="ES模板"><a href="#ES模板" class="headerlink" title="ES模板"></a>ES模板</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">  <span class="hljs-keyword">import</span> &#123; createApp, ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;https://unpkg.com/vue@3/dist/vue.esm-browser.js&#x27;</span></span><br><span class="language-javascript">  ...</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="vite"><a href="#vite" class="headerlink" title="vite"></a>vite</h3><p>在项目所在的文件夹下打开命令行，输入</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm create vite@latest &lt;name&gt; --template vue<br></code></pre></td></tr></table></figure>
 
 <p><img src="/2025/03/04/vue3/config1.png" srcset="/img/loading.gif" lazyload alt="选择vue"></p>
@@ -519,6 +530,12 @@
 
 <p><img src="/2025/03/04/vue3/config3.png" srcset="/img/loading.gif" lazyload alt="最后就像这样子"></p>
 <h2 id="大体结构"><a href="#大体结构" class="headerlink" title="大体结构"></a>大体结构</h2><p>在默认生成的代码中，App.vue的格式与HTML大致相同。其中，<code>\&lt;template\&gt;</code>标签定义组件的HTML结构，<code>\&lt;script\&gt;</code>标签定义组件的逻辑部分，<code>\&lt;style\&gt;</code>标签定义组件的样式。<br>Vue3中的应用是通过使用<code>createApp</code>函数来创建的，并必须在调用了<code>.mount()</code>方法后才会渲染出来。但这些都包含在文件<code>main.js</code>中，无需操心</p>
+<p><strong>注释</strong></p>
+<ul>
+<li><code>\&lt;style scoped\&gt;</code>: 给打包后自动给组件内的 CSS 加上作用域，避免不同组件之间相同的 CSS 类互相干扰</li>
+<li><code>export</code>即导出，<code>import</code>即导入，这两个是JavaScript ES6引入的新特性，用于实现模块化。每一个 Vue 组件又必须有<code>export</code>（App.vue也不例外，它被main.js引入）。毕竟组件通过<code>export</code>导出一个配置对象，虽然不一定是<code>export default &#123; ... &#125;</code>的形式，也可以是命名导出，但总之必须<code>export</code>出去。<code>import</code>不是必须的，毕竟如果功能简单或者其他什么因素，也不需要用到别的组件</li>
+<li>其中的<code>$mount(App)</code>用于将vue元素挂载到DOM元素上</li>
+</ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#app&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
 <h2 id="模板语法"><a href="#模板语法" class="headerlink" title="模板语法"></a>模板语法</h2><h3 id="Mustache插值"><a href="#Mustache插值" class="headerlink" title="Mustache插值"></a>Mustache插值</h3><p>可以通过两个大括号<code>&#123;&#123;   &#125;&#125;</code>进行直接插值</p>
@@ -577,6 +594,13 @@
 <td>去掉输入内容前后的空格</td>
 </tr>
 </tbody></table>
+<h2 id="组合式api"><a href="#组合式api" class="headerlink" title="组合式api"></a>组合式api</h2><p>组合式api是vue3中一种新的api形式，相比以前的选项式api更为灵活，以下两个实例可以看出二者的差别</p>
+<p>选项式api</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;<br>  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> &#123;<br>      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span><br>    &#125;;<br>  &#125;,<br>  <span class="hljs-attr">methods</span>: &#123;<br>    <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;<br>    &#125;<br>  &#125;,<br>  <span class="hljs-attr">computed</span>: &#123;<br>    <span class="hljs-title function_">doubleCount</span>(<span class="hljs-params"></span>) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;<br>    &#125;<br>  &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>组合式api</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; ref, computed &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;<br>  <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">const</span> count = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_">increment</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>      count.<span class="hljs-property">value</span>++;<br>    &#125;;<br><br>    <span class="hljs-keyword">const</span> doubleCount = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>      <span class="hljs-keyword">return</span> count.<span class="hljs-property">value</span> * <span class="hljs-number">2</span>;<br>    &#125;);<br><br>    <span class="hljs-keyword">return</span> &#123;<br>      count,<br>      increment,<br>      doubleCount<br>    &#125;;<br>  &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
 <h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2><table>
 <thead>
 <tr>
@@ -646,6 +670,44 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; createApp &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App.vue&#x27;</span>;<br><span class="hljs-keyword">import</span> router <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./router/router.js&#x27;</span>;<br><br><span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>).<span class="hljs-title function_">use</span>(router).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#app&#x27;</span>);<br></code></pre></td></tr></table></figure>
 
 <p>注意需要将路由器实例引入进来，以及<code>use()</code>需要在<code>mount()</code>之前调用</p>
+<h2 id="Axios"><a href="#Axios" class="headerlink" title="Axios"></a>Axios</h2><p>Axios用于向后端服务器发送请求</p>
+<h3 id="post请求"><a href="#post请求" class="headerlink" title="post请求"></a>post请求</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">axios</span>(&#123;<br>  <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;post&#x27;</span>,<br>  <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/...&#x27;</span>,<br>  <span class="hljs-attr">data</span>: &#123;<br>    ...<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h3 id="get请求"><a href="#get请求" class="headerlink" title="get请求"></a>get请求</h3><p>这是默认的axios请求方式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">axios</span>(<span class="hljs-string">&#x27;/user/12345&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>也可以另外配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">axios</span>(&#123;<br>  <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;get&#x27;</span>,<br>  <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/...&#x27;</span>,<br>&#125;)<br>  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span>&#123;<br>    ...<br>  &#125;)<br>  .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> &#123;<br>    ...<br>  &#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="Pinia"><a href="#Pinia" class="headerlink" title="Pinia"></a>Pinia</h2><p>在vue3后，我们一般使用Pinia做专属动态管理库<br><a target="_blank" rel="noopener" href="https://pinia.vuejs.org/zh/introduction.html">点击进入Pinia的官方文档</a></p>
+<h3 id="store是什么"><a href="#store是什么" class="headerlink" title="store是什么"></a>store是什么</h3><p>store是一个保存状态和业务逻辑的实体，它承载着全局状态，它有3个概念<code>state</code> <code>getter</code>和<code>action</code>，我们可以假设这些概念相当于组件中的 <code>data</code>、 <code>computed</code>和<code>methods</code>。<br>一个Store应该包含可以在整个应用中访问的数据。这包括在许多地方使用的数据，例如显示在导航栏中的用户信息，以及需要通过页面保存的数据，例如一个非常复杂的多步骤表单。</p>
+<div class="note note-success">
+            <p>通俗地说，store就是一个适用于全局的组件</p>
+          </div>
+
+<h3 id="定义store及其属性"><a href="#定义store及其属性" class="headerlink" title="定义store及其属性"></a>定义store及其属性</h3><h4 id="定义store"><a href="#定义store" class="headerlink" title="定义store"></a>定义store</h4><p>store用<code>defineStore()</code>定义，它的第一个参数要求是一个独一无二的名字，该名字最好是 <em>use…</em> 形式的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; defineStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;pinia&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useAlertsStore = <span class="hljs-title function_">defineStore</span>(<span class="hljs-string">&#x27;counter&#x27;</span>, &#123;<br><br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>在内部方法中传入一个带有<code>state</code>、<code>actions</code>与<code>getters</code>属性的 Option 对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useCounterStore = <span class="hljs-title function_">defineStore</span>(<span class="hljs-string">&#x27;counter&#x27;</span>, &#123;<br>  <span class="hljs-attr">state</span>: <span class="hljs-function">() =&gt;</span> (&#123; <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Eduardo&#x27;</span> &#125;),<br>  <span class="hljs-attr">getters</span>: &#123;<br>    <span class="hljs-attr">doubleCount</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> state.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>,<br>  &#125;,<br>  <span class="hljs-attr">actions</span>: &#123;<br>    <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++<br>    &#125;,<br>  &#125;,<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>由于上述所说Option属性与组件属性的相似性，也可以直接代替</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useCounterStore = <span class="hljs-title function_">defineStore</span>(<span class="hljs-string">&#x27;counter&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> count = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)<br>  <span class="hljs-keyword">const</span> doubleCount = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> count.<span class="hljs-property">value</span> * <span class="hljs-number">2</span>)<br>  <span class="hljs-keyword">function</span> <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) &#123;<br>    count.<span class="hljs-property">value</span>++<br>  &#125;<br><br>  <span class="hljs-keyword">return</span> &#123; count, doubleCount, increment &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h4 id="访问state"><a href="#访问state" class="headerlink" title="访问state"></a>访问state</h4><p>默认情况下，可以直接对state进行读写</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> store = <span class="hljs-title function_">useStore</span>()<br>store.<span class="hljs-property">count</span>++<br></code></pre></td></tr></table></figure>
+
+<p><strong>注解：</strong></p>
+<ol>
+<li><p>调用<code>store.$reset()</code>将state重置为初始值</p>
+</li>
+<li><p>调用<code>store.$patch()</code>在同一时间更改多个属性，但某些变更可能会很难实现</p>
+</li>
+</ol>
+<h4 id="action"><a href="#action" class="headerlink" title="action"></a>action</h4><p>action可以异步操作</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">actions</span>: &#123;<br>  <span class="hljs-keyword">async</span> <span class="hljs-title function_">registerUser</span>(<span class="hljs-params">login, password</span>) &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-property">userData</span> = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(&#123; login, password &#125;)<br>      <span class="hljs-title function_">showTooltip</span>(<span class="hljs-string">`Welcome back <span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.userData.name&#125;</span>!`</span>)<br>    &#125; <span class="hljs-keyword">catch</span> (error) &#123;<br>      <span class="hljs-title function_">showTooltip</span>(error)<br>      <span class="hljs-comment">// 让表单组件显示错误</span><br>      <span class="hljs-keyword">return</span> error<br>    &#125;<br>  &#125;,<br>&#125;,<br></code></pre></td></tr></table></figure>
+
+<p>其中，<code>async</code>将函数标记为异步函数。<code>await</code>关键字将暂停函数执行直到该post请求被解决或拒绝</p>
 
                 
               </div>

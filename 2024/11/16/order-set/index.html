@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2024/11/16/order-set/vi-vim-cheat-sheet-sch.gif">
 <meta property="article:published_time" content="2024-11-16T07:37:30.000Z">
-<meta property="article:modified_time" content="2025-03-03T07:16:05.184Z">
+<meta property="article:modified_time" content="2025-03-26T12:41:18.305Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="速查">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          1.3k 字
         
       </span>
     
@@ -467,7 +467,7 @@
 <td>$\smallsetminus$</td>
 <td><code>\smallsetminus</code></td>
 <td></td>
-<td><code> </code></td>
+<td>&#96;&#96;</td>
 </tr>
 <tr>
 <td>$\lbrace$</td>
@@ -624,7 +624,7 @@
 </tr>
 <tr>
 <td>$a\ b$</td>
-<td><code>\ </code></td>
+<td><code>\</code></td>
 <td>空出一格</td>
 </tr>
 <tr>
@@ -784,6 +784,10 @@
 <td>编译C语言文件<code>example.c</code>，生成可执行文件<code>example</code></td>
 </tr>
 </tbody></table>
+<div class="note note-info">
+            <p>pthread相关操作需要显示连接POSIX线程库</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc example.c -o example -pthread<br></code></pre></td></tr></table></figure>
+          </div>
+
 <h3 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h3><table>
 <thead>
 <tr>
@@ -828,6 +832,33 @@
 <td>退出</td>
 </tr>
 </tbody></table>
+<h3 id="makefile与内核开发"><a href="#makefile与内核开发" class="headerlink" title="makefile与内核开发"></a>makefile与内核开发</h3><div class="note note-success">
+            <p>该节以下内容均由copilot生成</p>
+          </div>
+
+<p>在内核开发中，通常没有<code>main</code>函数，而是通过内核模块的入口函数（如<code>init_module</code>或<code>module_init</code>宏定义的函数）来启动。以下是如何使用<code>makefile</code>编译和加载内核模块的步骤：</p>
+<ol>
+<li><p><strong>确保<code>Makefile</code>正确配置</strong><br> 一个典型的<code>Makefile</code>可能如下：</p>
+ <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs makefile">obj-m += example.o<br><br><span class="hljs-section">all:</span><br>    make -C /lib/modules/<span class="hljs-variable">$(<span class="hljs-built_in">shell</span> uname -r)</span>/build M=<span class="hljs-variable">$(PWD)</span> modules<br><br><span class="hljs-section">clean:</span><br>    make -C /lib/modules/<span class="hljs-variable">$(<span class="hljs-built_in">shell</span> uname -r)</span>/build M=<span class="hljs-variable">$(PWD)</span> clean<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>编译模块</strong><br> 在终端中运行以下命令：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>加载模块</strong><br> 使用<code>insmod</code>命令加载模块：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo insmod example.ko<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看日志</strong><br> 使用<code>dmesg</code>查看模块加载的日志信息：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dmesg<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>卸载模块</strong><br> 使用<code>rmmod</code>命令卸载模块：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo rmmod example<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>清理生成文件</strong><br> 使用<code>make clean</code>清理编译生成的文件：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make clean<br></code></pre></td></tr></table></figure></li>
+</ol>
+<div class="note note-warning">
+            <p>确保已安装内核头文件和开发工具，并具有加载内核模块的权限（通常需要<code>sudo</code>）。</p>
+          </div>
 
                 
               </div>

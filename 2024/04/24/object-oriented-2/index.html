@@ -16,13 +16,15 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="继承与多态是面向对象中类管理最核心的部分之一，Java和C++在这方面的处理有着更大的差别。 继承JavaJava继承类的一般格式为 1234567class parent &#123;    ...&#125;class child extends parent &#123;    ...&#125;  Java中类的继承有以下特征：  Java中只支持继承一个类（但接口可以调用多个）。  重写">
+<meta property="og:type" content="article">
 <meta property="og:title" content="面向对象 - 继承与多态">
 <meta property="og:url" content="http://example.com/2024/04/24/object-oriented-2/index.html">
 <meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="继承与多态是面向对象中类管理最核心的部分之一，Java和C++在这方面的处理有着更大的差别。 继承JavaJava继承类的一般格式为 1234567class parent &#123;    ...&#125;class child extends parent &#123;    ...&#125;  Java中类的继承有以下特征：  Java中只支持继承一个类（但接口可以调用多个）。  重写">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-24T09:40:59.000Z">
-<meta property="article:modified_time" content="2025-05-03T12:39:15.434Z">
+<meta property="article:modified_time" content="2025-05-03T16:49:23.439Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="面向对象">
@@ -233,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          717 字
         
       </span>
     
@@ -277,7 +279,99 @@
             
               <div class="markdown-body">
                 
-                
+                <p>继承与多态是面向对象中类管理最核心的部分之一，Java和C++在这方面的处理有着更大的差别。</p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><p>Java继承类的一般格式为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">parent</span> &#123;<br>    ...<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">parent</span> &#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Java中类的继承有以下特征：</p>
+<ul>
+<li><p>Java中只支持继承一个类（但接口可以调用多个）。</p>
+</li>
+<li><p>重写时，直接写上和父类中对应方法一个名字和参数值的方法就行。</p>
+</li>
+<li><p>要访问父类的方法或者构造方法时，使用super关键字。</p>
+</li>
+<li><p>父类的私有成员（<code>private</code>和包外的<code>default</code>）不能被访问。</p>
+</li>
+<li><p><code>class</code>前有关键字<code>final</code>修饰时不能被被继承，方法前有关键字<code>final</code>时不能被重写。</p>
+</li>
+</ul>
+<p>Java还提供抽象类，适用于多个相关类有共同基础代码且需扩展场景的情况。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>    <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">f1</span><span class="hljs-params">()</span>;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">f2</span><span class="hljs-params">()</span> &#123;<br>        ...<br>    &#125;<br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>具有以下特征：</p>
+<ul>
+<li><p>本质上也是类，只是多个类的共同父类，因此也可以用权限修饰符，也有构造方法（用于子类实例化时初始化成员变量），子类也只能继承一个抽象类。</p>
+</li>
+<li><p>抽象类自身不能被实例化。</p>
+</li>
+<li><p>抽象类可以带抽象方法（没有实现，子类必须重写），也可以有具体实现。</p>
+</li>
+</ul>
+<p>Java还提供比抽象类更为抽象的接口，适用于定义规范和契约，适应多实现的解耦场景。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">B</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">f1</span><span class="hljs-params">()</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">f2</span><span class="hljs-params">()</span>;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">B</span> &#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>具有以下特征：</p>
+<ul>
+<li><p>在Java8前，接口方法全抽象，不能有实现。Java8后可有默认实现（用<code>default</code>修饰）和静态方法。</p>
+</li>
+<li><p>接口无构造函数，成员变量默认为<code>public static final</code>。</p>
+</li>
+<li><p>接口可以多重实现，使用的关键字为<code>implements</code>而非<code>extends</code>。</p>
+</li>
+</ul>
+<h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><p>C++继承的一般格式为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">base1</span> &#123;<br>    ...<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">base2</span> &#123;<br>    ...<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">derived</span> : <span class="hljs-keyword">public</span> base1, <span class="hljs-keyword">public</span> base2 &#123;<br>    ...<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>特征如下</p>
+<ul>
+<li>继承方式有3种：公有继承（<code>public</code>）、保护继承（<code>protected</code>）和私有继承（<code>private</code>），需要在继承的类前指明。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>继承方式</th>
+<th>公有成员</th>
+<th>受保护成员</th>
+<th>私有成员</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>public</code></td>
+<td><code>public</code></td>
+<td><code>protected</code></td>
+<td>无法访问</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td><code>protected</code></td>
+<td><code>protected</code></td>
+<td>无法访问</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td><code>private</code></td>
+<td><code>private</code></td>
+<td>无法访问</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>支持多重继承。当两个基类有同名成员时，需要显式指定基类名。</p>
+</li>
+<li><p>重写较为复杂，需要在基类中使用<code>virtual</code>关键字声明方法。</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Base</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span> </span>&#123;<br>        ...<br>    &#125;<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Derived</span> : <span class="hljs-keyword">public</span> Base &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123;<br>        ...<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<div class="note note-info">
+            <p>从C++11开始，可以使用<code>override</code>关键字明确表示该方法是在重写基类的方法。</p>
+          </div>
+
+<ul>
+<li>若需要调用重写前的方法，需要显式指定基类名。</li>
+</ul>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>多态可以理解为对某方法在多个类中的多次重写。在Java中直接在多个子类中重写即可，C++中也需要在基类中使用<code>virtual</code>关键字声明虚函数。换句话说，Java中的每一个方法都可以看作是虚函数。</p>
+
                 
               </div>
             

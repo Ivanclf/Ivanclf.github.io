@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2025-05-08T11:43:03.331Z</updated>
+  <updated>2025-05-13T16:34:42.811Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Modern Operating System - Chapter 1</title>
+    <link href="http://example.com/2025/05/14/OS/"/>
+    <id>http://example.com/2025/05/14/OS/</id>
+    <published>2025-05-13T16:31:17.000Z</published>
+    <updated>2025-05-13T16:34:42.811Z</updated>
+    
+    <content type="html"><![CDATA[<div class="note note-success">            <p>As the final exam use English as its language, I shall try my best to edit it in English.</p>          </div>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;div class=&quot;note note-success&quot;&gt;
+            &lt;p&gt;As the final exam use English as its language, I shall try my best to edit it in English.&lt;/p&gt;</summary>
+      
+    
+    
+    
+    <category term="日常" scheme="http://example.com/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+    <category term="日常" scheme="http://example.com/tags/%E6%97%A5%E5%B8%B8/"/>
+    
+    <category term="复习" scheme="http://example.com/tags/%E5%A4%8D%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>vue实践之商场app - 结算、支付与会员中心</title>
@@ -395,9 +422,9 @@
     <category term="算法" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-    <category term="算法" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
     <category term="Java" scheme="http://example.com/tags/Java/"/>
+    
+    <category term="算法" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -540,37 +567,11 @@
     <category term="前端" scheme="http://example.com/categories/%E5%89%8D%E7%AB%AF/"/>
     
     
+    <category term="CSS" scheme="http://example.com/tags/CSS/"/>
+    
     <category term="前端" scheme="http://example.com/tags/%E5%89%8D%E7%AB%AF/"/>
     
     <category term="速查" scheme="http://example.com/tags/%E9%80%9F%E6%9F%A5/"/>
-    
-    <category term="CSS" scheme="http://example.com/tags/CSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>http协议杂记</title>
-    <link href="http://example.com/2024/08/01/http-leadIn/"/>
-    <id>http://example.com/2024/08/01/http-leadIn/</id>
-    <published>2024-08-01T05:18:04.000Z</published>
-    <updated>2024-09-09T13:55:59.135Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="URL简述"><a href="#URL简述" class="headerlink" title="URL简述"></a>URL简述</h1><p>URL(Uniform Resource Locators)是统一资源定位器的简称，Web浏览器通过URL从Web服务器请求页面。其一般格式为：</p><figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs leaf">protocol :// hostname[:port] / path / [;parameters][?query]<span class="hljs-punctuation">#</span><span class="hljs-keyword">fragment</span><span class="hljs-params">([]中内容可省略)</span><br></code></pre></td></tr></table></figure><table><thead><tr><th>类型名</th><th>说明</th></tr></thead><tbody><tr><td>protocol(协议)</td><td>指定使用的传输协议。常用协议有<ul><li><code>file</code>本地计算机文件</li><li><code>http</code>超文本传输协议，不加密的普通网页</li><li><code>https</code>安全网页</li><li><code>ftp</code>文件传输协议</li></ul></td></tr><tr><td>hostname(主机名)</td><td>存放资源的DNS(域名服务器)主机名或IP地址</td></tr><tr><td>port(端口号)</td><td>省略时使用协议的默认端口号</td></tr><tr><td>path(路径)</td><td>表示文件地址</td></tr><tr><td>;parameters(参数)</td><td>指定特定参数的可选项</td></tr><tr><td>?query(查询)</td><td>给一些动态网页传递多个参数，参数间一般用”&amp;”隔开，参数的名和值用”&#x3D;”隔开。</td></tr><tr><td>fragment</td><td>信息片段</td></tr></tbody></table><h1 id="MIME简述"><a href="#MIME简述" class="headerlink" title="MIME简述"></a>MIME简述</h1><p>媒体类型（也通常称为多用途互联网邮件扩展或 MIME 类型）是一种标准，用来表示文档、文件或一组数据的性质和格式。浏览器通常通过MIME类型而非文件扩展名来决定如何处理URL。<br>其格式为：<br><strong><code>type/subtype</code></strong> ，即一个类型和一个子类型。类型分为独立类型和多部粉类型，多部份类型可分成不同部分的独立文件。以下是一些常用的类型。</p><h2 id="常用类型"><a href="#常用类型" class="headerlink" title="常用类型"></a>常用类型</h2><h3 id="application"><a href="#application" class="headerlink" title="application"></a>application</h3><p>不明确类型。</p><table><thead><tr><th>类型名</th><th>说明</th></tr></thead><tbody><tr><td><code>application/octet-stream</code></td><td>二进制文件的默认值，浏览器一般不会自动执行</td></tr><tr><td><code>application/pks8</code></td><td>密钥</td></tr><tr><td><code>application/pdf</code></td><td>&#x2F;</td></tr><tr><td><code>application/zip</code></td><td>&#x2F;</td></tr></tbody></table><h3 id="text"><a href="#text" class="headerlink" title="text"></a>text</h3><p>纯文本数据。</p><table><thead><tr><th>类型名</th><th>说明</th></tr></thead><tbody><tr><td><code>text/plain</code></td><td>文本文件的默认值</td></tr><tr><td><code>text/css</code></td><td>&#x2F;</td></tr><tr><td><code>text/html</code></td><td>&#x2F;</td></tr><tr><td><code>text/javascript</code></td><td>&#x2F;</td></tr></tbody></table><h3 id="image"><a href="#image" class="headerlink" title="image"></a>image</h3><p>图像数据。</p><table><thead><tr><th>类型名</th><th>说明</th></tr></thead><tbody><tr><td><code>image/apng</code></td><td>&#x2F;</td></tr><tr><td><code>image/gif</code></td><td>&#x2F;</td></tr><tr><td><code>image/jpeg</code></td><td>&#x2F;</td></tr><tr><td><code>image/png</code></td><td>&#x2F;</td></tr><tr><td><code>image/svg+xml</code></td><td>矢量图</td></tr><tr><td><code>image/webp</code></td><td>&#x2F;</td></tr></tbody></table><h3 id="audio-video"><a href="#audio-video" class="headerlink" title="audio &#x2F; video"></a>audio &#x2F; video</h3><p>音视频数据。</p><table><thead><tr><th>类型名</th><th>说明</th></tr></thead><tbody><tr><td><code>audio/wave</code> <code>audio/wav</code> <code>audio/x-wav</code> <code>audio/x-pn-wav</code></td><td>使用WAVE容器的音频文件</td></tr><tr><td><code>audio/webm</code><br><code>video/webm</code></td><td>使用WebM容器的音视频文件</td></tr><tr><td><code>audio/ogg</code><br><code>video/ogg</code><br><code>application/ogg</code></td><td>使用OGG容器的音视频文件</td></tr></tbody></table><h3 id="mutipart"><a href="#mutipart" class="headerlink" title="mutipart"></a>mutipart</h3><p>由多个部件组成的数据。</p><table><thead><tr><th>类型名</th><th>说明</th></tr></thead><tbody><tr><td><code>mutipart/form-data</code></td><td>通过HTML表单从浏览器发送信息给服务器</td></tr><tr><td><code>mutipart/byteranges</code></td><td>把部分响应报文发送回浏览器</td></tr></tbody></table><h1 id="HTTP方法"><a href="#HTTP方法" class="headerlink" title="HTTP方法"></a>HTTP方法</h1><p>HTTP 定义了一组请求方法，以表明要对给定资源执行的操作。指示针对给定资源要执行的期望动作。</p><table><thead><tr><th>方法名</th><th>说明</th></tr></thead><tbody><tr><td><code>get</code></td><td>获取资源，请求一个指定资源的表示形式。用于请求已被URL识别的资源，常用于向服务器查询信息</td></tr><tr><td><code>post</code></td><td>传输实体文本</td></tr><tr><td><code>head</code></td><td>获得报文首部。获取和<code>get</code>请求相同的响应，但没有响应体</td></tr><tr><td><code>put</code></td><td>传输文件</td></tr><tr><td><code>delete</code></td><td>删除文件</td></tr><tr><td><code>options</code></td><td>询问支持的方法</td></tr><tr><td><code>trace</code></td><td>追踪路径</td></tr><tr><td><code>connect</code></td><td>使用隧道协议进行TCP通信</td></tr></tbody></table>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;URL简述&quot;&gt;&lt;a href=&quot;#URL简述&quot; class=&quot;headerlink&quot; title=&quot;URL简述&quot;&gt;&lt;/a&gt;URL简述&lt;/h1&gt;&lt;p&gt;URL(Uniform Resource Locators)是统一资源定位器的简称，Web浏览器通过URL从Web服</summary>
-      
-    
-    
-    
-    <category term="碎片知识" scheme="http://example.com/categories/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/"/>
-    
-    
-    <category term="前端" scheme="http://example.com/tags/%E5%89%8D%E7%AB%AF/"/>
-    
-    <category term="HTTP" scheme="http://example.com/tags/HTTP/"/>
     
   </entry>
   

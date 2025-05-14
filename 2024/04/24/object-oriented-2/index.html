@@ -24,7 +24,7 @@
 <meta property="og:description" content="继承与多态是面向对象中类管理最核心的部分之一，Java和C++在这方面的处理有着更大的差别。 继承JavaJava继承类的一般格式为 1234567class parent &#123;    ...&#125;class child extends parent &#123;    ...&#125;  Java中类的继承有以下特征：  Java中只支持继承一个类（但接口可以调用多个）。  重写">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-24T09:40:59.000Z">
-<meta property="article:modified_time" content="2025-05-04T06:40:35.972Z">
+<meta property="article:modified_time" content="2025-05-14T03:55:33.772Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="面向对象">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          717 字
+          799 字
         
       </span>
     
@@ -354,6 +354,9 @@
 <td>无法访问</td>
 </tr>
 </tbody></table>
+  <div class="note note-info">
+            <p>在private继承时，其private方式是对于外而言的，类内仍然可以访问基类中的public和protected成员。因此private继承和protected继承在效果上差距不是很大（在三次继承时会有差别）。</p>
+          </div>
 </li>
 <li><p>支持多重继承。当两个基类有同名成员时，需要显式指定基类名。</p>
 </li>
@@ -366,6 +369,8 @@
 </li>
 <li><p>若需要调用重写前的方法，需要显式指定基类名。</p>
 </li>
+<li><p>也支持抽象类，需要每一个方法都有<code>virtual</code>修饰</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>多态可以理解为对某方法在多个类中的多次重写。在Java中直接在多个子类中重写即可，C++中也需要在基类中使用<code>virtual</code>关键字声明虚函数。换句话说，Java中的每一个方法都可以看作是虚函数。</p>
 

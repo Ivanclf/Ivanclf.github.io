@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://example.com/2025/05/14/OS/2-43.png">
 <meta property="og:image" content="http://example.com/2025/05/14/OS/2-45.png">
 <meta property="article:published_time" content="2025-05-13T16:31:17.000Z">
-<meta property="article:modified_time" content="2025-05-21T13:12:57.396Z">
+<meta property="article:modified_time" content="2025-05-21T17:20:24.096Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="日常">
 <meta property="article:tag" content="复习">
@@ -246,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          1.5k 字
         
       </span>
     
@@ -478,14 +478,11 @@
 <p>Resources available</p>
 <p>$$<br>A\ (A_1,\ A_2,\ A_3,\ \dotso,\ A_m)<br>$$</p>
 <p>In particular, every resource is either allocated or is available. This observation is that</p>
-<p>$$<br>\displaystyle\sum^{n}<em>{i&#x3D;1}C</em>{ij}+A_j&#x3D;E_j<br>$$</p>
+<p>$$<br>\displaystyle\sum_{i&#x3D;1}^{n}C_{ij}+A_j&#x3D;E_j<br>$$</p>
 <p>Now we have two matrix, $C$, the <strong>current allocation matrix</strong>, and $R$, the <strong>request matrix</strong>. Each row of matrix indicates what one process needs.</p>
-<p>$$<br>\text{Current allocation matrix}<br>$$</p>
-<p>$$<br>\begin{bmatrix}<br>C_{11} &amp; C_{12} &amp; C_{13} &amp; \dotsm &amp; C_{1m}\\<br>C_{21} &amp; C_{22} &amp; C_{23} &amp; \dotsm &amp; C_{2m}\\<br>\vdots &amp; \vdots &amp; \vdots &amp;&amp; \vdots\\<br>C_{n1} &amp; C_{n2} &amp; C_{n3} &amp; \dotsm &amp; C_{nm}<br>\end{bmatrix}<br>$$</p>
-<p>Row $n$ is current allocation to process $n$.</p>
-<p>$$<br>\text{Resource matrix}<br>$$</p>
-<p>$$<br>\begin{bmatrix}<br>R_{11} &amp; R_{12} &amp; R_{13} &amp; \dotsm &amp; R_{1m}\\<br>R_{21} &amp; R_{22} &amp; R_{23} &amp; \dotsm &amp; R_{2m}\\<br>\vdots &amp; \vdots &amp; \vdots &amp;&amp; \vdots\\<br>R_{n1} &amp; R_{n2} &amp; R_{n3} &amp; \dotsm &amp; R_{nm}<br>\end{bmatrix}<br>$$</p>
-<p>Row $n$ is what process $n$ needs.</p>
+<p>$$<br>\begin{bmatrix}<br>C_{11} &amp; C_{12} &amp; C_{13} &amp; \dotsm &amp; C_{1m}\\<br>C_{21} &amp; C_{22} &amp; C_{23} &amp; \dotsm &amp; C_{2m}\\<br>\vdots &amp; \vdots &amp; \vdots &amp;&amp; \vdots\\<br>C_{n1} &amp; C_{n2} &amp; C_{n3} &amp; \dotsm &amp; C_{nm}<br>\end{bmatrix}<br>\quad \quad<br>\begin{bmatrix}<br>R_{11} &amp; R_{12} &amp; R_{13} &amp; \dotsm &amp; R_{1m}\\<br>R_{21} &amp; R_{22} &amp; R_{23} &amp; \dotsm &amp; R_{2m}\\<br>\vdots &amp; \vdots &amp; \vdots &amp;&amp; \vdots\\<br>R_{n1} &amp; R_{n2} &amp; R_{n3} &amp; \dotsm &amp; R_{nm}<br>\end{bmatrix}<br>$$</p>
+<p>$$<br>\text{Current allocation matrix}\quad \quad \quad \text{Resource matrix}<br>$$</p>
+<p>Row $n$ on the left is current allocation to process $n$, on the right is what process $n$ needs.</p>
 <p>Let us define the relation $A\leq B$ on two vectors A and B to mean that each element of $A$ is less than or equal to the corresponding element of $B$</p>
 <p>Each process is initially said to be unmarked. As the algorithm progresses, processes will be marked, indicating that they are able to complete and are thus not deadlocked. When the algorithm terminates, any unmarked processes are known to be deadlocked. This algorithm assumes a worst-case <em>scenario</em>(场景): all processes keep all acquired resources until they exit.</p>
 <p>The deadlock detection algorithm can now be given as follows.</p>
@@ -501,6 +498,28 @@
 <div class="note note-success">
             <p>使用中文解释一遍书中的例题。<br>假设存在的资源为</p><p>$$<br>E\ &#x3D;\  (4 \quad 2 \quad 3 \quad 1)<br>$$</p><p>目前资源的分配矩阵为</p><p>$$<br>\text{Current allocation matrix}<br>$$</p><p>$$<br>C&#x3D;\begin{bmatrix}<br>0&amp;0&amp;1&amp;0\\<br>2&amp;0&amp;0&amp;1\\<br>0&amp;1&amp;2&amp;0<br>\end{bmatrix}<br>$$</p><p>目前空出的资源为</p><p>$$<br>A\ &#x3D;\ (2\quad 1\quad 0\quad 0)<br>$$</p><p>请求矩阵为</p><p>$$<br>\text{Resource matrix}<br>$$</p><p>$$<br>C&#x3D;\begin{bmatrix}<br>2&amp;0&amp;0&amp;1\\<br>1&amp;0&amp;1&amp;0\\<br>2&amp;1&amp;0&amp;0<br>\end{bmatrix}<br>$$</p><p>现在，只有线程3（第3行）能够匹配向量$A$，因此让线程3先使用资源，再释放。然后向量$A$的值变为（注意加上矩阵$C$中对应的值）</p><p>$$<br>A\ &#x3D;\ (4\quad 2\quad 2\quad 0)<br>$$</p><p>然后线程2符合条件，$A$的值变为</p><p>$$<br>A\ &#x3D;\ (4\quad 2\quad 2\quad 1)<br>$$</p><p>线程1符合条件。</p><p>至此，所有的线程均可以访问到资源，不会造成死锁。如果存在某线程无法分配到资源，则会发生死锁。</p>
           </div>
+
+<h3 id="Deadlock-Avoidance"><a href="#Deadlock-Avoidance" class="headerlink" title="Deadlock Avoidance"></a>Deadlock Avoidance</h3><p>We can also use similar algorithm to avoid deadlock.</p>
+<p>$$<br>\begin{array}{|c|c|c|c|c|}<br>\text{A} &amp; 3 &amp; 0 &amp; 1 &amp; 1 \\<br>\text{B} &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{C} &amp; 1 &amp; 1 &amp; 1 &amp; 0 \\<br>\text{D} &amp; 1 &amp; 1 &amp; 0 &amp; 1 \\<br>\text{E} &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\<br>\end{array}<br>\quad \quad<br>\begin{array}{|c|c|c|c|c|}<br>\text{A} &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{B} &amp; 0 &amp; 1 &amp; 2 &amp; 2 \\<br>\text{C} &amp; 3 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{D} &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\<br>\text{E} &amp; 2 &amp; 1 &amp; 0 &amp; 0 \\<br>\end{array}<br>$$</p>
+<p>$$<br>\text{Resource assigned} \quad \quad \text{Resource still assigned}<br>$$</p>
+<p>$$<br>\quad \text{E&#x3D;(6342)}\quad\text{P&#x3D;(5322)}\quad\text{A(1020)}<br>$$</p>
+<p>The three vectors, stands for existing resources, $E$, the possessed resources, $P$, and the available resources $A$.</p>
+<p>Now $D$ is available, after executed, $A$ becomes $\text{A&#x3D;(2121)}. And then $E$ is available, but it does not release resource, so we turn to $A$. After $A$ releasing resource, others can execute. So there is no deadlock.</p>
+<h3 id="Deadlock-Prevention"><a href="#Deadlock-Prevention" class="headerlink" title="Deadlock Prevention"></a>Deadlock Prevention</h3><p>According to <a href="#conditions-for-resource-deadlocks">how a deadlock happens</a>, we should break its conditions.</p>
+<ul>
+<li><p>attacking the mutual-exclusion condition<br>  all requests put in a queue.</p>
+</li>
+<li><p>attacking the hold-and-wait condition<br>  require all processes to request all their resources before staring execution.</p>
+<p>  A slightly different way to break the hold-and-wait condition is to require a process requesting a resource to first temporarily release all the resources it currently holds. Then it tries to get everything it needs all at once.</p>
+</li>
+<li><p>attacking the no-preemption condition</p>
+</li>
+<li><p>attacking the circular wait condition</p>
+<p>  One way is simply to have a rule saying that a process is entitled only to a single resource at any moment. If it needs a second one, it must release the first one.</p>
+<p>  Another way is to provide a global numbering of all the resources. Now the processes can request resources whenever they want to, but all requests must be made in numerical order.</p>
+</li>
+</ul>
+<p>There are another solution as well, such as setting two-phase locking, which is usually used in database.</p>
 
                 
               </div>

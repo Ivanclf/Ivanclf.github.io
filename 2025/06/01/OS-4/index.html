@@ -16,12 +16,12 @@
   <meta name="author" content="Ivan Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Multiple Processor SystemThere are 3 types of sharing multiple processor.  MultiprocessorsA shared-memory multiprocessor is a computer system in which two or more CPUs share full access to a common RA">
+    <meta name="description" content="Multiple Processor SystemThere are 3 types of sharing multiple processor.               Multicomputer and Message Passing is not the same concept. Multicomputer is just like an apartment with many roo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Multiple Processor Systems and Security - Modern Operating System">
 <meta property="og:url" content="http://example.com/2025/06/01/OS-4/index.html">
 <meta property="og:site_name" content="Ivanclf">
-<meta property="og:description" content="Multiple Processor SystemThere are 3 types of sharing multiple processor.  MultiprocessorsA shared-memory multiprocessor is a computer system in which two or more CPUs share full access to a common RA">
+<meta property="og:description" content="Multiple Processor SystemThere are 3 types of sharing multiple processor.               Multicomputer and Message Passing is not the same concept. Multicomputer is just like an apartment with many roo">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2025/06/01/OS-4/8-1.png">
 <meta property="og:image" content="http://example.com/2025/06/01/OS-4/8-2.png">
@@ -43,7 +43,7 @@
 <meta property="og:image" content="http://example.com/2025/06/01/OS-4/9-4.png">
 <meta property="og:image" content="http://example.com/2025/06/01/OS-4/9-8.png">
 <meta property="article:published_time" content="2025-06-01T15:15:06.000Z">
-<meta property="article:modified_time" content="2025-06-02T14:42:40.404Z">
+<meta property="article:modified_time" content="2025-06-10T15:53:00.141Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="日常">
 <meta property="article:tag" content="复习">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          564 字
+          578 字
         
       </span>
     
@@ -300,8 +300,12 @@
                 
                 <h2 id="Multiple-Processor-System"><a href="#Multiple-Processor-System" class="headerlink" title="Multiple Processor System"></a>Multiple Processor System</h2><p>There are 3 types of sharing multiple processor.</p>
 <p><img src="/2025/06/01/OS-4/8-1.png" srcset="/img/loading.gif" lazyload alt="3 types"></p>
+<div class="note note-info">
+            <p>Multicomputer and Message Passing is not the same concept. Multicomputer is just like an apartment with many rooms, everyone in rooms (processors) has own tables and file chests (local memory), while message passing is like people sent information via phones or mails, but not rush to other’s room to take file immediately.</p>
+          </div>
+
 <h3 id="Multiprocessors"><a href="#Multiprocessors" class="headerlink" title="Multiprocessors"></a>Multiprocessors</h3><p>A shared-memory multiprocessor is a computer system in which two or more CPUs share full access to a common RAM.</p>
-<h4 id="Multiprocessor-Hardware"><a href="#Multiprocessor-Hardware" class="headerlink" title="Multiprocessor Hardware"></a>Multiprocessor Hardware</h4><p>Although all multiprocessors have the property that every CPU can address all of memory, some multiprocessors have the additional property that every memory word can be read as fast as every other memory word. These machines are called <strong>UMA</strong> (<strong>Uniform Memory Access</strong>) multiprocessors. In contrast, <strong>NUMA</strong> (<strong>Nonuniform Memory Access</strong>) multiprocessors do not have this property.</p>
+<h4 id="Multiprocessor-Hardware"><a href="#Multiprocessor-Hardware" class="headerlink" title="Multiprocessor Hardware"></a>Multiprocessor Hardware</h4><p>Although all multiprocessors have the property that every CPU can address all of memory, some multiprocessors have the additional property that every memory word can be read as fast as every other memory word. These machines are called <strong>UMA</strong> (<strong>Uniform Memory Access</strong> 统一内存访问) multiprocessors. In contrast, <strong>NUMA</strong> (<strong>Nonuniform Memory Access</strong>) multiprocessors do not have this property.</p>
 <ul>
 <li><p>UMA Multiprocessors with Bus-Based Architectures</p>
 <p>  The simplest multiprocessors are based on a single bus.</p>
@@ -323,12 +327,9 @@
 <li><p>NUMA Multiprocessors</p>
 <p>  NUMA machines have three key characteristics that all of them possess and which together distinguish them from other multiprocessors:</p>
 <ol>
-<li><p>There is a single address space visible to all CPUs.</p>
-</li>
-<li><p>Access to remote memory is via LOAD and STORE instructions.</p>
-</li>
-<li><p>Access to remote memory is slower than access to local memory.</p>
-</li>
+<li>There is a single address space visible to all CPUs.</li>
+<li>Access to remote memory is via LOAD and STORE instructions.</li>
+<li>Access to remote memory is slower than access to local memory.</li>
 </ol>
 <p>  When the access time to remote memory is not hidden (because there is no caching), the system is called NC-NUMA (Non Cache-coherent NUMA). When the caches are coherent, the system is called CC-NUMA (Cache-Coherent NUMA).</p>
 </li>
@@ -349,8 +350,8 @@
 </li>
 </ul>
 <h3 id="Multiprocessors-Synchronization"><a href="#Multiprocessors-Synchronization" class="headerlink" title="Multiprocessors Synchronization"></a>Multiprocessors Synchronization</h3><p><img src="/2025/06/01/OS-4/8-10.png" srcset="/img/loading.gif" lazyload alt="TSL instruction can fail if bus already locked"></p>
-<p>Now think about what could happen on a multiprocessor. In Fig. 8-10 we see the worst-case timing, in which memory word 1000, being used as a lock, is initially 0. In step 1, CPU 1 reads out the word and gets a 0. In step 2, before CPU 1 has a chance to rewrite the word to 1, CPU 2 gets in and also reads the word out as a 0. In step 3, CPU 1 writes a 1 into the word. In step 4, CPU 2 also writes a 1 into the word. Both CPUs got a 0 back from the TSL instruction, so both of them now hav e access to the critical region and the mutual exclusion fails.</p>
-<p>To prevent this problem, the <strong>TSL</strong>（<strong>Test and Set Lock</strong>） instruction must first lock the bus, preventing other CPUs from accessing it, then do both memory accesses, then unlock the bus.</p>
+<p>Now think about what could happen on a multiprocessor. We see the worst-case timing, in which memory word 1000, being used as a lock, is initially 0. In step 1, CPU 1 reads out the word and gets a 0. In step 2, before CPU 1 has a chance to rewrite the word to 1, CPU 2 gets in and also reads the word out as a 0. In step 3, CPU 1 writes a 1 into the word. In step 4, CPU 2 also writes a 1 into the word. Both CPUs got a 0 back from the TSL instruction, so both of them now hav e access to the critical region and the mutual exclusion fails.</p>
+<p>To prevent this problem, the <strong>TSL</strong> (<strong>Test and Set Lock</strong>), an atomic operation, instruction must first lock the bus, preventing other CPUs from accessing it, then do both memory accesses, then unlock the bus.</p>
 <p>Problem: put a massive load on the bus or memory, slowing down all other CPUs trying to do their normal work.</p>
 <p>An even better idea is to give each CPU wishing to acquire the mutex its own private lock variable to test.</p>
 <p><img src="/2025/06/01/OS-4/8-11.png" srcset="/img/loading.gif" lazyload alt="an instance of spinning lock"></p>
@@ -397,18 +398,12 @@
           </div>
 
 <ol>
-<li><p>choose two pretty huge prime numbers $p$ and $q$.</p>
-</li>
-<li><p>let $n&#x3D;p \cdot q$.</p>
-</li>
-<li><p>let $f(n)&#x3D;(p-1)\cdot (q-1)$.</p>
-</li>
-<li><p>choose a number $e$, satisfying $e&lt;n$ and coprimed with $f(n)$.</p>
-</li>
-<li><p>choose a number $d$, satisfying $e\cdot d \mod f(n) &#x3D; 1$.</p>
-</li>
-<li><p>so the public key is $(e, n)$, private key is $d$.</p>
-</li>
+<li>choose two pretty huge prime numbers $p$ and $q$.</li>
+<li>let $n&#x3D;p \cdot q$.</li>
+<li>let $f(n)&#x3D;(p-1)\cdot (q-1)$.</li>
+<li>choose a number $e$, satisfying $e&lt;n$ and coprimed with $f(n)$.</li>
+<li>choose a number $d$, satisfying $e\cdot d \mod f(n) &#x3D; 1$.</li>
+<li>so the public key is $(e, n)$, private key is $d$.</li>
 </ol>
 <p>  encrypt message $m$ : $c&#x3D;m^e \mod n$<br>  decrypt message $c$ : $m&#x3D;c^d \mod n$</p>
 <p>  Why can decrypt? According to Euler’s theorem,</p>

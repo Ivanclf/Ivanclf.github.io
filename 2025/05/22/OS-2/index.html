@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://example.com/2025/05/22/OS-2/3-25.png">
 <meta property="og:image" content="http://example.com/2025/05/22/OS-2/3-26.png">
 <meta property="article:published_time" content="2025-05-22T04:19:31.000Z">
-<meta property="article:modified_time" content="2025-06-01T10:47:24.668Z">
+<meta property="article:modified_time" content="2025-06-10T12:44:17.700Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="日常">
 <meta property="article:tag" content="复习">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          331 字
+          356 字
         
       </span>
     
@@ -297,7 +297,8 @@
 <p>Even with no memory abstraction, it is possible to run multiple programs at the same time. What the operating system has to do is save the entire contents of memory to a disk file, then bring in and run the next program. As long as there is only one program at a time in memory, there are no conflicts.</p>
 <p>With the addition of some special hardware, it is possible to run multiple programs concurrently, even without swapping. It is shown as below. The figure (C) was the combination of program of (a) and (b)</p>
 <p><img src="/2025/05/22/OS-2/3-2.png" srcset="/img/loading.gif" lazyload alt="illustration of the relocation problem"></p>
-<p>What the IBM 360 did as a stop-gap solution was modify the second program on the fly as it loaded it into memory using a technique known as <strong>static relocation</strong>. It worked like this: When a program was loaded at address 16,384, the constant 16,384 was added to every program address during the load process (so “JMP 28” became “JMP 16,412”, etc.). While the <strong>dynamic relocation</strong> (动态重定位) is to add a base address to the program.</p>
+<p>Modify the second program on the fly as it loaded it into memory using a technique known as <strong>static relocation</strong>. It worked like this: When a program was loaded at address 16,384, the constant 16,384 was added to every program address during the load process (so “JMP 28” became “JMP 16,412”, etc.). While the <strong>dynamic relocation</strong> (动态重定位) is to add a base address to the program.</p>
+<p>Static relocation is like printing a map where all of addresses can easy to find, but once the map is printed, the location would have settled. And the dynamic relocation is like using GPS that knows your currently address, once you move to different location, address would change.</p>
 <p>But the physical memory of the computer isn’t large enough to hold all the processes often, so we need a strategy to manage the processes.</p>
 <h3 id="Swapping"><a href="#Swapping" class="headerlink" title="Swapping"></a>Swapping</h3><p>The operation of a swapping system is illustrated below.</p>
 <p><img src="/2025/05/22/OS-2/3-4.png" srcset="/img/loading.gif" lazyload alt="an example of swapping"></p>
@@ -305,7 +306,7 @@
 <p><img src="/2025/05/22/OS-2/3-6.png" srcset="/img/loading.gif" lazyload alt="overview of two ways"></p>
 <ul>
 <li><p>with bitmap</p>
-<p>  Memory is divided into allocation units (small as a few words, large as several kilobytes).Corresponding to each allocation unit is a bit in the bitmap, which is 0 if the unit is free and 1 if it is occupied (or vice versa).</p>
+<p>  Memory is divided into allocation units (small as a few words, large as several kilobytes). Corresponding to each allocation unit is a bit in the bitmap, which is 0 if the unit is free and 1 if it is occupied (or vice versa).</p>
 </li>
 <li><p>with linked lists</p>
 <p>  Another way is to maintain a linked list of allocated and free memory segments, where a segment either contains a process (<code>P</code>) or is an empty hole (<code>H</code>) between two processes.</p>
@@ -343,12 +344,10 @@
 <p><img src="/2025/05/22/OS-2/3-11.png" srcset="/img/loading.gif" lazyload alt="structure of a page table entry"></p>
 <p>We could see that</p>
 <ul>
-<li><p>the <em>Caching disable</em> bits tell whether being caching is permitted.</p>
-</li>
-<li><p>the <em>Protection</em> bits tell what kind of access are permitted.</p>
-</li>
-<li><p>the <em>Modified</em> and <em>Referenced</em> bits keep track of page usage. If the page in it has been modified, it must be written back to the disk. The <em>Reference</em> bit is set a page is referenced, either for reading or for writing.</p>
-</li>
+<li>the <em>Caching disable</em> bits tell whether being caching is permitted.</li>
+<li>the <em>Protection</em> bits tell what kind of access are permitted.</li>
+<li>the <em>Modified</em> and <em>Referenced</em> bits keep track of page usage. If the page in it has been <em>modified</em> (修改), it must be written back to the disk, and it also called <em>dirty bit</em>. The <em>Reference</em> bit is set a page is referenced, either for reading or for writing.</li>
+<li>the <em>Present&#x2F;absent</em> bits tells whether this virtual page is in the physical memory.</li>
 </ul>
 <h3 id="Speeding-Up-Paging"><a href="#Speeding-Up-Paging" class="headerlink" title="Speeding Up Paging"></a>Speeding Up Paging</h3><p>In any paging system, two issues must be faced:</p>
 <ol>
@@ -369,17 +368,19 @@
 </li>
 <li><p>Inverted Page Tables</p>
 <p>  <img src="/2025/05/22/OS-2/3-14.png" srcset="/img/loading.gif" lazyload alt="physical addresses mark virtual addresses"></p>
-<p>  Operating system only maintain a global page table. Physical address is just a index by hash on virtual page, and attaches a string of virtual addresses.</p>
+<p>  Operating system only maintains a global page table. Physical address is just a index by hash on virtual page, and attaches a string of virtual addresses.</p>
+<p>  Inverted Page Tables can obviously cut down physical memory occupied, but the speed of address transferring is relatively slow.</p>
 </li>
 </ul>
 <h2 id="Page-Replacement-Algorithms"><a href="#Page-Replacement-Algorithms" class="headerlink" title="Page Replacement Algorithms"></a>Page Replacement Algorithms</h2><p>Now we are trying to find out algorithms that can avoid page fault occurring most.</p>
-<h3 id="The-Optimal-Page-Replacement-Algorithm-最佳页面替换"><a href="#The-Optimal-Page-Replacement-Algorithm-最佳页面替换" class="headerlink" title="The Optimal Page Replacement Algorithm (最佳页面替换)"></a>The Optimal Page Replacement Algorithm (最佳页面替换)</h3><p>It is the best possible replacement algorithm. And it goes like this: at the moment that a page fault occurs, the page with the highest number of instructions that will be execute before that page is first referenced should be removed.</p>
-<h3 id="The-First-In-First-Out-FIFO-Replacement-Algorithm"><a href="#The-First-In-First-Out-FIFO-Replacement-Algorithm" class="headerlink" title="The First-In First-Out (FIFO) Replacement Algorithm"></a>The First-In First-Out (FIFO) Replacement Algorithm</h3><h3 id="The-Second-Chance-Page-Replacement-Algorithm"><a href="#The-Second-Chance-Page-Replacement-Algorithm" class="headerlink" title="The Second-Chance Page Replacement Algorithm"></a>The Second-Chance Page Replacement Algorithm</h3><p>A progress in FIFO algorithm.</p>
+<h3 id="The-Optimal-Page-Replacement-Algorithm-OPT"><a href="#The-Optimal-Page-Replacement-Algorithm-OPT" class="headerlink" title="The Optimal Page Replacement Algorithm (OPT)"></a>The Optimal Page Replacement Algorithm (OPT)</h3><p>It is the best possible replacement algorithm. And it goes like this: at the moment that a page fault occurs, the page with the highest number of instructions that will be execute before that page is first referenced should be removed.</p>
+<h3 id="The-First-In-First-Out-FIFO-Replacement-Algorithm"><a href="#The-First-In-First-Out-FIFO-Replacement-Algorithm" class="headerlink" title="The First-In First-Out (FIFO) Replacement Algorithm"></a>The First-In First-Out (FIFO) Replacement Algorithm</h3><p>It is easy to figure out.</p>
+<h3 id="The-Second-Chance-Page-Replacement-Algorithm"><a href="#The-Second-Chance-Page-Replacement-Algorithm" class="headerlink" title="The Second-Chance Page Replacement Algorithm"></a>The Second-Chance Page Replacement Algorithm</h3><p>A progress in FIFO algorithm.</p>
 <p><img src="/2025/05/22/OS-2/3-15.png" srcset="/img/loading.gif" lazyload alt="an instance of second-chance replacement algorithm"></p>
 <h3 id="The-Clock-Page-Replacement-Algorithm"><a href="#The-Clock-Page-Replacement-Algorithm" class="headerlink" title="The Clock Page Replacement Algorithm"></a>The Clock Page Replacement Algorithm</h3><p><img src="/2025/05/22/OS-2/3-16.png" srcset="/img/loading.gif" lazyload alt="an instance of clock replacement algorithm"></p>
-<h3 id="The-Last-Recently-Used-LRU-Page-Replacement-Algorithm"><a href="#The-Last-Recently-Used-LRU-Page-Replacement-Algorithm" class="headerlink" title="The Last Recently Used (LRU) Page Replacement Algorithm"></a>The Last Recently Used (LRU) Page Replacement Algorithm</h3><p>When a page fault occurs, throw out the page that has been unused for the longest time.</p>
+<h3 id="The-Last-Recently-Used-LRU-Page-Replacement-Algorithm"><a href="#The-Last-Recently-Used-LRU-Page-Replacement-Algorithm" class="headerlink" title="The Last Recently Used (LRU) Page Replacement Algorithm"></a>The Last Recently Used (LRU) Page Replacement Algorithm</h3><p>When a page fault occurs, the <strong>Last Recently Used</strong> (<strong>LRU</strong>) algorithm throws out the page that has been unused for the longest time.</p>
 <p>But this algorithm has a problem: it is not cheap by a long shot. To fully implement LRU, it is necessary to maintain a linked list of all pages in memory, with the most recently used page at the front and the least recently used page at the rear. The difficulty is that the list must be updated on every memory reference.</p>
-<h3 id="Simulating-LRU-in-Software"><a href="#Simulating-LRU-in-Software" class="headerlink" title="Simulating LRU in Software"></a>Simulating LRU in Software</h3><p>One possibility is called the <strong>NFU (Not Frequently Used)</strong> algorithm. When a page fault occurs, the page with the lowest counter is chosen for replacement.</p>
+<h3 id="Simulating-LRU-in-Software"><a href="#Simulating-LRU-in-Software" class="headerlink" title="Simulating LRU in Software"></a>Simulating LRU in Software</h3><p>One possibility is called the <strong>NFU</strong> (<strong>Not Frequently Used</strong>) algorithm. When a page fault occurs, the page with the lowest counter is chosen for replacement.</p>
 <p>The main problem with NFU is that it never forgets anything. Consequently, the operating system will remove useful pages instead of pages no longer in use. So there is a modification to NFU, known as <strong>aging</strong>.</p>
 <p><img src="/2025/05/22/OS-2/3-17.png" srcset="/img/loading.gif" lazyload alt="how aging works"></p>
 <p>aging is most used (except of WSClock) now.</p>
@@ -390,7 +391,7 @@
 <p>So the optimum page size is</p>
 <p>$$<br>p&#x3D;\sqrt{2se}<br>$$</p>
 <h3 id="Share-Pages"><a href="#Share-Pages" class="headerlink" title="Share Pages"></a>Share Pages</h3><p>When more processes share some code, a problem occurs with the shared pages. If one process is removed from the memory, evicting all its pages, others will generate large number of page faults. So when a process terminates, special page data structures are needed to keep track of shared pages.</p>
-<p>Sharing data is more tricker than sharing code, and what is often done is to give each of these processes its own page table and have both od them point to the same set of pages. However, all the data pages are mapped into both processes as READ ONLY. As soon as one process updates a memory system, the violation of the read-only protection causes a trap to the operating system. A copy is then made of the offending page so that each process now has its own <strong>private copy</strong> (专用副本). All copies are now set to READ&#x2F;WRITE, so subsequent writes to one copy proceed without trapping. This strategy means that those pages that are never modified (including all the program pages) need not be copied. Only the data pages that are actually modified need to be copied. This approach, called <strong>copy on write</strong>, improves performance by reducing copying.</p>
+<p>Sharing data is more tricker than sharing code, and what is often done is to give each of these processes its own page table and have both od them point to the same set of pages. However, all the data pages are mapped into both processes as <code>READ ONLY</code>. As soon as one process updates a memory system, the violation of the read-only protection causes a trap to the operating system. A copy is then made of the offending page so that each process now has its own <strong>private copy</strong> (专用副本). All copies are now set to <code>READ/WRITE</code>, so subsequent writes to one copy proceed without trapping. This strategy means that those pages that are never modified (including all the program pages) need not be copied. Only the data pages that are actually modified need to be copied. This approach, called <strong>copy on write</strong>(<strong>COW</strong>), improves performance by reducing copying.</p>
 <p><img src="/2025/05/22/OS-2/3-25.png" srcset="/img/loading.gif" lazyload alt="an instance that share the same program"></p>
 <h3 id="Shared-Libraries"><a href="#Shared-Libraries" class="headerlink" title="Shared Libraries"></a>Shared Libraries</h3><div class="note note-warning">
             <p>This part should be linked to file system.</p>
@@ -398,11 +399,19 @@
 
 <p>Statically linking hundreds of programs with all these libraries would waste a tremendous amount of space on the disk as well as wasting space in RAM when they were loaded since the system would have no way of knowing it could share them. This is where shared libraries come in. When a program is linked with shared libraries, instead of including the actual function called, the linker includes a small <em>stub routine</em> (存根例程) that binds to the called function at run time.</p>
 <p>Note that when a library is loaded or used, the entire library is not read into memory whole. It is paged in, page by page, as needed.</p>
+<p>As shared library, <code>.so</code> on Linux, <code>.dll</code> on Windows, inner data and code must use relative addresses.</p>
 <p><img src="/2025/05/22/OS-2/3-26.png" srcset="/img/loading.gif" lazyload alt="an instance of share library"></p>
 <h3 id="Mapped-Files"><a href="#Mapped-Files" class="headerlink" title="Mapped Files"></a>Mapped Files</h3><p>Shared libraries are really a special case of a more general facility called <strong>memory-mapped files</strong>. The idea here is that a process can issue a system call to map a file onto a portion of its virtual address space.</p>
-<p>Mapped files provide an alternative model for I&#x2F;O. Instead, of doing reads and writes, the file can be accessed as a big character array in memory. In some situations, programmers find this model more convenient.</p>
+<p>We can imagine “copying” file to a portion of virtual memory, where program can treat file as common memory.</p>
+<div class="note note-info">
+            <p>So in C language and C++, before operating a file, define a file pointer is necessary.</p>
+          </div>
+
+<p>Mapped files provide an alternative model for I&#x2F;O. Instead, of doing <code>read()</code> and <code>write()</code>, the file can be accessed as a big character array in memory.</p>
 <p>If two or more processes map onto the same file at the same time, they can communicate over shared memory. Writes done by one process to the shared memory are immediately visible when the other one reads from the part of its virtual address spaced mapped onto the file.</p>
 <h2 id="Implementation-issues"><a href="#Implementation-issues" class="headerlink" title="Implementation issues"></a>Implementation issues</h2><h3 id="Locking-Pages-in-Memory"><a href="#Locking-Pages-in-Memory" class="headerlink" title="Locking Pages in Memory"></a>Locking Pages in Memory</h3><p>Consider a process that has just issued a system call to read from some file or device into a buffer within its address space. While waiting for the I&#x2F;O to complete, the process is suspended and another process is allowed to run. This other process gets a page fault. So we need to lock this page in memory to avoid it happened.</p>
+<p>So locking pages in memory means keeping physical address corresponded with certain virtual address forcibly, not allowing operating system swap these pages to disk.</p>
+<p>Excessive locking pages will decline available space of physical memory, and more page faults would be happened on other processes.</p>
 
                 
               </div>

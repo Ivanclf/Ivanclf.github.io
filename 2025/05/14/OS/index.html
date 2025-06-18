@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://example.com/2025/05/14/OS/2-43.png">
 <meta property="og:image" content="http://example.com/2025/05/14/OS/2-45.png">
 <meta property="article:published_time" content="2025-05-13T16:31:17.000Z">
-<meta property="article:modified_time" content="2025-06-17T13:19:18.169Z">
+<meta property="article:modified_time" content="2025-06-17T16:12:04.555Z">
 <meta property="article:author" content="Ivan Chen">
 <meta property="article:tag" content="日常">
 <meta property="article:tag" content="复习">
@@ -322,11 +322,11 @@
 <li>Library function execute a special command that force CPU to switch to kernel space to execute calls.</li>
 <li>After executed, results would be stored to registers or somewhere else, then force CPU to switch to user space.</li>
 </ol>
-<h2 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h2><p>A process is just an instance of an executing program. A process is also a basic unix when operating system allocating resources.</p>
+<h2 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h2><p>A process is just an instance of an executing program. A process is also a basic unit when operating system allocating resources.</p>
 <h3 id="Kernel-Mode-and-User-Mode"><a href="#Kernel-Mode-and-User-Mode" class="headerlink" title="Kernel Mode and User Mode"></a>Kernel Mode and User Mode</h3><p>Kernel mode and user mode are two different running status of CPU.</p>
 <p><strong>User mode</strong>: Processes is running under permission limited. When user processes need to use system call or something else, kernel mode is needed.</p>
 <p><strong>Kernel mode</strong>: Operating Systems are running under kernel mode that have the highest permission.</p>
-<h3 id="Process-Creation"><a href="#Process-Creation" class="headerlink" title="Process Creation"></a>Process Creation</h3><p>Four principal events cause processes to be created</p>
+<h3 id="Process-Creation"><a href="#Process-Creation" class="headerlink" title="Process Creation"></a>Process Creation</h3><p>Four <em>principal</em> (主要的) events cause processes to be created</p>
 <ol>
 <li>System initialization.</li>
 <li>Execution of a process-creation system call by a running process.</li>
@@ -344,7 +344,7 @@
 <p>There are another call <code>execl</code>, and the example program is as follow</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">pid_t</span> pid;<br>    pid = fork();<br>    <span class="hljs-keyword">if</span>(pid==<span class="hljs-number">0</span>)<br>    &#123;<br>        execl(<span class="hljs-string">&quot;/bin/ls&quot;</span>,<span class="hljs-string">&quot;ls&quot;</span>,<span class="hljs-string">&quot;-1&quot;</span>,<span class="hljs-number">0</span>);<br>        <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>        &#123;<br>            sleep(<span class="hljs-number">1</span>);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;haha\n&quot;</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span>(pid &gt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>        &#123;<br>            sleep(<span class="hljs-number">1</span>);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hehe\n&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>When a process execute <code>exec()</code>， it would swop whole memory image.</p>
+<p>When a process execute <code>exec()</code>， it would swap whole memory image.</p>
 <p>But remember, the <code>execl</code> command just swap the following code to the command <code>ls</code>, so the child process will execute the <code>ls</code> command while the parent command continue to print “hehe”. Which means that a portion behind child process is just <code>ls</code>, not going loop for infinity. The Command <code>execl</code> itself does not create a new process.</p>
 <p>All in all, <code>fork()</code> is to create a process while <code>exec()</code> is to execute a program.</p>
 <h3 id="Process-Termination"><a href="#Process-Termination" class="headerlink" title="Process Termination"></a>Process Termination</h3><p>Process might terminate in four conditions</p>
@@ -381,7 +381,7 @@
 <li><strong>I&#x2F;O Status</strong>: I&#x2F;O devices allocated for process and unfinished I&#x2F;O request list.</li>
 </ul>
 <h3 id="Modeling-Multiprogramming"><a href="#Modeling-Multiprogramming" class="headerlink" title="Modeling Multiprogramming"></a>Modeling Multiprogramming</h3><p>We know that most of using time is on I&#x2F;O. Let the <code>n</code> stands for the number of processes, <code>p</code> stands for the I&#x2F;O time, the CPU utilization can be computed by this formula:</p>
-<p>$$<br>\textup{CPU\ utilization} &#x3D; 1-p^n<br>$$</p>
+<p>$$<br>\textup{CPU utilization} &#x3D; 1-p^n<br>$$</p>
 <p>The figure is as follow</p>
 <p><img src="/2025/05/14/OS/2-6.png" srcset="/img/loading.gif" lazyload alt="degree of multiprogramming"></p>
 <h2 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h2><p>Why we need thread instead of creating a new process?</p>
@@ -397,7 +397,7 @@
 <h3 id="The-Classical-Thread-Model"><a href="#The-Classical-Thread-Model" class="headerlink" title="The Classical Thread Model"></a>The Classical Thread Model</h3><p>What threads add to the process model is to allow multiple executions to take place in the same process environment, to a large degree independent of one another.  When multithreading is present, processes usually start with a single thread present.</p>
 <h3 id="POSIX-Thread"><a href="#POSIX-Thread" class="headerlink" title="POSIX Thread"></a>POSIX Thread</h3><p>IEEE has defined a standard for threads in IEEE standard. The threads package it defines is called Pthreads. Most UNIX systems support it.</p>
 <p><img src="/2025/05/14/OS/2-14.png" srcset="/img/loading.gif" lazyload alt="some of the Pthreads function calls"></p>
-<h2 id="InterProcess-Communication"><a href="#InterProcess-Communication" class="headerlink" title="InterProcess Communication"></a>InterProcess Communication</h2><p>Processes frequently need to communicate with other processes. In the following sections we will look at some of the issues related to this <strong>InterProcess Communication</strong>,or <strong>IPC</strong>.</p>
+<h2 id="InterProcess-Communication"><a href="#InterProcess-Communication" class="headerlink" title="InterProcess Communication"></a>InterProcess Communication</h2><p>Processes frequently need to communicate with other processes. In the following sections we will look at some of the issues related to this <strong>InterProcess Communication</strong>, or <strong>IPC</strong>.</p>
 <h3 id="Race-Conditions-and-Critical-Regions"><a href="#Race-Conditions-and-Critical-Regions" class="headerlink" title="Race Conditions and Critical Regions"></a>Race Conditions and Critical Regions</h3><p>In some operating systems, processes that are working together may share some common storage that each one can read and write. where two or more processes are reading or writing some shared data and the final result depends on who runs precisely when, are called <strong>race conditions</strong>. We need to avoid that happens.</p>
 <p>How to avoid race conditions? The key to preventing trouble here and in many other situations involving shared memory, shared files, and shared everything else is to find some way to prohibit more than one process from reading and writing the shared data at the same time. What we need is <em>mutual exclusion</em>(互斥) that puts in critical region or critical section.</p>
 <p>But avoiding race conditions is not sufficient for having parallel processes cooperate correctly and efficiently using shared data. We need four conditions to hold to have a good solution:</p>
@@ -422,7 +422,7 @@
 <ul>
 <li><strong>Strict Alternation</strong> (严格轮替)</li>
 </ul>
-<p>Available when it is only 2 threads. of course more than 2 thread is also available, but not so flexible, which is called <strong>spin lock</strong>. However, this method <em>violate</em> (违反) “No process running outside its critical region may block another process.” principle.</p>
+<p>Available when it is only 2 threads. of course more than 2 threads are also available, but not so flexible, which is called <strong>spin lock</strong>. However, this method <em>violate</em> (违反) “No process running outside its critical region may block another process.” principle.</p>
 <p>More strictly, a spin lock means a lock that uses busy waiting. <strong>Busy waiting</strong> means Continuously testing a variable until some value appears. It is very suitable for this alternation.</p>
 <p>a.c</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)<br>&#123;<br>    <span class="hljs-keyword">while</span>(turn != <span class="hljs-number">0</span>);<br>    critical_region();<br>    turn = <span class="hljs-number">1</span>;<br>    noncritical_region();<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -541,7 +541,7 @@
 <p> Just spool everything. If no resource were ever assigned exclusively to a single process, we would never hav e deadlocks. Luckily, some devices (such as printer) can be spooled.</p>
 </li>
 <li><p>Attacking the Hold and Wait Condition.</p>
-<p> Require processes to request resources before starting, so a process never has to wait for what it needs. An immediate problem with this approach is that many processes do not know how many resources they will need until they hav e started running.</p>
+<p> Require processes to request resources before starting, so a process never has to wait for what it needs. An immediate problem with this approach is that many processes do not know how many resources they will need until they have started running.</p>
 <p> A slightly different way to break the hold-and-wait condition is to require a process requesting a resource to first temporarily release all the resources it currently holds. Then it tries to get everything it needs all at once.</p>
 </li>
 <li><p>Attacking the No Preemption  </p>
@@ -595,7 +595,7 @@
 <h3 id="Deadlock-Avoidance"><a href="#Deadlock-Avoidance" class="headerlink" title="Deadlock Avoidance"></a>Deadlock Avoidance</h3><p>We can also use similar algorithm to avoid deadlock.</p>
 <p>$$<br>\begin{array}{|c|c|c|c|c|}<br>\text{A} &amp; 3 &amp; 0 &amp; 1 &amp; 1 \\<br>\text{B} &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{C} &amp; 1 &amp; 1 &amp; 1 &amp; 0 \\<br>\text{D} &amp; 1 &amp; 1 &amp; 0 &amp; 1 \\<br>\text{E} &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\<br>\end{array}<br>\quad \quad<br>\begin{array}{|c|c|c|c|c|}<br>\text{A} &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{B} &amp; 0 &amp; 1 &amp; 2 &amp; 2 \\<br>\text{C} &amp; 3 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{D} &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\<br>\text{E} &amp; 2 &amp; 1 &amp; 0 &amp; 0 \\<br>\end{array}<br>$$</p>
 <p>$$<br>\text{Resource assigned} \quad \quad \text{Resource still assigned}<br>$$</p>
-<p>$$<br>\quad \text{E&#x3D;(6342)}\quad\text{P&#x3D;(5322)}\quad\text{A(1020)}<br>$$</p>
+<p>$$<br>\quad \text{E&#x3D;(6342)}\quad\text{P&#x3D;(5322)}\quad\text{A&#x3D;(1020)}<br>$$</p>
 <p>The three vectors, stands for existing resources, $E$ , the possessed resources, $P$ , and the available resources $A$ .</p>
 <p>Now $D$ is available, after executed, $A$ becomes $\text{A&#x3D;(2121)}$. And then $E$ is available, but it does not release resource, so we turn to $A$. After $A$ releasing resource, others can execute. So there is no deadlock.</p>
 

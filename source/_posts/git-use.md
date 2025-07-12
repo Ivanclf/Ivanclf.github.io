@@ -16,6 +16,6 @@ $ ssh -T git@github.com
 
 然后在GitHub上新建一个仓库，建好后，弹出以下页面
 
-![页面内容](./git-use/git_1.png)
+![页面内容](git_1.png)
 
 按照其中的指示操作即可。

@@ -23,7 +23,7 @@ tags: [日常,复习]
 
     It consists of a collection of library procedures (modules) compiled but not linked. Each one begins with a header telling its name, creation date, owner, protection code, and size. Just as with the executable file, the module headers are full of binary numbers. Copying them to the printer would produce complete mess.
 
-![the difference between two types of files](./os-3/4-3.png)
+![the difference between two types of files](4-3.png)
 
 #### An Example Program Using File-System Calls
 
@@ -125,13 +125,13 @@ Other than starting with a **boot block**, the layout of a disk partition varies
 
 The MBR is the Sector 0 of whole disk and used to guide BIOS and portion table, not being any part of certain file system. While super block is the beginning position of certain file system. But usually, a portion of disk maps a file system.
 
-![possible file system layout](./os-3/4-9.png)
+![possible file system layout](4-9.png)
 
 #### Implementing Files
 
 ##### Contiguous Allocation (连续分配)
 
-![how contiguous allocation works](./os-3/4-10.png)
+![how contiguous allocation works](4-10.png)
 
 This method has two advantages. First, it is simple to implement. Second, the read performance is excellent (because the entire file can be read from the disk in a single operation).
 
@@ -139,7 +139,7 @@ However, contiguous allocation also has a very serious drawback: over the course
 
 ##### Linked-List Allocation
 
-![how linked-list allocation works](./os-3/4-11.png)
+![how linked-list allocation works](4-11.png)
 
 Now no space is lost to disk fragmentation. On the other hand, although reading a file sequentially is straightforward, random access is extremely slow.
 
@@ -147,7 +147,7 @@ Also, the amount of data storage in a block is no longer a power of two (2的幂
 
 ##### Linked-List Allocation Using a Table in Memory
 
-![how FAT works](./os-3/4-12.png)
+![how FAT works](4-12.png)
 
 In Fig. 4-11 and Fig. 4-12, we have two files. File `A` uses disk blocks 4, 7, 2, 10, and 12, in that order, and file `B` uses disk blocks 6, 3, 11, and 14, in that order. Using the table of Fig. 4-12, we can start with block 4 and follow the chain all the way to the end. The same can be done starting with block 6. Both chains are terminated with a special marker (e.g., −1) that is not a valid block number. Such a table in main memory is called a **FAT** (**File Allocation Table**).
 
@@ -159,7 +159,7 @@ It was the original MS-DOS file system and is still fully supported by early ver
 
 ##### I-nodes
 
-![example of i-node](./os-3/4-13.png)
+![example of i-node](4-13.png)
 
 Associating with `each file` a data structure called an **i-node** (**index-node**), which lists the attributes and disk addresses of the file’s blocks.
 
@@ -195,7 +195,7 @@ Disk blocks are not listed in directories, but in a little data structure associ
 
 Hard link can be used when you want a file has multiple name and do not wanna lose file because of deleting one name.
 
-![how a hard link works](./os-3/4-17.png)
+![how a hard link works](4-17.png)
 
 #### Log-Structure File Systems
 
@@ -219,7 +219,7 @@ The file system is in the form of a tree starting at the root directory, with th
 
 A UNIX directory entry contains one entry for each file. The entries is simple because UNIX uses the i-node scheme. A directory contains only two fields: the file name and the number of the i-node for that file.
 
-![the structure of an entry](./os-3/4-32.png)
+![the structure of an entry](4-32.png)
 
 {% note success %}
 Because I-node number takes up to 2 bytes, 16 bits, so quantity of files is $2^{16}$. But file name quantity might be bigger than $2^{16}$ since hard link’s existence.
@@ -227,9 +227,9 @@ Because I-node number takes up to 2 bytes, 16 bits, so quantity of files is $2^{
 
 Keeping track of disk blocks is done using a generalization of Fig. 4-13 in order to handle very large files. The first 10 disk addresses are stored in the i-node itself, so for small files, all the necessary information is right in the i-node. For somewhat larger files, one of the addresses in the i-node is the address of a disk block called a **single indirect block**. This block contains additional disk addresses. If this still is not enough, another address in the i-node, called a **double indirect block**, contains the address of a block that contains a list of single indirect blocks. Each of these single indirect blocks points to a few hundred data blocks. If even this is not enough, a **triple indirect block** can also be used.
 
-![complete picture](./os-3/4-33.png)
+![complete picture](4-33.png)
 
-![another picture](./os-3/unix.png)
+![another picture](unix.png)
 
 ## I/O
 
@@ -247,7 +247,7 @@ A character device delivers or accepts a stream of characters, without regard to
 
 Early operating systems (like Intel 8086 or some embedded OS) use **separate I/O**, which means we need a separate bus to execute these commands, while concurrent access (并发访问) is hardly possible. CPU must use special commands (say `in` and `out`) to communicate with devices. But now we often map memory address with I/O devices’ registers or something else.
 
-![how CPU communicates with the devices](./os-3/5-2.png)
+![how CPU communicates with the devices](5-2.png)
 
 Each controller has a few registers that are used for communicating with the CPU. In addition to the control registers, many devices have a data buffer that the operating system can read and write. The issue thus arises of how the CPU communicates with the control registers and also with the device data buffers. Two alternatives exist.
 
@@ -261,7 +261,7 @@ No matter whether a CPU does or does not have memory-mapped I/O, it needs to add
 
 Then the DMA takes change of bus.
 
-![how DMA works](./os-3/5-4.png)
+![how DMA works](5-4.png)
 
 Let us first look at how disk reads occur when DMA is not used.
 
@@ -290,7 +290,7 @@ Interrupts can be categorized by 2 types: precise interrupt and imprecise interr
 
 An interrupt that does not meet these requirements is called an **imprecise interrupt**.
 
-![difference between interrupts](./os-3/5-6.png)
+![difference between interrupts](5-6.png)
 
 ### Principles of I/O Software
 
@@ -314,13 +314,13 @@ The big win with DMA is reducing the number of interrupts from one per character
 
 Before the disk can be used, each platter (磁盘片) must receive a **low-level format** done by software.
 
-![disk](./os-3/5-21.png)
+![disk](5-21.png)
 
 The preamble starts with a certain bit pattern that allows the hardware to recognize the start of the sector. The ECC field contains redundant (冗余) information that can be used to recover from read errors.
 
 The position of sector 0 on each track is offset from the previous track when the low-level format is laid down. This offset, called **cylinder skew** (柱面斜进), is done to improve performance. The idea is to allow the disk to read multiple tracks in one continuous operation without losing data.
 
-![cylinder skew](./os-3/5-22.png)
+![cylinder skew](5-22.png)
 
 As a result of the low-level formatting, disk capacity is reduced.
 
@@ -336,6 +336,6 @@ In versions of Windows before 3.1, characters were represented as bitmaps. But i
 
 ### Power Management of CPU
 
-![CPU power management](./os-3/5-42.png)
+![CPU power management](5-42.png)
 
 On many computers, there is a relationship between CPU voltage, clock cycle, and power usage. The CPU voltage can often be reduced in software, which saves energy but also reduces the clock cycle (approximately linearly). Since power consumed is proportional to the square of the voltage, cutting the voltage in half makes the CPU about half as fast but at 1/4 the power.

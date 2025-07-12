@@ -117,9 +117,9 @@ myClosure(); // 输出: I am from outer function
 npm create vite@latest <name> --template vue
 ```
 
-![选择vue](./vue3/config1.png)
+![选择vue](config1.png)
 
-![选择语言(一般选JavaScript或typescript)](./vue3/config2.png)
+![选择语言(一般选JavaScript或typescript)](config2.png)
 
 这样，大体的框架就搭建好了，还需要按照终端上的指示行动
 
@@ -135,7 +135,7 @@ npm run dev
 保存App文件时，网页也会跟着发生改变。如果没有，就试着刷新一下
 {% endnote %}
 
-![最后就像这样子](./vue3/config3.png)
+![最后就像这样子](config3.png)
 
 ## 大体结构
 
@@ -210,7 +210,7 @@ export default {
 
 效果如图所示
 
-![标签被成功注入了网页中](./vue3/v-html.png)
+![标签被成功注入了网页中](v-html.png)
 
 ### `v-once`
 
@@ -255,7 +255,7 @@ export default {
 
 最后结果为
 
-![将脚本下的元素绑定到了HTML下](./vue3/v-bind.png)
+![将脚本下的元素绑定到了HTML下](v-bind.png)
 
 ### `v-on`
 
@@ -285,7 +285,7 @@ export default {
 
 该代码最后会生成一个按钮，点击一次会产生相应反应
 
-![下面的计数器会加1](./vue3/v-on.png)
+![下面的计数器会加1](v-on.png)
 
 ### `v-model`
 
@@ -323,7 +323,7 @@ export default {
 
 的输出结果为
 
-![上面输入什么，下面就输出什么](./vue3/v-model.png)
+![上面输入什么，下面就输出什么](v-model.png)
 
 {% note info %}
 v-model 指令一般用于表单的输入中，如`<input/>` `<select/>` `<radio/>` `<checkbox/>` 等等

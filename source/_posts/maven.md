@@ -12,11 +12,11 @@ tags: [碎片知识]
 
 然后和往常一样，添加环境变量
 
-![最后效果](./maven/maven_1.png)
+![最后效果](maven_1.png)
 
 ### 在IDEA中创建maven项目
 
-![在IDEA中创建maven项目](./maven/maven_2.png)
+![在IDEA中创建maven项目](maven_2.png)
 
 {% note info %}
 其实，如果要创建spring项目的话，最好是找网站[spring initializer](https://start.spring.io/)

@@ -8,7 +8,7 @@ tags: [日常,复习]
 
 There are 3 types of sharing multiple processor.
 
-![3 types](./os-4/8-1.png)
+![3 types](8-1.png)
 
 {% note info %}
 Multicomputer and Message Passing is not the same concept. Multicomputer is just like an apartment with many rooms, everyone in rooms (processors) has own tables and file chests (local memory), while message passing is like people sent information via phones or mails, but not rush to other’s room to take file immediately.
@@ -26,7 +26,7 @@ Although all multiprocessors have the property that every CPU can address all of
 
     The simplest multiprocessors are based on a single bus.
 
-    ![based on a single bus](./os-4/8-2.png)
+    ![based on a single bus](8-2.png)
 
     With two or three CPUs, contention for the bus will be manageable; with 32 or 64 it will be unbearable. The system will be totally limited by the bandwidth of the bus, and most of the CPUs will be idle (空闲的) most of the time.
 
@@ -38,7 +38,7 @@ Although all multiprocessors have the property that every CPU can address all of
 
     The simplest circuit for connecting $n$ CPUs to $k$ memories is the **crossbar switch**.
 
-    ![crossbar switch](./os-4/8-3.png)
+    ![crossbar switch](8-3.png)
 
     One of the nicest properties of the crossbar switch is that it is a **nonblocking network**, meaning that no CPU is ever denied the connection it needs because some crosspoint or line is already occupied.
 
@@ -48,7 +48,7 @@ Although all multiprocessors have the property that every CPU can address all of
 
     similar to a router, we can set a router to multiprocessors.
 
-    ![router?](./os-4/8-5.png)
+    ![router?](8-5.png)
 
 - NUMA Multiprocessors
 
@@ -64,19 +64,19 @@ Although all multiprocessors have the property that every CPU can address all of
 
 - Each CPU Has Its Own Operating System
 
-    ![Each CPU Has Its Own Operating System](./os-4/8-7.png)
+    ![Each CPU Has Its Own Operating System](8-7.png)
 
     This scheme is still better than having $n$ separate computers since it allows all the machines to share a set of disks and other I/O devices, and it also allows the memory to be shared flexibly.
 
 - Master-Slave Multiprocessors
 
-    ![Master-Slave Multiprocessors](./os-4/8-8.png)
+    ![Master-Slave Multiprocessors](8-8.png)
 
     The master-slave model solves most of the problems of the first model. And the problem with this model is that with many CPUs, the master will become a bottleneck. After all, it must handle all system calls from all CPUs. If, say, 10% of all time is spent handling system calls, then 10 CPUs will pretty much saturate (饱和) the master, and with 20 CPUs it will be completely overloaded.
 
 - **SMP** (**Symmetric Multiprocessors** 对称多处理器)
 
-    ![SMP](./os-4/8-9.png)
+    ![SMP](8-9.png)
 
     When a system call is made, the CPU on which the system call was made traps to the kernel and processes the system call.
 
@@ -84,7 +84,7 @@ Although all multiprocessors have the property that every CPU can address all of
 
 ### Multiprocessors Synchronization
 
-![TSL instruction can fail if bus already locked](./os-4/8-10.png)
+![TSL instruction can fail if bus already locked](8-10.png)
 
 Now think about what could happen on a multiprocessor. We see the worst-case timing, in which memory word 1000, being used as a lock, is initially 0. In step 1, CPU 1 reads out the word and gets a 0. In step 2, before CPU 1 has a chance to rewrite the word to 1, CPU 2 gets in and also reads the word out as a 0. In step 3, CPU 1 writes a 1 into the word. In step 4, CPU 2 also writes a 1 into the word. Both CPUs got a 0 back from the TSL instruction, so both of them now hav e access to the critical region and the mutual exclusion fails.
 
@@ -94,7 +94,7 @@ Problem: put a massive load on the bus or memory, slowing down all other CPUs tr
 
 An even better idea is to give each CPU wishing to acquire the mutex its own private lock variable to test.
 
-![an instance of spinning lock](./os-4/8-11.png)
+![an instance of spinning lock](8-11.png)
 
 ### Multicomputer Virtualization
 
@@ -103,19 +103,19 @@ An even better idea is to give each CPU wishing to acquire the mutex its own pri
 - Type II Hypervisor
     It is just a user program running on, say, Windows or Linux that “interprets” the machine’s instruction set, which also creates a virtual machine. We put “interprets” in quotes because usually chunks of code are processed in a certain way and then cached and executed directly to improve performance, but in principle, full interpretation would work, albeit (尽管) slowly.
 
-![illustration of type I hypervisor](./os-4/type-I-hypervisor.png)
+![illustration of type I hypervisor](type-I-hypervisor.png)
 
 ## Security
 
 ### Goals and Threats
 
-![conclusion](./os-4/9-1.png)
+![conclusion](9-1.png)
 
 Many security texts decompose the security of an information system in three components: confidentiality (保密性), integrity (完整性), and availability (可用性). And preventing the threads of exposure of data (数据泄露), tampering with data (篡改数据) and denial of service (拒绝服务).
 
 ### Formal Models of Secure Systems - Covert Channels
 
-![the purest form of covert channel](./os-4/9-12.png)
+![the purest form of covert channel](9-12.png)
 
 In this instance, the first process, the client, wants some work performed by the second one, the server. For example, the server’s job is to help clients with filling out their tax forms. The clients are worried that the server will secretly record their financial data, for example, maintaining a secret list of who earns how much, and then selling the list. The server is worried that the clients will try to steal the valuable tax program.
 
@@ -127,7 +127,7 @@ From the system designer’s point of view, the goal is to encapsulate (封装) 
 
 One rich source of attacks has been due to the fact that virtually all operating systems and most systems programs are written in the C or C++ programming languages (because programmers like them and they can be compiled to extremely efficient object code). Unfortunately, no C or C++ compiler does array bounds checking.
 
-![how overflow works](./os-4/9-21.png)
+![how overflow works](9-21.png)
 
 In Fig. 9-21(a), we see the main program running, with its local variables on the stack. At some point it calls the procedure $A$, as shown in Fig. 9-21(b). The standard calling sequence starts out by pushing the return address (which points to the instruction following the call) onto the stack. It then transfers control to $A$, which decrements the stack pointer by 128 to allocate storage for its local variable (buffer B).
 
@@ -147,7 +147,7 @@ What is a virus, anyway? To make a long story short, a virus is a program that c
 
 Once installed on the victim’s machine, the virus lies dormant (休眠) until the infected program is executed. Once started, it usually begins by infecting other programs on the machine and then executing its payload. In many cases, the payload may do nothing until a certain date has passed to make sure that the virus is widespread before people begin noticing it.
 
-![where do virus hide](./os-4/9-29.png)
+![where do virus hide](9-29.png)
 
 #### Worms
 
@@ -157,7 +157,7 @@ Technically, the worm consisted of two programs, the bootstrap and the worm prop
 
 #### cryptography (密码学)
 
-![cryptography is to build a function to encryption and decryption](./os-4/9-15.png)
+![cryptography is to build a function to encryption and decryption](9-15.png)
 
 - Public-Key Cryptography
 
@@ -208,7 +208,7 @@ In various situations that we will see later it is desirable to have some functi
 
 - Digital signature
 
-    ![digital signature](./os-4/9-16.png)
+    ![digital signature](9-16.png)
 
     In order to ensure original document is not tampered. We append a signature. The private key encrypts document’s MD5 value, while public key decrypts the signature and get its MD5 value.
 
@@ -218,8 +218,8 @@ In various situations that we will see later it is desirable to have some functi
 
     A domain is a set of (object, rights) pairs. Each pair specifies an object and some subset of the operations that can be performed on it. A right in this context means permission to perform one of the operations.
 
-![protection domains](./os-4/9-3.png)
+![protection domains](9-3.png)
 
-![protection matrix](./os-4/9-4.png)
+![protection matrix](9-4.png)
 
-![capability list](./os-4/9-8.png)
+![capability list](9-8.png)

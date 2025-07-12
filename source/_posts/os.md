@@ -21,7 +21,7 @@ What is an operating system?
 
 #### Monolithic (单体式) Systems
 
-![A monolithic systems](./os/1-24.png)
+![A monolithic systems](1-24.png)
 
 By far the most common organization, in the monolithic approach the entire operating system runs as a single program in kernel mode. The operating system is written as a collection of procedures, linked together into a single large executable binary program.
 
@@ -29,11 +29,11 @@ It is often used in embedded operating systems and early operating systems.
 
 #### Layered Systems
 
-![An instance of a layered system](./os/1-25.png)
+![An instance of a layered system](1-25.png)
 
 #### Virtual Machines
 
-![One possible structure of VM](./os/1-28.png)
+![One possible structure of VM](1-28.png)
 
 The heart of the system, known as the virtual machine monitor, runs on the bare hardware and does the multiprogramming, providing not one, but several virtual machines to the next layer up.
 
@@ -45,7 +45,7 @@ Processes in UNIX have their memory divided up into three segments: the **text s
 
 The global variables contain in the data segment, while the local variables contain in the stack segment.
 
-![A process shown inIntel CPU](./os/1-20.png)
+![A process shown inIntel CPU](1-20.png)
 
 In Intel CPU, biggest address is the bottom of stack, so decline pointer means push something in stack.
 
@@ -176,7 +176,7 @@ Three states a process might be in:
 2. Ready (runnable, temporarily stopped to let another process run)
 3. Blocked (unable to run until some external event happens)
 
-![status of a process](./os/2-2.png)
+![status of a process](2-2.png)
 
 In fact there are far more than three states
 
@@ -184,7 +184,7 @@ In fact there are far more than three states
 
 To implement the process model, the operating system maintains a table (an array of structures) that contains all about the process, called the process table, with one entry per process. (Some authors call these entries **process control blocks**, or **PCB** for short)
 
-![a PCB contains various information](./os/2-4.png)
+![a PCB contains various information](2-4.png)
 
 For short, a PCB concludes information as follow:
 
@@ -207,7 +207,7 @@ $$
 
 The figure is as follow
 
-![degree of multiprogramming](./os/2-6.png)
+![degree of multiprogramming](2-6.png)
 
 ## Thread
 
@@ -229,7 +229,7 @@ What threads add to the process model is to allow multiple executions to take pl
 
 IEEE has defined a standard for threads in IEEE standard. The threads package it defines is called Pthreads. Most UNIX systems support it.
 
-![some of the Pthreads function calls](./os/2-14.png)
+![some of the Pthreads function calls](2-14.png)
 
 ## InterProcess Communication
 
@@ -388,7 +388,7 @@ If mutex is like a key that who takes it will enter critical region, the semapho
 
 A **mutex** is a simplified version of the semaphore, and it is a share variable that can be in two states: unlocked or locked.
 
-![a possible implementation of mutex](./os/2-29.png)
+![a possible implementation of mutex](2-29.png)
 
 {% note info %}
 System call `thread_yield` is just a call to the scheduler in user space.
@@ -396,7 +396,7 @@ System call `thread_yield` is just a call to the scheduler in user space.
 
 Pthreads provides a number of functions that can be used to synchronize threads.
 
-![major calls relating to mutexes](./os/2-30.png)
+![major calls relating to mutexes](2-30.png)
 
 {% note info %}
 If call `Pthread_mutex_lock` cannot lock, the thread will sleep;
@@ -405,7 +405,7 @@ if call `Pthread_mutex_trylock` cannot lock, it will return `false`.
 
 In addition to mutexes, Pthreads offers a second synchronization mechanism: **condition variables**. Mutexes are good for allowing or blocking access to a critical region. Condition variables allow threads to block due to some condition not being met. Almost always the two methods are used together.
 
-![the most important calls related to condition variables](./os/2-31.png)
+![the most important calls related to condition variables](2-31.png)
 
 {% note info %}
 when a call `Pthread_cond_wait` execute, it will give up the lock at the same time.
@@ -487,13 +487,13 @@ Condition variable can avoid busy-waiting by making process into sleep status in
 
     Each process is assigned a time interval, called its quantum, during which it is allowed to run. If the process is still running at the end of the quantum, the CPU is preempted and given to another process. If the process has blocked or finished before the quantum has elapsed, the CPU switching is done when the process blocks, of course. Many scheduling below are other types of round-robin.
 
-    ![Round-Robin Scheduling](./os/2-42.png)
+    ![Round-Robin Scheduling](2-42.png)
 
 - Priority Scheduling
 
     Each process is assigned a priority. In a same priority they obey round-robin.
 
-    ![Priority Scheduling](./os/2-43.png)
+    ![Priority Scheduling](2-43.png)
 
 - Guaranteed Scheduling
 
@@ -507,7 +507,7 @@ Condition variable can avoid busy-waiting by making process into sleep status in
 
 ### The Dining Philosophers Problem
 
-![description](./os/2-45.png)
+![description](2-45.png)
 
 The life of a philosopher consists of alternating periods of eating and thinking. When a philosopher gets sufficiently hungry, she tries to acquire her left and right forks, one at a time, in either order. If successful in acquiring two forks, she eats for a while, then puts down the forks, and continues to think. The key question is: Can you write a program for each philosopher that does what it is supposed to do and never gets stuck?
 

@@ -12,7 +12,7 @@ Even with no memory abstraction, it is possible to run multiple programs at the 
 
 With the addition of some special hardware, it is possible to run multiple programs concurrently, even without swapping. It is shown as below. The figure (C) was the combination of program of (a) and (b)
 
-![illustration of the relocation problem](./os-2/3-2.png)
+![illustration of the relocation problem](3-2.png)
 
 Modify the second program on the fly as it loaded it into memory using a technique known as **static relocation**. It worked like this: When a program was loaded at address 16,384, the constant 16,384 was added to every program address during the load process (so “JMP 28” became “JMP 16,412”, etc.). While the **dynamic relocation** (动态重定位) is to add a base address to the program.
 
@@ -24,13 +24,13 @@ But the physical memory of the computer isn’t large enough to hold all the pro
 
 The operation of a swapping system is illustrated below.
 
-![an example of swapping](./os-2/3-4.png)
+![an example of swapping](3-4.png)
 
 ### Managing Free Memory
 
 When memory is assigned dynamically, the operating system must manage it. We have two ways to manage the operating system.
 
-![overview of two ways](./os-2/3-6.png)
+![overview of two ways](3-6.png)
 
 - with bitmap
     Memory is divided into allocation units (small as a few words, large as several kilobytes). Corresponding to each allocation unit is a bit in the bitmap, which is 0 if the unit is free and 1 if it is occupied (or vice versa).
@@ -60,13 +60,13 @@ The basic idea behind virtual memory is that each program has its own address sp
 
 ### Paging
 
-![how the virtual address work](./os-2/3-8.png)
+![how the virtual address work](3-8.png)
 
 Those program-generated addresses are called **virtual addresses** and form the **virtual address space**. When virtual memory is used, the virtual addresses do not go directly to the memory bus. Instead, they go to an **MMU** (**Memory Management Unit**) that maps the virtual addresses onto the physical memory addresses.
 
 The virtual address space consists of fixed-size units called pages. The corresponding units in the physical memory are called **page frames**. The pages and page frames are generally the same size.
 
-![relationship between different addresses](./os-2/3-9.png)
+![relationship between different addresses](3-9.png)
 
 In the actual hardware, a **Present/absent bit** keeps track of which pages are physical present in memory. If the program references an unmapped address, it will cause CPU to trap to the operating system. This trap is called a **page fault**. The operating system picks a little-used page frame and writes its contents back to the disk (if it is not already there), and then fetches (also from the disk) the page that was just referenced into the page frame just freed, change the map, and restarts the trapped instruction.
 
@@ -76,7 +76,7 @@ The page number is used as an index into the **page table**, yielding the number
 
 The purpose of the page table is to map virtual pages onto page frames.
 
-![page table](./os-2/3-10.png)
+![page table](3-10.png)
 
 {% note info %}
 NOTES:
@@ -91,7 +91,7 @@ NOTES:
 Usually, each process has its own page table.
 {% endnote %}
 
-![structure of a page table entry](./os-2/3-11.png)
+![structure of a page table entry](3-11.png)
 
 We could see that
 
@@ -117,7 +117,7 @@ The error that we do not need to access the disk again, but merely map the page 
 
 #### multilevel page tables
 
-![multilevel page tables](./os-2/3-13.png)
+![multilevel page tables](3-13.png)
 
 {% note info %}
 As an example, consider the 32-bit virtual address 0x00403004. This virtual address corresponds to `PT1 = 1`, `PT2 = 3`, and `Offset = 4`. The MMU first uses `PT1` to index into the top-level page table and obtain entry 1, which corresponds to addresses 4M to 8M − 1. It then uses `PT2` to index into the second-level page table just found and extract entry 3, which corresponds to addresses 12288 to 16383 within its 4M chunk. This entry contains the page frame number of the page containing virtual address 0x00403004.
@@ -125,7 +125,7 @@ As an example, consider the 32-bit virtual address 0x00403004. This virtual addr
 
 #### Inverted Page Tables
 
-![inverted page tables](./os-2/3-14.png)
+![inverted page tables](3-14.png)
 
 Operating system only maintains a global page table. Physical address is just a index by hash on virtual page, and attaches a string of virtual addresses.
 
@@ -147,11 +147,11 @@ It is easy to figure out.
 
 A progress in FIFO algorithm.
 
-![an instance of second-chance replacement algorithm](./os-2/3-15.png)
+![an instance of second-chance replacement algorithm](3-15.png)
 
 ### The Clock Page Replacement Algorithm
 
-![an instance of clock replacement algorithm](./os-2/3-16.png)
+![an instance of clock replacement algorithm](3-16.png)
 
 ### The Last Recently Used (LRU) Page Replacement Algorithm
 
@@ -165,7 +165,7 @@ One possibility is called the **NFU** (**Not Frequently Used**) algorithm. When 
 
 The main problem with NFU is that it never forgets anything. Consequently, the operating system will remove useful pages instead of pages no longer in use. So there is a modification to NFU, known as **aging**.
 
-![how aging works](./os-2/3-17.png)
+![how aging works](3-17.png)
 
 ## Design Issues for Paging Systems
 
@@ -195,7 +195,7 @@ When more processes share some code, a problem occurs with the shared pages. If 
 
 Sharing data is more tricker than sharing code, and what is often done is to give each of these processes its own page table and have both od them point to the same set of pages. However, all the data pages are mapped into both processes as `READ ONLY`. As soon as one process updates a memory system, the violation of the read-only protection causes a trap to the operating system. A copy is then made of the offending page so that each process now has its own **private copy** (专用副本). All copies are now set to `READ/WRITE`, so subsequent writes to one copy proceed without trapping. This strategy means that those pages that are never modified (including all the program pages) need not be copied. Only the data pages that are actually modified need to be copied. This approach, called **copy on write**(**COW**), improves performance by reducing copying.
 
-![an instance that share the same program](./os-2/3-25.png)
+![an instance that share the same program](3-25.png)
 
 ### Shared Libraries
 
@@ -209,7 +209,7 @@ Note that when a library is loaded or used, the entire library is not read into 
 
 As shared library, `.so` on Linux, `.dll` on Windows, inner data and code must use relative addresses.
 
-![an instance of share library](./os-2/3-26.png)
+![an instance of share library](3-26.png)
 
 {% note success %}
 Shared library uses relative address instead of absolute address. When program loading shared library, it will map shared library to address space while running, so using relative address can let shared library load to different memory addresses.

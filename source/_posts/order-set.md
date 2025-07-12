@@ -134,7 +134,7 @@ $$\begin{vmatrix} 1 & 5 \\\\ 4 & 6 \end{vmatrix}$$
 |`o`|在当前上方插入新行|
 |`O`|在当前下方插入新行|
 
-![更详细的指令](./order-set/vi-vim-cheat-sheet-sch.gif)
+![更详细的指令](vi-vim-cheat-sheet-sch.gif)
 
 ## Linux上的bash指令
 

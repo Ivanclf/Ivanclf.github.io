@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 
 set SOURCE_BRANCH=hexo-source
 set DEPLOY_BRANCH=main
-set REPO_URL=https://github.com/你的用户名/你的仓库.git
+set REPO_URL=https://github.com/Ivanclf/Ivanclf.github.io.git
 
 git add . >nul 2>&1
 

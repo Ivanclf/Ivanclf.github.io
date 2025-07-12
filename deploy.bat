@@ -48,3 +48,4 @@ if !static_changes! equ 1 (
 
 cd ..
 rd /s /q "%DEPLOY_DIR%" >nul 2>&1
+pause

@@ -183,7 +183,7 @@ In various situations that we will see later it is desirable to have some functi
 
     $$
     \begin{array}{c}
-    a=3 & n=10 & \phi(10)=4 & 3^4=81\equiv 1 \mod 10 \\
+    a=3 & n=10 & \phi(10)=4 & 3^4=81\equiv 1 \mod 10 \\\\
     a=2 & n = 11 & \phi(11)=10 & 2^{10}=1024\equiv1 \mod 11
     \end{array}
     $$

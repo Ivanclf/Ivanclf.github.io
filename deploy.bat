@@ -2,11 +2,13 @@
 chcp 65001 >nul
 setlocal enabledelayedexpansion
 
-
+:: ===== 配置区域 =====
 set SOURCE_BRANCH=hexo-source
 set DEPLOY_BRANCH=main
 set REPO_URL=https://github.com/Ivanclf/Ivanclf.github.io.git
+:: ====================
 
+:: 第一步：检查并提交源码分支
 git add . >nul 2>&1
 
 set has_changes=0
@@ -20,6 +22,7 @@ if !has_changes! equ 1 (
     echo Source branch no changes
 )
 
+:: 第二步：部署静态文件分支
 set DEPLOY_DIR=.deploy_temp
 if exist "%DEPLOY_DIR%" rd /s /q "%DEPLOY_DIR%" >nul 2>&1
 mkdir "%DEPLOY_DIR%" >nul 2>&1
@@ -48,4 +51,3 @@ if !static_changes! equ 1 (
 
 cd ..
 rd /s /q "%DEPLOY_DIR%" >nul 2>&1
-pause

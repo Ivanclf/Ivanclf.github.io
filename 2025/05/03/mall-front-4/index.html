@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="接下来是对一级分类页面中各种种类的菜单进行配置。其实网页在前面的Layout部分已经配置好 12345&lt;!-- ... --&gt;&lt;RouterLink active-class&#x3D;&quot;active&quot; :to&#x3D;&quot;&#96;&#x2F;category&#x2F;$&#123;item.id&#125;&#96;&quot;&gt;    &#123;&#123; item.name &amp;#125">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue实践之商场app - 一级分类页面">
+<meta property="og:url" content="http://example.com/2025/05/03/mall-front-4/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="接下来是对一级分类页面中各种种类的菜单进行配置。其实网页在前面的Layout部分已经配置好 12345&lt;!-- ... --&gt;&lt;RouterLink active-class&#x3D;&quot;active&quot; :to&#x3D;&quot;&#96;&#x2F;category&#x2F;$&#123;item.id&#125;&#96;&quot;&gt;    &#123;&#123; item.name &amp;#125">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/05/03/mall-front-4/bread.png">
+<meta property="og:image" content="http://example.com/2025/05/03/mall-front-4/banner.png">
+<meta property="article:published_time" content="2025-05-03T12:22:48.000Z">
+<meta property="article:modified_time" content="2025-05-06T08:35:45.220Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/05/03/mall-front-4/bread.png">
+  
+  
+  
+  <title>vue实践之商场app - 一级分类页面 - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">vue实践之商场app - 一级分类页面</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-03 20:22" pubdate>
+          2025年5月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">vue实践之商场app - 一级分类页面</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>接下来是对一级分类页面中各种种类的菜单进行配置。其实网页在前面的Layout部分已经配置好</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- ... --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">RouterLink</span> <span class="hljs-attr">active-class</span>=<span class="hljs-string">&quot;active&quot;</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;`/category/$&#123;item.id&#125;`&quot;</span>&gt;</span><br>    &#123;&#123; item.name &#125;&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">RouterLink</span>&gt;</span><br><span class="hljs-comment">&lt;!-- ... --&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>里面的<code>/category/$&#123;item.id&#125;</code>就是要跳转的网页，接下来就是相关的配置。</p>
+<p>在Category文件夹下新建文件夹composables和文件<code>index.vue</code>，<a href="#category">文件代码如下</a></p>
+<p>代码现在还不能跑通，还需要一些说明，添加一些脚本文件。</p>
+<h2 id="面包屑导航"><a href="#面包屑导航" class="headerlink" title="面包屑导航"></a>面包屑导航</h2><p>面包屑导航即在页面上部的导航栏，el-element中已经提供了面包屑组件，直接拿来用即可</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;&gt;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb-item</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;&#123; path: &#x27;/&#x27; &#125;&quot;</span>&gt;</span>首页<span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb-item</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb-item</span>&gt;</span>&#123;&#123; categoryData.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/05/03/mall-front-4/bread.png" srcset="/img/loading.gif" lazyload alt="效果图"></p>
+<h2 id="轮播图"><a href="#轮播图" class="headerlink" title="轮播图"></a>轮播图</h2><p>分页也需要实现和主页一样的banner轮播图（不过播的内容有些许不一样），因为需求相似，因此调用的内容也相似</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">el-carousel</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;500px&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">el-carousel-item</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in bannerList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;item.imgUrl&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">el-carousel-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">el-carousel</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>在composable文件夹下新建文件<code>useBanner.js</code>，代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; ref, onMounted &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue&quot;</span><br><span class="hljs-keyword">import</span> &#123; getBannerAPI &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/apis/home&#x27;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useBanner</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">const</span> bannerList = <span class="hljs-title function_">ref</span>([])<br><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_">getBanner</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;<br>        <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getBannerAPI</span>(&#123;<br>            <span class="hljs-attr">distributeSite</span>: <span class="hljs-string">&#x27;2&#x27;</span><br>        &#125;)<br>        bannerList.<span class="hljs-property">value</span> = res.<span class="hljs-property">result</span><br>    &#125;<br><br>    <span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">getBanner</span>())<br>    <span class="hljs-keyword">return</span> &#123;<br>        bannerList<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此处传递的参数是2.</p>
+<p><img src="/2025/05/03/mall-front-4/banner.png" srcset="/img/loading.gif" lazyload alt="效果图"></p>
+<h2 id="解决路由缓存问题"><a href="#解决路由缓存问题" class="headerlink" title="解决路由缓存问题"></a>解决路由缓存问题</h2><p>在点击一级分类时，默认还不能直接跳转，而是等待刷新。因此需要一个监听到路由变化并立即更新网站的脚本。在composables文件夹下新建文件<code>useCategory.js</code>，代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; getCategoryAPI &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/apis/category&#x27;</span><br><span class="hljs-keyword">import</span> &#123; useRoute &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue-router&#x27;</span><br><span class="hljs-keyword">import</span> &#123; onBeforeRouteUpdate &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue-router&#x27;</span><br><span class="hljs-keyword">import</span> &#123; onMounted, ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useCategory</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">const</span> categoryData = <span class="hljs-title function_">ref</span>(&#123;&#125;)<br>    <span class="hljs-keyword">const</span> route = <span class="hljs-title function_">useRoute</span>()<br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_">getCategory</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">id = route.params.id</span>) =&gt; &#123;<br>        <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getCategoryAPI</span>(id)<br>        categoryData.<span class="hljs-property">value</span> = res.<span class="hljs-property">result</span><br>    &#125;<br><br>    <span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">getCategory</span>())<br><br>    <span class="hljs-title function_">onBeforeRouteUpdate</span>(<span class="hljs-function">(<span class="hljs-params">to</span>) =&gt;</span> &#123;<br>        <span class="hljs-title function_">getCategory</span>(to.<span class="hljs-property">params</span>.<span class="hljs-property">id</span>)<br>    &#125;)<br><br>    <span class="hljs-keyword">return</span> &#123;<br>        categoryData<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里定义了一个函数<code>useCategory</code>，当页面没有变化时获取的是对当前网页内容的信息，当网页路由发生变化时，vue-router的<code>onBeforeRouteUpdate</code>函数检测到这个变化，并改变接口函数传递的参数值，从而实现重新渲染。</p>
+<h2 id="二级分类页面"><a href="#二级分类页面" class="headerlink" title="二级分类页面"></a>二级分类页面</h2><p>现在只完成了一级分类页面和大屏，下面的细致分类还没有做。在SubCategory文件夹下新建<code>index.vue</code>文件，<a href="#subcategory">代码如下</a></p>
+<p>其中的面包屑导航上面已经做过，这里不做赘述。<code>sub-container</code>部分的商品需要调取相关接口。在apis文件夹下的<code>category.js</code>文件中新增接口</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">getCategoryFilterAPI</span> = (<span class="hljs-params">id</span>) =&gt; &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">request</span>(&#123;<br>        url :<span class="hljs-string">&#x27;/category/sub/filter&#x27;</span>,<br>        <span class="hljs-attr">params</span>: &#123;<br>            id<br>        &#125;<br>    &#125;)<br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">getSubCategoryAPI</span> = (<span class="hljs-params">data</span>) =&gt; &#123;<br>    <span class="hljs-keyword">return</span> request (&#123;<br>        <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/category/goods/temporary&#x27;</span>,<br>        <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,<br>        data<br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="列表筛选功能实现"><a href="#列表筛选功能实现" class="headerlink" title="列表筛选功能实现"></a>列表筛选功能实现</h3><p>element-plus中的el-tabs已经提供了切换列表时的发生的事件<code>v-model=&quot;reqData.sortField&quot; @tab-change=&quot;tabChange&quot;</code>，即在切换时，<code>reqData.sortField</code>发生改变，并触发<code>tabChange</code>方法。该方法将Page置为1（与后面的无限加载配合）。对象的值发生改变，再次请求数据。</p>
+<div class="note note-info">
+            <p>这种点击一次就向后端请求一次的做法在数据量较大时比较适用。在数据量较小时，直接在前端排序应该也足够了。</p>
+          </div>
+
+<h3 id="无限加载功能实现"><a href="#无限加载功能实现" class="headerlink" title="无限加载功能实现"></a>无限加载功能实现</h3><p>看似无限加载，其实只是把不同的页面拼接在一起了。使用element-plus的<code>v-infinite-scroll</code>指令监听是否满足触底条件。不满足条件时页数加1加载下一页数据。最后，当res获取的值为空值时停止监听，无限加载结束。</p>
+<p>其中<code>goodsList.value = [...goodsList.value,...res.result.items]</code>是把goodsList拆开进行组合，将新加入的数据也并入这个数组中。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><h3 id="category"><a href="#category" class="headerlink" title="category"></a>category</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">GoodsItem</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../Home/components/GoodsItem.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useCategory &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./composables/useCategory&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useBanner &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./composables/useBanner&#x27;</span>;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> &#123; categoryData &#125; = <span class="hljs-title function_">useCategory</span>()</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> &#123; bannerList &#125; = <span class="hljs-title function_">useBanner</span>()</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;top-category&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container m-top-20&quot;</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 面包屑 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bread-container&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;&gt;&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb-item</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;&#123; path: &#x27;/&#x27; &#125;&quot;</span>&gt;</span>首页<span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb-item</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb-item</span>&gt;</span>&#123;&#123; categoryData.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb-item</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb</span>&gt;</span><br>                <span class="hljs-comment">&lt;!-- 轮播图 --&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home-banner&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">el-carousel</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;500px&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">el-carousel-item</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in bannerList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><br>                            <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;item.imgUrl&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;/<span class="hljs-name">el-carousel-item</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">el-carousel</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sub-list&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>全部分类<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;i in categoryData.children&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;i.id&quot;</span>&gt;</span><br>                            <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;`/category/sub/$&#123;i.id&#125;`&quot;</span>&gt;</span><br>                                <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;i.picture&quot;</span> /&gt;</span><br>                                <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;&#123; i.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                            <span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br>                        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ref-goods&quot;</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in categoryData.children&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;head&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>- &#123;&#123; item.name &#125;&#125;-<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;body&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">GoodsItem</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;good in item.goods&quot;</span> <span class="hljs-attr">:goods</span>=<span class="hljs-string">&quot;good&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;good.id&quot;</span> /&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;scss&quot;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.top-category</span> &#123;</span><br><span class="language-css">    <span class="hljs-selector-tag">h3</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">28px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">color</span>: <span class="hljs-number">#666</span>;</span><br><span class="language-css">        <span class="hljs-attribute">font-weight</span>: normal;</span><br><span class="language-css">        <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">        <span class="hljs-attribute">line-height</span>: <span class="hljs-number">100px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.sub-list</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">ul</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">            <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">32px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">flex-wrap</span>: wrap;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">width</span>: <span class="hljs-number">168px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">height</span>: <span class="hljs-number">160px</span>;</span><br><span class="language-css"></span><br><span class="language-css"></span><br><span class="language-css">                <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">                    <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">                    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css"></span><br><span class="language-css">                    <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">                        <span class="hljs-attribute">width</span>: <span class="hljs-number">100px</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">height</span>: <span class="hljs-number">100px</span>;</span><br><span class="language-css">                    &#125;</span><br><span class="language-css"></span><br><span class="language-css">                    <span class="hljs-selector-tag">p</span> &#123;</span><br><span class="language-css">                        <span class="hljs-attribute">line-height</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">                    &#125;</span><br><span class="language-css"></span><br><span class="language-css">                    &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                        <span class="hljs-attribute">color</span>: $xtxColor;</span><br><span class="language-css">                    &#125;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.ref-goods</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">        <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.head</span> &#123;</span><br><span class="language-css">            <span class="hljs-selector-class">.xtx-more</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">position</span>: absolute;</span><br><span class="language-css">                <span class="hljs-attribute">top</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">right</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-class">.tag</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">                <span class="hljs-attribute">top</span>: -<span class="hljs-number">20px</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.body</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">            <span class="hljs-attribute">justify-content</span>: space-around;</span><br><span class="language-css">            <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">40px</span> <span class="hljs-number">30px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.bread-container</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">padding</span>: <span class="hljs-number">25px</span> <span class="hljs-number">0</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.home-banner</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">width</span>: <span class="hljs-number">1240px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">height</span>: <span class="hljs-number">500px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">500px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="subCategory"><a href="#subCategory" class="headerlink" title="subCategory"></a>subCategory</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; onMounted, ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; getCategoryFilterAPI, getSubCategoryAPI &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../apis/category&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useRoute &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue-router&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">GoodsItem</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../Home/components/GoodsItem.vue&#x27;</span></span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-comment">// 面包屑导航数据</span></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> categoryData = <span class="hljs-title function_">ref</span>(&#123;&#125;)</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> route = <span class="hljs-title function_">useRoute</span>()</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">getCategoryData</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getCategoryFilterAPI</span>(route.<span class="hljs-property">params</span>.<span class="hljs-property">id</span>)</span><br><span class="language-javascript">    categoryData.<span class="hljs-property">value</span> = res.<span class="hljs-property">result</span></span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">getCategoryData</span>())</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-comment">// 基础列表数据</span></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> goodsList = <span class="hljs-title function_">ref</span>([])</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> reqData = <span class="hljs-title function_">ref</span>(&#123;</span><br><span class="language-javascript">    <span class="hljs-attr">categoryId</span>: route.<span class="hljs-property">params</span>.<span class="hljs-property">id</span>,</span><br><span class="language-javascript">    <span class="hljs-attr">page</span>: <span class="hljs-number">1</span>,</span><br><span class="language-javascript">    <span class="hljs-attr">pageSize</span>: <span class="hljs-number">20</span>,</span><br><span class="language-javascript">    <span class="hljs-attr">sortField</span>: <span class="hljs-string">&#x27;publishTime&#x27;</span></span><br><span class="language-javascript">&#125;)</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">getGoodsList</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getSubCategoryAPI</span>(reqData.<span class="hljs-property">value</span>)</span><br><span class="language-javascript">    goodsList.<span class="hljs-property">value</span> = res.<span class="hljs-property">result</span>.<span class="hljs-property">items</span></span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">getGoodsList</span>())</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-comment">// tab切换</span></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">tabChange</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;</span><br><span class="language-javascript">    reqData.<span class="hljs-property">value</span>.<span class="hljs-property">page</span> = <span class="hljs-number">1</span></span><br><span class="language-javascript">    <span class="hljs-title function_">getGoodsList</span>()</span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-comment">// 无限加载</span></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> disabled = <span class="hljs-title function_">ref</span>(<span class="hljs-literal">false</span>)</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">load</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;</span><br><span class="language-javascript">    reqData.<span class="hljs-property">value</span>.<span class="hljs-property">page</span>++</span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getSubCategoryAPI</span>(reqData.<span class="hljs-property">value</span>)</span><br><span class="language-javascript">    goodsList.<span class="hljs-property">value</span> = [...goodsList.<span class="hljs-property">value</span>,...res.<span class="hljs-property">result</span>.<span class="hljs-property">items</span>]</span><br><span class="language-javascript">    <span class="hljs-comment">// 停止监听</span></span><br><span class="language-javascript">    <span class="hljs-keyword">if</span> (res.<span class="hljs-property">result</span>.<span class="hljs-property">items</span>.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) &#123;</span><br><span class="language-javascript">        disabled.<span class="hljs-property">value</span> = <span class="hljs-literal">true</span></span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container &quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 面包屑 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bread-container&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;&gt;&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb-item</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;&#123; path: &#x27;/&#x27; &#125;&quot;</span>&gt;</span>首页<span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb-item</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb-item</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;&#123; path: `/category/$&#123;categoryData.parentId&#125;` &#125;&quot;</span>&gt;</span>&#123;&#123; categoryData.parentName<br>                    &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb-item</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">el-breadcrumb-item</span>&gt;</span>&#123;&#123; categoryData.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb-item</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">el-breadcrumb</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sub-container&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">el-tabs</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;reqData.sortField&quot;</span> @<span class="hljs-attr">tab-change</span>=<span class="hljs-string">&quot;tabChange&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">el-tab-pane</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;最新商品&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;publishTime&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">el-tab-pane</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">el-tab-pane</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;最高人气&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;orderNum&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">el-tab-pane</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">el-tab-pane</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;评论最多&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;evaluateNum&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">el-tab-pane</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">el-tabs</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;body&quot;</span> <span class="hljs-attr">v-infinite-scroll</span>=<span class="hljs-string">&quot;load&quot;</span> <span class="hljs-attr">:infinite-scroll-disabled</span>=<span class="hljs-string">&quot;disabled&quot;</span>&gt;</span><br>                <span class="hljs-comment">&lt;!-- 商品列表 --&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">GoodsItem</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;goods in goodsList&quot;</span> <span class="hljs-attr">:goods</span>=<span class="hljs-string">&quot;goods&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;goods.id&quot;</span> /&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;scss&quot;</span> <span class="hljs-attr">scoped</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.bread-container</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">padding</span>: <span class="hljs-number">25px</span> <span class="hljs-number">0</span>;</span><br><span class="language-css">    <span class="hljs-attribute">color</span>: <span class="hljs-number">#666</span>;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.sub-container</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span> <span class="hljs-number">10px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.body</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">flex-wrap</span>: wrap;</span><br><span class="language-css">        <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">10px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.goods-item</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">220px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span> <span class="hljs-number">30px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">160px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">160px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">p</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.name</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.desc</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">29px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.price</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: $priceColor;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.pagination-container</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">justify-content</span>: center;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css"></span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+        <a href="/tags/vue/" class="print-no-link">#vue</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vue实践之商场app - 一级分类页面</div>
+      <div>http://example.com/2025/05/03/mall-front-4/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/04/mall-front-5/" title="vue实践之商场app - 详情页">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vue实践之商场app - 详情页</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/03/mall-front-3/" title="vue实践之商场app - 首页部分">
+                        <span class="hidden-mobile">vue实践之商场app - 首页部分</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

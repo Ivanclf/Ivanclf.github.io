@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="JFrame窗口的构建为了实现良好的交互效果，合适的GUI窗口是十分必要的。在Java中可以使用Swing组件和Applet组件来实现。本次主要使用Swing组件的JFrame窗口。插入窗口需要在方法或构造体中声明 1234private JFrame frame &#x3D; new JFrame(&quot;Let&#x27;s Draw!&quot;);frame.setDefaultCloseOpe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目驱动的Swing和Graphic类学习">
+<meta property="og:url" content="http://example.com/2024/04/23/java-SwingLearning/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="JFrame窗口的构建为了实现良好的交互效果，合适的GUI窗口是十分必要的。在Java中可以使用Swing组件和Applet组件来实现。本次主要使用Swing组件的JFrame窗口。插入窗口需要在方法或构造体中声明 1234private JFrame frame &#x3D; new JFrame(&quot;Let&#x27;s Draw!&quot;);frame.setDefaultCloseOpe">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-23T07:36:55.000Z">
+<meta property="article:modified_time" content="2024-07-01T16:14:57.223Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="工程">
+<meta property="article:tag" content="Swing">
+<meta property="article:tag" content="Applet">
+<meta property="article:tag" content="Graphics">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>项目驱动的Swing和Graphic类学习 - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">项目驱动的Swing和Graphic类学习</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-23 15:36" pubdate>
+          2024年4月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">项目驱动的Swing和Graphic类学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="JFrame窗口的构建"><a href="#JFrame窗口的构建" class="headerlink" title="JFrame窗口的构建"></a>JFrame窗口的构建</h3><p>为了实现良好的交互效果，合适的GUI窗口是十分必要的。在Java中可以使用Swing组件和Applet组件来实现。本次主要使用Swing组件的JFrame窗口。<br>插入窗口需要在方法或构造体中声明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-type">JFrame</span> <span class="hljs-variable">frame</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JFrame</span>(<span class="hljs-string">&quot;Let&#x27;s Draw!&quot;</span>);<br>frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   <span class="hljs-comment">// 设置默认关闭状态</span><br>frame.setVisible(<span class="hljs-literal">true</span>); <span class="hljs-comment">// JFrame窗口默认是透明的，需要设置成可见状态</span><br>frame.setSize(<span class="hljs-number">400</span>，<span class="hljs-number">450</span>);    <span class="hljs-comment">// 设置窗口的大小</span><br></code></pre></td></tr></table></figure>
+<p>单击关闭窗口操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">JFrame.EXIT_ON_CLOSE    <span class="hljs-comment">// 退出窗口，结束程序</span><br>JFrame.DO_NOTHING_ON_CLOSE  <span class="hljs-comment">// 不做任何操作</span><br>JFrame.HIDE_ON_CLOSE    <span class="hljs-comment">// 最小化</span><br>JFrame.DISPOSE_ON_CLOSE <span class="hljs-comment">// 关闭窗口，释放资源</span><br></code></pre></td></tr></table></figure>
+<h3 id="JFrame容器组装"><a href="#JFrame容器组装" class="headerlink" title="JFrame容器组装"></a>JFrame容器组装</h3><p>GUI组件必须装在容器中，不能独立使用。必须通过.add()组装。而JFrame下可以放2种容器，常用的是ContentPane()，需要在其后.add()。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">frame.getContentPane().add(scrollPane);<br>frame.getContentPane().add(listTip);<br>frame.getContentPane().add(drawRectangleButton);<br>frame.getContentPane().add(drawCircleButton);<br>frame.getContentPane().add(drawTriangleBtn);<br>frame.getContentPane().add(drawDraft);<br>frame.getContentPane().add(search);<br>frame.getContentPane().add(inputNameTip);<br>frame.getContentPane().add(inputName);<br>frame.getContentPane().add(inputOrder);<br>frame.getContentPane().add(inputOrderTip);<br></code></pre></td></tr></table></figure>
+<p>而更为通用的JPanel此处没有使用。<br>此工程没有使用布局，所以需要指定组件位置、大小与布局设置，避免出现bug。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java">drawRectangleButton.setBounds(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">150</span>, <span class="hljs-number">30</span>);<br>drawCircleButton.setBounds(<span class="hljs-number">10</span>, <span class="hljs-number">60</span>, <span class="hljs-number">150</span>, <span class="hljs-number">30</span>);<br>drawTriangleBtn.setBounds(<span class="hljs-number">10</span>, <span class="hljs-number">110</span>, <span class="hljs-number">150</span>, <span class="hljs-number">30</span>);<br>drawDraft.setBounds(<span class="hljs-number">10</span>,<span class="hljs-number">160</span>,<span class="hljs-number">150</span>,<span class="hljs-number">30</span>);<br>search.setBounds(<span class="hljs-number">10</span>,<span class="hljs-number">210</span>,<span class="hljs-number">150</span>,<span class="hljs-number">30</span>);<br>inputNameTip.setBounds(<span class="hljs-number">10</span>,<span class="hljs-number">260</span>,<span class="hljs-number">150</span>,<span class="hljs-number">15</span>);<br>inputName.setBounds(<span class="hljs-number">10</span>,<span class="hljs-number">290</span>,<span class="hljs-number">150</span>,<span class="hljs-number">15</span>);<br>inputOrderTip.setBounds(<span class="hljs-number">10</span>,<span class="hljs-number">320</span>,<span class="hljs-number">150</span>,<span class="hljs-number">15</span>);<br>inputOrder.setBounds(<span class="hljs-number">10</span>,<span class="hljs-number">350</span>,<span class="hljs-number">150</span>,<span class="hljs-number">15</span>);<br>listTip.setBounds(<span class="hljs-number">200</span>,<span class="hljs-number">10</span>,<span class="hljs-number">180</span>,<span class="hljs-number">30</span>);<br>scrollPane.setBounds(<span class="hljs-number">200</span>,<span class="hljs-number">60</span>,<span class="hljs-number">180</span>,<span class="hljs-number">280</span>);<br><br>frame.setLayout(<span class="hljs-literal">null</span>);  <span class="hljs-comment">// 布局设置</span><br>frame.setLocationRelativeTo(<span class="hljs-literal">null</span>);<br></code></pre></td></tr></table></figure>
+<p>常用布局：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java">frame.setLayout(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FlowLayout</span>());<br><span class="hljs-comment">// 流式布局管理器，组件从左到右，从上到下摆放，间隔5像素</span><br>frame.setLayout(<span class="hljs-keyword">new</span> <span class="hljs-title class_">BorderLayout</span>());<br><span class="hljs-comment">// 边界布局管理器，需要在.add()中增加方向参数，组件中没有间隙</span><br>frame.setLayout(<span class="hljs-keyword">new</span> <span class="hljs-title class_">GridLayout</span>());<br><span class="hljs-comment">// 网格布局管理器，将容器分成数个网格单元，每个单元可容纳一个组件</span><br>frame.setLayout(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CardLayout</span>());<br><span class="hljs-comment">// 卡片布局管理器，可以使多个组件共享同一显示空间</span><br>frame.setLayout(<span class="hljs-keyword">new</span> <span class="hljs-title class_">GridBagLayout</span>());<br><span class="hljs-comment">// 网格包布局管理器</span><br></code></pre></td></tr></table></figure>
+<h3 id="JFrame部分组件介绍"><a href="#JFrame部分组件介绍" class="headerlink" title="JFrame部分组件介绍"></a>JFrame部分组件介绍</h3><p>JButton是一种按钮组件，声明如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-type">JButton</span> <span class="hljs-variable">drawRectangleButton</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JButton</span>(<span class="hljs-string">&quot;A Rectangle&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-type">JButton</span> <span class="hljs-variable">drawCircleButton</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JButton</span>(<span class="hljs-string">&quot;A Circle&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-type">JButton</span> <span class="hljs-variable">drawTriangleBtn</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JButton</span>(<span class="hljs-string">&quot;A Triangle&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-type">JButton</span> <span class="hljs-variable">drawDraft</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JButton</span>(<span class="hljs-string">&quot;Draw Anything&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-type">JButton</span> <span class="hljs-variable">search</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JButton</span>(<span class="hljs-string">&quot;Search&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>常用点击事件，重写相关方法以完成操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java">drawRectangleButton.addActionListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">AbstractAction</span>() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">actionPerformed</span><span class="hljs-params">(ActionEvent e)</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> inputName.getText();<br>        <span class="hljs-type">int</span> order;<br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">isException</span> <span class="hljs-operator">=</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            order = Integer.parseInt(inputOrder.getText());<br>        &#125; <span class="hljs-keyword">catch</span> (NumberFormatException ex) &#123;<br>            isException = <span class="hljs-literal">true</span>;<br>            order = <span class="hljs-number">0</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span>((name == <span class="hljs-literal">null</span> || name.isEmpty()) &amp;&amp; isException)&#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">construct</span>(<span class="hljs-string">&quot;rectangle&quot;</span>);<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">insertList</span>(<span class="hljs-string">&quot;rectangle&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((name == <span class="hljs-literal">null</span> || name.isEmpty())) &#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">construct</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,order);<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">insertList</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,order);<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (isException) &#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">construct</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,name);<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">insertList</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,name);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">construct</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,name,order);<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">insertList</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,name,order);<br>        &#125;<br>    &#125;<br>    scrollPane.repaint();<br>&#125;);<br></code></pre></td></tr></table></figure>
+<p>同理可重写其他按钮的相关方法。</p>
+<p>JLabel用于文本框中显示信息，声明如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-type">JLabel</span> <span class="hljs-variable">inputNameTip</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JLabel</span>(<span class="hljs-string">&quot;Input Name&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-type">JLabel</span> <span class="hljs-variable">inputOrderTip</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JLabel</span>(<span class="hljs-string">&quot;Inout Order&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-type">JLabel</span> <span class="hljs-variable">listTip</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JLabel</span>(<span class="hljs-string">&quot;History&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>JTextArea用于文本框中输入信息，显示信息也可，声明如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-type">JTextArea</span> <span class="hljs-variable">inputName</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JTextArea</span>();<br><span class="hljs-keyword">private</span> <span class="hljs-type">JTextArea</span> <span class="hljs-variable">inputOrder</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JTextArea</span>();<br></code></pre></td></tr></table></figure>
+<p>可以使用变量来接受获得的数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> inputName.getText();<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> order;<br><span class="hljs-type">boolean</span> <span class="hljs-variable">isException</span> <span class="hljs-operator">=</span> <span class="hljs-literal">false</span>;<br></code></pre></td></tr></table></figure>
+<p>但获得的不一定是自己想要的数据，一般情况下是使用滑条，不过此处使用了异常处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;<br>    order = Integer.parseInt(inputOrder.getText());<br>&#125; <span class="hljs-keyword">catch</span> (NumberFormatException ex) &#123;<br>    isException = <span class="hljs-literal">true</span>;<br>    order = <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>尝试捕捉相关异常，当获得异常时不报错，而是执行相关操作。此处暴躁地直接附0。而对于字符串而言，可以使用if判断字符串的状态</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span>((name == <span class="hljs-literal">null</span> || name.isEmpty()) &amp;&amp; isException)&#123;<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">construct</span>(<span class="hljs-string">&quot;rectangle&quot;</span>);<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">insertList</span>(<span class="hljs-string">&quot;rectangle&quot;</span>);<br>&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((name == <span class="hljs-literal">null</span> || name.isEmpty())) &#123;<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">construct</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,order);<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">insertList</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,order);<br>&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (isException) &#123;<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">construct</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,name);<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">insertList</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,name);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">construct</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,name,order);<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">insertList</span>(<span class="hljs-string">&quot;rectangle&quot;</span>,name,order);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Jlist与JScrollPane是一类较难用的组件。其声明如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> DefaultListModel&lt;String&gt; listModel = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultListModel</span>&lt;&gt;();  <span class="hljs-comment">// 先定义一个列表</span><br><span class="hljs-keyword">private</span> JList&lt;String&gt; history = <span class="hljs-keyword">new</span> <span class="hljs-title class_">JList</span>&lt;&gt;(listModel); <span class="hljs-comment">// 再定义JList，关联到列表上</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">JScrollPane</span> <span class="hljs-variable">scrollPane</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JScrollPane</span>(history);  <span class="hljs-comment">// 再将滚轮组件包络到列表上</span><br></code></pre></td></tr></table></figure>
+<p>设置滚动条（此处横向滚动条在显示不下时才显示，纵向滚动条一直显示）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);<br>scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);<br></code></pre></td></tr></table></figure>
+<p>添加相关操作，此处是双击操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java">history.addMouseListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MouseAdapter</span>() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">mouseClicked</span><span class="hljs-params">(MouseEvent e)</span> &#123;<br>        <span class="hljs-built_in">super</span>.mouseClicked(e);<br>        <span class="hljs-keyword">if</span>(e.getClickCount() == <span class="hljs-number">2</span>)&#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> history.locationToIndex(e.getPoint());<br>            <span class="hljs-keyword">if</span>(index &gt;= <span class="hljs-number">0</span> &amp;&amp; index &lt; Main.getData().size())&#123;<br>                Main.getData().get(index).drawFigure();<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h3 id="Graghics类的使用"><a href="#Graghics类的使用" class="headerlink" title="Graghics类的使用"></a>Graghics类的使用</h3><p>在此处，该类通过重写JPanel.paint()方法来实现Graphics类的使用，理由很简单，Graghics类不能直接引用。以rectangle的绘制为例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-type">Random</span> <span class="hljs-variable">ram</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Random</span>();<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">x1</span> <span class="hljs-operator">=</span> ram.nextInt(<span class="hljs-number">250</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">x2</span> <span class="hljs-operator">=</span> ram.nextInt(<span class="hljs-number">250</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">y1</span> <span class="hljs-operator">=</span> ram.nextInt(<span class="hljs-number">200</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">y2</span> <span class="hljs-operator">=</span> ram.nextInt(<span class="hljs-number">200</span>);<br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">drawFigure</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">var</span> <span class="hljs-variable">window</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JFrame</span>(<span class="hljs-built_in">this</span>.getName() + <span class="hljs-string">&quot; Rectangle &quot;</span> + <span class="hljs-built_in">this</span>.getOrder());<br>    <span class="hljs-type">var</span> <span class="hljs-variable">draw</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">myJPanels</span>();<br><br>    window.setContentPane(<span class="hljs-keyword">new</span> <span class="hljs-title class_">myJPanels</span>());<br>    draw.setSize(<span class="hljs-number">500</span>, <span class="hljs-number">400</span>);<br>    window.setSize(<span class="hljs-number">500</span>,<span class="hljs-number">400</span>);<br><br>    window.setVisible(<span class="hljs-literal">true</span>);<br>    window.setLayout(<span class="hljs-literal">null</span>);<br>    window.setLocationRelativeTo(<span class="hljs-literal">null</span>);<br>&#125;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">myJPanels</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">JPanel</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">paint</span><span class="hljs-params">(Graphics gr)</span> &#123;<br>        gr.setColor(Color.BLACK);<br>        gr.drawRect(x1,y1,x2,y2);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="自由绘制模式的另类实现"><a href="#自由绘制模式的另类实现" class="headerlink" title="自由绘制模式的另类实现"></a>自由绘制模式的另类实现</h3><p>为了提供自由选择多边形绘画的功能，本人干脆搞了个自由画板，虽然获取鼠标位置的方法精准度基本没有，但还能用。此处直接粘贴，不做解释。<br>注意，每一次画完后需要重绘画板。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> DrawCraft.<span class="hljs-type">myJPanels</span> <span class="hljs-variable">draw</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DrawCraft</span>.myJPanels();<br><span class="hljs-keyword">private</span> ArrayList&lt;coordinatePoint&gt; array = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br><br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">drawFigure</span><span class="hljs-params">()</span> &#123;<br><br>    draw.setSize(<span class="hljs-number">500</span>, <span class="hljs-number">400</span>);<br>    window.setSize(<span class="hljs-number">500</span>,<span class="hljs-number">400</span>);<br>    window.setContentPane(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DrawCraft</span>.myJPanels());<br>    window.setVisible(<span class="hljs-literal">true</span>);<br>    <br>    window.addMouseListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MouseAdapter</span>() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">mouseClicked</span><span class="hljs-params">(MouseEvent e)</span> &#123;<br>            <span class="hljs-built_in">super</span>.mouseClicked(e);<br>            array.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">coordinatePoint</span>(e.getX(), e.getY()));<br>            window.repaint();<br>        &#125;<br>    &#125;);<br><br>    window.setLayout(<span class="hljs-literal">null</span>);<br>    window.setLocationRelativeTo(<span class="hljs-literal">null</span>);<br>&#125;<br><span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">coordinatePoint</span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> x;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> y;<br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">coordinatePoint</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span>&#123;<br>        <span class="hljs-built_in">this</span>.x = x;<br>        <span class="hljs-built_in">this</span>.y = y;<br>    &#125;<br>    <span class="hljs-type">int</span> <span class="hljs-title function_">getX</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.x;<br>    &#125;<br>    <span class="hljs-type">int</span> <span class="hljs-title function_">getY</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.y;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="再加上一些堆料，和search框的绘制，一个前端工程就画好了！"><a href="#再加上一些堆料，和search框的绘制，一个前端工程就画好了！" class="headerlink" title="再加上一些堆料，和search框的绘制，一个前端工程就画好了！"></a>再加上一些堆料，和search框的绘制，一个前端工程就画好了！</h3>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+        <a href="/tags/%E5%B7%A5%E7%A8%8B/" class="print-no-link">#工程</a>
+      
+        <a href="/tags/Swing/" class="print-no-link">#Swing</a>
+      
+        <a href="/tags/Applet/" class="print-no-link">#Applet</a>
+      
+        <a href="/tags/Graphics/" class="print-no-link">#Graphics</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>项目驱动的Swing和Graphic类学习</div>
+      <div>http://example.com/2024/04/23/java-SwingLearning/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/04/24/object-oriented-1/" title="面向对象 - 基本语法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">面向对象 - 基本语法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/27/fuck-XDOJ/" title="byd xdoj">
+                        <span class="hidden-mobile">byd xdoj</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

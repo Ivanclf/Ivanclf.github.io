@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="App.vue作为程序的入口，一般只充当程序的入口 1234&lt;template&gt;  &lt;!-- 一级路由出口组件 --&gt;  &lt;router-view&#x2F;&gt;&lt;&#x2F;template&gt;  在路由中，该部分的组件为Layout，即这层存放网页各处都需要的布局组件 在Layout文件夹下新建index.vue和components文件夹，index.vue文件使用各">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue实践之商场app - Layout组件">
+<meta property="og:url" content="http://example.com/2025/05/02/mall-front-2/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="App.vue作为程序的入口，一般只充当程序的入口 1234&lt;template&gt;  &lt;!-- 一级路由出口组件 --&gt;  &lt;router-view&#x2F;&gt;&lt;&#x2F;template&gt;  在路由中，该部分的组件为Layout，即这层存放网页各处都需要的布局组件 在Layout文件夹下新建index.vue和components文件夹，index.vue文件使用各">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/05/02/mall-front-2/header.png">
+<meta property="og:image" content="http://example.com/2025/05/02/mall-front-2/stick.png">
+<meta property="og:image" content="http://example.com/2025/05/02/mall-front-2/footer.png">
+<meta property="article:published_time" content="2025-05-02T15:32:25.000Z">
+<meta property="article:modified_time" content="2025-05-06T08:26:51.450Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/05/02/mall-front-2/header.png">
+  
+  
+  
+  <title>vue实践之商场app - Layout组件 - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">vue实践之商场app - Layout组件</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-02 23:32" pubdate>
+          2025年5月2日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">vue实践之商场app - Layout组件</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>App.vue作为程序的入口，一般只充当程序的入口</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- 一级路由出口组件 --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">router-view</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>在路由中，该部分的组件为Layout，即这层存放网页各处都需要的布局组件</p>
+<p>在Layout文件夹下新建<code>index.vue</code>和components文件夹，index.vue文件使用各种组件，指明路由关系</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">layout-nav</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">layout-header</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">layout-fixed</span> /&gt;</span><br>    <span class="hljs-comment">&lt;!-- &lt;router-view :key=&quot;$route.fullPath&quot;/&gt; --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">router-view</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">layout-footer</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">LayoutFooter</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/LayoutFooter.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">LayoutHeader</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/LayoutHeader.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">LayoutNav</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/LayoutNav.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">LayoutFixed</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/LayoutFixed.vue&#x27;</span>;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useCategoryStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/stores/category&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; onMounted &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span></span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> categoryStore = <span class="hljs-title function_">useCategoryStore</span>()</span><br><span class="language-javascript"><span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> categoryStore.<span class="hljs-title function_">getCategory</span>())</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<div class="note note-info">
+            <ul><li><p><code>onMounted()</code>函数是vue3提供的生命周期钩子，当该组件挂载在DOM上时开始执行某些逻辑</p></li><li><p>注释的组件是为了让组件实例不服用，在点击不同的种类后立即更新网址</p></li></ul>
+          </div>
+
+<h2 id="导航栏"><a href="#导航栏" class="headerlink" title="导航栏"></a>导航栏</h2><p>导航栏在页面的最上方，用于快速跳转到某些页面。此处只给某些地方配置了路由，实际开发中视情况而定。<br>在components文件夹下新建<code>LayoutNav.vue</code>文件，<a href="#%E5%AF%BC%E8%88%AA%E6%A0%8F%E6%BA%90%E7%A0%81">具体代码如下</a></p>
+<p>在该组件中，导航栏以表格的形式存在，当用户信息存在时显示客户相关操作，否则显示登录操作</p>
+<div class="note note-info">
+            <p>为什么此处的空连接是<code>href=&quot;javascript:;&quot;</code>而非<code>href=&quot;&quot;</code>或者省略？<code>href=&quot;&quot;</code>可能会在点击时跳转到当前页面的根路径。省略该属性时链接可能会失去默认的样式或行为。</p>
+          </div>
+
+<h2 id="一级导航"><a href="#一级导航" class="headerlink" title="一级导航"></a>一级导航</h2><p>该部分用于跳转到各部分功能中。在该电商平台上，则是对应不同的购物模块。<br>在components文件夹下新建<code>LayoutHeader.vue</code>文件，<a href="#%E4%B8%80%E7%BA%A7%E5%AF%BC%E8%88%AA%E6%BA%90%E7%A0%81">具体代码如下</a></p>
+<p>在该部分中，logo部分显示应用图标，并提供跳转至首页的功能。其他的各类别信息则从服务器抓取。由于类别信息其他文件也需要，所以这里使用了Store来储存，该部分需参阅<a href="#store%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E8%B0%83%E7%94%A8">Store相关文件的定义</a>。购物车组件显示用户的购物车信息，该部分在购物车组件部分会有说明。</p>
+<p><img src="/2025/05/02/mall-front-2/header.png" srcset="/img/loading.gif" lazyload alt="头部效果"></p>
+<h2 id="吸顶的一级导航"><a href="#吸顶的一级导航" class="headerlink" title="吸顶的一级导航"></a>吸顶的一级导航</h2><p>为了方便用户快速跳转所需类别，一般会有两种选择：固定一级导航栏在页面顶端，或者提供回到顶部按钮。此处使用的是前者。<br>在components文件夹下新建<code>LayoutFixed.vue</code>文件，<a href="#%E5%90%B8%E9%A1%B6%E4%B8%80%E7%BA%A7%E5%AF%BC%E8%88%AA">具体代码如下</a></p>
+<p>相比一级导航，这里的吸顶版本又有什么区别？此处使用了vueuse中的useScroll方法，获得页面的滚动位置和状态。当状态符合时（此处为y &gt; 78），为相应的类名做出改变，从而改变后面的scss样式。后面的scss样式分两种，当在页面顶端时，组件移出到页面外（y轴偏移为-1）并完全透明。满足条件后，组件线性移动到页面顶端（通过特定属性清除y轴偏移）并解除透明。</p>
+<p><img src="/2025/05/02/mall-front-2/stick.png" srcset="/img/loading.gif" lazyload alt="吸顶一级导航的效果，可以看到，当不在页面顶端时，该部件飘在页面顶端"></p>
+<h2 id="页尾"><a href="#页尾" class="headerlink" title="页尾"></a>页尾</h2><p>网页的页尾一般用于放置版权信息、备案声明和相关链接。在components下新建<code>LayoutFooter.vue</code>文件，<a href="#%E9%A1%B5%E5%B0%BE%E6%BA%90%E7%A0%81">代码如下</a></p>
+<p><img src="/2025/05/02/mall-front-2/footer.png" srcset="/img/loading.gif" lazyload alt="页尾效果"></p>
+<div class="note note-info">
+            <p>HeaderCart购物车部分在购物车一章中讲</p>
+          </div>
+
+<h2 id="Store的定义与接口的调用"><a href="#Store的定义与接口的调用" class="headerlink" title="Store的定义与接口的调用"></a>Store的定义与接口的调用</h2><p>在apis文件夹下新建文件<code>category.js</code>，用于存放相关接口。代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> request <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@/utils/http&quot;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getCategoryAPI</span>(<span class="hljs-params">id</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">request</span>(&#123;<br>        <span class="hljs-attr">url</span>:<span class="hljs-string">&#x27;/category&#x27;</span>,<br>        <span class="hljs-attr">params</span>: &#123;<br>            id<br>        &#125;<br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这是在axios较为标准的创建请求方法。此处的request为axios相关文件在导出时使用的别名。使用的get方法作为默认方法，因此此处没有指定method。url指定向后端发起请求的地址。params即传递的参数。此处axios请求以函数的方式export到其他地方，方便复用。</p>
+<p>在stores文件夹下新建文件<code>category.js</code>，代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><span class="hljs-keyword">import</span> &#123; defineStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;pinia&#x27;</span><br><span class="hljs-keyword">import</span> &#123; getCategoryAPI &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@/apis/layout&quot;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useCategoryStore = <span class="hljs-title function_">defineStore</span>(<span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-comment">// state</span><br>    <span class="hljs-keyword">const</span> categoryList = <span class="hljs-title function_">ref</span>([])<br>    <span class="hljs-comment">// action</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_">getCategory</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;<br>        <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getCategoryAPI</span>()<br>        categoryList.<span class="hljs-property">value</span> = res.<span class="hljs-property">result</span><br>    &#125;<br><br>    <span class="hljs-keyword">return</span> &#123;<br>        categoryList,<br>        getCategory<br>    &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>action部分是一个比较标准的调用接口方法。该函数声明为异步函数，配合await在Promise被解决或拒绝后才执行相关操作，即在接收到数据后进行赋值，并在最后返回相关数据。该接口定义在Store中，Store的名字为category。</p>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><h3 id="导航栏源码"><a href="#导航栏源码" class="headerlink" title="导航栏源码"></a>导航栏源码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useUserStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/stores/user&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useRouter &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue-router&#x27;</span></span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> userStore = <span class="hljs-title function_">useUserStore</span>()</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> router = <span class="hljs-title function_">useRouter</span>()</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">confirm</span> = (<span class="hljs-params"></span>) =&gt; &#123;</span><br><span class="language-javascript">    userStore.<span class="hljs-title function_">clearUserInfo</span>()</span><br><span class="language-javascript">    router.<span class="hljs-title function_">push</span>(<span class="hljs-string">&#x27;/login&#x27;</span>)</span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app-topnav&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;userStore.userInfo.token&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span><br>                            <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot; iconfont icon-user&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>&#123;&#123; userStore.userInfo.account &#125;&#125;<br>                        <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">el-popconfirm</span> @<span class="hljs-attr">confirm</span>=<span class="hljs-string">&quot;confirm&quot;</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;确认退出吗?&quot;</span> <span class="hljs-attr">confirm-button-text</span>=<span class="hljs-string">&quot;确认&quot;</span></span><br><span class="hljs-tag">                            <span class="hljs-attr">cancel-button-text</span>=<span class="hljs-string">&quot;取消&quot;</span>&gt;</span><br>                            <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">reference</span>&gt;</span><br>                                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>退出登录<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                            <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br>                        <span class="hljs-tag">&lt;/<span class="hljs-name">el-popconfirm</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;$router.push(&#x27;/member/order&#x27;)&quot;</span>&gt;</span>我的订单<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;$router.push(&#x27;/member&#x27;)&quot;</span>&gt;</span>会员中心<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">v-else</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;$router.push(&#x27;/login&#x27;)&quot;</span>&gt;</span>请先登录<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>帮助中心<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>关于我们<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;scss&quot;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.app-topnav</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">background</span>: <span class="hljs-number">#333</span>;</span><br><span class="language-css">    <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-tag">ul</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">53px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">justify-content</span>: flex-end;</span><br><span class="language-css">        <span class="hljs-attribute">align-items</span>: center;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">            <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">15px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#cdcdcd</span>;</span><br><span class="language-css">                <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">                <span class="hljs-attribute">display</span>: inline-block;</span><br><span class="language-css"></span><br><span class="language-css">                <span class="hljs-selector-tag">i</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">14px</span>;</span><br><span class="language-css">                    <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">2px</span>;</span><br><span class="language-css">                &#125;</span><br><span class="language-css"></span><br><span class="language-css">                &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">color</span>: $xtxColor;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            ~<span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">                <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">border-left</span>: <span class="hljs-number">2px</span> solid <span class="hljs-number">#666</span>;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="一级导航源码"><a href="#一级导航源码" class="headerlink" title="一级导航源码"></a>一级导航源码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useCategoryStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/stores/category&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HeaderCart</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./HeaderCart.vue&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> categoryStore = <span class="hljs-title function_">useCategoryStore</span>()</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">header</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;app-header&#x27;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;logo&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">RouterLink</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>小兔鲜<span class="hljs-tag">&lt;/<span class="hljs-name">RouterLink</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br><br>            <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app-header-nav&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">RouterLink</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>首页<span class="hljs-tag">&lt;/<span class="hljs-name">RouterLink</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home&quot;</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in categoryStore.categoryList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">RouterLink</span> <span class="hljs-attr">active-class</span>=<span class="hljs-string">&quot;active&quot;</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;`/category/$&#123;item.id&#125;`&quot;</span>&gt;</span><br>                        &#123;&#123; item.name &#125;&#125;<br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">RouterLink</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;search&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-search&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;搜一搜&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br>            <span class="hljs-tag">&lt;<span class="hljs-name">HeaderCart</span> /&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&#x27;scss&#x27;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.app-header</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">background</span>: white;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.container</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">align-items</span>: center;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.logo</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">132px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">            <span class="hljs-attribute">text-indent</span>: -<span class="hljs-number">9999px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">background</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&#x27;@/assets/images/logo.png&#x27;</span>) no-repeat center <span class="hljs-number">18px</span> / contain;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.app-header-nav</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">820px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">        <span class="hljs-attribute">z-index</span>: <span class="hljs-number">998</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">38px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">line-height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">display</span>: inline-block;</span><br><span class="language-css"></span><br><span class="language-css">                &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">color</span>: $xtxColor;</span><br><span class="language-css">                    <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid $xtxColor;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-class">.active</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: $xtxColor;</span><br><span class="language-css">                <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid $xtxColor;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.search</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">170px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">        <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#e7e7e7</span>;</span><br><span class="language-css">        <span class="hljs-attribute">line-height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.icon-search</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">5px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">input</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">140px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">5px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: <span class="hljs-number">#666</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.cart</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">50px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.curr</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">            <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-class">.icon-cart</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">22px</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">em</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">font-style</span>: normal;</span><br><span class="language-css">                <span class="hljs-attribute">position</span>: absolute;</span><br><span class="language-css">                <span class="hljs-attribute">right</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                <span class="hljs-attribute">padding</span>: <span class="hljs-number">1px</span> <span class="hljs-number">6px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">                <span class="hljs-attribute">background</span>: $helpColor;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">12px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">font-family</span>: Arial;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="吸顶一级导航"><a href="#吸顶一级导航" class="headerlink" title="吸顶一级导航"></a>吸顶一级导航</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useScroll &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@vueuse/core&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useCategoryStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/stores/category&#x27;</span></span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> &#123; y &#125; = <span class="hljs-title function_">useScroll</span>(<span class="hljs-variable language_">window</span>)</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> categoryStore = <span class="hljs-title function_">useCategoryStore</span>()</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app-header-sticky&quot;</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;&#123; show: y &gt; 78 &#125;&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;logo&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app-header-nav&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">RouterLink</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>首页<span class="hljs-tag">&lt;/<span class="hljs-name">RouterLink</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home&quot;</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in categoryStore.categoryList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;`/category/$&#123;item.id&#125;`&quot;</span> <span class="hljs-attr">active-class</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>&#123;&#123; item.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;search&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-search&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;搜一搜&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&#x27;scss&#x27;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.app-header-sticky</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">    <span class="hljs-attribute">height</span>: <span class="hljs-number">80px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">position</span>: fixed;</span><br><span class="language-css">    <span class="hljs-attribute">left</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">    <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">    <span class="hljs-attribute">z-index</span>: <span class="hljs-number">999</span>;</span><br><span class="language-css">    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">    <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#e4e4e4</span>;</span><br><span class="language-css">    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(-<span class="hljs-number">100%</span>);</span><br><span class="language-css">    <span class="hljs-attribute">opacity</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css"></span><br><span class="language-css">    &amp;<span class="hljs-selector-class">.show</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">transition</span>: all <span class="hljs-number">0.3s</span> linear;</span><br><span class="language-css">        <span class="hljs-attribute">transform</span>: none;</span><br><span class="language-css">        <span class="hljs-attribute">opacity</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.container</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">align-items</span>: center;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.logo</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">80px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">background</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;@/assets/images/logo.png&quot;</span>) no-repeat right <span class="hljs-number">2px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">background-size</span>: <span class="hljs-number">160px</span> auto;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.right</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">220px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">        <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">border-left</span>: <span class="hljs-number">2px</span> solid $xtxColor;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">38px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: $xtxColor;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.app-header</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">background</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.container</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">align-items</span>: center;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.logo</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">132px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">            <span class="hljs-attribute">text-indent</span>: -<span class="hljs-number">9999px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">background</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&#x27;@/assets/images/logo.png&#x27;</span>) no-repeat center <span class="hljs-number">18px</span> / contain;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.search</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">170px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">        <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#e7e7e7</span>;</span><br><span class="language-css">        <span class="hljs-attribute">line-height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.icon-search</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">5px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">input</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">140px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">5px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: <span class="hljs-number">#666</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.cart</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">50px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.curr</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">            <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-class">.icon-cart</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">22px</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">em</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">font-style</span>: normal;</span><br><span class="language-css">                <span class="hljs-attribute">position</span>: absolute;</span><br><span class="language-css">                <span class="hljs-attribute">right</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                <span class="hljs-attribute">padding</span>: <span class="hljs-number">1px</span> <span class="hljs-number">6px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">                <span class="hljs-attribute">background</span>: $helpColor;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">12px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">font-family</span>: Arial;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.app-header-nav</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">width</span>: <span class="hljs-number">820px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">    <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">    <span class="hljs-attribute">z-index</span>: <span class="hljs-number">998</span>;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">38px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: inline-block;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: $xtxColor;</span><br><span class="language-css">                <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid $xtxColor;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.active</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: $xtxColor;</span><br><span class="language-css">            <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid $xtxColor;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="页尾源码"><a href="#页尾源码" class="headerlink" title="页尾源码"></a>页尾源码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app_footer&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 联系我们 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;contact&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">dl</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>客户服务<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-kefu&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span> 在线客服<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-question&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span> 问题反馈<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">dl</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>关注我们<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-iconfontweixin&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span> 公众号<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-weibo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span> 微博<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">dl</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>下载APP<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;qrcode&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;@/assets/images/qrcode.jpg&quot;</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;download&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>扫描二维码<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>立马下载APP<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>下载页面<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">dl</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>服务热线<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hotline&quot;</span>&gt;</span>400-0000-000 <span class="hljs-tag">&lt;<span class="hljs-name">small</span>&gt;</span>周一至周日 8:00-18:00<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 其它 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;extra&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;slogan&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-footer01&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>价格亲民<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-footer02&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>物流快捷<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-footer03&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>品质新鲜<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-comment">&lt;!-- 版权信息 --&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;copyright&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>关于我们<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>帮助中心<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>售后服务<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>配送与验收<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>商务合作<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>搜索推荐<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:;&quot;</span>&gt;</span>友情链接<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>CopyRight © 小兔鲜儿<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&#x27;scss&#x27;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.app_footer</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">overflow</span>: hidden;</span><br><span class="language-css">    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#f5f5f5</span>;</span><br><span class="language-css">    <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.contact</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">background</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.container</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">padding</span>: <span class="hljs-number">60px</span> <span class="hljs-number">0</span> <span class="hljs-number">40px</span> <span class="hljs-number">25px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">dl</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">190px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">            <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">72px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">border-right</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#f2f2f2</span>;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:first</span>-child &#123;</span><br><span class="language-css">                <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:last-child</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">border-right</span>: none;</span><br><span class="language-css">                <span class="hljs-attribute">padding-right</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">dt</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">dd</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">margin</span>: <span class="hljs-number">36px</span> <span class="hljs-number">12px</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>;</span><br><span class="language-css">            <span class="hljs-attribute">float</span>: left;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">92px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">92px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#ededed</span>;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-class">.iconfont</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">36px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#666</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                <span class="hljs-selector-class">.iconfont</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">color</span>: $xtxColor;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:last-child</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css"></span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-class">.download</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">5px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">14px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">width</span>: auto;</span><br><span class="language-css">                <span class="hljs-attribute">height</span>: auto;</span><br><span class="language-css">                <span class="hljs-attribute">border</span>: none;</span><br><span class="language-css"></span><br><span class="language-css">                <span class="hljs-selector-tag">span</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">                &#125;</span><br><span class="language-css"></span><br><span class="language-css">                <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">                    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">                    <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span> <span class="hljs-number">25px</span>;</span><br><span class="language-css">                    <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">5px</span>;</span><br><span class="language-css">                    <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">                    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">2px</span>;</span><br><span class="language-css">                    <span class="hljs-attribute">background-color</span>: $xtxColor;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.qrcode</span> <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">92px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">92px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#ededed</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.hotline</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">22px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: <span class="hljs-number">#666</span>;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: auto;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: auto;</span><br><span class="language-css">            <span class="hljs-attribute">border</span>: none;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">        small &#123;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">15px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.extra</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#333</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.slogan</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">100px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">line-height</span>: <span class="hljs-number">58px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">padding</span>: <span class="hljs-number">60px</span> <span class="hljs-number">100px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#434343</span>;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">justify-content</span>: space-between;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">58px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">58px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">28px</span>;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">i</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">50px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">vertical-align</span>: middle;</span><br><span class="language-css">                <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">100</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">span</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">vertical-align</span>: middle;</span><br><span class="language-css">                <span class="hljs-attribute">text-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">1px</span> <span class="hljs-number">#333</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.copyright</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">170px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">        <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css">        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">15px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">p</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">            <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">            <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">10px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">border-right</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#999</span>;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:last-child</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">border-right</span>: none;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+        <a href="/tags/vue/" class="print-no-link">#vue</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vue实践之商场app - Layout组件</div>
+      <div>http://example.com/2025/05/02/mall-front-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/03/mall-front-3/" title="vue实践之商场app - 首页部分">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vue实践之商场app - 首页部分</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/02/mall-front/" title="vue实践之商场app - 前期配置">
+                        <span class="hidden-mobile">vue实践之商场app - 前期配置</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

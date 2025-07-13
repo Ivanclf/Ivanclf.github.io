@@ -1,0 +1,866 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="FilesFile Types executable file   Example: .exe in Windows.   An executive files has five sections: header, text, data, relocation bits, and symbol table.   The header starts with a so-called magic nu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="File Systems and I&#x2F;O - Modern Operating System">
+<meta property="og:url" content="http://example.com/2025/05/27/OS-3/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="FilesFile Types executable file   Example: .exe in Windows.   An executive files has five sections: header, text, data, relocation bits, and symbol table.   The header starts with a so-called magic nu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-3.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-9.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-10.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-11.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-12.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-13.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-17.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-32.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/4-33.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/unix.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/5-2.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/5-4.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/5-6.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/5-21.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/5-22.png">
+<meta property="og:image" content="http://example.com/2025/05/27/OS-3/5-42.png">
+<meta property="article:published_time" content="2025-05-27T13:51:11.000Z">
+<meta property="article:modified_time" content="2025-06-18T01:54:30.812Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="日常">
+<meta property="article:tag" content="复习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/05/27/OS-3/4-3.png">
+  
+  
+  
+  <title>File Systems and I/O - Modern Operating System - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">File Systems and I/O - Modern Operating System</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-27 21:51" pubdate>
+          2025年5月27日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          668 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">File Systems and I/O - Modern Operating System</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Files"><a href="#Files" class="headerlink" title="Files"></a>Files</h2><h3 id="File-Types"><a href="#File-Types" class="headerlink" title="File Types"></a>File Types</h3><ul>
+<li><p><strong>executable file</strong></p>
+<p>  Example: <code>.exe</code> in Windows.</p>
+<p>  An executive files has five sections: header, text, data, relocation bits, and symbol table.</p>
+<p>  The header starts with a so-called <strong>magic number</strong>, identifying the file as an executable file (to prevent the accidental execution of a file not in this format). Then come the sizes of the various pieces of the file, the address at which execution starts, and some flag bits.</p>
+<p>  Following the header are the text and data of the program itself. These are loaded into memory and relocated using the relocation bits. The symbol table is used for debugging.</p>
+</li>
+<li><p><strong>archive</strong> (归档文件)</p>
+<p>  Example: <code>.zip</code>, <code>.tar</code>, <code>.rar</code></p>
+<p>  It consists of a collection of library procedures (modules) compiled but not linked. Each one begins with a header telling its name, creation date, owner, protection code, and size. Just as with the executable file, the module headers are full of binary numbers. Copying them to the printer would produce complete mess.</p>
+</li>
+</ul>
+<p><img src="/2025/05/27/OS-3/4-3.png" srcset="/img/loading.gif" lazyload alt="the difference between two types of files"></p>
+<h4 id="An-Example-Program-Using-File-System-Calls"><a href="#An-Example-Program-Using-File-System-Calls" class="headerlink" title="An Example Program Using File-System Calls"></a>An Example Program Using File-System Calls</h4><p>Here is an instance that how we use file-system calls</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span>;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BUF_SIZE 4096       <span class="hljs-comment">// use a buffer size of 4096 bytes</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OUTPUT_MODE 0700    <span class="hljs-comment">// protection bits for output file</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>    <span class="hljs-type">int</span> in_fd, out_fd, rd_count, wt_count;<br>    <span class="hljs-type">char</span> buffer[BUF_SIZE];<br><br>    <span class="hljs-keyword">if</span>(argc != <span class="hljs-number">3</span>)   <span class="hljs-comment">// see note below</span><br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br><br>    <span class="hljs-comment">// open the input file and create the output file</span><br>    in_fd = open(argv[<span class="hljs-number">1</span>], O_RDONLY);<br>    <span class="hljs-keyword">if</span>(in_fd &lt; <span class="hljs-number">0</span>)<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">2</span>);<br>    out_fd = create(argv[<span class="hljs-number">2</span>], OUTPUT_MODE);<br>    <span class="hljs-keyword">if</span>(out_fd &lt; <span class="hljs-number">0</span>)<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">3</span>);<br><br>    <span class="hljs-comment">// copy loop</span><br>    <span class="hljs-keyword">while</span>(TRUE)<br>    &#123;<br>        rd_count = read(in_fd, buffer, BUF_SIZE);<br>        <span class="hljs-keyword">if</span>(rd_count &lt;= <span class="hljs-number">0</span>)<br>            <span class="hljs-keyword">break</span>;<br>        wt_count = write(out_fd, buffer, rd_count);<br>        <span class="hljs-keyword">if</span>(wt_count &lt;= <span class="hljs-number">0</span>)<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// close the files</span><br>    close(in_fd);<br>    close(out_fd);<br>    <span class="hljs-keyword">if</span>(rd_count == <span class="hljs-number">0</span>)<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">5</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<div class="note note-success">
+            <p>Why there must be 3 parameters in argv? Because each argv has its meaning.</p><ol><li><p><code>argv[0]</code> is the name of this program, which is bound in C language program.</p></li><li><p><code>argv[1]</code> is the path of input file.</p></li><li><p><code>argv[2]</code> is the path of output file.</p></li></ol><p>For instance, this program, named <em>copyfile</em>, executes by the command line</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./copyfile abc xyz<br></code></pre></td></tr></table></figure><p>then it copies the file <code>abc</code> to <code>xyz</code>.</p>
+          </div>
+
+<h3 id="Directories"><a href="#Directories" class="headerlink" title="Directories"></a>Directories</h3><h4 id="Path-Names"><a href="#Path-Names" class="headerlink" title="Path Names"></a>Path Names</h4><p>Different operating systems have different path names.</p>
+<ul>
+<li><p>Windows: <code>\usr\ast\mailbox</code></p>
+</li>
+<li><p>UNIX: <code>/usr/ast/mailbox</code></p>
+</li>
+<li><p>MULTICS: <code>&gt;usr&gt;ast&gt;mailbox</code></p>
+</li>
+</ul>
+<p>Be attention to distinguish the difference of <strong>relative path name</strong> and <strong>absolute path name</strong></p>
+<h4 id="Directory-Operations"><a href="#Directory-Operations" class="headerlink" title="Directory Operations"></a>Directory Operations</h4><p>Here we mainly focus on the operation <code>Link</code> and <code>Unlink</code>.</p>
+<p>Link. Linking is a technique that allows a file to appear in more than one directory. This call can create a <strong>hard link</strong>.</p>
+<p>Unlink. A directory entry is removed.</p>
+<p>A variant on the idea of linking files is the <strong>symbolic link</strong>. Instead, of having two names point to the same internal data structure representing a file, a name can be created that points to a tiny file naming another file.</p>
+<p><a href="#share-files">Click and see more difference</a></p>
+<h3 id="File-System-Implementation"><a href="#File-System-Implementation" class="headerlink" title="File-System Implementation"></a>File-System Implementation</h3><h4 id="File-System-Layout"><a href="#File-System-Layout" class="headerlink" title="File System Layout"></a>File System Layout</h4><p>File systems are stored on disks. Most disks can be divided up into one or more partitions, with independent file systems on each partition. Sector 0 of the disk is called the <strong>MBR</strong> (<strong>Master Boot Record</strong>) and is used to boot the computer. The end of the MBR contains the partition table. This table gives the starting and ending addresses of each partition. One of the partitions in the table is marked as active. When the computer is booted, the BIOS reads in and executes the MBR.</p>
+<p>Other than starting with a <strong>boot block</strong>, the layout of a disk partition varies a lot from file system to file system. Often the file system will contain some of the items. The first one is the <strong>superblock</strong>. This block contains global information and key parameters of whole file system.</p>
+<p>The MBR is the Sector 0 of whole disk and used to guide BIOS and portion table, not being any part of certain file system. While super block is the beginning position of certain file system. But usually, a portion of disk maps a file system.</p>
+<p><img src="/2025/05/27/OS-3/4-9.png" srcset="/img/loading.gif" lazyload alt="possible file system layout"></p>
+<h4 id="Implementing-Files"><a href="#Implementing-Files" class="headerlink" title="Implementing Files"></a>Implementing Files</h4><ul>
+<li><em>Contiguous Allocation</em> (连续分配)</li>
+</ul>
+<p><img src="/2025/05/27/OS-3/4-10.png" srcset="/img/loading.gif" lazyload alt="how contiguous allocation works"></p>
+<p>This method has two advantages. First, it is simple to implement. Second, the read performance is excellent (because the entire file can be read from the disk in a single operation).</p>
+<p>However, contiguous allocation also has a very serious drawback: over the course of time, the disk becomes <em>fragmented</em> (碎片化).</p>
+<ul>
+<li>Linked-List Allocation</li>
+</ul>
+<p><img src="/2025/05/27/OS-3/4-11.png" srcset="/img/loading.gif" lazyload alt="how linked-list allocation works"></p>
+<p>Now no space is lost to disk fragmentation. On the other hand, although reading a file sequentially is straightforward, random access is extremely slow.</p>
+<p>Also, the amount of data storage in a block is no longer a <em>power of two</em> (2的幂) because the pointer takes up a few bytes.</p>
+<ul>
+<li><strong>Linked-List Allocation Using a Table in Memory</strong></li>
+</ul>
+<p><img src="/2025/05/27/OS-3/4-12.png" srcset="/img/loading.gif" lazyload alt="how FAT works"></p>
+<p>In Fig. 4-11 and Fig. 4-12, we have two files. File <code>A</code> uses disk blocks 4, 7, 2, 10, and 12, in that order, and file <code>B</code> uses disk blocks 6, 3, 11, and 14, in that order. Using the table of Fig. 4-12, we can start with block 4 and follow the chain all the way to the end. The same can be done starting with block 6. Both chains are terminated with a special marker (e.g., −1) that is not a valid block number. Such a table in main memory is called a <strong>FAT</strong> (<strong>File Allocation Table</strong>).</p>
+<p>Using this organization, the entire block is available for data. Furthermore, random access is much easier.</p>
+<p>The primary disadvantage of this method is that the entire table must be in memory all the time to make it work. Clearly the FAT idea does not scale well to large disks.</p>
+<p>It was the original MS-DOS file system and is still fully supported by early versions of Windows though.</p>
+<ul>
+<li><strong>I-nodes</strong></li>
+</ul>
+<p><img src="/2025/05/27/OS-3/4-13.png" srcset="/img/loading.gif" lazyload alt="example of i-node"></p>
+<p>Associating with <code>each file</code> a data structure called an <strong>i-node</strong> (<strong>index-node</strong>), which lists the attributes and disk addresses of the file’s blocks.</p>
+<p>The big advantage of this scheme over linked files using an in-memory table is that the i-node need be in memory only when the corresponding file is open.</p>
+<p>It is often used in Linux&#x2F;Unix file system (Ext 2&#x2F;3&#x2F;4) and Windows (NTFS).</p>
+<h4 id="Share-Files"><a href="#Share-Files" class="headerlink" title="Share Files"></a>Share Files</h4><p>In UNIX there are two ways to share files: symbolic linking and hard linking. Assume that there are two files: <code>B</code> and <code>C</code>.</p>
+<ul>
+<li><p>symbolic link</p>
+<p>  Use <code>ln -s [source file or directory] [symbolic name]</code> command to create a symbolic link.</p>
+<p>  Essentially symbolic link is just a special file that points to another file or directory.</p>
+<p>  B links to C by having the system create a new file, of type LINK. The new file contains just just the path name of the file to which it is linked. When B reads from the linked file, the operating system sees that the file being read from is of type LINK, looks up the name of the file, and reads that file.</p>
+<p>  Symbolic name can be used when you wanna access file from other directory (say, Desktop).</p>
+  <div class="note note-success">
+            <p>Even the symbolic link itself is a file, so when creating it, an i-node is created.</p>
+          </div>
+</li>
+<li><p>hard link</p>
+<p>  Use <code>ln [source file] [hard link name]</code> command to create a hard link.</p>
+<p>  Essentially hard link is just different entry of a file.</p>
+<p>  Disk blocks are not listed in directories, but in a little data structure associated with the file itself. The directories would then point just to the little data structure (or i-node in UNIX).</p>
+<p>  Hard link can be used when you want a file has multiple name and do not wanna lose file because of deleting one name.</p>
+</li>
+</ul>
+<p><img src="/2025/05/27/OS-3/4-17.png" srcset="/img/loading.gif" lazyload alt="how a hard link works"></p>
+<h4 id="Log-Structure-File-Systems"><a href="#Log-Structure-File-Systems" class="headerlink" title="Log-Structure File Systems"></a>Log-Structure File Systems</h4><p>The <strong>LFS</strong> (<strong>Log-Structure File System</strong>) sees all changes on file system as a <strong>journal records</strong>, and appends the records on s constant region of disks in order.</p>
+<h4 id="Journaling-File-System"><a href="#Journaling-File-System" class="headerlink" title="Journaling File System"></a>Journaling File System</h4><p>It is a tradition file system that appends a journal record, mainly recording changes in data.</p>
+<h3 id="File-System-Backups"><a href="#File-System-Backups" class="headerlink" title="File-System Backups"></a>File-System Backups</h3><p>Tw o strategies can be used for dumping a disk to a backup disk: a physical dump or a logical dump.</p>
+<p>A <strong>physical dump</strong> starts at block 0 of the disk, writes all the disk blocks onto the output disk in order, and stops when it has copied the last one. Such a program is so simple that it can probably be made 100% bug free. The main advantages of physical dumping are simplicity and great speed (basically, it can run at the speed of the disk). The main disadvantages are the inability to skip selected directories, make incremental dumps, and restore individual files upon request.</p>
+<p>A <strong>logical dump</strong> starts at one or more specified directories and recursively dumps all files and directories found there that have changed since some given base date (e.g., the last backup for an incremental dump or system installation for a full dump).</p>
+<h3 id="The-UNIX-V7-File-System"><a href="#The-UNIX-V7-File-System" class="headerlink" title="The UNIX V7 File System"></a>The UNIX V7 File System</h3><p>The file system is in the form of a tree starting at the root directory, with the addition of links. forming <em>acyclic graph</em> (无环图).</p>
+<p>A UNIX directory entry contains one entry for each file. The entries is simple because UNIX uses the i-node scheme. A directory contains only two fields: the file name and the number of the i-node for that file.</p>
+<p><img src="/2025/05/27/OS-3/4-32.png" srcset="/img/loading.gif" lazyload alt="the structure of an entry"></p>
+<div class="note note-success">
+            <p>Because I-node number takes up to 2 bytes, 16 bits, so quantity of files is $2^{16}$. But file name quantity might be bigger than $2^{16}$ since hard link’s existence.</p>
+          </div>
+
+<p>Keeping track of disk blocks is done using a generalization of Fig. 4-13 in order to handle very large files. The first 10 disk addresses are stored in the i-node itself, so for small files, all the necessary information is right in the i-node. For somewhat larger files, one of the addresses in the i-node is the address of a disk block called a <strong>single indirect block</strong>. This block contains additional disk addresses. If this still is not enough, another address in the i-node, called a <strong>double indirect block</strong>, contains the address of a block that contains a list of single indirect blocks. Each of these single indirect blocks points to a few hundred data blocks. If even this is not enough, a <strong>triple indirect block</strong> can also be used.</p>
+<p><img src="/2025/05/27/OS-3/4-33.png" srcset="/img/loading.gif" lazyload alt="complete picture"></p>
+<p><img src="/2025/05/27/OS-3/unix.png" srcset="/img/loading.gif" lazyload alt="another picture"></p>
+<h2 id="I-O"><a href="#I-O" class="headerlink" title="I&#x2F;O"></a>I&#x2F;O</h2><h3 id="Principles-of-I-O-Hardware"><a href="#Principles-of-I-O-Hardware" class="headerlink" title="Principles of I&#x2F;O Hardware"></a>Principles of I&#x2F;O Hardware</h3><h4 id="I-O-Device"><a href="#I-O-Device" class="headerlink" title="I&#x2F;O Device"></a>I&#x2F;O Device</h4><p>I&#x2F;O devices can be roughly divided into two categories: <strong>block devices</strong> and <strong>character devices</strong>.</p>
+<p>A block device is one that stores information in fixed-size blocks, each one with its own address. The essential property of a block device is that it is possible to read or write each block independently of all the other ones. Hard disks, Blu-ray discs, and USB sticks are common block devices.</p>
+<p>A character device delivers or accepts a stream of characters, without regard to any block structure. It is not addressable and does not have any seek operation. Printers, network interfaces, mice, and most other devices that are not disk-like can be seen as character devices.</p>
+<h4 id="Memory-Mapped-I-O"><a href="#Memory-Mapped-I-O" class="headerlink" title="Memory-Mapped I&#x2F;O"></a>Memory-Mapped I&#x2F;O</h4><p>Early operating systems (like Intel 8086 or some embedded OS) use <strong>separate I&#x2F;O</strong>, which means we need a separate bus to execute these commands, while <em>concurrent access</em> (并发访问) is hardly possible. CPU must use special commands (say <code>in</code> and <code>out</code>) to communicate with devices. But now we often map memory address with I&#x2F;O devices’ registers or something else.</p>
+<p><img src="/2025/05/27/OS-3/5-2.png" srcset="/img/loading.gif" lazyload alt="how CPU communicates with the devices"></p>
+<p>Each controller has a few registers that are used for communicating with the CPU.  In addition to the control registers, many devices have a data buffer that the operating system can read and write. The issue thus arises of how the CPU communicates with the control registers and also with the device data buffers. Two alternatives exist.</p>
+<p>In the first approach, each control register is assigned an <strong>I&#x2F;O port</strong> number. The set of all the I&#x2F;O ports form the <strong>I&#x2F;O port space</strong>, which is protected so that ordinary user programs cannot access it (only the operating system can).</p>
+<p>The second approach is to map all the control registers into the memory space. Each control register is assigned a unique memory address to which no memory is assigned. This system is called <strong>memory-mapped I&#x2F;O</strong>. The x86 uses the hybrid scheme.</p>
+<h4 id="Direct-Memory-Access"><a href="#Direct-Memory-Access" class="headerlink" title="Direct Memory Access"></a>Direct Memory Access</h4><p>No matter whether a CPU does or does not have memory-mapped I&#x2F;O, it needs to address the device controllers to exchange data with them. The CPU can request data from an I&#x2F;O controller one byte at a time, but doing so wastes the CPU’s time, so a different scheme, called <strong>DMA</strong> (<strong>Direct Memory Access</strong>) is often used.</p>
+<p>Then the DMA takes change of bus.</p>
+<p><img src="/2025/05/27/OS-3/5-4.png" srcset="/img/loading.gif" lazyload alt="how DMA works"></p>
+<p>Let us first look at how disk reads occur when DMA is not used.</p>
+<ol>
+<li>the disk controller reads the block (one or more sectors) from the drive serially, bit by bit, until the entire block is in the controller’s internal buffer.</li>
+<li>it computes the checksum to verify that no read errors have occurred.</li>
+<li>the controller causes an interrupt.</li>
+</ol>
+<p>When the operating system starts running, it can read the disk block from the controller’s buffer a byte or a word at a time by executing a loop, with each iteration reading one byte or word from a controller device register and storing it in main memory.</p>
+<p>When DMA is used, the procedure is different.</p>
+<ol>
+<li>the CPU programs the DMA controller by setting its registers so it knows what to transfer where. It also issues a command to the disk controller telling it to read data from the disk into its internal buffer and verify the checksum. When valid data are in the disk controller’s buffer, DMA can begin.</li>
+<li>The DMA controller initiates the transfer by issuing a read request over the bus to the disk controller.</li>
+<li>When the disk controller fetches the next word from its internal buffer, it knows where to write it. The write to memory is another standard bus cycle.</li>
+<li>When the write is complete, the disk controller sends an acknowledgement signal to the DMA controller, also over the bus.</li>
+</ol>
+<p>But not all computers use DMA. The argument against it is that the main CPU is often far faster than the DMA controller and can do the job much faster. If there is no other work for it to do, having the (fast) CPU wait for the (slow) DMA controller to finish is pointless. Also, getting rid of the DMA controller and having the CPU do all the work in software saves money, important on low-end (embedded) computers.</p>
+<h4 id="Interrupts-Revisited"><a href="#Interrupts-Revisited" class="headerlink" title="Interrupts Revisited"></a>Interrupts Revisited</h4><p>Interrupts can be categorized by 2 types: precise interrupt and imprecise interrupt. A <strong>precise interrupt</strong> leaves the machine in a well-defined state. Such an interrupt has four properties:</p>
+<ol>
+<li>The PC (program counter) is saved in a known place.</li>
+<li>All instructions before the <em>one pointed by the PC</em> (由程序计数器指向的) have completed.</li>
+<li>No instruction beyond the one pointed to by the PC has finished.</li>
+<li>The execution state os the instruction pointed by the PC is known.</li>
+</ol>
+<p>An interrupt that does not meet these requirements is called an <strong>imprecise interrupt</strong>.</p>
+<p><img src="/2025/05/27/OS-3/5-6.png" srcset="/img/loading.gif" lazyload alt="difference between interrupts"></p>
+<p>Some machines, such as the x86 family, hav e precise interrupts to allow old software to work correctly.</p>
+<h3 id="Principles-of-I-O-Software"><a href="#Principles-of-I-O-Software" class="headerlink" title="Principles of I&#x2F;O Software"></a>Principles of I&#x2F;O Software</h3><h4 id="Programmed-I-O"><a href="#Programmed-I-O" class="headerlink" title="Programmed I&#x2F;O"></a>Programmed I&#x2F;O</h4><p>The simplest form of I&#x2F;O is to have CPU do all work. This method is called <strong>programmed I&#x2F;O</strong>. This is simple but has the disadvantage of typing up the CPU full time until all the I&#x2F;O is done.</p>
+<h3 id="Interrupt-Driven-I-O"><a href="#Interrupt-Driven-I-O" class="headerlink" title="Interrupt-Driven I&#x2F;O"></a>Interrupt-Driven I&#x2F;O</h3><p>When the system call, for example, to print the string is made, the buffer is copied to kernel space, as we showed earlier, and the first character is copied to the printer as soon as it is willing to accept a character. At that point the CPU calls the scheduler and some other process is run. The process that asked for the string to be printed is blocked until the entire string has printed. When the printer has printed the character and is prepared to accept the next one, it generates an interrupt. This interrupt stops the current process and saves its state. Then the printer interrupt-service procedure is run.</p>
+<p>An obvious disadvantage of interrupt-driven I&#x2F;O is that an interrupt occurs on ev ery character. Interrupts take time, so this scheme wastes a certain amount of CPU time.</p>
+<h4 id="Using-DMA"><a href="#Using-DMA" class="headerlink" title="Using DMA"></a>Using DMA</h4><p>A solution is to use DMA. Here the idea is to let the DMA controller feed the characters to the printer one at time, without the CPU being bothered.</p>
+<p>The big win with DMA is reducing the number of interrupts from one per character to one per buffer printed. If there are many characters and interrupts are slow, this can be a major improvement. On the other hand, the DMA controller is usually much slower than the main CPU. If the DMA controller is not capable of driving the device at full speed, or the CPU usually has nothing to do anyway while waiting for the DMA interrupt, then interrupt-driven I&#x2F;O or even programmed I&#x2F;O may be better. Most of the time, though, DMA is worth it.</p>
+<h3 id="Disk-Formatting"><a href="#Disk-Formatting" class="headerlink" title="Disk Formatting"></a>Disk Formatting</h3><p>Before the disk can be used, each <em>platter</em> (磁盘片) must receive a <strong>low-level format</strong> done by software.</p>
+<p><img src="/2025/05/27/OS-3/5-21.png" srcset="/img/loading.gif" lazyload alt="disk"></p>
+<p>The preamble starts with a certain bit pattern that allows the hardware to recognize the start of the sector. The ECC field contains <em>redundant</em> (冗余) information that can be used to recover from read errors.</p>
+<p>The position of sector 0 on each track is offset from the previous track when the low-level format is laid down. This offset, called <strong>cylinder skew</strong> (柱面斜进), is done to improve performance. The idea is to allow the disk to read multiple tracks in one continuous operation without losing data.</p>
+<p><img src="/2025/05/27/OS-3/5-22.png" srcset="/img/loading.gif" lazyload alt="cylinder skew"></p>
+<p>As a result of the low-level formatting, disk capacity is reduced.</p>
+<p>The final step in preparing a disk for use is to perform a <strong>high-level format</strong> of each partition (separately). This operation lays down a boot block, the free storage administration (free list or bitmap), root directory, and an empty file system.</p>
+<div class="note note-info">
+            <p>low-level format initializes sectors, high-level skew format initialize boot blocks and data structure that manages free blocks.</p>
+          </div>
+
+<h3 id="User-Interfaces-Fonts"><a href="#User-Interfaces-Fonts" class="headerlink" title="User Interfaces: Fonts"></a>User Interfaces: Fonts</h3><p>In versions of Windows before 3.1, characters were represented as bitmaps. But it cannot change point type. The solution was the introduction od TrueType fonts. Each TrueType character is defined by a sequence of points around its <em>perimeter</em> (边缘). Using this system, it is easy to scale the characters up or down. All that has to be done is to multiply each <em>coordinate</em> (坐标) by the same scale factor. Once at the proper size, the points can be connected using the follow-the-dots algorithm.</p>
+<h3 id="Power-Management-of-CPU"><a href="#Power-Management-of-CPU" class="headerlink" title="Power Management of CPU"></a>Power Management of CPU</h3><p><img src="/2025/05/27/OS-3/5-42.png" srcset="/img/loading.gif" lazyload alt="CPU power management"></p>
+<p>On many computers, there is a relationship between CPU voltage, clock cycle, and power usage. The CPU voltage can often be reduced in software, which saves energy but also reduces the clock cycle (approximately linearly). Since power consumed is proportional to the square of the voltage, cutting the voltage in half makes the CPU about half as fast but at 1&#x2F;4 the power.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%97%A5%E5%B8%B8/" class="category-chain-item">日常</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%97%A5%E5%B8%B8/" class="print-no-link">#日常</a>
+      
+        <a href="/tags/%E5%A4%8D%E4%B9%A0/" class="print-no-link">#复习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>File Systems and I/O - Modern Operating System</div>
+      <div>http://example.com/2025/05/27/OS-3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/06/01/OS-4/" title="Multiple Processor Systems and Security - Modern Operating System">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Multiple Processor Systems and Security - Modern Operating System</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/22/OS-2/" title="Memory Management - Modern Operating System">
+                        <span class="hidden-mobile">Memory Management - Modern Operating System</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

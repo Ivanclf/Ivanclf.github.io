@@ -1,0 +1,2244 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content=".xyz         {             color: red;             font-family: monospace;             font-weight: bold;         }        总述CSS主要描述网页内容的样式，其规则为： 123456p &#x2F;* 选择器，选择一个需要修改的HTML元素 *&#x2F;&#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css速查">
+<meta property="og:url" content="http://example.com/2024/08/05/css/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content=".xyz         {             color: red;             font-family: monospace;             font-weight: bold;         }        总述CSS主要描述网页内容的样式，其规则为： 123456p &#x2F;* 选择器，选择一个需要修改的HTML元素 *&#x2F;&#123;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/08/05/css/box-model.gif">
+<meta property="article:published_time" content="2024-08-05T03:15:52.000Z">
+<meta property="article:modified_time" content="2025-03-22T07:27:45.045Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="速查">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/08/05/css/box-model.gif">
+  
+  
+  
+  <title>css速查 - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">css速查</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-05 11:15" pubdate>
+          2024年8月5日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.8k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">css速查</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <head>
+    <style>
+        .xyz
+        {
+            color: red;
+            font-family: monospace;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<h2 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h2><p>CSS主要描述网页内容的样式，其规则为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">p</span> <span class="hljs-comment">/* 选择器，选择一个需要修改的HTML元素 */</span><br>&#123;<br>    <span class="hljs-comment">/* 声明 */</span><br>    <span class="hljs-attribute">color</span>: red;<br>    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">12px</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>目录在右侧</strong></p>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><h3 id="外部样式表"><a href="#外部样式表" class="headerlink" title="外部样式表"></a>外部样式表</h3><p>在HTML文件外部的样式表，以 <code>.css</code> 为后缀进行保存。在HTML中则需要进行引用：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;name.css&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>再在css文件内直接指定样式。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">p</span> &#123;<span class="hljs-attribute">margin-left</span>:<span class="hljs-number">20px</span>;&#125;<br><span class="hljs-selector-tag">body</span> &#123;<span class="hljs-attribute">background-image</span>:<span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;/images/name.gif&quot;</span>);&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="内部样式表"><a href="#内部样式表" class="headerlink" title="内部样式表"></a>内部样式表</h3><p>使用 <code>&lt;style&gt;</code> 标签在文档头部定义内部样式表</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">p</span> &#123;<span class="hljs-attribute">margin-left</span>:<span class="hljs-number">20px</span>;&#125;</span><br><span class="language-css">        <span class="hljs-selector-tag">body</span> &#123;<span class="hljs-attribute">background-image</span>:<span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;images/name.gif&quot;</span>);&#125;</span><br><span class="language-css">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="内联样式"><a href="#内联样式" class="headerlink" title="内联样式"></a>内联样式</h3><p>在标签内使用 <code>style</code> 属性进行指定。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-left:20px&quot;</span>&gt;</span>这是一个段落。<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>大体优先级为内联样式 &gt; 内部样式 &gt; 外部样式。但如果将外部样式放在内部样式后面，那么外部样式将覆盖内部样式。</p>
+<h2 id="background"><a href="#background" class="headerlink" title="background"></a>background</h2><p>指定HTML元素的背景</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span><br>&#123;<br>    <span class="hljs-attribute">background-color</span>: <span class="hljs-string">&quot;#ff0000&quot;</span>; <span class="hljs-comment">/* 指定颜色 */</span><br>    <span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;name1.gif&quot;</span>), <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;name2.gif&quot;</span>); <span class="hljs-comment">/* 指定背景图*/</span><br>    <span class="hljs-attribute">background-repeat</span>: repeat-x; <span class="hljs-comment">/* 指定平铺属性，以及其重复的方式 */</span><br>    <span class="hljs-attribute">background-attachment</span>: local, scroll; <span class="hljs-comment">/* 指定背景图像是否随区块滚动*/</span><br>    <span class="hljs-attribute">background-position</span>: top, left <span class="hljs-comment">/* 指定图片位置 */</span><br>&#125;<br><span class="hljs-comment">/* 简写形式，属性值顺序与上面一致 */</span><br><span class="hljs-selector-tag">body</span>&#123;<span class="hljs-attribute">background</span>: <span class="hljs-number">#ff0000</span> <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;name1.gif&quot;</span>),<span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;name2.gif&quot;</span>) repeat-x local, scroll top, left&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="repeat属性"><a href="#repeat属性" class="headerlink" title="repeat属性"></a>repeat属性</h3><p>单值语法（可以理解为双值语法的缩写）</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>repeat-x</code> <code>repeat-y</code></td>
+<td>水平&#x2F;垂直方向重复</td>
+</tr>
+<tr>
+<td><code>repeat</code></td>
+<td>在范围内全部重复</td>
+</tr>
+<tr>
+<td><code>space</code></td>
+<td>自动分配位置，不会裁剪</td>
+</tr>
+<tr>
+<td><code>round</code></td>
+<td>允许在space的基础上，当尺寸增长时被重复的图像将会被伸展</td>
+</tr>
+<tr>
+<td><code>no-repeat</code></td>
+<td>图像不会被重复</td>
+</tr>
+</tbody></table>
+<p>双值语法（第一个值表示水平重复行为，第二个值表示垂直重复行为）<br><code>repeat no-repeat</code> 相当于 <code>repeat-x</code> ，以此类推。</p>
+<h3 id="attachment属性"><a href="#attachment属性" class="headerlink" title="attachment属性"></a>attachment属性</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fixed</code></td>
+<td>相对视口固定，不会随着元素内容滚动</td>
+</tr>
+<tr>
+<td><code>local</code></td>
+<td>背景相对于元素的内容固定，随着元素内容滚动</td>
+</tr>
+<tr>
+<td><code>scroll</code></td>
+<td>背景相对元素本身固定，不随着元素内容滚动</td>
+</tr>
+</tbody></table>
+<p>可以使用逗号分隔不同的属性值以支持多张背景的图片。</p>
+<h3 id="position属性"><a href="#position属性" class="headerlink" title="position属性"></a>position属性</h3><p><strong>一个字：</strong> <code>center</code>，<code>top</code>，<code>bottom</code>，<code>left</code>，<code>right</code>，指定其放在哪个边界。也可以是 <code>&lt;length&gt;</code> 或 <code>&lt;percentage&gt;</code>，指定相对左边界的x坐标。y坐标默认为50%。<br><strong>两个字或四个字：</strong> 一个定义x坐标，另一个定义y坐标。可以指定边界，并通过 <code>&lt;length&gt;</code> 或 <code>&lt;percentage&gt;</code>指定偏移量。</p>
+<h2 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">p</span><br>&#123;<br>    <span class="hljs-attribute">color</span>: <span class="hljs-built_in">rgb</span>(<span class="hljs-number">255</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <span class="hljs-comment">/* 指定颜色 */</span><br>    <span class="hljs-attribute">font-family</span>: arial; <span class="hljs-comment">/* 指定字体 */</span><br>    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">10px</span>; <span class="hljs-comment">/* 指定字体大小 */</span><br>    <span class="hljs-attribute">font-style</span>: normal; <span class="hljs-comment">/* 设置斜体 */</span><br>    <span class="hljs-attribute">font-weight</span>: normal; <span class="hljs-comment">/* 设置粗体 */</span><br>    <span class="hljs-attribute">font-variant</span>: normal; <span class="hljs-comment">/* 指定多种属性 */</span><br>    <span class="hljs-attribute">font-stretch</span>: normal; <span class="hljs-comment">/* 指定字体的扩展与压缩 */</span><br>    <span class="hljs-attribute">text-indent</span>: <span class="hljs-number">0</span>; <span class="hljs-comment">/* 指定文本前面缩进的长度 */</span><br>    <span class="hljs-attribute">text-align</span>: left; <span class="hljs-comment">/* 指定文本对齐的方式 */</span><br>    <span class="hljs-attribute">text-decoration</span>: none; <span class="hljs-comment">/* 给文本添加修饰 */</span><br>    <span class="hljs-attribute">text-transform</span>: none; <span class="hljs-comment">/* 指定文本的大小写字母 */</span><br>    <span class="hljs-attribute">text-shadow</span>: <span class="hljs-number">4px</span> <span class="hljs-number">4px</span> <span class="hljs-number">5px</span> red; <span class="hljs-comment">/* 指定阴影 */</span><br>    <span class="hljs-attribute">text-overflow</span>: ellipsis; <span class="hljs-comment">/* 指定溢出状况 */</span><br>    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.5</span>; <span class="hljs-comment">/* 指定行高 */</span><br>    <span class="hljs-attribute">line-break</span>: auto; <span class="hljs-comment">/* 指定中文文本行 */</span><br>    <span class="hljs-attribute">hyphens</span>: none; <span class="hljs-comment">/* 指定是否使用换行符 */</span><br>    <span class="hljs-attribute">letter-spacing</span>: <span class="hljs-number">2px</span>; <span class="hljs-comment">/* 指定字母间距 */</span><br>    <span class="hljs-attribute">word-spacing</span>: <span class="hljs-number">4px</span>; <span class="hljs-comment">/* 指定单词间间距 */</span><br>    <span class="hljs-attribute">white-space</span>: normal; <span class="hljs-comment">/* 指定元素内空白的处理方式 */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="font-family属性"><a href="#font-family属性" class="headerlink" title="font-family属性"></a>font-family属性</h3><p>css定义了5种泛型字体名称，注意：在不同的浏览器中显示的结果可能不同。在确保均能显示的情况下，可以指定具体的名称。也可指定多种字体，以选用备用字体，中间用逗号分隔。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+<th>对应字体</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>serif</code></td>
+<td>有衬线字体</td>
+<td><code>Georgia</code> <code>Times New Roman</code></td>
+<td><p style="font-family: serif">This is a kind of font.</p></td>
+</tr>
+<tr>
+<td><code>sans-serif</code></td>
+<td>无衬线字体</td>
+<td><code>Arial</code> <code>Trebuchet MS</code> <code>Verdana</code></td>
+<td><p style="font-family: sans-serif">This is a kind of font.</p></td>
+</tr>
+<tr>
+<td><code>monospace</code></td>
+<td>等宽字体</td>
+<td><code>Courier New</code> <code>Courier</code></td>
+<td><p style="font-family: monospace">This is a kind of font.</p></td>
+</tr>
+<tr>
+<td><code>cursive</code></td>
+<td>手写字体</td>
+<td></td>
+<td><p style="font-family: cursive">This is a kind of font.</p></td>
+</tr>
+<tr>
+<td><code>fantasy</code></td>
+<td>装饰字体</td>
+<td></td>
+<td><p style="font-family: fantasy">This is a kind of font.</p></td>
+</tr>
+</tbody></table>
+<h3 id="font-size属性"><a href="#font-size属性" class="headerlink" title="font-size属性"></a>font-size属性</h3><p>设置字体大小有多种单位。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>px</code></td>
+<td>相对电脑显示器屏幕的长度单位</td>
+</tr>
+<tr>
+<td><code>em</code></td>
+<td>相对于当前对象内文本的字体尺寸，其值不固定，会继承父级元素的字体大小。任意浏览器默认字体高为16px，因此未调整时为<em>1em&#x3D;16px</em></td>
+</tr>
+<tr>
+<td><code>rem</code></td>
+<td>相对于HTML根元素的相对大小</td>
+</tr>
+</tbody></table>
+<h3 id="font-style属性"><a href="#font-style属性" class="headerlink" title="font-style属性"></a>font-style属性</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code></td>
+<td>设置为普通字体</td>
+</tr>
+<tr>
+<td><code>italic</code></td>
+<td>若字体斜体版本可用，则将文本设置为斜体版本。若不可用则模拟斜体</td>
+</tr>
+<tr>
+<td><code>oblique</code></td>
+<td>将普通文本倾斜的样子模拟为斜体运用</td>
+</tr>
+</tbody></table>
+<h3 id="font-weight属性"><a href="#font-weight属性" class="headerlink" title="font-weight属性"></a>font-weight属性</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code></td>
+<td>普通字体</td>
+</tr>
+<tr>
+<td><code>bold</code></td>
+<td>加粗字体</td>
+</tr>
+<tr>
+<td><code>lighter</code> <code>bolder</code></td>
+<td>加细，加粗。也可以直接填写100~900的粗体值进行精细控制</td>
+</tr>
+</tbody></table>
+<h3 id="font-variant属性"><a href="#font-variant属性" class="headerlink" title="font-variant属性"></a>font-variant属性</h3><p>用于设置大写字母的字体显示文本，由多个属性简写而来。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code></td>
+<td>普通字体</td>
+</tr>
+<tr>
+<td><code>small-caps</code></td>
+<td>小型大写字母<br><p style="font-variant: small-caps">This is a Kind of Font.</p></td>
+</tr>
+</tbody></table>
+<h4 id="font-variant-east-asian"><a href="#font-variant-east-asian" class="headerlink" title="font-variant-east-asian"></a>font-variant-east-asian</h4><p>控制东亚文字（中文和日语）的替代字形使用。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code></td>
+<td>不使用替代字形</td>
+</tr>
+<tr>
+<td><code>ruby</code></td>
+<td>强制使用ruby字符。有的会粗一点</td>
+</tr>
+<tr>
+<td><code>simplified</code> <code>traditional</code></td>
+<td>中文简繁体转换</td>
+</tr>
+</tbody></table>
+<h4 id="font-variant-ligatures"><a href="#font-variant-ligatures" class="headerlink" title="font-variant-ligatures"></a>font-variant-ligatures</h4><p>ligatures指将两个字母连写的方式。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>反义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code></td>
+<td>&#x2F;</td>
+<td>依据字体、语言等情况决定是否连写</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>&#x2F;</td>
+<td>不允许连写</td>
+</tr>
+<tr>
+<td><code>common-ligatures</code></td>
+<td><code>no-common-ligatures</code></td>
+<td>较正常的连写的部分在这里也会连写，即normal的连写方式，如 <code>fi</code> <code>ffi</code> <code>th</code> 等</td>
+</tr>
+<tr>
+<td><code>discretionary-ligatures</code></td>
+<td><code>no-discretionary-ligatures</code></td>
+<td>特殊连写</td>
+</tr>
+<tr>
+<td><code>historical-ligatures</code></td>
+<td><code>no-historical-ligatures</code></td>
+<td>历史上曾用的连写方式</td>
+</tr>
+<tr>
+<td><code>contextual</code></td>
+<td><code>no-contextual</code></td>
+<td>字母将会视其周围的字母样式进行样式调整</td>
+</tr>
+</tbody></table>
+<h4 id="font-variant-numeric"><a href="#font-variant-numeric" class="headerlink" title="font-variant-numeric"></a>font-variant-numeric</h4><p>设置数字和分数的样式。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code></td>
+<td>正常数字</td>
+<td><p style="font-variant-numeric: normal">2020</p></td>
+</tr>
+<tr>
+<td><code>ordinary</code></td>
+<td>其余与normal一样，但英语序数词会有所差别</td>
+<td><p style="font-variant-numeric: ordinary">1st. 500</p></td>
+</tr>
+<tr>
+<td><code>slashed-zero</code></td>
+<td>给<code>0</code>加斜划线</td>
+<td><p style="font-variant-numeric: slashed-zero">2020</p></td>
+</tr>
+<tr>
+<td><code>lining-nums</code></td>
+<td>使数字都在一条基线上</td>
+<td><p style="font-variant-numeric: lining-nums">015527</p></td>
+</tr>
+<tr>
+<td><code>oldstyle-nums</code></td>
+<td>与上一个相反，欧洲旧时的数字写法，数字错落有致</td>
+<td><p style="font-variant-numeric: oldstyle-nums">015527</p></td>
+</tr>
+<tr>
+<td><code>proportional-nums</code></td>
+<td>数字大小不同</td>
+<td><p style="font-variant-numeric: proportional-nums">015527</p></td>
+</tr>
+<tr>
+<td><code>tabular-nums</code></td>
+<td>与上一个相反，数字大小相同，使其方便排列在表格中</td>
+<td><p style="font-variant-numeric: tabular-nums">015527</p></td>
+</tr>
+<tr>
+<td><code>diagonal-fractions</code></td>
+<td>使分子和分母更小，被斜线分隔</td>
+<td><p style="diagonal-fractions">1&#x2F;2 0.5</p></td>
+</tr>
+<tr>
+<td><code>stacked-fractions</code></td>
+<td>使分子和分母更小，被水平线分隔</td>
+<td><p style="font-variant-numeric: stacked-fractions">1&#x2F;2 0.5</p></td>
+</tr>
+</tbody></table>
+<h4 id="font-variant-position"><a href="#font-variant-position" class="headerlink" title="font-variant-position"></a>font-variant-position</h4><p>用于标记是否是上下标。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code></td>
+<td>正常文字</td>
+</tr>
+<tr>
+<td><code>sub</code></td>
+<td>下标</td>
+</tr>
+<tr>
+<td><code>super</code></td>
+<td>上标</td>
+</tr>
+</tbody></table>
+<h4 id="font-variation-settings"><a href="#font-variation-settings" class="headerlink" title="font-variation-settings"></a>font-variation-settings</h4><p>用于字体变形，通过更低层次进行控制。通过开启或关闭不同的OpenType字体特性。</p>
+<h3 id="font-stretch属性"><a href="#font-stretch属性" class="headerlink" title="font-stretch属性"></a>font-stretch属性</h3><p>用于伸展文本，可以用关键字值或百分比值。</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>百分比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ultra-condensed</code></td>
+<td>50%</td>
+</tr>
+<tr>
+<td><code>extra-condensed</code></td>
+<td>62.5%</td>
+</tr>
+<tr>
+<td><code>condensed</code></td>
+<td>75%</td>
+</tr>
+<tr>
+<td><code>semi-condensed</code></td>
+<td>87.5%</td>
+</tr>
+<tr>
+<td><code>normal</code></td>
+<td>100%</td>
+</tr>
+<tr>
+<td><code>semi-expanded</code></td>
+<td>112.5%</td>
+</tr>
+<tr>
+<td><code>expanded</code></td>
+<td>125%</td>
+</tr>
+<tr>
+<td><code>extra-expanded</code></td>
+<td>150%</td>
+</tr>
+<tr>
+<td><code>ultra-expanded</code></td>
+<td>200%</td>
+</tr>
+</tbody></table>
+<h3 id="font简写"><a href="#font简写" class="headerlink" title="font简写"></a>font简写</h3><p>简写的格式为</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-attribute">font</span>:<br>    italic normal bold normal <span class="hljs-number">3em</span>/<span class="hljs-number">1.5</span> Helvetica,<br>    Arial,<br>    sans-serif;<br></code></pre></td></tr></table></figure>
+
+<p>顺序为： <code>font-style</code>, <code>font-variant</code>, <code>font-weight</code>, <code>font-stretch</code>, <code>font-size</code>&#x2F;(这两个属性中间一定要放 <code>/</code>) <code>line-height</code>, <code>font-family</code>。<br>若需要使用简写，则必须要指定 <code>font-size</code>和 <code>font-family</code>。</p>
+<h3 id="text-indent属性"><a href="#text-indent属性" class="headerlink" title="text-indent属性"></a>text-indent属性</h3><p>用于指定文本的缩进，需要指定缩进长度（单位为px，em，rem等）或百分率。还可以指定一些参数。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>each-line</code></td>
+<td>缩进会影响第一行、强制换行，但不影响软换行</td>
+</tr>
+<tr>
+<td><code>hanging</code></td>
+<td>除第一行，所有行都会缩进</td>
+</tr>
+</tbody></table>
+<h3 id="text-align属性"><a href="#text-align属性" class="headerlink" title="text-align属性"></a>text-align属性</h3><p><code>left</code> <code>right</code> <code>center</code> 向左对齐，向右对齐，居中。<br><code>justify</code> 每一行宽度相等，左右边距相等（word的默认模式）。</p>
+<h3 id="text-decoration属性"><a href="#text-decoration属性" class="headerlink" title="text-decoration属性"></a>text-decoration属性</h3><p>用于设置字体的划线等装饰。该属性为一个缩写形式。它由 <code>text-decoration-line</code>  <code>text-decoration-style</code> 和 <code>text-decoration-color</code> 构成。</p>
+<h4 id="text-decoration"><a href="#text-decoration" class="headerlink" title="text-decoration"></a>text-decoration</h4><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code></td>
+<td>无，删除划线</td>
+</tr>
+<tr>
+<td><code>overline</code></td>
+<td>上划线</td>
+</tr>
+<tr>
+<td><code>line-through</code></td>
+<td>中间划线</td>
+</tr>
+<tr>
+<td><code>underline</code></td>
+<td>下划线</td>
+</tr>
+</tbody></table>
+<h4 id="text-decoration-style"><a href="#text-decoration-style" class="headerlink" title="text-decoration-style"></a>text-decoration-style</h4><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>solid</code></td>
+<td>实线</td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>双实线</td>
+</tr>
+<tr>
+<td><code>dotted</code></td>
+<td>点划线</td>
+</tr>
+<tr>
+<td><code>dashed</code></td>
+<td>虚线</td>
+</tr>
+<tr>
+<td><code>wavy</code></td>
+<td>波浪线</td>
+</tr>
+</tbody></table>
+<h3 id="text-transform属性"><a href="#text-transform属性" class="headerlink" title="text-transform属性"></a>text-transform属性</h3><p>用于设置大小写字母。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>uppercase</code></td>
+<td>全部大写</td>
+</tr>
+<tr>
+<td><code>lowercase</code></td>
+<td>全部小写</td>
+</tr>
+<tr>
+<td><code>capitalize</code></td>
+<td>首字母大写</td>
+</tr>
+</tbody></table>
+<h3 id="text-shadow属性"><a href="#text-shadow属性" class="headerlink" title="text-shadow属性"></a>text-shadow属性</h3><p>该属性需要需要至少4个属性：</p>
+<ul>
+<li>阴影与初始文本的水平偏移。正数表示向右偏移。</li>
+<li>阴影与原始文本的垂直偏移。正数表示向上偏移。</li>
+<li>模糊半径。更高的值表示阴影分散得更广泛。</li>
+<li>颜色。默认为<code>black</code>。<br>也可以通过逗号分隔的多个阴影值叠加，应用于同一文本。</li>
+</ul>
+<h3 id="text-overflow属性"><a href="#text-overflow属性" class="headerlink" title="text-overflow属性"></a>text-overflow属性</h3><p>用于指定如何提示用户存在隐藏的溢出内容。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>clip</code></td>
+<td>默认值，在极限处直接截断文本</td>
+</tr>
+<tr>
+<td><code>ellipsis</code></td>
+<td>用省略号显示被截断的文本</td>
+</tr>
+<tr>
+<td><code>&lt;string&gt;</code></td>
+<td>用字符串显示被截断的文本</td>
+</tr>
+</tbody></table>
+<h3 id="line-break属性"><a href="#line-break属性" class="headerlink" title="line-break属性"></a>line-break属性</h3><p>用于处理如何断开带有标点符号的中文文本行。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auto</code></td>
+<td>默认规则</td>
+</tr>
+<tr>
+<td><code>loose</code></td>
+<td>用尽可能松散的规则分解文本</td>
+</tr>
+<tr>
+<td><code>normal</code></td>
+<td>一般的断行规则分解</td>
+</tr>
+<tr>
+<td><code>strict</code></td>
+<td>最严格的规则</td>
+</tr>
+<tr>
+<td><code>anywhere</code></td>
+<td>每一个字（印刷字符单元）都能进行换行</td>
+</tr>
+</tbody></table>
+<h3 id="hyphens属性"><a href="#hyphens属性" class="headerlink" title="hyphens属性"></a>hyphens属性</h3><p>用于告诉浏览器换行时是否需要连字符链接单词。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code></td>
+<td>只在空白处换行</td>
+</tr>
+<tr>
+<td><code>manual</code></td>
+<td>只在建议换行点（可用Unicode字符指定可能的换行点）换行</td>
+</tr>
+<tr>
+<td><code>auto</code></td>
+<td>自动使用连字符</td>
+</tr>
+</tbody></table>
+<h3 id="white-space属性"><a href="#white-space属性" class="headerlink" title="white-space属性"></a>white-space属性</h3><p>用于说明元素内空白的处理方式。</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>换行符</th>
+<th>空格&#x2F;制表符</th>
+<th>文本换行</th>
+<th>行末空格</th>
+<th>行末其他空白分隔符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code></td>
+<td>合并</td>
+<td>合并</td>
+<td>换行</td>
+<td>移除</td>
+<td>挂起</td>
+</tr>
+<tr>
+<td><code>nowrap</code></td>
+<td>合并</td>
+<td>合并</td>
+<td>不换行</td>
+<td>移除</td>
+<td>挂起</td>
+</tr>
+<tr>
+<td><code>pre</code></td>
+<td>保留</td>
+<td>保留</td>
+<td>不换行</td>
+<td>保留</td>
+<td>不换行</td>
+</tr>
+<tr>
+<td><code>pre-wrap</code></td>
+<td>保留</td>
+<td>保留</td>
+<td>换行</td>
+<td>挂起</td>
+<td>挂起</td>
+</tr>
+<tr>
+<td><code>pre-line</code></td>
+<td>保留</td>
+<td>合并</td>
+<td>换行</td>
+<td>移除</td>
+<td>挂起</td>
+</tr>
+<tr>
+<td><code>break-spaces</code></td>
+<td>保留</td>
+<td>保留</td>
+<td>换行</td>
+<td>换行</td>
+<td>换行</td>
+</tr>
+</tbody></table>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>css可以设置不同的链接状态。</p>
+<table>
+<thead>
+<tr>
+<th>链接状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>a:link&#123;&#125;</code></td>
+<td>未访问链接</td>
+</tr>
+<tr>
+<td><code>a:visited&#123;&#125;</code></td>
+<td>已访问链接</td>
+</tr>
+<tr>
+<td><code>a:hover&#123;&#125;</code></td>
+<td>鼠标悬停时的链接样式</td>
+</tr>
+<tr>
+<td><code>a:focus&#123;&#125;</code></td>
+<td>通过Tab键等方法选中时的链接样式</td>
+</tr>
+<tr>
+<td><code>a:active&#123;&#125;</code></td>
+<td>链接被点击的状态</td>
+</tr>
+</tbody></table>
+<p>其表现实质是伪类的应用，<a href="#%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E4%BC%AA%E7%B1%BB">详见这里</a>。</p>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>css中可以规定列表中某些特定的属性。</p>
+<h3 id="list-style-type属性"><a href="#list-style-type属性" class="headerlink" title="list-style-type属性"></a>list-style-type属性</h3><p>该属性用于设置列表的计数器或标记框的样式（圆点、符号等）。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code></td>
+<td>不显示列表的标记</td>
+</tr>
+<tr>
+<td><code>disc</code></td>
+<td>实心圆点（默认）</td>
+</tr>
+<tr>
+<td><code>circle</code></td>
+<td>空心圆点</td>
+</tr>
+<tr>
+<td><code>square</code></td>
+<td>实心方块</td>
+</tr>
+<tr>
+<td><code>decimal</code></td>
+<td>十进制数字</td>
+</tr>
+<tr>
+<td><code>decimal-leading-zero</code></td>
+<td>十进制，但从0开始计数</td>
+</tr>
+<tr>
+<td><code>lower-roman</code> <code>upper-roman</code></td>
+<td>小&#x2F;大写罗马字母</td>
+</tr>
+</tbody></table>
+<h3 id="list-style-image属性"><a href="#list-style-image属性" class="headerlink" title="list-style-image属性"></a>list-style-image属性</h3><p>该属性用于指定标记框图片，后面直接跟url。</p>
+<h3 id="list-style-position属性"><a href="#list-style-position属性" class="headerlink" title="list-style-position属性"></a>list-style-position属性</h3><p>该属性用于指定标记框在主体块框的位置。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>outside</code></td>
+<td>默认值，标记框在主块外</td>
+</tr>
+<tr>
+<td><code>inside</code></td>
+<td>标记框在主块内</td>
+</tr>
+</tbody></table>
+<p>以上可以使用 <code>list-style</code>简写，顺序与上面一致。注意：如果同时指定了<code>type</code>和<code>image</code>，那么<code>type</code>将为<code>image</code>无法加载时的备选。</p>
+<h2 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h2><p>所有HTML元素都可以看作盒子。每一个盒子都有4种边界，分别是：</p>
+<ul>
+<li>内容盒子(content)：显示内容的区域。</li>
+<li>内边距盒子(<a href="#padding%E5%B1%9E%E6%80%A7">padding</a>)：填充内容周围的空白。</li>
+<li>边距盒子(<a href="#border%E5%B1%9E%E6%80%A7">border</a>)：包住内容。</li>
+<li>外边距盒子(<a href="#margin%E5%B1%9E%E6%80%A7">margin</a>)：盒子与其他元素之间的空白。外边距不计入盒子的实际大小，但影响盒子在页面上占据的总空间。</li>
+</ul>
+<p><img src="/2024/08/05/css/box-model.gif" srcset="/img/loading.gif" lazyload alt="层次图示"></p>
+<h3 id="border属性"><a href="#border属性" class="headerlink" title="border属性"></a>border属性</h3><p>该属性是多个属性的简写，可以通过分别指定不同属性与属性个数绘制不同的边框。属性个数对绘制的影响如下</p>
+<table>
+<thead>
+<tr>
+<th>参数个数</th>
+<th>各个参数影响的边</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4</td>
+<td>上-&gt;右-&gt;下-&gt;左</td>
+</tr>
+<tr>
+<td>3</td>
+<td>上-&gt;左右-&gt;下</td>
+</tr>
+<tr>
+<td>2</td>
+<td>上下-&gt;左右</td>
+</tr>
+<tr>
+<td>1</td>
+<td>&#x2F;</td>
+</tr>
+</tbody></table>
+<p>属性顺序如下</p>
+<h4 id="border-width"><a href="#border-width" class="headerlink" title="border-width"></a>border-width</h4><p>边框宽度，由<code>border-bottom-width</code> <code>border-left-width</code> <code>border-right-width</code> <code>border-top-width</code>4个值组成。其中的值可以是数字，也可以是关键字<code>thin</code> <code>medium</code> <code>thick</code>。</p>
+<h4 id="border-style"><a href="#border-style" class="headerlink" title="border-style"></a>border-style</h4><p>设定元素所有边框的样式。可由<code>border-top-style</code> <code>border-right-style</code> <code>border-bottom-style</code> <code>border-left-style</code>分别指定。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code></td>
+<td>默认值，无边框</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td>与<code>none</code>类似，但在单元格边框重叠的情况下，它的优先级最高</td>
+</tr>
+<tr>
+<td><code>dotted</code></td>
+<td>圆点边框</td>
+</tr>
+<tr>
+<td><code>dashed</code></td>
+<td>短方形虚线</td>
+</tr>
+<tr>
+<td><code>solid</code></td>
+<td>实线</td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>双实线</td>
+</tr>
+<tr>
+<td><code>groove</code></td>
+<td>雕刻效果边框</td>
+</tr>
+<tr>
+<td><code>ridge</code></td>
+<td>浮雕效果边框，明暗区域与<code>groove</code>相反</td>
+</tr>
+<tr>
+<td><code>inset</code></td>
+<td>陷入效果边框，为只有两边的<code>groove</code></td>
+</tr>
+<tr>
+<td><code>outset</code></td>
+<td>突出效果边框，样式与<code>inset</code>相反，为只有两边的<code>ridge</code></td>
+</tr>
+</tbody></table>
+<h4 id="border-color"><a href="#border-color" class="headerlink" title="border-color"></a>border-color</h4><p>边框颜色，由<code>border-top-color</code> <code>border-right-color</code> <code>border-bottom-color</code> <code>border-left-color</code>4个值组成。</p>
+<h3 id="padding属性"><a href="#padding属性" class="headerlink" title="padding属性"></a>padding属性</h3><p>用于控制边框与内容间的间距。参数类似。</p>
+<h3 id="outline属性"><a href="#outline属性" class="headerlink" title="outline属性"></a>outline属性</h3><p>设置多个轮廓属性的样式，但和<a href="#border%E5%B1%9E%E6%80%A7">border</a>相比，它并不占据空间，围绕在border外面，也可以是非矩形的。参数类似。</p>
+<h3 id="margin属性"><a href="#margin属性" class="headerlink" title="margin属性"></a>margin属性</h3><p>定义元素周围空间。参数类似。</p>
+<h3 id="尺寸相关"><a href="#尺寸相关" class="headerlink" title="尺寸相关"></a>尺寸相关</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>height</code></td>
+<td>设置元素高度</td>
+</tr>
+<tr>
+<td><code>line-height</code></td>
+<td>设置行高</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td>设置元素宽度</td>
+</tr>
+<tr>
+<td><code>max-height</code></td>
+<td>设置元素最大高度</td>
+</tr>
+<tr>
+<td><code>max-width</code></td>
+<td>设置元素最大宽度</td>
+</tr>
+<tr>
+<td><code>min-height</code></td>
+<td>设置元素最小宽度</td>
+</tr>
+</tbody></table>
+<h3 id="display属性"><a href="#display属性" class="headerlink" title="display属性"></a>display属性</h3><p>display属性设置元素是否可以被视为盒子以及子元素的布局。</p>
+<h4 id="外部表现"><a href="#外部表现" class="headerlink" title="外部表现"></a>外部表现</h4><p>其内部值默认为<code>flow</code>。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>block</code></td>
+<td>生成一个块级盒子，在该元素之前和之后产生换行</td>
+</tr>
+<tr>
+<td><code>inline</code></td>
+<td>生成一个或多个盒子，但不会换行</td>
+</tr>
+</tbody></table>
+<h4 id="内部表现"><a href="#内部表现" class="headerlink" title="内部表现"></a>内部表现</h4><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>flow</code></td>
+<td>使用流式布局</td>
+</tr>
+<tr>
+<td><code>flow-root</code></td>
+<td>生成块级元素盒，建立一个新的区块格式化上下文</td>
+</tr>
+<tr>
+<td><code>table</code></td>
+<td>类似<code>&lt;table&gt;</code>，定义一个块级盒子</td>
+</tr>
+<tr>
+<td><code>flex</code></td>
+<td>使用弹性盒模型布局</td>
+</tr>
+<tr>
+<td><code>grid</code></td>
+<td>使用网格模型布局</td>
+</tr>
+<tr>
+<td><code>ruby</code></td>
+<td>类似<code>&lt;ruby&gt;</code>，依据ruby格式化类型布局它的内容</td>
+</tr>
+</tbody></table>
+<h4 id="内部"><a href="#内部" class="headerlink" title="内部"></a>内部</h4><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>table-row-group</code></td>
+<td>类似于<code>&lt;tbody&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-header-group</code></td>
+<td>类似于<code>&lt;thead&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-footer-group</code></td>
+<td>类似于<code>&lt;tfoot&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-row</code></td>
+<td>类似于<code>&lt;tr&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-cell</code></td>
+<td>类似于<code>&lt;td&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-column-group</code></td>
+<td>类似于<code>&lt;colgroup&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-column</code></td>
+<td>类似于<code>&lt;col&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-caption</code></td>
+<td>类似于<code>&lt;caption&gt;</code></td>
+</tr>
+<tr>
+<td><code>ruby-base</code></td>
+<td>类似于<code>&lt;rb&gt;</code></td>
+</tr>
+<tr>
+<td><code>ruby-text</code></td>
+<td>类似于<code>&lt;rt&gt;</code></td>
+</tr>
+</tbody></table>
+<h4 id="预组合"><a href="#预组合" class="headerlink" title="预组合"></a>预组合</h4><table>
+<thead>
+<tr>
+<th>值</th>
+<th>等效</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>inline-block</code></td>
+<td><code>inline flow-root</code></td>
+</tr>
+<tr>
+<td><code>inline-table</code></td>
+<td><code>inline table</code></td>
+</tr>
+<tr>
+<td><code>inline-flex</code></td>
+<td><code>inline flex</code></td>
+</tr>
+<tr>
+<td><code>inline-grid</code></td>
+<td><code>inline grid</code></td>
+</tr>
+</tbody></table>
+<h3 id="visibility属性"><a href="#visibility属性" class="headerlink" title="visibility属性"></a>visibility属性</h3><p>用于显示或隐藏元素</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>visible</code></td>
+<td>其值可见</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td>其值不可见，不绘制</td>
+</tr>
+<tr>
+<td><code>collapse</code></td>
+<td><ol><li>用于<code>&lt;table&gt;</code>行、列、行组、列组时，将隐藏表格的行与列，并不占用任何空间。但计算其他行与列的大小时，仍会以以前的大小计算。</li><li>折叠的弹性元素和<code>&lt;ruby&gt;</code>元素会被隐藏，占据的空间也会被移除</li><li>其他元素，与<code>hidden</code>相同</li></ol></td>
+</tr>
+</tbody></table>
+<h3 id="position属性-1"><a href="#position属性-1" class="headerlink" title="position属性"></a>position属性</h3><p>该属性指定一个元素在文档中的定位方式。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static</code></td>
+<td>元素的正常布局行为 <br> 此时 <code>top</code> <code>right</code> <code>left</code> <code>bottom</code> 和具体数值无效</td>
+</tr>
+<tr>
+<td><code>relative</code></td>
+<td><strong>相对定位元素</strong>，先放置在未添加定位时的元素，再在不改变布局的前提下调整元素位置<br>对某些表格元素无效</td>
+</tr>
+<tr>
+<td><code>absolute</code></td>
+<td><strong>绝对定位元素</strong>，元素被移出正常文档流，通过指定元素相对于最近的非static定位父元素的偏移<br>该元素可设置<a href="#margin%E5%B1%9E%E6%80%A7">外边距</a>，且不与其他边距合并</td>
+</tr>
+<tr>
+<td><code>fixed</code></td>
+<td><strong>绝对定位元素</strong>，元素被移出正常文档流，通过指定元素相对于屏幕视口的位置来指定元素位置，屏幕滚动时不会改变元素位置</td>
+</tr>
+<tr>
+<td><code>sticky</code></td>
+<td><strong>粘性定位元素</strong>，元素根据正常文档流进行定位，相对<em>最近滚动祖先</em>进行定位，<em>最近滚动祖先</em>滑动时不改变元素位置</td>
+</tr>
+</tbody></table>
+<h3 id="cursor属性"><a href="#cursor属性" class="headerlink" title="cursor属性"></a>cursor属性</h3><p>显示鼠标指针悬停在元素上时显示的相应样式。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明与样例<br>悬停时可见，但有的显示不了</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&lt;<code>url</code>&gt;</td>
+<td><code>url(), url()</code>，指向图片文件(无样例)</td>
+</tr>
+<tr>
+<td><code>&lt;x&gt;</code> <code>&lt;y&gt;</code></td>
+<td>坐标，两个小于32的无单位非负数(无样例)</td>
+</tr>
+<tr>
+<td><code>auto</code></td>
+<td><div style="cursor:auto;">浏览器自动选择</div></td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><div style="cursor:default;">默认的箭头指针</div></td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td><div style="cursor:none;">无指针</div></td>
+</tr>
+<tr>
+<td><code>pointer</code></td>
+<td><div style="cursor:pointer;">可点击</div></td>
+</tr>
+<tr>
+<td><code>progress</code></td>
+<td><div style="cursor:progress;">程序后台繁忙</div></td>
+</tr>
+<tr>
+<td><code>wait</code></td>
+<td><div style="cursor:wait;">程序繁忙</div></td>
+</tr>
+<tr>
+<td><code>cell</code></td>
+<td><div style="cursor:;">指示单元格可被选中</div></td>
+</tr>
+<tr>
+<td><code>crosshair</code></td>
+<td><div style="cursor:crosshair;">位图框选</div></td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td><div style="cursor:text;">文字可被选中</div></td>
+</tr>
+<tr>
+<td><code>vertical-text</code></td>
+<td><div style="cursor:vertical-text;">垂直文字可被选中</div></td>
+</tr>
+<tr>
+<td><code>move</code></td>
+<td><div style="cursor:move;">被悬浮的物体可移动</div></td>
+</tr>
+<tr>
+<td><code>not-allowed</code></td>
+<td><div style="cursor:not-allowed;">不能执行</div></td>
+</tr>
+<tr>
+<td><code>grab</code></td>
+<td><div style="cursor:grab;">可抓取</div></td>
+</tr>
+<tr>
+<td><code>grabbing</code></td>
+<td><div style="cursor:grabbing;">抓取中</div></td>
+</tr>
+<tr>
+<td><code>zoom-in</code></td>
+<td><div style="cursor:zoom-in;">放大</div></td>
+</tr>
+<tr>
+<td><code>zoom-out</code></td>
+<td><div style="cursor:zoom-out;">缩小</div></td>
+</tr>
+</tbody></table>
+<h3 id="overflow属性"><a href="#overflow属性" class="headerlink" title="overflow属性"></a>overflow属性</h3><p>该属性设置了元素溢出时所需的行为</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>visible</code></td>
+<td>内容不能被裁剪，渲染到盒外部</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td>溢出的内容消失</td>
+</tr>
+<tr>
+<td><code>clip</code></td>
+<td>内容将以元素的边距盒进行裁剪</td>
+</tr>
+<tr>
+<td><code>scroll</code></td>
+<td>裁剪成盒，其余的显示滚动条</td>
+</tr>
+<tr>
+<td><code>auto</code></td>
+<td>由浏览器决定</td>
+</tr>
+</tbody></table>
+<h3 id="其他定位属性"><a href="#其他定位属性" class="headerlink" title="其他定位属性"></a>其他定位属性</h3><p>还可额外指定<code>top``right``left``bottom</code>属性来指明偏移量。</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>说明</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>z-index</code></td>
+<td>元素的堆叠顺序</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td><code>clip</code></td>
+<td>裁剪元素</td>
+<td><ul><li><code>shape</code> 设置元素形状。唯一合法的形状值为<code>rect(top,right,bottom,left)</code></li><li><code>auto</code> 默认值，不使用剪裁</li></ul></td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td>指定一个元素应沿其容器的左侧或右侧放置</td>
+<td><ul><li><code>none</code> 元素不进行浮动</li><li><code>left</code> <code>right</code> 元素浮动在左&#x2F;右侧</li><li><code>inline-start</code> <code>inline-end</code> 元素浮动在其块容器的开始&#x2F;结束一侧，哪一测则有文字方向决定</li></ul></td>
+</tr>
+</tbody></table>
+<h2 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h2><p>选择器选择我们想要样式化的HTML元素进行操作化。</p>
+<table>
+<thead>
+<tr>
+<th>选择器类型</th>
+<th>标识符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类型选择器</td>
+<td><code>&lt;&gt;</code></td>
+<td>选择HTML标签&#x2F;元素</td>
+</tr>
+<tr>
+<td>全局选择器</td>
+<td><code>*</code></td>
+<td>选择文档中的所有内容<br>当紧随在其他元素后时，则代指父元素的所有内容</td>
+</tr>
+<tr>
+<td>类选择器</td>
+<td><code>.</code></td>
+<td>选择这个类的物件</td>
+</tr>
+<tr>
+<td>ID选择器</td>
+<td><code>#</code></td>
+<td>选择设定了相应id元素的物件，应用与类选择器基本相同，但在一篇文档中一个ID只能用一次</td>
+</tr>
+<tr>
+<td><a href="#%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8">属性选择器</a></td>
+<td>&#x2F;</td>
+<td>选择特定属性的元素</td>
+</tr>
+<tr>
+<td><a href="#%E4%BC%AA%E7%B1%BB">伪类</a>&#x2F;<a href="#%E4%BC%AA%E5%85%83%E7%B4%A0">伪元素</a>选择器</td>
+<td><code>:</code>&#x2F;<code>::</code></td>
+<td>选择处于特定状态的元素</td>
+</tr>
+<tr>
+<td><a href="#%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8">关系选择器</a></td>
+<td>&#96;&#96;&#x2F;<code>&gt;</code>&#x2F;<code>+</code>&#x2F;<code>~</code></td>
+<td>在该选择器与其他选择器间建立关系</td>
+</tr>
+</tbody></table>
+<h3 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h3><h4 id="存否何值选择器"><a href="#存否何值选择器" class="headerlink" title="存否何值选择器"></a>存否何值选择器</h4><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[attr]</code></td>
+<td>匹配存在<em>attr</em>属性的元素</td>
+</tr>
+<tr>
+<td><code>[attr=value]</code></td>
+<td>匹配存在<em>attr</em>属性且属性<strong>值为value</strong>的元素</td>
+</tr>
+<tr>
+<td><code>[attr~=value]</code></td>
+<td>匹配存在<em>attr</em>属性且属性<strong>其中一个值value</strong>的元素</td>
+</tr>
+<tr>
+<td><code>[attr|=value]</code></td>
+<td>匹配存在<em>attr</em>属性且属性值<strong>正为value</strong>或<strong>开始为value，后面紧随连字符</strong>的元素</td>
+</tr>
+</tbody></table>
+<h4 id="子字符串匹配选择器"><a href="#子字符串匹配选择器" class="headerlink" title="子字符串匹配选择器"></a>子字符串匹配选择器</h4><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[attr^=value]</code></td>
+<td>匹配存在<em>attr</em>属性且<strong>值开头为value子字符串</strong>的元素</td>
+</tr>
+<tr>
+<td><code>[attr$=value]</code></td>
+<td>匹配存在<em>attr</em>属性且<strong>值结尾为value子字符串</strong>的元素</td>
+</tr>
+<tr>
+<td><code>[attr*=value]</code></td>
+<td>匹配存在<em>attr</em>属性且<strong>值存在value子字符串</strong>的元素</td>
+</tr>
+</tbody></table>
+<h4 id="大小写敏感"><a href="#大小写敏感" class="headerlink" title="大小写敏感"></a>大小写敏感</h4><p>在中括号闭合前加<code>i</code>，表示以大小写不敏感的方式进行匹配。</p>
+<h3 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h3><h4 id="用户行为伪类"><a href="#用户行为伪类" class="headerlink" title="用户行为伪类"></a>用户行为伪类</h4><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>:hover</code></td>
+<td>鼠标悬浮到元素上时匹配</td>
+</tr>
+<tr>
+<td><code>:active</code></td>
+<td>用户激活时匹配</td>
+</tr>
+<tr>
+<td><code>:focus</code></td>
+<td>元素有焦点时匹配</td>
+</tr>
+<tr>
+<td><code>:fucus-visible</code></td>
+<td>元素有焦点，且元素对用户可见时匹配</td>
+</tr>
+<tr>
+<td><code>:focus-within</code></td>
+<td>元素或其子代元素有焦点时匹配</td>
+</tr>
+</tbody></table>
+<h4 id="浏览器相关伪类"><a href="#浏览器相关伪类" class="headerlink" title="浏览器相关伪类"></a>浏览器相关伪类</h4><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>:link</code></td>
+<td>未访问的链接</td>
+</tr>
+<tr>
+<td><code>:visited</code></td>
+<td>已访问链接</td>
+</tr>
+<tr>
+<td><code>:any-link</code></td>
+<td>链接，无论是否已访问</td>
+</tr>
+</tbody></table>
+<h4 id="表单相关伪类"><a href="#表单相关伪类" class="headerlink" title="表单相关伪类"></a>表单相关伪类</h4><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>:blank</code></td>
+<td>空输入值的<code>&lt;input&gt;</code>元素</td>
+</tr>
+<tr>
+<td><code>:checked</code></td>
+<td>处于选中状态的表单元素</td>
+</tr>
+<tr>
+<td><code>:in-range</code></td>
+<td>值处于区间内时匹配</td>
+</tr>
+<tr>
+<td><code>:out-of-range</code></td>
+<td>值不处于区间内时匹配</td>
+</tr>
+<tr>
+<td><code>:valid</code></td>
+<td>通过验证的有效表单元素</td>
+</tr>
+<tr>
+<td><code>:invalid</code></td>
+<td>未通过验证的无效表单元素</td>
+</tr>
+<tr>
+<td><code>:indeterminate</code></td>
+<td>匹配未定态值的元素，通常是复选框</td>
+</tr>
+<tr>
+<td><code>:required</code></td>
+<td>匹配必填的表单元素</td>
+</tr>
+</tbody></table>
+<h4 id="元素状态伪类"><a href="#元素状态伪类" class="headerlink" title="元素状态伪类"></a>元素状态伪类</h4><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>:disable</code></td>
+<td>处于禁用状态的用户界面元素</td>
+</tr>
+<tr>
+<td><code>:enable</code></td>
+<td>处于启用的用户界面元素</td>
+</tr>
+<tr>
+<td><code>:empty</code></td>
+<td>没有子元素的元素</td>
+</tr>
+<tr>
+<td><code>:lang()</code></td>
+<td>基于语言(HTML中lang属性的值)匹配元素</td>
+</tr>
+</tbody></table>
+<h4 id="次序相关伪类-大部分前面或括号内都要有HTML元素"><a href="#次序相关伪类-大部分前面或括号内都要有HTML元素" class="headerlink" title="次序相关伪类(大部分前面或括号内都要有HTML元素)"></a>次序相关伪类(大部分前面或括号内都要有HTML元素)</h4><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>:first</code></td>
+<td>分页情况下的第一页</td>
+</tr>
+<tr>
+<td><code>:first-child</code></td>
+<td>匹配兄弟元素中的第一个元素</td>
+</tr>
+<tr>
+<td><code>:first-of-type</code></td>
+<td>匹配兄弟元素中第一个有某种类型的元素</td>
+</tr>
+<tr>
+<td><code>:last-child</code></td>
+<td>匹配兄弟元素中最后一个某种类型的元素</td>
+</tr>
+<tr>
+<td><code>:last-of-type</code></td>
+<td>匹配兄弟元素中最后一个某种类型的元素</td>
+</tr>
+<tr>
+<td><code>:only-child</code></td>
+<td>匹配没有兄弟元素的元素</td>
+</tr>
+<tr>
+<td><code>:only-of-type</code></td>
+<td>匹配兄弟元素中某类型仅有的元素</td>
+</tr>
+<tr>
+<td><code>:nth-child()</code></td>
+<td>根据元素在父元素的子元素列表中的索引来选择元素<br>括号中可以是关键字<code>odd</code>或<code>even</code>表示索引号奇偶，也可以写出等差数列通项公式</td>
+</tr>
+<tr>
+<td><code>:nth-of-type()</code></td>
+<td>基于相同类型的兄弟元素中的位置来匹配元素<br>括号与上面一致</td>
+</tr>
+<tr>
+<td><code>:nth-child()</code></td>
+<td>匹配一组兄弟元素，从后向前数<br>括号与上面一致</td>
+</tr>
+<tr>
+<td><code>:nth-of-type()</code></td>
+<td>匹配同类型的一组兄弟元素，从后向前数<br>括号与上面一致</td>
+</tr>
+</tbody></table>
+<h4 id="其他伪类"><a href="#其他伪类" class="headerlink" title="其他伪类"></a>其他伪类</h4><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>:is()</code></td>
+<td>选择括号内选择器列表中任一种元素，可用于以更紧凑的形式编写大型选择器</td>
+</tr>
+<tr>
+<td><code>:not()</code></td>
+<td>匹配不符合一组选择器的元素</td>
+</tr>
+<tr>
+<td><code>:paused</code></td>
+<td>匹配音视频中能播放或暂停，且正在暂停的元素</td>
+</tr>
+<tr>
+<td><code>:playing</code></td>
+<td>匹配音视频中能播放或暂停，且正在播放的元素</td>
+</tr>
+<tr>
+<td><code>:read-only</code></td>
+<td>匹配用户不可更改的元素</td>
+</tr>
+<tr>
+<td><code>:read-write</code></td>
+<td>匹配用户可更改的元素</td>
+</tr>
+<tr>
+<td><code>:target</code></td>
+<td>匹配当前网页url的元素</td>
+</tr>
+</tbody></table>
+<h3 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h3><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>::after</code></td>
+<td>某元素后的一个元素</td>
+</tr>
+<tr>
+<td><code>::before</code></td>
+<td>某元素前的一个元素</td>
+</tr>
+<tr>
+<td><code>::first-letter</code></td>
+<td>元素的第一个字母</td>
+</tr>
+<tr>
+<td><code>::first-line</code></td>
+<td>包含此伪元素的元素第一行</td>
+</tr>
+<tr>
+<td><code>::grammar-error</code></td>
+<td>元素中浏览器标记的语法错误的部分</td>
+</tr>
+<tr>
+<td><code>::spelling-error</code></td>
+<td>元素中拼写错误的部分</td>
+</tr>
+<tr>
+<td><code>::selection</code></td>
+<td>元素中被选择的部分</td>
+</tr>
+</tbody></table>
+<h3 id="关系选择器"><a href="#关系选择器" class="headerlink" title="关系选择器"></a>关系选择器</h3><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>标识符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>后代选择器</td>
+<td>&#96;&#96;</td>
+<td>表示后者是前者的子元素</td>
+</tr>
+<tr>
+<td>子元素选择器</td>
+<td><code>&gt;</code></td>
+<td>选择某元素的一级子元素</td>
+</tr>
+<tr>
+<td>邻接兄弟选择器</td>
+<td><code>+</code></td>
+<td>选择紧接在另一元素后的元素，且二者有相同元素</td>
+</tr>
+<tr>
+<td>后续兄弟选择器</td>
+<td><code>~</code></td>
+<td>选择所有指定元素后的相邻兄弟元素</td>
+</tr>
+</tbody></table>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>ID名与类名的第一个字符不能是数字，它无法在FireFox和Mozilla中使用。</li>
+<li>IE6及更低版本不支持属性选择器。</li>
+<li><code>-child</code>类伪类和<code>-of-type</code>类伪类的区别：前者选择其父元素的第一个符合条件的元素，而不关心其类型；后者选择其父元素中指定类型的第一个符合条件的子元素。</li>
+<li><code>::after</code>和<code>::before</code>后面可指定属性<code>content</code>以写明内容。</li>
+</ul>
+<h2 id="继承与优先级"><a href="#继承与优先级" class="headerlink" title="继承与优先级"></a>继承与优先级</h2><h3 id="控制继承"><a href="#控制继承" class="headerlink" title="控制继承"></a>控制继承</h3><p>每个CSS属性都接收这些继承值</p>
+<table>
+<thead>
+<tr>
+<th>继承值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>inherit</code></td>
+<td>子元素属性与父元素一样</td>
+</tr>
+<tr>
+<td><code>initial</code></td>
+<td>元素属性设置为初始值</td>
+</tr>
+<tr>
+<td><code>revert</code></td>
+<td>属性值设置为浏览器的默认值，而非该属性的默认值</td>
+</tr>
+<tr>
+<td><code>revert-layer</code></td>
+<td>属性值设置为上一个层叠层中设立的值</td>
+</tr>
+<tr>
+<td><code>unset</code></td>
+<td>设置为自然值，可能是<code>inherit</code>或<code>initial</code></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>all</code></td>
+<td>继承值应用于几乎所有属性</td>
+</tr>
+</tbody></table>
+<h3 id="优先级规则"><a href="#优先级规则" class="headerlink" title="优先级规则"></a>优先级规则</h3><ol>
+<li>最近的祖先样式比其他祖先样式高。</li>
+<li>直接样式比祖先样式优先级高。</li>
+<li>内联样式 &gt; ID选择器 <span class="xyz">x</span> &gt; 类选择器 &#x3D; 属性选择器 &#x3D; 伪类选择器 <span class="xyz">y</span> &gt; 标签选择器 &#x3D; 伪元素选择器 <span class="xyz">z</span>。</li>
+<li>计算选择器中<span class="xyz">x</span>，<span class="xyz">y</span>，<span class="xyz">z</span>的值，大的则优先级高，若三者都相等，则按照“就近原则”判断。</li>
+<li><code>!important</code>属性拥有最高优先级。若同时拥有，则按照规则3、4判断优先级。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CSS/" class="print-no-link">#CSS</a>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+        <a href="/tags/%E9%80%9F%E6%9F%A5/" class="print-no-link">#速查</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>css速查</div>
+      <div>http://example.com/2024/08/05/css/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/09/19/topic-1/" title="算法题汇总：其一">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">算法题汇总：其一</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/01/http-leadIn/" title="http协议杂记">
+                        <span class="hidden-mobile">http协议杂记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

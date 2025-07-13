@@ -1,0 +1,1014 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="As the final exam use English as its language, I shall try my best to edit it in English.             IntroductionDefinitionWhat is an operating system?  It can be a extended machine that">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Processes and Threads - Modern Operating System">
+<meta property="og:url" content="http://example.com/2025/05/14/OS/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="As the final exam use English as its language, I shall try my best to edit it in English.             IntroductionDefinitionWhat is an operating system?  It can be a extended machine that">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/1-24.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/1-25.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/1-28.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/1-20.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-2.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-4.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-6.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-14.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-29.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-30.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-31.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-42.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-43.png">
+<meta property="og:image" content="http://example.com/2025/05/14/OS/2-45.png">
+<meta property="article:published_time" content="2025-05-13T16:31:17.000Z">
+<meta property="article:modified_time" content="2025-06-17T16:12:04.555Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="日常">
+<meta property="article:tag" content="复习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/05/14/OS/1-24.png">
+  
+  
+  
+  <title>Processes and Threads - Modern Operating System - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Processes and Threads - Modern Operating System</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-14 00:31" pubdate>
+          2025年5月14日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Processes and Threads - Modern Operating System</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <div class="note note-success">
+            <p>As the final exam use English as its language, I shall try my best to edit it in English.</p>
+          </div>
+
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>What is an operating system?</p>
+<ul>
+<li><p>It can be a extended machine that manages how hardware work in harmony, and an abstraction of various hardwares.</p>
+</li>
+<li><p>It can be a resource manager that manage files of user’s or execute programs’.</p>
+</li>
+</ul>
+<h3 id="Structures-of-a-Operating-Systems"><a href="#Structures-of-a-Operating-Systems" class="headerlink" title="Structures of a Operating Systems"></a>Structures of a Operating Systems</h3><h4 id="Monolithic-单体式-Systems"><a href="#Monolithic-单体式-Systems" class="headerlink" title="Monolithic (单体式) Systems"></a><em>Monolithic</em> (单体式) Systems</h4><p><img src="/2025/05/14/OS/1-24.png" srcset="/img/loading.gif" lazyload alt="A monolithic systems"></p>
+<p>By far the most common organization, in the monolithic approach the entire operating system runs as a single program in kernel mode. The operating system is written as a collection of procedures, linked together into a single large executable binary program.</p>
+<p>It is often used in embedded operating systems and early operating systems.</p>
+<h4 id="Layered-Systems"><a href="#Layered-Systems" class="headerlink" title="Layered Systems"></a>Layered Systems</h4><p><img src="/2025/05/14/OS/1-25.png" srcset="/img/loading.gif" lazyload alt="An instance of a layered system"></p>
+<h4 id="Virtual-Machines"><a href="#Virtual-Machines" class="headerlink" title="Virtual Machines"></a>Virtual Machines</h4><p><img src="/2025/05/14/OS/1-28.png" srcset="/img/loading.gif" lazyload alt="One possible structure of VM"></p>
+<p>The heart of the system, known as the virtual machine monitor, runs on the bare hardware and does the multiprogramming, providing not one, but several virtual machines to the next layer up.</p>
+<h3 id="System-Calls"><a href="#System-Calls" class="headerlink" title="System Calls"></a>System Calls</h3><p>The system calls available in the interface vary from one operating system to another. Usually we would use system calls <code>open()</code> (open a file), <code>read()</code> (read a file), <code>write()</code> (write a file), <code>fork()</code> (create a process), <code>exit()</code> (kill a process), and so on.</p>
+<p>Processes in UNIX have their memory divided up into three segments: the <strong>text segment</strong> (i.e., the program code), the <strong>data segment</strong> (i.e., the variables), and the <strong>stack segment</strong>. The data segment grows upward and the stack grows downward.</p>
+<p>The global variables contain in the data segment, while the local variables contain in the stack segment.</p>
+<p><img src="/2025/05/14/OS/1-20.png" srcset="/img/loading.gif" lazyload alt="A process shown inIntel CPU"></p>
+<p>In Intel CPU, biggest address is the bottom of stack, so decline pointer means push something in stack.</p>
+<p>So how system call works?</p>
+<ol>
+<li>In most case user use standard library function to use system call (say, <code>printf()</code> uses <code>write()</code>).</li>
+<li>Library function send parameters from user space to a certain position.</li>
+<li>Library function execute a special command that force CPU to switch to kernel space to execute calls.</li>
+<li>After executed, results would be stored to registers or somewhere else, then force CPU to switch to user space.</li>
+</ol>
+<h2 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h2><p>A process is just an instance of an executing program. A process is also a basic unit when operating system allocating resources.</p>
+<h3 id="Kernel-Mode-and-User-Mode"><a href="#Kernel-Mode-and-User-Mode" class="headerlink" title="Kernel Mode and User Mode"></a>Kernel Mode and User Mode</h3><p>Kernel mode and user mode are two different running status of CPU.</p>
+<p><strong>User mode</strong>: Processes is running under permission limited. When user processes need to use system call or something else, kernel mode is needed.</p>
+<p><strong>Kernel mode</strong>: Operating Systems are running under kernel mode that have the highest permission.</p>
+<h3 id="Process-Creation"><a href="#Process-Creation" class="headerlink" title="Process Creation"></a>Process Creation</h3><p>Four <em>principal</em> (主要的) events cause processes to be created</p>
+<ol>
+<li>System initialization.</li>
+<li>Execution of a process-creation system call by a running process.</li>
+<li>A user request to create a new process.</li>
+<li>Initiation of a batch job.</li>
+</ol>
+<p>First of these is called <em>implicit invocation</em> (隐式调用), others are called explicit invocation.</p>
+<p>In UNIX, the <em><code>ps</code></em> program can be used to list the running processes. In interactive systems, users can start a program by typing a command or (double) clicking on anicon.</p>
+<p>In this C language program</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">pid_t</span> pid;<br>    pid = fork();<br>    <span class="hljs-keyword">if</span>(!pid)<br>    &#123;<br>        <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>        &#123;<br>            sleep(<span class="hljs-number">1</span>);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;haha\n&quot;</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span>(pid &gt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>        &#123;<br>            sleep(<span class="hljs-number">1</span>);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hehe\n&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Child process would copies most of parent process such as data segment, data segment, heap and stack. But there are some difference like some status information.</p>
+<p>The function <code>fork()</code> will return twice: the pid of child process in parent process, 0 in child process.</p>
+<p>But the result on the DOS part does not relative to the pid, and it just constantly printing “haha” and “hehe”.</p>
+<p>There are another call <code>execl</code>, and the example program is as follow</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">pid_t</span> pid;<br>    pid = fork();<br>    <span class="hljs-keyword">if</span>(pid==<span class="hljs-number">0</span>)<br>    &#123;<br>        execl(<span class="hljs-string">&quot;/bin/ls&quot;</span>,<span class="hljs-string">&quot;ls&quot;</span>,<span class="hljs-string">&quot;-1&quot;</span>,<span class="hljs-number">0</span>);<br>        <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>        &#123;<br>            sleep(<span class="hljs-number">1</span>);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;haha\n&quot;</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span>(pid &gt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>        &#123;<br>            sleep(<span class="hljs-number">1</span>);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hehe\n&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>When a process execute <code>exec()</code>， it would swap whole memory image.</p>
+<p>But remember, the <code>execl</code> command just swap the following code to the command <code>ls</code>, so the child process will execute the <code>ls</code> command while the parent command continue to print “hehe”. Which means that a portion behind child process is just <code>ls</code>, not going loop for infinity. The Command <code>execl</code> itself does not create a new process.</p>
+<p>All in all, <code>fork()</code> is to create a process while <code>exec()</code> is to execute a program.</p>
+<h3 id="Process-Termination"><a href="#Process-Termination" class="headerlink" title="Process Termination"></a>Process Termination</h3><p>Process might terminate in four conditions</p>
+<ol>
+<li>normal exit (voluntary)<br> When user click “exit” button or a program run out of code (including <code>exit(0)</code>).</li>
+<li>error exit (voluntary)<br> When a program encounters an error that is not fatal but cannot continue to procedure, it usually calls <code>exit()</code> system call and return a not 0 value.</li>
+<li><em>fatal error</em> (致命错误) (involuntary)<br> Examples:<ol>
+<li>When the program tries to access a invalid memory address (segment fault).</li>
+<li>Process divided into 0.</li>
+<li>Stack overflow.</li>
+</ol>
+</li>
+<li>killed by other process (involuntary)<br> User terminate a process via <code>kill</code> command, for instance.</li>
+</ol>
+<h3 id="Process-State"><a href="#Process-State" class="headerlink" title="Process State"></a>Process State</h3><p>Three states a process might be in:</p>
+<ol>
+<li>Running (actually using the CPU)</li>
+<li>Ready (runnable, temporarily stopped to let another process run)</li>
+<li>Blocked (unable to run until some external event happens)</li>
+</ol>
+<p><img src="/2025/05/14/OS/2-2.png" srcset="/img/loading.gif" lazyload alt="status of a process"></p>
+<p>In fact there are far more than three states</p>
+<h3 id="Implementation-of-Processes"><a href="#Implementation-of-Processes" class="headerlink" title="Implementation of Processes"></a>Implementation of Processes</h3><p>To implement the process model, the operating system maintains a table (an array of structures) that contains all about the process, called the process table, with one entry per process. (Some authors call these entries <strong>process control blocks</strong>, or <strong>PCB</strong> for short)</p>
+<p><img src="/2025/05/14/OS/2-4.png" srcset="/img/loading.gif" lazyload alt="a PCB contains various information"></p>
+<p>For short, a PCB concludes information as follow:</p>
+<ul>
+<li><strong>Registers</strong>: All values in registers when process is pausing.</li>
+<li><strong>Program Counter</strong>: The address that next command will be executed.</li>
+<li><strong>Process Status Word</strong>: running, ready or blocked.</li>
+<li><strong>Scheduling Parameters</strong>: Process priority, scheduling queue pointer and so on.</li>
+<li>Process ID (<strong>PID</strong>) and Parent Process ID (<strong>PPID</strong>): only way to mark a process.</li>
+<li><strong>Memory Management Message</strong>: Relative to <em>Page Table</em> where PCB contains a pointer pointed to page table of this process.</li>
+<li><strong>File Management Message</strong>: File list and file pointer.</li>
+<li><strong>I&#x2F;O Status</strong>: I&#x2F;O devices allocated for process and unfinished I&#x2F;O request list.</li>
+</ul>
+<h3 id="Modeling-Multiprogramming"><a href="#Modeling-Multiprogramming" class="headerlink" title="Modeling Multiprogramming"></a>Modeling Multiprogramming</h3><p>We know that most of using time is on I&#x2F;O. Let the <code>n</code> stands for the number of processes, <code>p</code> stands for the I&#x2F;O time, the CPU utilization can be computed by this formula:</p>
+<p>$$<br>\textup{CPU utilization} &#x3D; 1-p^n<br>$$</p>
+<p>The figure is as follow</p>
+<p><img src="/2025/05/14/OS/2-6.png" srcset="/img/loading.gif" lazyload alt="degree of multiprogramming"></p>
+<h2 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h2><p>Why we need thread instead of creating a new process?</p>
+<ul>
+<li>Threads can share an address space and all of its data among themselves (in the same process), while processes is relatively independent.</li>
+<li>Threads are lighter weight than processes, which means they are easier to create and destroy than processes.</li>
+<li>When there is substantial computing and also substantial I&#x2F;O, having threads allows these activities to overlap, thus speeding up the application.</li>
+</ul>
+<div class="note note-info">
+            <p>Though threads can share same memories, each thread has its own stack.</p>
+          </div>
+
+<h3 id="The-Classical-Thread-Model"><a href="#The-Classical-Thread-Model" class="headerlink" title="The Classical Thread Model"></a>The Classical Thread Model</h3><p>What threads add to the process model is to allow multiple executions to take place in the same process environment, to a large degree independent of one another.  When multithreading is present, processes usually start with a single thread present.</p>
+<h3 id="POSIX-Thread"><a href="#POSIX-Thread" class="headerlink" title="POSIX Thread"></a>POSIX Thread</h3><p>IEEE has defined a standard for threads in IEEE standard. The threads package it defines is called Pthreads. Most UNIX systems support it.</p>
+<p><img src="/2025/05/14/OS/2-14.png" srcset="/img/loading.gif" lazyload alt="some of the Pthreads function calls"></p>
+<h2 id="InterProcess-Communication"><a href="#InterProcess-Communication" class="headerlink" title="InterProcess Communication"></a>InterProcess Communication</h2><p>Processes frequently need to communicate with other processes. In the following sections we will look at some of the issues related to this <strong>InterProcess Communication</strong>, or <strong>IPC</strong>.</p>
+<h3 id="Race-Conditions-and-Critical-Regions"><a href="#Race-Conditions-and-Critical-Regions" class="headerlink" title="Race Conditions and Critical Regions"></a>Race Conditions and Critical Regions</h3><p>In some operating systems, processes that are working together may share some common storage that each one can read and write. where two or more processes are reading or writing some shared data and the final result depends on who runs precisely when, are called <strong>race conditions</strong>. We need to avoid that happens.</p>
+<p>How to avoid race conditions? The key to preventing trouble here and in many other situations involving shared memory, shared files, and shared everything else is to find some way to prohibit more than one process from reading and writing the shared data at the same time. What we need is <em>mutual exclusion</em>(互斥) that puts in critical region or critical section.</p>
+<p>But avoiding race conditions is not sufficient for having parallel processes cooperate correctly and efficiently using shared data. We need four conditions to hold to have a good solution:</p>
+<ol>
+<li>No two processes may <em>simultaneously</em>(同时地) inside their critical regions.</li>
+<li>No assumptions may be made about speeds or the number of CPUs.</li>
+<li>No process running outside its critical region may block any process.</li>
+<li>No process should have to wait forever to enter its critical region.</li>
+</ol>
+<div class="note note-info">
+            <p>中文译文：</p><ol><li>临界区不能被两个进程同时进入。</li><li>不能提前预设CPU的数量。</li><li>不涉及临界区时，该进程不能阻挡其他进程运行。</li><li>不能发生进程永久等待以进入临界区的情况。</li></ol>
+          </div>
+
+<h3 id="Mutual-Exclusion-with-Busy-Waiting"><a href="#Mutual-Exclusion-with-Busy-Waiting" class="headerlink" title="Mutual Exclusion with Busy Waiting"></a>Mutual Exclusion with Busy Waiting</h3><ul>
+<li>Disabling Interrupts (禁用中断)</li>
+</ul>
+<p>On a single-processor system, the simplest solution is to have each process disable all interrupts just after entering its critical region. But it only useable in single-processor system.</p>
+<ul>
+<li><strong>Lock Variables</strong> (锁住变量)</li>
+</ul>
+<p>Most frequently-used method. Consider having a single, shared (lock) variable, initially 0. When a process wants to enter its critical region, it first tests the lock. If the lock is 0, the process sets it to 1 and enters the critical region. If the lock is already 1, the process just waits until it becomes 0.</p>
+<ul>
+<li><strong>Strict Alternation</strong> (严格轮替)</li>
+</ul>
+<p>Available when it is only 2 threads. of course more than 2 threads are also available, but not so flexible, which is called <strong>spin lock</strong>. However, this method <em>violate</em> (违反) “No process running outside its critical region may block another process.” principle.</p>
+<p>More strictly, a spin lock means a lock that uses busy waiting. <strong>Busy waiting</strong> means Continuously testing a variable until some value appears. It is very suitable for this alternation.</p>
+<p>a.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)<br>&#123;<br>    <span class="hljs-keyword">while</span>(turn != <span class="hljs-number">0</span>);<br>    critical_region();<br>    turn = <span class="hljs-number">1</span>;<br>    noncritical_region();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>b.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)<br>&#123;<br>    <span class="hljs-keyword">while</span>(turn != <span class="hljs-number">1</span>);<br>    critical_region();<br>    turn = <span class="hljs-number">0</span>;<br>    noncritical_region();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Peterson’s Solution</strong></li>
+</ul>
+<p>code as below</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> FALSE 0</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> TRUE 1</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> N 2 <span class="hljs-comment">/* number of processes */</span></span><br><br><span class="hljs-type">int</span> turn; <span class="hljs-comment">/* whose turn is it? */</span><br><span class="hljs-type">int</span> interested[N]; <span class="hljs-comment">/* all values initially 0 (FALSE) */</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">enter_region</span><span class="hljs-params">(<span class="hljs-type">int</span> process)</span> <span class="hljs-comment">/* process is 0 or 1 */</span><br>&#123;<br>    <span class="hljs-type">int</span> other; <span class="hljs-comment">/* number of the other process */</span><br>    other = <span class="hljs-number">1</span> − process; <span class="hljs-comment">/*the opposite of process */</span><br>    interested[process] = TRUE; <span class="hljs-comment">/* show that you are interested */</span><br>    turn = process; <span class="hljs-comment">/*set flag*/</span><br><span class="hljs-keyword">while</span> (turn == process &amp;&amp; interested[other] == TRUE); <span class="hljs-comment">/* null statement */</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">leave_region</span><span class="hljs-params">(<span class="hljs-type">int</span> process)</span><br>&#123;<br>    interested[process] = FALSE; <span class="hljs-comment">/* indicate departure from critical region */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Initially neither process is in its critical region. Now process 0 calls <code>enter_region</code>. It indicates its interest by setting its array element and sets <code>turn</code> to 0. Since process 1 is not interested, <code>enter_region</code> returns immediately. If process 1 now makes a call to <code>enter_region</code>, it will hang there until <code>interested[0]</code> goes to <code>FALSE</code>, an event happens only when process 0 calls <code>leave_region</code> to exits the critical region.</p>
+<h3 id="Semaphores"><a href="#Semaphores" class="headerlink" title="Semaphores"></a>Semaphores</h3><p>A <strong>semaphore</strong> is a counter that indicates how many processes or threads use this resource. It could have the value 0, indicating that no wakeups were saved, or some positive value if one or more wakeups were pending. A semaphore have two operations: <strong>down</strong> and <strong>up</strong>.</p>
+<p>The down operation (also calls <strong>P operation</strong>) on a semaphore checks if the value is greater than 0. If so, it decrements the value and just continues. If the value is 0, the process is put to sleep without completing the down for the moment.</p>
+<p>Checking the value, changing it, and possibly going to sleep, are all done as a single, indivisible <strong>atomic action</strong>. It is guaranteed that once a semaphore operation has started, no other process can access the semaphore until the operation has completed or blocked. We can imitate this action via using various locks.</p>
+<p>The up operation (also calls <strong>V operation</strong>) increments the value of the semaphore addressed. If one or more processes were sleeping on that semaphore, unable to complete an earlier down operation, one of them is chosen by the system (e.g., at random) and is allowed to complete its down.</p>
+<div class="note note-info">
+            <p>Semaphore has no concepts like “possession”, so any process waiting for critical region might get resource.</p>
+          </div>
+
+<p>using semaphores, we can resolve the producer-consumer problem</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> N 100</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">int</span> semaphore<br>semaphore mutex = <span class="hljs-number">1</span>;<br>semaphore empty = N;<br>semaphore full = <span class="hljs-number">0</span>;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">producer</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> item;<br>    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)<br>    &#123;<br>        item = produce_item();<br>        down(&amp;empty);<br>        down(&amp;mutex);<br>        insert_item(item);<br>        up(&amp;mutex);<br>        up(&amp;full);<br>    &#125;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">consumer</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> item;<br>    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)<br>    &#123;<br>        down(&amp;full);<br>        down(&amp;mutex);<br>        item = remove_item();<br>        up(&amp;mutex);<br>        up(&amp;empty);<br>        consume_item(item);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Here we have defined three semaphores</p>
+<ul>
+<li><p>mutex: a mutex semaphore to protect the critical region. When it down and up one time, a atomic action is completed.</p>
+</li>
+<li><p>empty: when producer is going to produce, it downs the empty semaphore to indicate that it is about to produce. Producer will be blocked when the empty semaphore is smaller than 0 because it is no available position to produce then. When the semaphore is upped, it reminds the producer to produce again.</p>
+</li>
+<li><p>full: A record of existing produce, when consumer is going to consume but the full semaphore is empty, it is blocked.</p>
+</li>
+</ul>
+<h3 id="Mutexes"><a href="#Mutexes" class="headerlink" title="Mutexes"></a>Mutexes</h3><div class="note note-info">
+            <p>If mutex is like a key that who takes it will enter critical region, the semaphore might like a parking lot that have $N$ position: P operation, semaphore minus 1, stands cars waiting for a position and the position number minus 1. V operation, add 1, calling cars that are waiting are able to atop</p>
+          </div>
+
+<p>A <strong>mutex</strong> is a simplified version of the semaphore, and it is a share variable that can be in two states: unlocked or locked.</p>
+<p><img src="/2025/05/14/OS/2-29.png" srcset="/img/loading.gif" lazyload alt="a possible implementation of mutex"></p>
+<div class="note note-info">
+            <p>System call <code>thread_yield</code> is just a call to the scheduler in user space.</p>
+          </div>
+
+<p>Pthreads provides a number of functions that can be used to synchronize threads.</p>
+<p><img src="/2025/05/14/OS/2-30.png" srcset="/img/loading.gif" lazyload alt="major calls relating to mutexes"></p>
+<div class="note note-info">
+            <p>If call <code>Pthread_mutex_lock</code> cannot lock, the thread will sleep;<br>if call <code>Pthread_mutex_trylock</code> cannot lock, it will return <code>false</code>.</p>
+          </div>
+
+<p>In addition to mutexes, Pthreads offers a second synchronization mechanism: <strong>condition variables</strong>. Mutexes are good for allowing or blocking access to a critical region. Condition variables allow threads to block due to some condition not being met. Almost always the two methods are used together.</p>
+<p><img src="/2025/05/14/OS/2-31.png" srcset="/img/loading.gif" lazyload alt="the most important calls related to condition variables"></p>
+<div class="note note-info">
+            <p>when a call <code>Pthread_cond_wait</code> execute, it will give up the lock at the same time.</p>
+          </div>
+
+<p>using mutex, we can also solve producer-consumer problem</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX 1e10</span><br><span class="hljs-type">pthread_mutex_t</span> the_mutex;<br><span class="hljs-type">pthread_cond_t</span> condc, condp;<br><span class="hljs-type">int</span> buffer = <span class="hljs-number">0</span>;<br><br><span class="hljs-type">void</span> *<span class="hljs-title function_">producer</span><span class="hljs-params">(<span class="hljs-type">void</span> *ptr)</span><br>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= MAX; i++)<br>    &#123;<br>        pthread_mutex_lock(&amp;the_mutex);<br>        <span class="hljs-keyword">while</span>(buffer != <span class="hljs-number">0</span>)<br>            pthread_cond_wait(&amp;condp, &amp;the_mutex);<br>        buffer = i;<br>        pthread_cond_signal(&amp;condc);<br>        pthread_mutex_unlock(&amp;the_mutex);<br>    &#125;<br>    pthread_exit(<span class="hljs-number">0</span>);<br>&#125;<br><br><span class="hljs-type">void</span> *<span class="hljs-title function_">consumer</span><span class="hljs-params">(<span class="hljs-type">void</span> *ptr)</span><br>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= MAX; i++)<br>    &#123;<br>        pthread_mutex_lock(&amp;the_mutex);<br>        <span class="hljs-keyword">while</span>(buffer == <span class="hljs-number">0</span>)<br>            pthread_cond_wait(&amp;condc, &amp;the_mutex);<br>        buffer = <span class="hljs-number">0</span>;<br>        pthrad_cond_signal(&amp;condp);<br>        pthread_mutex_unlock(&amp;the_mutex);<br>    &#125;<br>    pthread_exit(<span class="hljs-number">0</span>);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span><br>&#123;<br>    <span class="hljs-type">pthread_t</span> pro, con;<br>    pthread_mutex_init(&amp;the mutex, <span class="hljs-number">0</span>);<br>    pthread_cond_init(&amp;condc, <span class="hljs-number">0</span>);<br>    pthread_cond_init(&amp;condp, <span class="hljs-number">0</span>);<br>    pthread_create(&amp;con, <span class="hljs-number">0</span>, consumer, <span class="hljs-number">0</span>);<br>    pthread_create(&amp;pro, <span class="hljs-number">0</span>, producer, <span class="hljs-number">0</span>);<br>    pthread_join(pro, <span class="hljs-number">0</span>);<br>    pthread_join(con, <span class="hljs-number">0</span>);<br>    pthread_cond_destroy(&amp;condc);<br>    pthread_cond_destroy(&amp;condp);<br>    pthread_mutex_destroy(&amp;the mutex);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>First from producer. It gets mutex from <code>pthread_mutex_lock</code>, and waits until <code>buffer == 0</code>, if <code>buffer</code> does not empty, it calls <code>pthread_cond_wait</code>, releases lock, and waits for signal <code>condp</code>.</p>
+<p>Now it comes to consumer, which is woken up now. It reads the <code>buffer</code> and make it empty while sending signal <code>endp</code> to wake up producer to produce. They go round until the program is exited.</p>
+<p>Condition variable can avoid busy-waiting by making process into sleep status instead of looping to check whether condition is suitable, which is just a waste of CPU.</p>
+<h2 id="Scheduling"><a href="#Scheduling" class="headerlink" title="Scheduling"></a>Scheduling</h2><h3 id="Scheduling-in-Batch-Systems"><a href="#Scheduling-in-Batch-Systems" class="headerlink" title="Scheduling in Batch Systems"></a>Scheduling in Batch Systems</h3><ul>
+<li><p>1st-Come, 1st-Served</p>
+</li>
+<li><p>Shortest Time 1st</p>
+</li>
+<li><p>Shortest Remaining Time Next<br>  It is the preemptive version of shortest job 1st</p>
+</li>
+</ul>
+<h3 id="Scheduling-in-Interactive-Systems"><a href="#Scheduling-in-Interactive-Systems" class="headerlink" title="Scheduling in Interactive Systems"></a>Scheduling in Interactive Systems</h3><ul>
+<li><p>Round-Robin Scheduling</p>
+<p>  Each process is assigned a time interval, called its quantum, during which it is allowed to run. If the process is still running at the end of the quantum, the CPU is preempted and given to another process. If the process has blocked or finished before the quantum has elapsed, the CPU switching is done when the process blocks, of course. Many scheduling below are other types of round-robin.</p>
+<p>  <img src="/2025/05/14/OS/2-42.png" srcset="/img/loading.gif" lazyload alt="round-robin scheduling"></p>
+</li>
+<li><p>Priority Scheduling</p>
+<p>  Each process is assigned a priority. In a same priority they obey round-robin.</p>
+<p>  <img src="/2025/05/14/OS/2-43.png" srcset="/img/loading.gif" lazyload alt="priority scheduling"></p>
+</li>
+<li><p>Guaranteed Scheduling</p>
+<p>  Operating system will keep track of each process and provide a guaranteed CPU occupation. The scheduler will priory select a process that has the lowest percentage to run.</p>
+</li>
+<li><p>Lottery Scheduling</p>
+<p>  Scheduling like lottery, then it will be a balance at a long time.</p>
+</li>
+</ul>
+<h2 id="Classic-IPC-Problems"><a href="#Classic-IPC-Problems" class="headerlink" title="Classic IPC Problems"></a>Classic IPC Problems</h2><h3 id="The-Dining-Philosophers-Problem"><a href="#The-Dining-Philosophers-Problem" class="headerlink" title="The Dining Philosophers Problem"></a><strong>The Dining Philosophers Problem</strong></h3><p><img src="/2025/05/14/OS/2-45.png" srcset="/img/loading.gif" lazyload alt="description"></p>
+<p>The life of a philosopher consists of alternating periods of eating and thinking. When a philosopher gets sufficiently hungry, she tries to acquire her left and right forks, one at a time, in either order. If successful in acquiring two forks, she eats for a while, then puts down the forks, and continues to think. The key question is: Can you write a program for each philosopher that does what it is supposed to do and never gets stuck?</p>
+<p>Here is a solution</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> N 5 <span class="hljs-comment">/* number of philosophers */</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LEFT (i + N - 1) % N <span class="hljs-comment">/* number of i&#x27;s left neighbor */</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> RIGHT (I + 1) % N <span class="hljs-comment">/* number of i&#x27;s right neighbor */</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> THINKING 0 </span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> HUNGRY 1</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EATING 2</span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">int</span> semaphore;<br><span class="hljs-type">int</span> state[N];<br>semaphore mutex = <span class="hljs-number">1</span>;<br>semaphore s[N];<br><br><span class="hljs-comment">/* This function image philosopher&#x27;s actions, including thinking, taking forks and eating. */</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">philosopher</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span><br>&#123;<br>    <span class="hljs-keyword">while</span>(TRUE)<br>    &#123;<br>        think();<br>        take_forks(i);<br>        eat();<br>        put_forks(i);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/* philosopher tries to take forks at her left or right */</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">take_forks</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span><br>&#123;<br>    down(&amp;mutex); <span class="hljs-comment">/* enter critical region */</span><br>    state[i] = HUNGRY; <span class="hljs-comment">/* record that philosopher i is hungry */</span><br>    test(i);<br>    up(&amp;mutex); <span class="hljs-comment">/* exit critical region */</span><br>    down(&amp;s[i]); <span class="hljs-comment">/* block if forks are not required */</span><br>&#125;<br><br><span class="hljs-comment">/* philosopher tries to release forks */</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">put_forks</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span><br>&#123;<br>    down(&amp;mutex); <span class="hljs-comment">/* enter critical region */</span><br>    state[i] = THINKING; <span class="hljs-comment">/* philosopher stop eating */</span><br>    test(LEFT); <span class="hljs-comment">/* see if left neighbor can now eat */</span><br>    test(RIGHT); <span class="hljs-comment">/* see if right neighbor can now eat */</span><br>    up(&amp;mutex); <span class="hljs-comment">/* exit critical region */</span><br>&#125;<br><br><span class="hljs-comment">/* test if philosopher i can eat</span><br><span class="hljs-comment">** if philosopher i is hungry, and the left and right neighbors are not eating, she can be eating.</span><br><span class="hljs-comment">** So let the state set eating, and wake up (by up(&amp;s[i]) operation) corresponding process.</span><br><span class="hljs-comment">*/</span> <br><span class="hljs-type">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span><br>&#123;<br><br>    <span class="hljs-keyword">if</span>(state[i] == HUNGRY &amp;&amp; state[LEFT] != EATING &amp;&amp; state[RIGHT] != EATING)<br>    &#123;<br>        state[i] = EATING;<br>        up(&amp;s[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="The-Readers-and-Writers-Problem"><a href="#The-Readers-and-Writers-Problem" class="headerlink" title="The Readers and Writers Problem"></a>The Readers and Writers Problem</h3><p>Imagine, for example, an airline reservation system, with many competing processes wishing to read and write it. It is acceptable to have multiple processes reading the database at the same time, but if one process is updating (writing) the database, no other processes may have access to the database, not even readers. The question is how do you program the readers and the writers?</p>
+<p>Here is a solution</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-type">int</span> semaphore<br>semaphore mutex = <span class="hljs-number">1</span>;<br>semaphore db = <span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> rc = <span class="hljs-number">0</span>;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">reader</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-keyword">while</span>(TRUE)<br>    &#123;<br>        down(&amp;mutex);<br>        rc += <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">if</span>(rc == <span class="hljs-number">1</span>)<br>            down(&amp;db);<br>        up(&amp;mutex);<br>        read_data_base();<br>        down(&amp;mutex);<br>        rc -= <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">if</span>(rc == <span class="hljs-number">0</span>)<br>            up(&amp;db);<br>        up(&amp;mutex);<br>        use_data_read();<br>    &#125;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">writer</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-keyword">while</span>(TRUE)<br>    &#123;<br>        think_up_data();<br>        down(&amp;db);<br>        write_data_base();<br>        up(&amp;db);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Deadlock"><a href="#Deadlock" class="headerlink" title="Deadlock"></a>Deadlock</h2><p><strong>Resource deadlock</strong> is a common type of deadlock. A resource deadlock is a situation where two or more processes are blocked because each process is holding a resource and waiting for another resource acquired by some other process. Without external intervention, none of these processes can proceed further.</p>
+<p>In simple terms, it occurs when multiple processes are waiting for each other to release resources, but since all processes are waiting and none releases their resources, they all remain stuck indefinitely.</p>
+<h3 id="Conditions-for-Resource-Deadlocks"><a href="#Conditions-for-Resource-Deadlocks" class="headerlink" title="Conditions for Resource Deadlocks"></a>Conditions for Resource Deadlocks</h3><p>four conditions must hold for there to be a (resource) deadlock:</p>
+<ol>
+<li><p><strong>Mutual exclusion condition</strong>. Each resource is either currently assigned to exactly one process or is available.</p>
+</li>
+<li><p><strong>Hold-and-wait condition</strong>. Processes currently holding resources that were granted earlier can request new resources.</p>
+</li>
+<li><p><strong>No-preemption condition</strong>. Resources previously granted cannot be forcibly taken away from a process. They must be explicitly released by the process holding them.</p>
+</li>
+<li><p><strong>Circular wait condition</strong>. There must be a circular list of two or more processes, each of which is waiting for a resource held by the next member of the chain.</p>
+</li>
+</ol>
+<div class="note note-info">
+            <p>死锁的4个必要条件（中文译文）</p><ol><li>互斥。每份资源要么已分配到进程中，要么处于可用状态。</li><li>持有并等待。允许进程在持有先前已分配的资源的情况下请求新资源。</li><li>非抢占。已授予的资源不能被强制从进程中收回，必须由持有它们的进程显式释放。</li><li>环路等待。必须存在2个以上的进程构成的环路链，每个进程都在等待链条上的另一个进程持有的资源。</li></ol>
+          </div>
+
+<h3 id="Deadlock-Prevention"><a href="#Deadlock-Prevention" class="headerlink" title="Deadlock Prevention"></a>Deadlock Prevention</h3><p>The key to break deadlock is to break one of the 4 conditions.</p>
+<ol>
+<li><p>Attacking the Mutual Exclusion Condition.</p>
+<p> Just spool everything. If no resource were ever assigned exclusively to a single process, we would never hav e deadlocks. Luckily, some devices (such as printer) can be spooled.</p>
+</li>
+<li><p>Attacking the Hold and Wait Condition.</p>
+<p> Require processes to request resources before starting, so a process never has to wait for what it needs. An immediate problem with this approach is that many processes do not know how many resources they will need until they have started running.</p>
+<p> A slightly different way to break the hold-and-wait condition is to require a process requesting a resource to first temporarily release all the resources it currently holds. Then it tries to get everything it needs all at once.</p>
+</li>
+<li><p>Attacking the No Preemption  </p>
+<p> If a process has been assigned, say, the printer is in the middle of printing its output, forcibly taking away the printer because a needed plotter is not available. However, some resources can be virtualized to avoid this situation. Spooling printer output to the disk and allowing only the printer daemon access to the real printer eliminates deadlocks involving the printer, although it creates a potential for deadlock over disk space. With large disks though, running out of disk space is unlikely.</p>
+<p> However, not all resources can be virtualized like this. For example, records in databases or tables inside the operating system must be locked to be used and therein lies the potential for deadlock.</p>
+</li>
+<li><p>Attacking the Circular Wait Condition</p>
+<p> One way is simply to have a rule saying that a process is entitled only to a single resource at any moment. If it needs a second one, it must release the first one.</p>
+<p> Another way to avoid the circular wait is to provide a global numbering of all the resources. Now the rule is this: processes can request resources whenever they want to, but all requests must be made in numerical order.</p>
+</li>
+</ol>
+<p>There are another solution as well, such as setting two-phase locking, which is usually used in database.</p>
+<h3 id="Ostrich-Algorithm"><a href="#Ostrich-Algorithm" class="headerlink" title="Ostrich Algorithm"></a>Ostrich Algorithm</h3><p>OS do nothing about deadlock, the OS might cannot take detecting deadlock anymore.</p>
+<h3 id="Deadlock-Detection-and-Recovery"><a href="#Deadlock-Detection-and-Recovery" class="headerlink" title="Deadlock Detection and Recovery"></a>Deadlock Detection and Recovery</h3><h4 id="Deadlock-Detection-with-Multiple-Resources-of-Each-Type"><a href="#Deadlock-Detection-with-Multiple-Resources-of-Each-Type" class="headerlink" title="Deadlock Detection with Multiple Resources of Each Type"></a>Deadlock Detection with Multiple Resources of Each Type</h4><p>We will now present a matrix-based algorithm for detecting deadlock among $n$ processes, $P_1$ through $P_n$.</p>
+<p>Let the number of resource classes be $m$, with $E_i$ resources of class i (1 ≤ i ≤ m). And $E$ is the <strong>existing resource vector</strong>. It gives the total number of instances of each resource in existence.</p>
+<div class="note note-info">
+            <p>For example, if class 1 is tape drives, then $E_1 &#x3D; 2$ means the system has two tape drives.</p>
+          </div>
+
+<p>Resources in existence</p>
+<p>$$<br>E\ (E_1,\ E_2,\ E_3,\ \dotso,\ E_m)<br>$$</p>
+<p>Let $A$ be the <strong>available resource vector</strong>, with $A_i$ giving the number of instances of resource i that are currently available.</p>
+<div class="note note-info">
+            <p>If both of our two tape drives are assigned, $A_1$ will be 0.</p>
+          </div>
+
+<p>Resources available</p>
+<p>$$<br>A\ (A_1,\ A_2,\ A_3,\ \dotso,\ A_m)<br>$$</p>
+<p>In particular, every resource is either allocated or is available. This observation is that</p>
+<p>$$<br>\displaystyle\sum_{i&#x3D;1}^{n}C_{ij}+A_j&#x3D;E_j<br>$$</p>
+<p>Now we have two matrix, $C$, the <strong>current allocation matrix</strong>, and $R$, the <strong>request matrix</strong>. Each row of matrix indicates what one process needs.</p>
+<p>$$<br>\begin{bmatrix}<br>C_{11} &amp; C_{12} &amp; C_{13} &amp; \dotsm &amp; C_{1m}\\<br>C_{21} &amp; C_{22} &amp; C_{23} &amp; \dotsm &amp; C_{2m}\\<br>\vdots &amp; \vdots &amp; \vdots &amp;&amp; \vdots\\<br>C_{n1} &amp; C_{n2} &amp; C_{n3} &amp; \dotsm &amp; C_{nm}<br>\end{bmatrix}<br>\quad \quad<br>\begin{bmatrix}<br>R_{11} &amp; R_{12} &amp; R_{13} &amp; \dotsm &amp; R_{1m}\\<br>R_{21} &amp; R_{22} &amp; R_{23} &amp; \dotsm &amp; R_{2m}\\<br>\vdots &amp; \vdots &amp; \vdots &amp;&amp; \vdots\\<br>R_{n1} &amp; R_{n2} &amp; R_{n3} &amp; \dotsm &amp; R_{nm}<br>\end{bmatrix}<br>$$</p>
+<p>$$<br>\text{Current allocation matrix}\quad \quad \quad \text{Resource matrix}<br>$$</p>
+<p>Row $n$ on the left is current allocation to process $n$, on the right is what process $n$ needs.</p>
+<p>Let us define the relation $A\leq B$ on two vectors A and B to mean that each element of $A$ is less than or equal to the corresponding element of $B$</p>
+<p>Each process is initially said to be unmarked. As the algorithm progresses, processes will be marked, indicating that they are able to complete and are thus not deadlocked. When the algorithm terminates, any unmarked processes are known to be deadlocked. This algorithm assumes a worst-case <em>scenario</em>(场景): all processes keep all acquired resources until they exit.</p>
+<p>The deadlock detection algorithm can now be given as follows.</p>
+<ol>
+<li><p>Look for an unmarked process, $P_i$, for which the $i$th row, $R\leq A$.</p>
+</li>
+<li><p>If such a process is found, add the $i$th row of $C$ to $A$, mark the process, and go back to step 1.</p>
+</li>
+<li><p>If no such process exists, the algorithm terminates.</p>
+</li>
+</ol>
+<p>When the algorithm finishes, all the unmarked processes, if any, are deadlocked.</p>
+<div class="note note-success">
+            <p>使用中文解释一遍书中的例题。<br>假设存在的资源为</p><p>$$<br>E\ &#x3D;\  (4 \quad 2 \quad 3 \quad 1)<br>$$</p><p>目前资源的分配矩阵为</p><p>$$<br>\text{Current allocation matrix}<br>$$</p><p>$$<br>C&#x3D;\begin{bmatrix}<br>0&amp;0&amp;1&amp;0\\<br>2&amp;0&amp;0&amp;1\\<br>0&amp;1&amp;2&amp;0<br>\end{bmatrix}<br>$$</p><p>目前空出的资源为</p><p>$$<br>A\ &#x3D;\ (2\quad 1\quad 0\quad 0)<br>$$</p><p>请求矩阵为</p><p>$$<br>\text{Resource matrix}<br>$$</p><p>$$<br>C&#x3D;\begin{bmatrix}<br>2&amp;0&amp;0&amp;1\\<br>1&amp;0&amp;1&amp;0\\<br>2&amp;1&amp;0&amp;0<br>\end{bmatrix}<br>$$</p><p>现在，只有线程3（第3行）能够匹配向量$A$，因此让线程3先使用资源，再释放。然后向量$A$的值变为（注意加上矩阵$C$中对应的值）</p><p>$$<br>A\ &#x3D;\ (4\quad 2\quad 2\quad 0)<br>$$</p><p>然后线程2符合条件，$A$的值变为</p><p>$$<br>A\ &#x3D;\ (4\quad 2\quad 2\quad 1)<br>$$</p><p>线程1符合条件。</p><p>至此，所有的线程均可以访问到资源，不会造成死锁。如果存在某线程无法分配到资源，则会发生死锁。</p>
+          </div>
+
+<h3 id="Deadlock-Avoidance"><a href="#Deadlock-Avoidance" class="headerlink" title="Deadlock Avoidance"></a>Deadlock Avoidance</h3><p>We can also use similar algorithm to avoid deadlock.</p>
+<p>$$<br>\begin{array}{|c|c|c|c|c|}<br>\text{A} &amp; 3 &amp; 0 &amp; 1 &amp; 1 \\<br>\text{B} &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{C} &amp; 1 &amp; 1 &amp; 1 &amp; 0 \\<br>\text{D} &amp; 1 &amp; 1 &amp; 0 &amp; 1 \\<br>\text{E} &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\<br>\end{array}<br>\quad \quad<br>\begin{array}{|c|c|c|c|c|}<br>\text{A} &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{B} &amp; 0 &amp; 1 &amp; 2 &amp; 2 \\<br>\text{C} &amp; 3 &amp; 1 &amp; 0 &amp; 0 \\<br>\text{D} &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\<br>\text{E} &amp; 2 &amp; 1 &amp; 0 &amp; 0 \\<br>\end{array}<br>$$</p>
+<p>$$<br>\text{Resource assigned} \quad \quad \text{Resource still assigned}<br>$$</p>
+<p>$$<br>\quad \text{E&#x3D;(6342)}\quad\text{P&#x3D;(5322)}\quad\text{A&#x3D;(1020)}<br>$$</p>
+<p>The three vectors, stands for existing resources, $E$ , the possessed resources, $P$ , and the available resources $A$ .</p>
+<p>Now $D$ is available, after executed, $A$ becomes $\text{A&#x3D;(2121)}$. And then $E$ is available, but it does not release resource, so we turn to $A$. After $A$ releasing resource, others can execute. So there is no deadlock.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%97%A5%E5%B8%B8/" class="category-chain-item">日常</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%97%A5%E5%B8%B8/" class="print-no-link">#日常</a>
+      
+        <a href="/tags/%E5%A4%8D%E4%B9%A0/" class="print-no-link">#复习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Processes and Threads - Modern Operating System</div>
+      <div>http://example.com/2025/05/14/OS/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/22/OS-2/" title="Memory Management - Modern Operating System">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Memory Management - Modern Operating System</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/08/mall-front-8/" title="vue实践之商场app - 结算、支付与会员中心">
+                        <span class="hidden-mobile">vue实践之商场app - 结算、支付与会员中心</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

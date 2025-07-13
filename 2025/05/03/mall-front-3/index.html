@@ -1,0 +1,767 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Home组件即网站的首页部分，一般作数据大屏，显示推送信息和分类浏览的作用。与Layout部分同理，在Home文件夹下新建index.vue文件和components文件夹，其中index.vue文件依然作为程序的入口 1234567891011121314151617&lt;script setup&gt;import HomeCategory from &#x27;.&#x2F;components&#x2F;H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue实践之商场app - 首页部分">
+<meta property="og:url" content="http://example.com/2025/05/03/mall-front-3/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="Home组件即网站的首页部分，一般作数据大屏，显示推送信息和分类浏览的作用。与Layout部分同理，在Home文件夹下新建index.vue文件和components文件夹，其中index.vue文件依然作为程序的入口 1234567891011121314151617&lt;script setup&gt;import HomeCategory from &#x27;.&#x2F;components&#x2F;H">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/05/03/mall-front-3/home%20Category.png">
+<meta property="og:image" content="http://example.com/2025/05/03/mall-front-3/Home%20Panel.png">
+<meta property="og:image" content="http://example.com/2025/05/03/mall-front-3/home%20product.png">
+<meta property="article:published_time" content="2025-05-03T07:17:04.000Z">
+<meta property="article:modified_time" content="2025-05-06T08:33:23.645Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/05/03/mall-front-3/home%20Category.png">
+  
+  
+  
+  <title>vue实践之商场app - 首页部分 - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">vue实践之商场app - 首页部分</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-03 15:17" pubdate>
+          2025年5月3日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">vue实践之商场app - 首页部分</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Home组件即网站的首页部分，一般作数据大屏，显示推送信息和分类浏览的作用。与Layout部分同理，在Home文件夹下新建<code>index.vue</code>文件和components文件夹，其中index.vue文件依然作为程序的入口</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HomeCategory</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/HomeCategory.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HomeBanner</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/HomeBanner.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HomeNew</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/HomeNew.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HomeHot</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/HomeHot.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HomeProduct</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/HomeProduct.vue&#x27;</span>;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">HomeCategory</span> /&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">HomeBanner</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">HomeNew</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">HomeHot</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">HomeProduct</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="HomeCategory大屏显示类别"><a href="#HomeCategory大屏显示类别" class="headerlink" title="HomeCategory大屏显示类别"></a>HomeCategory大屏显示类别</h2><p>该部分在左侧显示类别信息，当鼠标悬停到对应类别上时，在右侧显示对应的商品信息。在components文件夹下新建<code>HomeCategory.vue</code>文件，<a href="#homecategory">代码如下</a></p>
+<p>此处的关键样式尾layer部分。当鼠标没有悬浮在上时其display属性为none（不显示），悬浮在上时为block（显示），由此实现相关功能。</p>
+<p><img src="/2025/05/03/mall-front-3/home%20Category.png" srcset="/img/loading.gif" lazyload alt="效果图"></p>
+<h2 id="banner轮播图"><a href="#banner轮播图" class="headerlink" title="banner轮播图"></a>banner轮播图</h2><div class="note note-info">
+            <p>一般的网站首页大屏要么类别，要么轮播，为什么这里两个都有呢？于教学来说无可厚非，但对美观性而言是个灾难。</p>
+          </div>
+
+<p>一般的网站也会在大屏上显示轮播图，显示热点信息。该部分图片不在类别接口中，需要自己重新定义接口。在apis文件夹下新建<code>home.js</code>，<a href="#homebanner">vue部分代码点击显示</a>，js部分代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span>  httpInstance <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@/utils/http&quot;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getBannerAPI</span>(<span class="hljs-params">params = []</span>) &#123;<br>    <span class="hljs-comment">// 默认为1，商品为2</span><br>    <span class="hljs-keyword">const</span> &#123; distributeSite = <span class="hljs-number">1</span> &#125; = params<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">httpInstance</span>(&#123;<br>        <span class="hljs-attr">url</span>:<span class="hljs-string">&quot;home/banner&quot;</span>,<br>        <span class="hljs-attr">params</span>: &#123;<br>            distributeSite<br>        &#125;<br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此处接受参数<code>params</code>，这个参数是一个对象（若没有传入，则为一个空数组）。并从中解构赋值，提取了一个名为distributeSite属性。若params中没有这个属性或没有定义值，则赋值为1。2的功能在后面会提及，目前只需要用到1。</p>
+<p>在components文件夹下新建<code>HomeBanner.vue</code>文件，代码如下</p>
+<p>由于element-plus提供了相关组件<code>&lt;el-carousel /&gt;</code>和单个项<code>&lt;el-carousel-item /&gt;</code>，大大简化了操作，直接调用，并往里面插入从接口中获取的图片就好。</p>
+<h2 id="面板封装"><a href="#面板封装" class="headerlink" title="面板封装"></a>面板封装</h2><h3 id="GoodsItem组件"><a href="#GoodsItem组件" class="headerlink" title="GoodsItem组件"></a>GoodsItem组件</h3><p>在HomeCategory中可以看到以下组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;i.picture&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;name ellipsis-2&quot;</span>&gt;</span>&#123;&#123; i.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;desc ellipsis&quot;</span>&gt;</span>&#123;&#123; i.desc &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;price&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>￥<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>&#123;&#123; i.price &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>该部分组件在后面的组件中也需要使用，为提高代码复用性可以先行封装好。在components文件夹下新建文件<code>GoodsItem.vue</code>文件。<a href="#%E7%BB%84%E4%BB%B6%E5%B0%81%E8%A3%85">代码如下</a></p>
+<p>可以看到，除了script部分，其他和前面的HomeCategory中的内容基本一样。script部分的内容定义了vue3组件中的props，用于接收父组件中的数据goods。下面的内容定义了goods的类型（对象）和默认值（没有传则为一个空对象）<br>这样在使用的时候只需要</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">goods-item</span> <span class="hljs-attr">:goods</span>=<span class="hljs-string">&quot;item&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>即可。</p>
+<div class="note note-info">
+            <p>但实际上该部件在Home组件下很多地方该用的没用，用了也会有大大小小的问题。其他地方倒是用的挺多。所以为什么不放到src下的components文件夹下呢？</p>
+          </div>
+
+<h3 id="HomePanel组件"><a href="#HomePanel组件" class="headerlink" title="HomePanel组件"></a>HomePanel组件</h3><p>“人气商品”和“新鲜好物”模块和后面的分类别组件存在差别，但二者的展示逻辑是一样的。因此该部分的样式用HomePanel封装。在components文件夹下新建文件<code>HomePanel.vue</code>，<a href="#%E7%BB%84%E4%BB%B6%E5%B0%81%E8%A3%85">代码如下</a></p>
+<p>此处的<code>&lt;slot /&gt;</code>部分为“插槽”，用于在组件中定义占位符，允许父组件向子组件中传递自定义内容。我们将在后面两个模块的具体设计中看到这点。</p>
+<h2 id="“人气商品”和“新鲜好物”模块"><a href="#“人气商品”和“新鲜好物”模块" class="headerlink" title="“人气商品”和“新鲜好物”模块"></a>“人气商品”和“新鲜好物”模块</h2><p>有了前面的铺垫，这两个模块能够较为容易地写出来。首先需要定义接口。在原先的文件<code>home.js</code>下新增两个接口</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">findNewAPI</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">httpInstance</span>(&#123;<br>        <span class="hljs-attr">url</span>:<span class="hljs-string">&quot;home/new&quot;</span><br>    &#125;)<br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">findHotAPI</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">httpInstance</span>(&#123;<br>        <span class="hljs-attr">url</span>:<span class="hljs-string">&quot;home/hot&quot;</span><br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在components文件夹下新建文件<code>HomeHot.vue</code>和<code>HomeNew.vue</code>，<a href="#%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9D%97">代码如下</a></p>
+<p><img src="/2025/05/03/mall-front-3/Home%20Panel.png" srcset="/img/loading.gif" lazyload alt="效果图，人气商品部分后端给的属性不全，导致信息显示不全"></p>
+<h2 id="懒加载指令的实现"><a href="#懒加载指令的实现" class="headerlink" title="懒加载指令的实现"></a>懒加载指令的实现</h2><p>大多数时候用户并不会翻完网页，因此窗口外的内容不需要全部加载，需要实现图片懒加载组件，以节约请求的资源数。</p>
+<p>在directives文件夹下新建文件<code>index.vue</code>，代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; useIntersectionObserver &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@vueuse/core&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> lazyPlugin = &#123;<br>    <span class="hljs-title function_">install</span>(<span class="hljs-params">app</span>) &#123;<br>        app.<span class="hljs-title function_">directive</span>(<span class="hljs-string">&#x27;img-lazy&#x27;</span>, &#123;<br>            <span class="hljs-title function_">mounted</span>(<span class="hljs-params">el, binding</span>) &#123;<br>                <span class="hljs-comment">// el即指令绑定的元素，binding.value即指令的值</span><br>                <span class="hljs-keyword">const</span> &#123; stop &#125; = <span class="hljs-title function_">useIntersectionObserver</span>(<br>                    el,<br>                    <span class="hljs-function">(<span class="hljs-params">[&#123; isIntersecting &#125;]</span>) =&gt;</span> &#123;<br>                        <span class="hljs-keyword">if</span>(isIntersecting) &#123;<br>                            el.<span class="hljs-property">src</span> = binding.<span class="hljs-property">value</span><br>                            <span class="hljs-comment">// 加载一次后停止观察</span><br>                            <span class="hljs-title function_">stop</span>()<br>                        &#125;<br>                    &#125;,<br>                )<br>            &#125;<br>        &#125;)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过install(app)，注册一个名为<code>img-lazy</code>的vue插件，用于实现懒加载指令。其中的mounted狗子用于在绑定的元素被插入到DOM时触发，获取参数el（绑定的DOM元素，即需要懒加载的图片）和binding（指令的值，通常是图片的URL），后面的<code>useIntersectionObserver</code>是vueuse中的方法，用于检测是否进入视口，当进入视口（<code>isIntersecting</code>为true时），将图片的url赋值给el.src，触发图片加载。加载完成后，调用从上面的解构出来的stop方法，停止检测，防止重复触发。<br>最后需要在<code>main.js</code>中注册组件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">app.<span class="hljs-title function_">use</span>(lazyPlugin)<br></code></pre></td></tr></table></figure>
+
+<h2 id="产品列表实现"><a href="#产品列表实现" class="headerlink" title="产品列表实现"></a>产品列表实现</h2><div class="note note-info">
+            <p>现在的推送流网站都不会单纯地放产品列表上来了，而是推送定制化内容。但其中的复用思想还是一致的</p>
+          </div>
+
+<p>接在“人气商品”和“新鲜好物”模块后的是产品列表的实现，这是前面封装组件的集大成。在原先的文件<code>home.js</code>下新增接口</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getGoodsAPI</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">httpInstance</span>(&#123;<br>        <span class="hljs-attr">url</span>:<span class="hljs-string">&quot;home/goods&quot;</span><br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在components文件夹下新建文件<code>HomeProduct.vue</code>，<a href="#%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8">代码如下</a></p>
+<p><img src="/2025/05/03/mall-front-3/home%20product.png" srcset="/img/loading.gif" lazyload alt="效果图"></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><h3 id="HomeCategory"><a href="#HomeCategory" class="headerlink" title="HomeCategory"></a>HomeCategory</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; useCategoryStore &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/stores/category&#x27;</span></span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> categoryStore = <span class="hljs-title function_">useCategoryStore</span>()</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home-category&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;menu&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in categoryStore.categoryList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>&#123;&#123; item.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;i in item.children.slice(0, 2)&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;i&quot;</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>&#123;&#123; i.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;layer&quot;</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>分类推荐 <span class="hljs-tag">&lt;<span class="hljs-name">small</span>&gt;</span>根据您的购买或浏览记录推荐<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;i in item.goods&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;i.id&quot;</span>&gt;</span><br>              <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;i.picture&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span><br>                  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;name ellipsis-2&quot;</span>&gt;</span>&#123;&#123; i.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;desc ellipsis&quot;</span>&gt;</span>&#123;&#123; i.desc &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;price&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>￥<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>&#123;&#123; i.price &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>              <span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>          <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&#x27;scss&#x27;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.home-category</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">width</span>: <span class="hljs-number">250px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">height</span>: <span class="hljs-number">500px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">background</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.8</span>);</span><br><span class="language-css">    <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">    <span class="hljs-attribute">z-index</span>: <span class="hljs-number">99</span>;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.menu</span> &#123;</span><br><span class="language-css">        <span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">40px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">55px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">55px</span>;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">background</span>: $xtxColor;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">4px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css"></span><br><span class="language-css">                &amp;<span class="hljs-selector-pseudo">:first</span>-child &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-class">.layer</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">width</span>: <span class="hljs-number">990px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">height</span>: <span class="hljs-number">500px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">background</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.8</span>);</span><br><span class="language-css">                <span class="hljs-attribute">position</span>: absolute;</span><br><span class="language-css">                <span class="hljs-attribute">left</span>: <span class="hljs-number">250px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                <span class="hljs-attribute">display</span>: none;</span><br><span class="language-css">                <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">15px</span>;</span><br><span class="language-css"></span><br><span class="language-css">                <span class="hljs-selector-tag">h4</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">                    <span class="hljs-attribute">font-weight</span>: normal;</span><br><span class="language-css">                    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">80px</span>;</span><br><span class="language-css"></span><br><span class="language-css">                    small &#123;</span><br><span class="language-css">                        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">color</span>: <span class="hljs-number">#666</span>;</span><br><span class="language-css">                    &#125;</span><br><span class="language-css">                &#125;</span><br><span class="language-css"></span><br><span class="language-css">                <span class="hljs-selector-tag">ul</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">                    <span class="hljs-attribute">flex-wrap</span>: wrap;</span><br><span class="language-css"></span><br><span class="language-css">                    <span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">                        <span class="hljs-attribute">width</span>: <span class="hljs-number">310px</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">height</span>: <span class="hljs-number">120px</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">15px</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">15px</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#eee</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">4px</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">background</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css"></span><br><span class="language-css">                        &amp;<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">3</span>n) &#123;</span><br><span class="language-css">                            <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                        &#125;</span><br><span class="language-css"></span><br><span class="language-css">                        <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">                            <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">                            <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">                            <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">                            <span class="hljs-attribute">align-items</span>: center;</span><br><span class="language-css">                            <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css"></span><br><span class="language-css">                            &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                                <span class="hljs-attribute">background</span>: <span class="hljs-number">#e3f9f4</span>;</span><br><span class="language-css">                            &#125;</span><br><span class="language-css"></span><br><span class="language-css">                            <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">                                <span class="hljs-attribute">width</span>: <span class="hljs-number">95px</span>;</span><br><span class="language-css">                                <span class="hljs-attribute">height</span>: <span class="hljs-number">95px</span>;</span><br><span class="language-css">                            &#125;</span><br><span class="language-css"></span><br><span class="language-css">                            <span class="hljs-selector-class">.info</span> &#123;</span><br><span class="language-css">                                <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">                                <span class="hljs-attribute">line-height</span>: <span class="hljs-number">24px</span>;</span><br><span class="language-css">                                <span class="hljs-attribute">overflow</span>: hidden;</span><br><span class="language-css"></span><br><span class="language-css">                                <span class="hljs-selector-class">.name</span> &#123;</span><br><span class="language-css">                                    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">                                    <span class="hljs-attribute">color</span>: <span class="hljs-number">#666</span>;</span><br><span class="language-css">                                &#125;</span><br><span class="language-css"></span><br><span class="language-css">                                <span class="hljs-selector-class">.desc</span> &#123;</span><br><span class="language-css">                                    <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css">                                    <span class="hljs-attribute">overflow</span>: hidden;</span><br><span class="language-css">                                &#125;</span><br><span class="language-css"></span><br><span class="language-css">                                <span class="hljs-selector-class">.price</span> &#123;</span><br><span class="language-css">                                    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">22px</span>;</span><br><span class="language-css">                                    <span class="hljs-attribute">color</span>: $priceColor;</span><br><span class="language-css"></span><br><span class="language-css">                                    <span class="hljs-selector-tag">i</span> &#123;</span><br><span class="language-css">                                        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">                                    &#125;</span><br><span class="language-css">                                &#125;</span><br><span class="language-css">                            &#125;</span><br><span class="language-css">                        &#125;</span><br><span class="language-css">                    &#125;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                <span class="hljs-selector-class">.layer</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="HomeBanner"><a href="#HomeBanner" class="headerlink" title="HomeBanner"></a>HomeBanner</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; getBannerAPI &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/apis/home&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; onMounted, ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span></span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> bannerList = <span class="hljs-title function_">ref</span>([])</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">getBanner</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getBannerAPI</span>()</span><br><span class="language-javascript">    bannerList.<span class="hljs-property">value</span> = res.<span class="hljs-property">result</span></span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">getBanner</span>())</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home-banner&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">el-carousel</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;500px&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">el-carousel-item</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in bannerList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;item.imgUrl&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">el-carousel-item</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">el-carousel</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;scss&quot;</span> <span class="hljs-attr">scoped</span>&gt;</span><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.home-banner</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">1240px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">500px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">position</span>: absolute;</span><br><span class="language-css">        <span class="hljs-attribute">left</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">        <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">        <span class="hljs-attribute">z-index</span>: <span class="hljs-number">98</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">500px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="组件封装"><a href="#组件封装" class="headerlink" title="组件封装"></a>组件封装</h3><p>GoodsItem</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-title function_">defineProps</span>(&#123;</span><br><span class="language-javascript">    <span class="hljs-attr">goods</span>: &#123;</span><br><span class="language-javascript">        <span class="hljs-attr">type</span>: <span class="hljs-title class_">Object</span>,</span><br><span class="language-javascript">        <span class="hljs-attr">default</span>: <span class="hljs-function">() =&gt;</span> &#123; &#125;</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">&#125;)</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">RouterLink</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-item&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">v-img-lazy</span>=<span class="hljs-string">&quot;goods.picture&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;name ellipsis&quot;</span>&gt;</span>&#123;&#123; goods.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;desc ellipsis&quot;</span>&gt;</span>&#123;&#123; goods.desc &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;price&quot;</span>&gt;</span><span class="hljs-symbol">&amp;yen;</span>&#123;&#123; goods.price &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">RouterLink</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;scss&quot;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.goods-item</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">    <span class="hljs-attribute">width</span>: <span class="hljs-number">220px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span> <span class="hljs-number">30px</span>;</span><br><span class="language-css">    <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">    <span class="hljs-attribute">transition</span>: all .<span class="hljs-number">5s</span>;</span><br><span class="language-css"></span><br><span class="language-css">    &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translate3d</span>(<span class="hljs-number">0</span>, -<span class="hljs-number">3px</span>, <span class="hljs-number">0</span>);</span><br><span class="language-css">        <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">3px</span> <span class="hljs-number">8px</span> <span class="hljs-built_in">rgb</span>(<span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> / <span class="hljs-number">20%</span>);</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">160px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">160px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-tag">p</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.name</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.desc</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">29px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.price</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">color</span>: $priceColor;</span><br><span class="language-css">        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>HomePanel</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-comment">// 定义props</span></span><br><span class="language-javascript"><span class="hljs-title function_">defineProps</span>(&#123;</span><br><span class="language-javascript">    <span class="hljs-attr">title</span>: &#123;</span><br><span class="language-javascript">        <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,</span><br><span class="language-javascript">    &#125;,</span><br><span class="language-javascript">    <span class="hljs-attr">subTitle</span>: &#123;</span><br><span class="language-javascript">        <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">&#125;)</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home-panel&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;head&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>&#123;&#123; title &#125;&#125; <span class="hljs-tag">&lt;<span class="hljs-name">small</span>&gt;</span>&#123;&#123; subTitle &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br>            <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;scss&quot;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.home-panel</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.head</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">padding</span>: <span class="hljs-number">40px</span>, <span class="hljs-number">0</span>;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">        <span class="hljs-attribute">align-items</span>: flex-end;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">h3</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">flex</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">32px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">font-weight</span>: normal;</span><br><span class="language-css">            <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">6px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">35px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">35px</span>;</span><br><span class="language-css"></span><br><span class="language-css">            small &#123;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;</span><br><span class="language-css">                <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="两个模块"><a href="#两个模块" class="headerlink" title="两个模块"></a>两个模块</h3><p>HomeHot.vue</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HomePanel</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./HomePanel.vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; findHotAPI &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/apis/home&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; onMounted, ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> hotList = <span class="hljs-title function_">ref</span>([]);</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">getHotList</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">findHotAPI</span>();</span><br><span class="language-javascript">    hotList.<span class="hljs-property">value</span> = res.<span class="hljs-property">result</span></span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">getHotList</span>())</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">HomePanel</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;人气商品&quot;</span> <span class="hljs-attr">sub-title</span>=<span class="hljs-string">&quot;热门商品，值得购买&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-list&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in hotList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">v-img-lazy</span>=<span class="hljs-string">&quot;item.picture&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span>&#123;&#123; item.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;price&quot;</span>&gt;</span><span class="hljs-symbol">&amp;yen;</span> &#123;&#123; item.price &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">HomePanel</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&#x27;scss&#x27;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.goods-list</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">    <span class="hljs-attribute">justify-content</span>: space-between;</span><br><span class="language-css">    <span class="hljs-attribute">height</span>: <span class="hljs-number">406px</span>;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">306px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">406px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-attribute">background</span>: <span class="hljs-number">#f0f9f4</span>;</span><br><span class="language-css">        <span class="hljs-attribute">transition</span>: all .<span class="hljs-number">5s</span>;</span><br><span class="language-css"></span><br><span class="language-css">        &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translate3d</span>(<span class="hljs-number">0</span>, -<span class="hljs-number">3px</span>, <span class="hljs-number">0</span>);</span><br><span class="language-css">            <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">3px</span> <span class="hljs-number">8px</span> <span class="hljs-built_in">rgb</span>(<span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> / <span class="hljs-number">20%</span>);</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">306px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">306px</span>;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">p</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">22px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">12px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css">            <span class="hljs-attribute">text-overflow</span>: ellipsis;</span><br><span class="language-css">            <span class="hljs-attribute">overflow</span>: hidden;</span><br><span class="language-css">            <span class="hljs-attribute">white-space</span>: nowrap;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.price</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">color</span>: $priceColor;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<div class="note note-info">
+            <p>HomeNew.vue组件和上面的代码基本一致，这里不再上源码</p>
+          </div>
+
+<h3 id="产品列表"><a href="#产品列表" class="headerlink" title="产品列表"></a>产品列表</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; onMounted, ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;</span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HomePanel</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./HomePanel.vue&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123; getGoodsAPI &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/apis/home&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">GoodsItem</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./GoodsItem.vue&#x27;</span>;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> goodsProduct = <span class="hljs-title function_">ref</span>([])</span><br><span class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">getGoods</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getGoodsAPI</span>()</span><br><span class="language-javascript">    goodsProduct.<span class="hljs-property">value</span> = res.<span class="hljs-property">result</span></span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">getGoods</span>())</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;home-product&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">HomePanel</span> <span class="hljs-attr">:title</span>=<span class="hljs-string">&quot;cate.name&quot;</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;cate in goodsProduct&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;cate.id&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;box&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">RouterLink</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cover&quot;</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">v-img-lazy</span>=<span class="hljs-string">&quot;cate.picture&quot;</span> /&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">strong</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;label&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>&#123;&#123; cate.name &#125;&#125;馆<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>&#123;&#123; cate.saleInfo &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">RouterLink</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-list&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;goods in cate.goods&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;goods.id&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">GoodsItem</span> <span class="hljs-attr">:goods</span>=<span class="hljs-string">&quot;goods&quot;</span> /&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">HomePanel</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&#x27;scss&#x27;</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.home-product</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">background</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">    <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">20px</span>;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.sub</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">2px</span>;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-tag">a</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">padding</span>: <span class="hljs-number">2px</span> <span class="hljs-number">12px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">4px</span>;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">background</span>: $xtxColor;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            &amp;<span class="hljs-selector-pseudo">:last-child</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">80px</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-class">.box</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.cover</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">240px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">height</span>: <span class="hljs-number">610px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">img</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">                <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">            &#125;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-class">.label</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">width</span>: <span class="hljs-number">188px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">height</span>: <span class="hljs-number">66px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;</span><br><span class="language-css">                <span class="hljs-attribute">line-height</span>: <span class="hljs-number">66px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">font-weight</span>: normal;</span><br><span class="language-css">                <span class="hljs-attribute">position</span>: absolute;</span><br><span class="language-css">                <span class="hljs-attribute">left</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                <span class="hljs-attribute">top</span>: <span class="hljs-number">50%</span>;</span><br><span class="language-css">                <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translate3d</span>(<span class="hljs-number">0</span>, -<span class="hljs-number">50%</span>, <span class="hljs-number">0</span>);</span><br><span class="language-css"></span><br><span class="language-css">                <span class="hljs-selector-tag">span</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css"></span><br><span class="language-css">                    &amp;<span class="hljs-selector-pseudo">:first</span>-child &#123;</span><br><span class="language-css">                        <span class="hljs-attribute">width</span>: <span class="hljs-number">76px</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">background</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.9</span>);</span><br><span class="language-css">                    &#125;</span><br><span class="language-css"></span><br><span class="language-css">                    &amp;<span class="hljs-selector-pseudo">:last-child</span> &#123;</span><br><span class="language-css">                        <span class="hljs-attribute">flex</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">                        <span class="hljs-attribute">background</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.7</span>);</span><br><span class="language-css">                    &#125;</span><br><span class="language-css"></span><br><span class="language-css"></span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css"></span><br><span class="language-css">        <span class="hljs-selector-class">.goods-list</span> &#123;</span><br><span class="language-css">            <span class="hljs-attribute">width</span>: <span class="hljs-number">990px</span>;</span><br><span class="language-css">            <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">            <span class="hljs-attribute">flex-wrap</span>: wrap;</span><br><span class="language-css"></span><br><span class="language-css">            <span class="hljs-selector-tag">li</span> &#123;</span><br><span class="language-css">                <span class="hljs-attribute">width</span>: <span class="hljs-number">240px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">height</span>: <span class="hljs-number">300px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">10px</span>;</span><br><span class="language-css">                <span class="hljs-attribute">text-align</span>: center;</span><br><span class="language-css"></span><br><span class="language-css">                &amp;<span class="hljs-selector-pseudo">:nth-last-child</span>(-n + <span class="hljs-number">4</span>) &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                &#125;</span><br><span class="language-css"></span><br><span class="language-css">                &amp;<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">4</span>n) &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">                &#125;</span><br><span class="language-css"></span><br><span class="language-css">                <span class="hljs-selector-class">.price</span> &#123;</span><br><span class="language-css">                    <span class="hljs-attribute">color</span>: $priceColor;</span><br><span class="language-css">                &#125;</span><br><span class="language-css">            &#125;</span><br><span class="language-css">        &#125;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+        <a href="/tags/vue/" class="print-no-link">#vue</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vue实践之商场app - 首页部分</div>
+      <div>http://example.com/2025/05/03/mall-front-3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/03/mall-front-4/" title="vue实践之商场app - 一级分类页面">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vue实践之商场app - 一级分类页面</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/02/mall-front-2/" title="vue实践之商场app - Layout组件">
+                        <span class="hidden-mobile">vue实践之商场app - Layout组件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

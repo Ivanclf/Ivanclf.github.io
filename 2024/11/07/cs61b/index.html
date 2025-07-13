@@ -1,0 +1,964 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="span.through         {             font-weight: lighter;             text-decoration: line-through;         }         span.bold         {             color: red;             font-weight:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61B">
+<meta property="og:url" content="http://example.com/2024/11/07/cs61b/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="span.through         {             font-weight: lighter;             text-decoration: line-through;         }         span.bold         {             color: red;             font-weight:">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-07T01:10:44.000Z">
+<meta property="article:modified_time" content="2024-11-21T13:12:16.869Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>CS61B - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">CS61B</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-07 09:10" pubdate>
+          2024年11月7日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">CS61B</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <head>
+    <style>
+        span.through
+        {
+            font-weight: lighter;
+            text-decoration: line-through;
+        }
+        span.bold
+        {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<p>以下是看CS61B时做的笔记。CS61B主要教授Java语言的应用和算法与数据结构，本篇侧重算法与数据结构。</p>
+<h2 id="List-（链表）"><a href="#List-（链表）" class="headerlink" title="List （链表）"></a>List （链表）</h2><p><a target="_blank" rel="noopener" href="https://ivanclf.github.io/2024/10/13/list/">查看这里。</a></p>
+<div class="note note-info">
+            <p>原本计划的是一种数据结构开一篇，但计划赶不上变化，故只能将网课内容合做一篇了。</p>
+          </div>
+
+<h2 id="Disjoint-Sets-（不相交集）"><a href="#Disjoint-Sets-（不相交集）" class="headerlink" title="Disjoint Sets （不相交集）"></a>Disjoint Sets （不相交集）</h2><p>对于以下链式结构</p>
+<pre><code class=" mermaid">graph TD
+A[0] --&gt;B[1] --&gt;C[2]--&gt;D[3]
+E[4]--&gt;F[5]
+G[6]
+</code></pre>
+
+<p>需要设计以下函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ds = DisjointSets(<span class="hljs-number">7</span>);<br>ds.connect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 链接两个数</span><br>ds.isConnect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 检测两个数是否链接</span><br></code></pre></td></tr></table></figure>
+
+<p>需要寻求其高效的实现方式。</p>
+<h3 id="表与集合的嵌套"><a href="#表与集合的嵌套" class="headerlink" title="表与集合的嵌套"></a>表与集合的嵌套</h3><p>这是最显而易见的办法。<br>指定<code>List&lt;Set&lt;Integer&gt;&gt;</code>，实现方法时，先逐个寻找数字所在的集合，然后进行集合的合并或判断其是不是在同一个集合内。但该方法耗时较长。其构建、链接、判断的复杂度均为$O(n)$。<br><strong>[{1，2，3，4}, {5,6}, {7}]</strong></p>
+<div class="note note-info">
+            <p>但是用封装好的集合类总让人有一种复杂度其实是$O(1)$的感觉。</p>
+          </div>
+
+<h3 id="数组索引"><a href="#数组索引" class="headerlink" title="数组索引"></a>数组索引</h3><p>通过构建与元素<strong>等长</strong>的数组，用数组的索引值指代数字，数组的数字指代集合。当进行链接时，全组改为同一个数字。检查两数是否链接，只需要判断其索引对应的数字是否相同即可。</p>
+<table>
+<tr>
+<td>element </td><td>3 </td><td>3 </td><td>3 </td><td>3 </td><td>5 </td><td>5 </td><td>7
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>需要进行<code>connect()</code>函数操作时，将两个集合中的数改为同一个数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">connect(<span class="hljs-number">0</span>, <span class="hljs-number">4</span>);<br></code></pre></td></tr></table></figure>
+
+<table>
+<tr>
+<td>element </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>5 </td><td>7
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+由此，虽然构建、链接的复杂度仍为$O(n)$，但判断的复杂度变成了$O(1)$。
+
+<h3 id="用数组实现树"><a href="#用数组实现树" class="headerlink" title="用数组实现树"></a>用数组实现树</h3><p>将集合变成树的形式，在一维数组中显示，仍然用索引值表示数字，但同时指明树的关系<br>对于以下树</p>
+<pre><code class=" mermaid">graph TD
+A[0]--&gt;B[1]--&gt;C[2]
+A--&gt;D[4]
+E[3]--&gt;F[5]
+G[6]
+</code></pre>
+
+<p>构建等长数组</p>
+<table>
+<tr>
+<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td>-1 </td><td>0 </td><td>3 </td><td>-1
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>分析其数组中的值。为<code>-1</code>时，表明索引中的数是根节点。为大于<code>-1</code>的数时，表明索引中的数的父节点。<br>进行<code>connect</code>操作时，爬取两个节点的根节点，再将一个根节点连接到另一个即可。如图所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">connect(<span class="hljs-number">4</span>, <span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure>
+
+<p>等效于</p>
+<pre><code class=" mermaid">graph TD
+A[0]--&gt;B[1]--&gt;C[2]
+A--&gt;D[4]
+A--&gt;E[3]--&gt;F[5]
+G[6]
+</code></pre>
+
+<p>数组</p>
+<table>
+<tr>
+<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td><span class="bold">3 <td>0 </td><td>3 </td><td>-1
+</td></span></td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>但为了确保小树能拼接到大树上（确保树的高度较小），需要另外构建一个尺寸数组</p>
+<table>
+<tr>
+<td>element </td><td>-1 </td><td>0 </td><td>1 </td><td><span class="through">-1</span><span class="bold">  3</span></td><td>0 </td><td>3 </td><td>-1
+</td></tr>
+<tr>
+<td>size </td><td><span class="through">3</span><span class="bold">  6</span> </td><td>2 </td><td>1 </td><td>2 </td><td>1 </td><td>1 </td><td>1
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>或者实行更好的办法：给该数组中的根节点加上权重</p>
+<table>
+<tr>
+<td>element </td><td><span class="through">-4</span><span class="bold">  -6</span> </td><td>0 </td><td>1 </td><td><span class="through">-1</span><span class="bold">  3</span></td><td>0 </td><td>3 </td><td>-1
+</td></tr>
+<tr>
+<td>index </td><td>0 </td><td>1 </td><td>2 </td><td>3 </td><td>4 </td><td>5 </td><td>6
+</td></tr>
+</table>
+
+<p>进行<code>connect</code>操作时需比较其尺寸大小。如此，该图结构就不会是线序的了。其构建复杂度不变，但链接和查找的难度均降为$O(\log N)$。</p>
+<h3 id="进一步优化的方法"><a href="#进一步优化的方法" class="headerlink" title="进一步优化的方法"></a>进一步优化的方法</h3><p>在叶子节点向上回溯时，将涉及到的节点全部断连并链接至根节点，这样，日后进行查找时，可以大大节省时间。</p>
+<h2 id="Binary-Search-Tree-（二叉搜索树）"><a href="#Binary-Search-Tree-（二叉搜索树）" class="headerlink" title="Binary Search Tree （二叉搜索树）"></a>Binary Search Tree （二叉搜索树）</h2><p>二叉搜索树是这样一种二叉树，对存放的数据有这样的要求：某节点的左侧子树数据均比其小，右侧子树的数据均比其大。显而易见，其算法复杂度为$O(\log N)$。</p>
+<div class="note note-warning">
+            <p>理想状况下，一棵二叉搜索树足够浓密，搜索的算法复杂度则为$O(\log N)$，但如若操作不当，使插入的结点都在树的一侧，那么查找算法复杂度将退化为$O(N)$。</p>
+          </div>
+
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>BST通过递归查找，其过程较为简单。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> BST <span class="hljs-title function_">find</span><span class="hljs-params">(BST T, key k)</span> &#123;<br>    <span class="hljs-keyword">if</span>(T == <span class="hljs-literal">null</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    k.equals(T.key)<br>        <span class="hljs-keyword">return</span> T;<br>    <span class="hljs-keyword">if</span>(k &lt; T.key)<br>        <span class="hljs-keyword">return</span> find(T.left, k);<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> find(T.right, k);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>插入的过程也很简单。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> BST <span class="hljs-title function_">insert</span><span class="hljs-params">(BST T, key k)</span> &#123;<br>    <span class="hljs-keyword">if</span>(T == <span class="hljs-literal">null</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BST</span>(k);<br>    <span class="hljs-keyword">if</span>(k &lt; T.key)<br>        T.left = insert(T.left, k);<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(k &gt; T.key)<br>        T.right = insert(T.right, k);<br>    <span class="hljs-keyword">return</span> T;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除过程较为复杂，可将其拆成3种情况</p>
+<ol>
+<li>叶子节点：找到后直接删除。</li>
+<li>只有一个孩子节点的节点，可以将其父节点指向其子节点，该节点将自动删除（如果不是Java，则需要手动清理内存）</li>
+<li>有两个孩子节点的节点，需要找到该节点左子树中最大的节点或右子树中最小的节点将其替换掉。</li>
+</ol>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h2><p>对于以下树</p>
+<pre><code class=" mermaid">graph TD
+13--&gt;5--&gt;2
+5--&gt;7
+13--&gt;15--&gt;14
+15--&gt;16
+</code></pre>
+
+<p>如果插入数据16、17、18、19，那么数据将会挤在右子树一侧，并不高效。一种可行的办法是几个数据挤在一个枝叶节点中。</p>
+<pre><code class=" mermaid">graph TD
+13--&gt;5--&gt;2
+5--&gt;7
+13--&gt;15--&gt;14
+15--&gt;a[16 17 18 19]
+</code></pre>
+
+<p>但单侧插入得多后，顺序表的寻找也同样有$O(N)$的复杂度。因此需要为顺序表大小设定一个限度。当一个表中数据溢出时，就将其中中间的一个节点放到父节点中。假设以下的树中一个节点最多只能存放3个数字。</p>
+<pre><code class=" mermaid">graph TD
+13--&gt;5--&gt;2
+5--&gt;7
+13--&gt;b[15 17]--&gt;14
+b--&gt;16
+b--&gt;a[18 19]
+</code></pre>
+
+<p>其中的[15, 17]节点上，小于15的数在其左子树，在15和17之间的数在中间子树，大于17的数在右子树。当继续插入数据时，也依次进行类似操作。</p>
+<pre><code class=" mermaid">graph TD
+a[13]--&gt;5--&gt;2
+5--&gt;7
+a--&gt;b[15 17 19]--&gt;14
+b--&gt;16
+b--&gt;18
+b--&gt;c[20 21 25 26]
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>最小项生成靠左的子树，第二项向上移动</p>
+<pre><code class=" mermaid">graph TD
+a[13]--&gt;5--&gt;2
+5--&gt;7
+a--&gt;b[15 17 19 21]--&gt;14
+b--&gt;16
+b--&gt;18
+b--&gt;20
+b--&gt;c[25 26]
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>最小项生成靠左的子树，第二项向上移动</p>
+<pre><code class=" mermaid">graph TD
+a[13 17]--&gt;5--&gt;2
+5--&gt;7
+a--&gt;15--&gt;14
+15--&gt;16
+a--&gt;b[19 21]
+b--&gt;18
+b--&gt;20
+b--&gt;c[25 26]
+</code></pre>
+
+<p>如果根节点也满了，就向上生成新的根节点。<br>对于具有以上特点的树，称作<strong>B-树</strong>。当其被赋予特定规则时，则另称<strong>2-3树</strong>和<strong>2-3-4树</strong>。<br>对源代码感兴趣的可以看<a target="_blank" rel="noopener" href="https://ivanclf.github.io/2024/11/15/b-tree/">这里</a>。</p>
+<h2 id="树的旋转"><a href="#树的旋转" class="headerlink" title="树的旋转"></a>树的旋转</h2><p>树的旋转能够在改变结构的同时不改变节点的值，是实现avl树和红黑树的基本操作。</p>
+<h3 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h3><p>对于以下结构</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;A[9]--&gt;7
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<p>要实现5的左旋操作，即将5从根节点变成左节点。由此。需要将右节点9变成根节点。</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;c&#123;null&#125;
+A[9]--&gt;5
+A--&gt;7
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<p>此时这棵树有一个不合理的地方，就是根节点9分出的树枝有3个，不符合二叉树的定义。恰好，5的右节点由于旋转空了出来，刚好可以容纳多余的节点。于是结果变成了</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;7
+A[9]--&gt;5
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<p>以上就是将一个节点左旋的过程。右旋也遵循类似的操作。如果不太明白上述的操作，也可以借助B-树的知识进行理解。<br>同样的一棵树</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;A[9]--&gt;7
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<p>在进行左旋时，可以将需要变换主从次序的两个节点暂时合到一起。即先和右节点合并，再将5分配下去。</p>
+<pre><code class=" mermaid">graph TD
+A[5  9]
+A--&gt;B&#123;child&#125;
+A--&gt;7
+A--&gt;C&#123;child&#125;
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>然后分开</p>
+<pre><code class=" mermaid">graph TD
+5--&gt;a&#123;child&#125;
+5--&gt;7
+A[9]--&gt;5
+A--&gt;b&#123;child&#125;
+</code></pre>
+
+<h3 id="多次旋转"><a href="#多次旋转" class="headerlink" title="多次旋转"></a>多次旋转</h3><p>经过多次旋转，可以将一棵不平衡树转变成平衡树</p>
+<pre><code class=" mermaid">graph TD
+1--&gt;A[null]
+1--&gt;C[3]--&gt;2
+C--&gt;B[null]
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>3右旋</p>
+<pre><code class=" mermaid">graph TD
+1--&gt;A[null]
+1--&gt;C[2]--&gt;B[null]
+C--&gt;3
+</code></pre>
+
+<p>$$<br>\downarrow<br>$$<br>1左旋</p>
+<pre><code class=" mermaid">graph TD
+2--&gt;1
+2--&gt;3
+</code></pre>
+
+<p>成功变成了平衡树。</p>
+<h2 id="AVL树简介"><a href="#AVL树简介" class="headerlink" title="AVL树简介"></a>AVL树简介</h2><p>AVL树在普通BST的基础上，给每个节点添加了平衡因子，<strong>平衡因子&#x3D;左子树高度-右子树高度</strong>，<br>插入一个元素时，从该节点回溯到其根节点的所有节点的平衡因子都会发生变化。当平衡因子的绝对值 <strong>&gt;1</strong>时，进行旋转操作。</p>
+<h2 id="Left-Leaning-Red-Black-Tree-（左倾红黑树）"><a href="#Left-Leaning-Red-Black-Tree-（左倾红黑树）" class="headerlink" title="Left Leaning Red-Black Tree （左倾红黑树）"></a>Left Leaning Red-Black Tree （左倾红黑树）</h2><h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS61B</div>
+      <div>http://example.com/2024/11/07/cs61b/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/11/15/b-tree/" title="心中有B树，做人要虚心">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">心中有B树，做人要虚心</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/16/topic-3/" title="算法题汇总：其三">
+                        <span class="hidden-mobile">算法题汇总：其三</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

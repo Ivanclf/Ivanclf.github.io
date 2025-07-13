@@ -1,0 +1,771 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/zhihu.jpg">
+  <link rel="icon" href="/img/zhihu.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="B-树用于减少树的长度和减少插入节点操作时的OI次数。以下主要讨论其具体的代码实现。抽象过程和图示则移步至CS61B相关内容。              点这看原文多出的解释或有不准确之处（因为我并不是很清楚）。             定义12345int *keys; &#x2F;&#x2F; 存储关键字的数组int t;  &#x2F;&#x2F; 最小度 (定义一个结点包含关键字的个数 t-1 &lt;&#x3D; num &lt;&#x3D; 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="心中有B树，做人要虚心">
+<meta property="og:url" content="http://example.com/2024/11/15/b-tree/index.html">
+<meta property="og:site_name" content="Ivanclf">
+<meta property="og:description" content="B-树用于减少树的长度和减少插入节点操作时的OI次数。以下主要讨论其具体的代码实现。抽象过程和图示则移步至CS61B相关内容。              点这看原文多出的解释或有不准确之处（因为我并不是很清楚）。             定义12345int *keys; &#x2F;&#x2F; 存储关键字的数组int t;  &#x2F;&#x2F; 最小度 (定义一个结点包含关键字的个数 t-1 &lt;&#x3D; num &lt;&#x3D; 2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-15T07:57:11.000Z">
+<meta property="article:modified_time" content="2024-11-20T11:21:52.032Z">
+<meta property="article:author" content="Ivan Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>心中有B树，做人要虚心 - Ivanclf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ivanclf" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ivan</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">心中有B树，做人要虚心</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-15 15:57" pubdate>
+          2024年11月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">心中有B树，做人要虚心</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>B-树用于减少树的长度和减少插入节点操作时的OI次数。以下主要讨论其具体的代码实现。抽象过程和图示则移步至<a target="_blank" rel="noopener" href="https://ivanclf.github.io/2024/11/07/cs61b/#B-%E6%A0%91">CS61B相关内容</a>。</p>
+<div class="note note-info">
+            <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/146252512">点这看原文</a><br>多出的解释或有不准确之处（因为我并不是很清楚）。</p>
+          </div>
+
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> *keys; <span class="hljs-comment">// 存储关键字的数组</span><br><span class="hljs-type">int</span> t;  <span class="hljs-comment">// 最小度 (定义一个结点包含关键字的个数 t-1 &lt;= num &lt;= 2t -1) </span><br>BTreeNode **C; <span class="hljs-comment">// 存储孩子结点指针的数组</span><br><span class="hljs-type">int</span> n;  <span class="hljs-comment">// 记录当前结点包含的关键字的个数</span><br><span class="hljs-type">bool</span> leaf; <span class="hljs-comment">// 叶子结点的一个标记，如果是叶子结点则为true,否则false</span><br></code></pre></td></tr></table></figure>
+
+<p>其中<code>leaf</code>可省略，可通过判断<code>**C</code>是否为空指针实现。<br>B-树中一个节点的定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BTreeNode</span> <br>&#123; <br>    <span class="hljs-type">int</span> *keys; <span class="hljs-comment">// 存储关键字的数组</span><br>    <span class="hljs-type">int</span> t;  <span class="hljs-comment">// 最小度 (定义一个结点包含关键字的个数 t-1 &lt;= num &lt;= 2t -1) </span><br>    BTreeNode **C; <span class="hljs-comment">// 存储孩子结点指针的数组</span><br>    <span class="hljs-type">int</span> n;  <span class="hljs-comment">// 记录当前结点包含的关键字的个数</span><br>    <span class="hljs-type">bool</span> leaf; <span class="hljs-comment">// 叶子结点的一个标记，如果是叶子结点则为true,否则false</span><br><span class="hljs-keyword">public</span>: <br>    <span class="hljs-built_in">BTreeNode</span>(<span class="hljs-type">int</span> <span class="hljs-type">_t</span>, <span class="hljs-type">bool</span> _leaf);<br><br>    <span class="hljs-comment">// 进行中序遍历</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">()</span></span>; <br><br>    <span class="hljs-comment">// 查找一个关键字</span><br>    <span class="hljs-function">BTreeNode *<span class="hljs-title">search</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span></span>; <span class="hljs-comment">// 如果没有出现，则返回 NULL</span><br><br>    <span class="hljs-comment">// 设置友元，以便访问BTreeNode类中的私有成员</span><br>    <span class="hljs-keyword">friend</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BTree</span>; <br>&#125;; <br></code></pre></td></tr></table></figure>
+
+<div class="note note-success">
+            <p>友元<code>friend</code>是C++中的一个关键字，友元函数可以访问类中的<code>private</code>成员和<code>protected</code>成员，但由于友元函数可定义在类的外侧，因此友元函数不是成员函数。<br>友元类即指定某类，可访问自己的<code>private</code>成员和<code>protected</code>成员。<br>友元能节省类中部分<code>getter()</code>和<code>setter()</code>函数的使用，但会导致类的继承关系较为混乱。</p>
+          </div>
+
+<p>B树的完整定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// B-树 </span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BTree</span> <br>&#123; <br>    BTreeNode *root; <span class="hljs-comment">//指向B-树根节点的指针</span><br>    <span class="hljs-type">int</span> t; <span class="hljs-comment">// 最小度</span><br><span class="hljs-keyword">public</span>: <br>    <span class="hljs-comment">// 构造器（初始化一棵树为空树）</span><br>    <span class="hljs-built_in">BTree</span>(<span class="hljs-type">int</span> <span class="hljs-type">_t</span>) <br>    &#123;<br>        root = <span class="hljs-literal">NULL</span>;<br>        t = <span class="hljs-type">_t</span>;<br>    &#125; <br><br>    <span class="hljs-comment">// 进行中序遍历</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">if</span> (root != <span class="hljs-literal">NULL</span>) root-&gt;<span class="hljs-built_in">traverse</span>(); &#125; <br><br>    <span class="hljs-comment">// B-树中查找一个关键字 k </span><br>    <span class="hljs-function">BTreeNode* <span class="hljs-title">search</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span> </span>&#123; <span class="hljs-keyword">return</span> (root == <span class="hljs-literal">NULL</span>) ? <span class="hljs-literal">NULL</span> : root-&gt;<span class="hljs-built_in">search</span>(k); &#125; <br>&#125;; <br></code></pre></td></tr></table></figure>
+
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">BTreeNode *<span class="hljs-title">BTreeNode::search</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span> </span><br><span class="hljs-function"></span>&#123; <br>    <span class="hljs-comment">// 找到第一个大于等于待查找关键字 k 的关键字</span><br>    <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; <br>    <span class="hljs-keyword">while</span> (i &lt; n &amp;&amp; k &gt; keys[i]) i++; <br><br>    <span class="hljs-comment">// 如果找到的第一个关键字等于 k , 返回结点指针 </span><br>    <span class="hljs-keyword">if</span> (keys[i] == k) <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>; <br><br>    <span class="hljs-comment">// 如果没有找到关键 k 且当前结点为叶子结点则返回NULL</span><br>    <span class="hljs-keyword">if</span> (leaf == <span class="hljs-literal">true</span>) <br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>; <br><br>    <span class="hljs-comment">// 递归访问恰当的子代</span><br>    <span class="hljs-keyword">return</span> C[i]-&gt;<span class="hljs-built_in">search</span>(k); <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>寻找到k所在的位置或范围（找到则是具体位置，输出结果，没找到则是两个数之间的范围）。若找到的是范围，则寻找其子树（如果有）。而子树数组和值数组间的关系如下图</p>
+<table>
+    <tr>
+        <th>key:</th> <td>0</td> <td>1</td> <td>2</td> <td>3</td>
+    </tr>
+    <tr>
+        <th>child:</th> <td>0</td> <td>1</td> <td>2</td> <td>3</td> <td>4</td>
+    </tr>
+</table>
+
+<p>而<code>i</code>只是一个索引，key数组的索引和child数组的索引是等效的。</p>
+<div class="note note-info">
+            <p>此处是先循环，找到索引再判断情况。如果是创造一个大循环体，又会是怎么样的状况？</p>
+          </div>
+
+<h2 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BTreeNode::traverse</span><span class="hljs-params">()</span> </span><br><span class="hljs-function"></span>&#123; <br>    <span class="hljs-comment">// 有 n 个关键字和 n+1 个孩子  </span><br>    <span class="hljs-comment">// 遍历 n 个关键字和前 n 个孩子</span><br>    <span class="hljs-type">int</span> i;<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; n; i++) <br>    &#123; <br>        <span class="hljs-comment">// 如果当前结点不是叶子结点, 在打印 key[i] 之前, 先遍历以 C[i] 为根的子树</span><br>        <span class="hljs-keyword">if</span> (leaf == <span class="hljs-literal">false</span>) <br>            C[i]-&gt;<span class="hljs-built_in">traverse</span>(); <br>        cout &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; keys[i]; <br>    &#125; <br><br>    <span class="hljs-comment">// 打印以最后一个孩子为根的子树</span><br>    <span class="hljs-keyword">if</span> (leaf == <span class="hljs-literal">false</span>)<br>        C[i]-&gt;<span class="hljs-built_in">traverse</span>(); <br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>本节点的右子树即下一节点的左子树，因此只需要循环打印左子树-根节点即可。最后再打印右子树。</p>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入的操作较为复杂。需要涉及指针的重新分配。以下是伪代码</p>
+<ol>
+<li>初始化x作为根结点</li>
+<li>当x不是叶子结点，执行如下操作：<ul>
+<li>找到x的下一个要被访问的孩子结点 y</li>
+<li>如果y没有满，则将结点y作为新的 x</li>
+<li>如果y已经满了，拆分y，结点x的指针指向结点y的两部分。 如果 k 比y中间的关键字小， 则将y的第一部分作为新的x，否则将y的第二部分作为新的x，当将y拆分后，将y中的一个关键字移动到它的父结点x当中。</li>
+</ul>
+</li>
+</ol>
+<p>以下是插入主函数的操作</p>
+<ol>
+<li>若树为空树，则在关键字数组中添加一员。</li>
+<li>若树的结点已满，则进行生长操作<ul>
+<li>生成新的根节点。</li>
+<li>旧的根节点分成两个，均作为新的根节点的孩子。</li>
+<li>随后更新结点</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BTree::insert</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span> </span><br><span class="hljs-function"></span>&#123; <br>    <span class="hljs-comment">// 如果树为空树</span><br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">NULL</span>) <br>    &#123; <br>        <span class="hljs-comment">// 为根结点分配空间</span><br>        root = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BTreeNode</span>(t, <span class="hljs-literal">true</span>); <br>        root-&gt;keys[<span class="hljs-number">0</span>] = k; <span class="hljs-comment">//插入结点 k </span><br>        root-&gt;n = <span class="hljs-number">1</span>; <span class="hljs-comment">// 更新根结点高寒的关键字的个数为 1</span><br>    &#125; <br>    <span class="hljs-keyword">else</span>  <br>    &#123; <br>        <span class="hljs-comment">// 当根结点已满，则对B-树进行生长操作 </span><br>        <span class="hljs-keyword">if</span> (root-&gt;n == <span class="hljs-number">2</span>*t<span class="hljs-number">-1</span>) <br>        &#123; <br>            <span class="hljs-comment">// 为新的根结点分配空间</span><br>            BTreeNode *s = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BTreeNode</span>(t, <span class="hljs-literal">false</span>); <br><br>            <span class="hljs-comment">// 将旧的根结点作为新的根结点的孩子</span><br>            s-&gt;C[<span class="hljs-number">0</span>] = root; <br><br>            <span class="hljs-comment">// 将旧的根结点分裂为两个，并将一个关键字上移到新的根结点 </span><br>            s-&gt;<span class="hljs-built_in">splitChild</span>(<span class="hljs-number">0</span>, root); <br><br>            <span class="hljs-comment">// 新的根结点有两个孩子结点，确定哪一个孩子将拥有新插入的关键字</span><br>            <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; <br>            <span class="hljs-keyword">if</span> (s-&gt;keys[<span class="hljs-number">0</span>] &lt; k) <br>                i++; <br>            s-&gt;C[i]-&gt;<span class="hljs-built_in">insertNonFull</span>(k); <br><br>            <span class="hljs-comment">// 新的根结点更新为 s</span><br>            root = s; <br>        &#125; <br>        <span class="hljs-keyword">else</span> <span class="hljs-comment">//根结点未满，调用insertNonFull()函数进行插入</span><br>            root-&gt;<span class="hljs-built_in">insertNonFull</span>(k); <br>    &#125; <br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>将关键字 k 插入到一个未满的结点中，步骤如下</p>
+<ol>
+<li>如果是叶子节点，则直接寻找位置插入。</li>
+<li>如果不是叶子结点<ul>
+<li>找到符合条件的孩子结点。</li>
+<li>若孩子结点已满，则进行分裂操作<code>C[i]</code>中第二个关键字上移到父节点，其余分裂为两个孩子结点。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BTreeNode::insertNonFull</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span> </span><br><span class="hljs-function"></span>&#123; <br>    <span class="hljs-comment">// 初始化 i 为结点中的最后一个关键字的位置</span><br>    <span class="hljs-type">int</span> i = n<span class="hljs-number">-1</span>; <br><br>    <span class="hljs-comment">// 如果当前结点是叶子结点</span><br>    <span class="hljs-keyword">if</span> (leaf == <span class="hljs-literal">true</span>) <br>    &#123; <br>        <span class="hljs-comment">// 下面的循环做两件事：</span><br>        <span class="hljs-comment">// a) 找到新插入的关键字位置并插入</span><br>        <span class="hljs-comment">// b) 移动所有大于关键字 k 的向后移动一个位置</span><br>        <span class="hljs-keyword">while</span> (i &gt;= <span class="hljs-number">0</span> &amp;&amp; keys[i] &gt; k) <br>        &#123; <br>            keys[i+<span class="hljs-number">1</span>] = keys[i]; <br>            i--; <br>        &#125; <br><br>        <span class="hljs-comment">// 插入新的关键字，结点包含的关键字个数加 1 </span><br>        keys[i+<span class="hljs-number">1</span>] = k; <br>        n = n+<span class="hljs-number">1</span>; <br>    &#125; <br>    <span class="hljs-keyword">else</span> <br>    &#123; <br>        <span class="hljs-comment">//找到第一个大于关键字 k 的关键字 keys[i] 的孩子结点</span><br>        <span class="hljs-keyword">while</span> (i &gt;= <span class="hljs-number">0</span> &amp;&amp; keys[i] &gt; k) <br>            i--; <br><br>        <span class="hljs-comment">// 检查孩子结点是否已满</span><br>        <span class="hljs-keyword">if</span> (C[i+<span class="hljs-number">1</span>]-&gt;n == <span class="hljs-number">2</span>*t<span class="hljs-number">-1</span>) <br>        &#123; <br>            <span class="hljs-comment">// 如果已满，则进行分裂操作</span><br>            <span class="hljs-built_in">splitChild</span>(i+<span class="hljs-number">1</span>, C[i+<span class="hljs-number">1</span>]); <br><br>            <span class="hljs-comment">// 分裂后，C[i] 中间的关键字上移到父结点，C[i] 分裂称为两个孩子结点，找到新插入关键字应该插入的结点位置</span><br>            <span class="hljs-keyword">if</span> (keys[i+<span class="hljs-number">1</span>] &lt; k) <br>                i++; <br>        &#125; <br>        C[i+<span class="hljs-number">1</span>]-&gt;<span class="hljs-built_in">insertNonFull</span>(k); <br>    &#125; <br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>结点y已满，则分裂结点 y</p>
+<ol>
+<li>创建一个新的结点，空间更小</li>
+<li>y的后面结点都到新结点中。若y不是叶子结点，则将孩子结点全部拷贝到新结点中。</li>
+<li>随后就是常规的数组移动数据，腾位置给指定结点的操作。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BTreeNode::splitChild</span><span class="hljs-params">(<span class="hljs-type">int</span> i, BTreeNode *y)</span> </span><br><span class="hljs-function"></span>&#123; <br>    <span class="hljs-comment">// 创建一个新的结点存储 t - 1 个关键字</span><br>    BTreeNode *z = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BTreeNode</span>(y-&gt;t, y-&gt;leaf); <br>    z-&gt;n = t - <span class="hljs-number">1</span>; <br><br>    <span class="hljs-comment">//将结点y的后 t -1 个关键字拷贝到 z 中</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; t<span class="hljs-number">-1</span>; j++) <br>        z-&gt;keys[j] = y-&gt;keys[j+t]; <br><br>    <span class="hljs-comment">// 如果y不是叶子结点，拷贝y的后 t 个孩子结点到 z中</span><br>    <span class="hljs-keyword">if</span> (y-&gt;leaf == <span class="hljs-literal">false</span>) <br>    &#123; <br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; t; j++) <br>        z-&gt;C[j] = y-&gt;C[j+t];  <br>    &#125; <br><br>    <span class="hljs-comment">//将y所包含的关键字的个数设置为 t -1，因为已满则为2t -1 ，结点 z 中包含 t - 1 个，一个关键字需要上移，所以y中包含的关键字变为 2t-1 - (t-1) -1 </span><br>    y-&gt;n = t - <span class="hljs-number">1</span>; <br><br>    <span class="hljs-comment">// 给当前结点的指针分配新的空间，因为有新的关键字加入，父结点将多一个孩子。</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = n; j &gt;= i+<span class="hljs-number">1</span>; j--) <br>        C[j+<span class="hljs-number">1</span>] = C[j]; <br><br>    <span class="hljs-comment">// 当前结点的下一个孩子设置为z </span><br>    C[i+<span class="hljs-number">1</span>] = z; <br><br>    <span class="hljs-comment">//将所有父结点中比上移的关键字大的关键字后移，找到上移结点的关键字的位置</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = n<span class="hljs-number">-1</span>; j &gt;= i; j--) <br>        keys[j+<span class="hljs-number">1</span>] = keys[j]; <br><br>    <span class="hljs-comment">// 拷贝y的中间关键字到其父结点中</span><br>    keys[i] = y-&gt;keys[t<span class="hljs-number">-1</span>]; <br><br>    <span class="hljs-comment">//当前结点包含的关键字个数加 1 </span><br>    n = n + <span class="hljs-number">1</span>;<br>&#125; <br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>心中有B树，做人要虚心</div>
+      <div>http://example.com/2024/11/15/b-tree/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              IVAN
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/11/16/order-set/" title="指令集">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">指令集</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/07/cs61b/" title="CS61B">
+                        <span class="hidden-mobile">CS61B</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

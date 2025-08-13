@@ -1,0 +1,877 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="频度12345k&#x3D;0;for(i&#x3D;1;i&lt;&#x3D;n;i++) &#123;    for(j&#x3D;i; j&lt;&#x3D;n; j++)        @  k++;&#125;  @语句的频度为 $$\sum^n_{i&#x3D;1}i&#x3D;\frac{n(n+1)}{2}$$ 链表链表的初始化链表的最基础初始化，可以使用C语言的结构体 1234typedef struct Node &#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构复习">
+<meta property="og:url" content="https://ivanclf.github.io/2024/12/30/data-structure-1/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="频度12345k&#x3D;0;for(i&#x3D;1;i&lt;&#x3D;n;i++) &#123;    for(j&#x3D;i; j&lt;&#x3D;n; j++)        @  k++;&#125;  @语句的频度为 $$\sum^n_{i&#x3D;1}i&#x3D;\frac{n(n+1)}{2}$$ 链表链表的初始化链表的最基础初始化，可以使用C语言的结构体 1234typedef struct Node &#123;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-30T14:38:45.000Z">
+<meta property="article:modified_time" content="2025-08-13T15:13:09.730Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="复习">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>数据结构复习 - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="数据结构复习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-30 22:38" pubdate>
+          2024年12月30日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">数据结构复习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="频度"><a href="#频度" class="headerlink" title="频度"></a>频度</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c">k=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>;i&lt;=n;i++) &#123;<br>    <span class="hljs-keyword">for</span>(j=i; j&lt;=n; j++)<br>        @  k++;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>@</code>语句的频度为</p>
+<p>$$<br>\sum^n_{i&#x3D;1}i&#x3D;\frac{n(n+1)}{2}<br>$$</p>
+<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><h3 id="链表的初始化"><a href="#链表的初始化" class="headerlink" title="链表的初始化"></a>链表的初始化</h3><p>链表的最基础初始化，可以使用C语言的结构体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span> &#123;</span><br>    <span class="hljs-type">int</span> value;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span> *<span class="hljs-title">next</span>;</span><br>&#125;node, *list_node;<br></code></pre></td></tr></table></figure>
+
+<p>也可以使用C++种对象的定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">node</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">int</span> value;<br>    node *next;<br><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">function</span><span class="hljs-params">()</span> </span>&#123;<br><br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="链表节点的插入"><a href="#链表节点的插入" class="headerlink" title="链表节点的插入"></a>链表节点的插入</h3><h4 id="尾插法"><a href="#尾插法" class="headerlink" title="尾插法"></a>尾插法</h4><p>在末尾插入新节点，返回最后节点的指针<br>C语言</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c">list_node <span class="hljs-title function_">insert_to_foot</span><span class="hljs-params">(list_node operation, <span class="hljs-type">int</span> value)</span> &#123;<br>    <span class="hljs-keyword">if</span>(!operation) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;List Error!\n&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">-1</span>);<br>    &#125;<br>    list_node to_node;<br>    to_node-&gt;value = value;<br>    operation-&gt;next = to_node;<br>    <span class="hljs-keyword">return</span> to_node;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="头插法"><a href="#头插法" class="headerlink" title="头插法"></a>头插法</h4><p>在头部插入新节点，返回新的头节点<br>C语言</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c">list_node <span class="hljs-title function_">insert_to_head</span><span class="hljs-params">(list_node operation, <span class="hljs-type">int</span> value)</span> &#123;<br>    <span class="hljs-keyword">if</span>(!operation) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;list Error!\n&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">-1</span>);<br>    &#125;<br>    list_node to_node;<br>    to_node-&gt;value = value;<br>    to_node-&gt;next = operation;<br>    <span class="hljs-keyword">return</span> to_node;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="链表节点的删除"><a href="#链表节点的删除" class="headerlink" title="链表节点的删除"></a>链表节点的删除</h3><p>当不存在头部节点时，对节点的删除操作较为复杂。首先，我们需要找到头节点，然后开始向下遍历，搜索到需要的节点</p>
+<ul>
+<li>若头节点就是待删除的节点，则头节点指针下移，删除头节点。</li>
+<li>若尾节点就是待删除的节点，则删除尾节点，前一节点的next指针赋空值。</li>
+<li>其余的一般情况下，找到待删除节点的前一节点，让其指向待删除节点的下一节点，再删除指定节点。</li>
+</ul>
+<p>存在头部节点时，可以省略对第一种情况的讨论。</p>
+<h3 id="链表相关功能"><a href="#链表相关功能" class="headerlink" title="链表相关功能"></a>链表相关功能</h3><h4 id="求尺寸或搜索"><a href="#求尺寸或搜索" class="headerlink" title="求尺寸或搜索"></a>求尺寸或搜索</h4><p>求尺寸需要从头节点开始遍历，而遍历可以通过迭代或递归实现<br>迭代</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">size</span><span class="hljs-params">(list_node head)</span> &#123;<br>    <span class="hljs-type">int</span> i;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; head != <span class="hljs-literal">NULL</span>; head = head-&gt;next, ++i);<br>    <span class="hljs-keyword">return</span> i;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>递归</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">size</span><span class="hljs-params">(list_node head)</span> &#123;<br>    <span class="hljs-keyword">if</span>(head-&gt;next == <span class="hljs-literal">NULL</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> + size(head-&gt;next);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当需要搜索时，需要再参加相关参数<br>迭代</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">bool</span> <span class="hljs-title function_">is_find</span><span class="hljs-params">(list_node head, <span class="hljs-type">int</span> target)</span> &#123;<br>    <span class="hljs-keyword">for</span>(; head != <span class="hljs-literal">NULL</span>; head = head-&gt;next)<br>        <span class="hljs-keyword">if</span>(head-&gt;value = target)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>递归</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">bool</span> <span class="hljs-title function_">is_find</span><span class="hljs-params">(list_node head, <span class="hljs-type">int</span> target)</span> &#123;<br>    <span class="hljs-keyword">if</span>(head-&gt;value == target)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">if</span>(head-&gt;next == <span class="hljs-literal">NULL</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">return</span> is_find(head-&gt;next, target);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><p>假设将循环队列定义为：以域变量<code>rear</code>和<code>length</code>分别指示循环队列中队尾元素的位置和内含的元素个数，试给出此循环队列的队满条件，写出相应的入队列和出队列算法（出队列算法应返回队头元素）</p>
+<p>设<code>num</code>为队列大小</p>
+<div class="note note-info">
+            <p>队满条件可以设置为<code>(rear + length) % num = 0</code> 或 <code>rear-&gt;next == front</code><br>队空条件可设置为<code>rear == front</code></p>
+          </div>
+
+<p>入队列算法，先检查队满与否，若不满，则在<code>rear</code>位置插入数据，<code>rear</code>和<code>length</code>都加一。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">enqueue</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-built_in">queue</span>[], <span class="hljs-type">int</span> rear, <span class="hljs-type">int</span> length, <span class="hljs-type">int</span> element)</span> &#123;<br>    <span class="hljs-comment">// 队满检查</span><br>    <span class="hljs-keyword">if</span> ((rear + length) % num== <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    <span class="hljs-built_in">queue</span>[rear] = element;<br>    rear = (rear + <span class="hljs-number">1</span>) % num;<br>    length++;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>出队列算法，先检查队空与否，若不空，则在<code>(rear - length + 1) % num</code>位置获取<code>front</code>，然后减少<code>length</code>的值，由于<code>rear</code>只指示队尾指针，因此不需要变化。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">dequeue</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-built_in">queue</span>[], <span class="hljs-type">int</span> rear, <span class="hljs-type">int</span> length)</span> &#123;<br>    <span class="hljs-comment">// 队空检查</span><br>    <span class="hljs-keyword">if</span> (*length == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    <span class="hljs-type">int</span> front = (rear - length + <span class="hljs-number">1</span>) % num;<br>    <span class="hljs-type">int</span> element = <span class="hljs-built_in">queue</span>[front];<br>    length --;<br>    <span class="hljs-keyword">return</span> element;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<div class="note note-info">
+            <p>由于队首位置可以直接指定，因此不需要再赋0，当然赋0也可以。</p>
+          </div>
+
+<h2 id="模式匹配算法"><a href="#模式匹配算法" class="headerlink" title="模式匹配算法"></a>模式匹配算法</h2><div class="note note-success">
+            <p>kmp算法讲得比较好的一位<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Higurashi-kagome/p/18013626">在这里</a></p>
+          </div>
+
+<p>现在指定字符串的数据结构为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">String</span> &#123;<br>    <span class="hljs-type">char</span> *str;<br>    <span class="hljs-type">int</span> length;<br>    <span class="hljs-built_in">String</span>(<span class="hljs-type">char</span> *str, <span class="hljs-type">int</span> length) : <span class="hljs-built_in">str</span>(str), <span class="hljs-built_in">length</span>(length) &#123;&#125;<br>&#125; *string;<br><br><span class="hljs-type">int</span> next[length] = &#123;<span class="hljs-number">0</span>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="暴力匹配算法"><a href="#暴力匹配算法" class="headerlink" title="暴力匹配算法"></a>暴力匹配算法</h3><p>赋初值后开始比较，若对应字符相等则i与j同时相加，指示串中下个位置，比较下一字符。否则指针i后退重新开始匹配，从主串的下一个字符开始比较。<br>如果是j &gt; t-&gt;length导致的循环结束，那么就是找到了指定位置，可以进行输出。反之则是匹配不成功，返回-1；</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">brute_force</span><span class="hljs-params">(string s, string t, <span class="hljs-type">int</span> pos)</span> <span class="hljs-comment">// s串为主串，t串为模式，pos为开始比较的位置</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> i = pos, j = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (i &lt;= s-&gt;length &amp;&amp; j &lt;= t-&gt;length)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (s-&gt;str[i] == t-&gt;str[j])<br>            i++, j++;<br>        <span class="hljs-keyword">else</span><br>            i = i - j + <span class="hljs-number">2</span>, j = <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (j &gt; t-&gt;length)<br>        <span class="hljs-keyword">return</span> i - t-&gt;length;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="临时数组next"><a href="#临时数组next" class="headerlink" title="临时数组next"></a>临时数组next</h3><p>以下举例说明，设模式串为<strong>abaabcac</strong></p>
+<ul>
+<li>next[0]固定为0</li>
+<li>i &#x3D; 1，a与b不等，next[1] &#x3D; j &#x3D; 0</li>
+<li>i &#x3D; 2，a和a相等，j &#x3D; 1，next[2] &#x3D; 1</li>
+<li>i &#x3D; 3，b与a不等，j &#x3D; next[0] &#x3D; 0，a与a相等，j &#x3D; 1，next[3] &#x3D; 1</li>
+<li>i &#x3D; 4，b与b相等，j &#x3D; 2，next[4] &#x3D; 2</li>
+<li>最后为[0, 0, 1, 1, 2, 0, 1, 0]</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">get_next</span><span class="hljs-params">(string t, <span class="hljs-type">int</span> *next)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) <span class="hljs-comment">// 包括了next[0] = 0</span><br>        next[i] = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> j = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; t-&gt;length; i++)<br>    &#123;<br>        <span class="hljs-keyword">while</span> (j &amp;&amp; t-&gt;str[i] != t-&gt;str[j])<br>            j = next[j - <span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">if</span> (t-&gt;str[i] == t-&gt;str[j])<br>            ++j;<br>        next[i] = j;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h3><p>若匹配失败，则在next数组中寻找对应的回溯位置。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">kmp</span><span class="hljs-params">(string s, string t, <span class="hljs-type">int</span> pos)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> i = pos, j = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">get_next</span>(t, next);<br>    <span class="hljs-keyword">while</span> (i &lt;= s-&gt;length &amp;&amp; j &lt;= t-&gt;length)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (j == <span class="hljs-number">0</span> || s-&gt;str[i] == t-&gt;str[j])<br>            ++i, ++j;<br>        <span class="hljs-keyword">else</span><br>            j = next[j];<br>    &#125;<br>    <span class="hljs-keyword">if</span> (j &gt; t-&gt;length)<br>        <span class="hljs-keyword">return</span> i - t-&gt;length;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="稀疏矩阵压缩"><a href="#稀疏矩阵压缩" class="headerlink" title="稀疏矩阵压缩"></a>稀疏矩阵压缩</h2><p>设有上三角矩阵<code>A[n][n]</code>，将其上三角元素逐行存于数组<code>B[m]</code>中，使得<code>B[k] = A[i][j]</code>, <code>k = f1(i)+f2(j)+c</code>，试推导出函数f1，f2和常数c。</p>
+<p>对上三角矩阵，设<code>i&lt;=j</code>有</p>
+<p>$$k&#x3D;\underbrace{n + (n-1) + (n+2)+…+(n-i+2)}{前i-1行}+\underbrace{(j-i+2)}{第i行}\ &#x3D;\frac{n-(i-1)}{2}i+j-n\ 故f_1(i) &#x3D; \frac{n-(i-1)}{2},\ f_2(j)&#x3D;j,\ c&#x3D;-n$$</p>
+<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><h3 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h3><p>假设一棵二叉树的先序遍历序列为EBADCFHGIKJ，中序遍历序列为ABCDEFGHIJK，请画出该二叉树</p>
+<p>可通过递归寻找。</p>
+<ul>
+<li>先序遍历的第一个节点E一定是根节点，中序遍历从这个节点开始划分成{ABCD}{FGHIJK}两部分</li>
+<li>以左划分为例，中序遍历对应的先序遍历序列为{BADC}，B为父节点，中序遍历划分为{A}{CD}两部分</li>
+<li>如此递归，即可得到结果</li>
+</ul>
+<pre><code class=" mermaid">graph TD
+e[E]--&gt;b[B]--&gt;a[A]
+b--&gt;d[D]--&gt;c[C]
+d--&gt;n1[null]
+e--&gt;f[F]--&gt;n2[null]
+f--&gt;h[H]--&gt;g[G]
+h--&gt;i[I]--&gt;n3[null]
+i--&gt;k[K]--&gt;J
+k--&gt;n4[null]
+</code></pre>
+
+<ul>
+<li>前序遍历</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pre</span><span class="hljs-params">(tree t)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!t)<br>        <span class="hljs-keyword">return</span>;<br>    std::cout &lt;&lt; t-&gt;value &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>    <span class="hljs-built_in">pre</span>(t-&gt;left);<br>    <span class="hljs-built_in">pre</span>(t-&gt;right);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>中序遍历</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">in</span><span class="hljs-params">(tree t)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!t)<br>        <span class="hljs-keyword">return</span>;<br>    <span class="hljs-built_in">in</span>(t-&gt;left);<br>    std::cout &lt;&lt; t-&gt;value &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>    <span class="hljs-built_in">in</span>(t-&gt;right);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>后序遍历</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">post</span><span class="hljs-params">(tree t)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!t)<br>        <span class="hljs-keyword">return</span>;<br>    <span class="hljs-built_in">post</span>(t-&gt;left);<br>    <span class="hljs-built_in">post</span>(t-&gt;right);<br>    std::cout &lt;&lt; t-&gt;value &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>层序遍历（BFS）</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">std::vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">BFS</span><span class="hljs-params">(tree t)</span></span><br><span class="hljs-function"></span>&#123;<br>    std::queue&lt;tree&gt; q;<br>    std::vector&lt;<span class="hljs-type">int</span>&gt; v;<br>    <span class="hljs-keyword">if</span>(t)<br>        q.<span class="hljs-built_in">push</span>(t);<br>    <span class="hljs-keyword">while</span>(!q.<span class="hljs-built_in">empty</span>())<br>    &#123;<br>        tree temp = q.<span class="hljs-built_in">front</span>();<br>        v.<span class="hljs-built_in">push_back</span>(temp-&gt;value);<br>        <span class="hljs-keyword">if</span>(temp-&gt;left)<br>            q.<span class="hljs-built_in">push</span>(temp-&gt;left);<br>        <span class="hljs-keyword">if</span>(temp-&gt;right)<br>            q.<span class="hljs-built_in">push</span>(temp-&gt;right);<br>        q.<span class="hljs-built_in">pop</span>();<br>    &#125;<br>    <span class="hljs-keyword">return</span> v;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="线索二叉树"><a href="#线索二叉树" class="headerlink" title="线索二叉树"></a>线索二叉树</h3><p>其节点形式</p>
+<table>
+<thead>
+<tr>
+<th>lchild</th>
+<th>LTag</th>
+<th>data</th>
+<th>RTag</th>
+<th>rchild</th>
+</tr>
+</thead>
+</table>
+<p>其中，若<code>LTag/RTag</code>为0，则表示child域指示节点的孩子，若为1，则指示节点的前驱&#x2F;后继。</p>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><h3 id="平均查找长度"><a href="#平均查找长度" class="headerlink" title="平均查找长度"></a>平均查找长度</h3><p>$$\text{ASL}&#x3D;\sum^n_{n&#x3D;1}P_iC_i$$</p>
+<p>$P_i$为查找表中第i个记录的概率(显然有$\sum^n_{i&#x3D;1}{P_i}&#x3D;1$)，$C_i$为找到第i个记录时进行比较的次数，可类比于数学期望。</p>
+<p>顺序查找的 $\displaystyle\text{ASL}&#x3D;\frac{1}{n}\sum^n_{i&#x3D;1}i&#x3D;\frac{i+1}{2}$</p>
+<p>将顺序表进行排序后可以进行折半查找。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-type">int</span> *a, <span class="hljs-type">int</span> length, <span class="hljs-type">int</span> value)</span> </span>&#123;<br>    <span class="hljs-type">int</span> low = <span class="hljs-number">0</span>, high = length, mid;<br>    <span class="hljs-keyword">while</span>(low &lt;= high) &#123;<br>        mid = (low + high) / <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span>(key == a[mid])<br>            <span class="hljs-keyword">return</span> mid;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key &lt; a[mid])<br>            high = mid - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">else</span><br>            low = mid + <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>n很大时，$\displaystyle\text{ASL}&#x3D;\log_2(n+1)-1$</p>
+<h3 id="Huffman编码"><a href="#Huffman编码" class="headerlink" title="Huffman编码"></a>Huffman编码</h3><h3 id="哈希表处理冲突（顺序表）"><a href="#哈希表处理冲突（顺序表）" class="headerlink" title="哈希表处理冲突（顺序表）"></a>哈希表处理冲突（顺序表）</h3><p>探测公式 $H_i&#x3D;(H(\text{key})+d_i)$<br>线性探测时 $d_i&#x3D;1,2,\cdots,m-1$<br>伪随机探测时，$d_i$为指定的伪随机序列<br>进行查找时，通过不断计算下一个散列地址$H_i$查找数据。</p>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>按顺序取一个数，放到指定的位置上。时间复杂度为$O(n^2)$，是稳定排序，适合记录基本有序的情况。将插入与折半结合，为折半插入排序，仍然是稳定排序，适合初始记录无序的情况。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; length; ++i)<br>&#123;<br>    <span class="hljs-keyword">if</span> (array[i] &gt; array[i - <span class="hljs-number">1</span>])<br>    &#123;<br>        tmp = array[i];<br>        array[i] = array[i - <span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">for</span> (index = i - <span class="hljs-number">1</span>; tmp &gt; array[index]; --index)<br>            array[index + <span class="hljs-number">1</span>] = array[index];<br>        array[index + <span class="hljs-number">1</span>] = tmp;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p>将整个排序记录序列分成几组，从而减少直接插入排序的数据量。需要提前指定分组数量和分组次数。希尔排序不稳定，其最后一个增量必须为1，适合初始记录无序，n较大的情况。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ShellInsert</span><span class="hljs-params">(<span class="hljs-type">int</span> *a, <span class="hljs-type">int</span> length, <span class="hljs-type">int</span> dk)</span> <span class="hljs-comment">// 对顺序表L进行一趟增量是dk的希尔插入排序</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> tmp;<br>    <span class="hljs-keyword">for</span> (i = dk; i &lt;= length; ++i)<br>        <span class="hljs-keyword">if</span> (a[i] &lt; a[i - dk].key) <span class="hljs-comment">// 需将a[i]插入有序增量子表</span><br>        &#123;<br>            tmp = a[i]; <span class="hljs-comment">// 暂存在tmp中</span><br>            <span class="hljs-keyword">for</span> (j = i - dk; j &gt; <span class="hljs-number">0</span> &amp;&amp; tmp &lt; a[j]; j -= dk)<br>                a[j + dk] = a[j]; <span class="hljs-comment">// 记录后移，直到找到插入位置</span><br>            a[j + dk] = tmp;     <span class="hljs-comment">// 将tmp即原a[i]，插入正确位置</span><br>        &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ShellSort</span><span class="hljs-params">(<span class="hljs-type">int</span> *a, <span class="hljs-type">int</span> *dt, <span class="hljs-type">int</span> t)</span> <span class="hljs-comment">// 按增量序列dt[0..t-1]对顺序表L进行t趟希尔排序</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span> (k = <span class="hljs-number">0</span>; k &lt; t; ++k)<br>        <span class="hljs-built_in">ShellInsert</span>(a, length, dt[k]); <span class="hljs-comment">// 一趟增量为dt[t]的希尔插入排序</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p>较为稳定，但n较大时不适宜使用。</p>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>算法partition完成一趟快速排序，返回枢轴的位置。若待排序序列长度大于1（low &lt; high），算法sort调用partition获取枢轴位置，然后递归执行，分别对分割所得的两个子表进行排序。</p>
+<p>partition函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">partition</span><span class="hljs-params">(<span class="hljs-type">int</span> array[], <span class="hljs-type">int</span> low, <span class="hljs-type">int</span> high)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> tmp = array[low];<br>    <span class="hljs-keyword">while</span> (low &lt; high)<br>    &#123;<br>        <span class="hljs-keyword">while</span> (low &lt; high &amp;&amp; array[high] &gt;= tmp)<br>            --high;<br>        array[low] = array[high];<br>        <span class="hljs-keyword">while</span> (low &lt; high &amp;&amp; array[low] &lt;= tmp)<br>            ++low;<br>        array[high] = array[low];<br>    &#125;<br>    array[low] = tmp;<br>    <span class="hljs-keyword">return</span> low;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>sort函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">sort</span><span class="hljs-params">(<span class="hljs-type">int</span> array[], <span class="hljs-type">int</span> low, <span class="hljs-type">int</span> high)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (low &lt; high)<br>    &#123;<br>        <span class="hljs-type">int</span> tmp = <span class="hljs-built_in">partition</span>(array, low, high);<br>        <span class="hljs-built_in">sort</span>(array, low, tmp - <span class="hljs-number">1</span>);<br>        <span class="hljs-built_in">sort</span>(array, tmp + <span class="hljs-number">1</span>, high);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>快速排序不稳定，当枢轴量每次都能平分数组时最快，适合初始记录无序的情况。平均状况下时间复杂度为$O(n\log n)$。</p>
+<h3 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h3><p>与插入排序相反，从未排序的数组中选择一个合适的数放进去。理论上是稳定的，但稳定与否与交换的方法有关。其移动次数较少，可用于记录占用空间较多时的排序方式。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i&lt; length; ++i)<br>&#123;<br>    index = i;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i; j &lt; length; ++j)<br>        <span class="hljs-keyword">if</span>(array[j] &lt; array[index])<br>            index = j;<br>    tmp = array[index];<br>    array[index] = array[i];<br>    array[i] = tmp;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>序列$k_1,\cdots,k_n$在满足 $$k_i\geq k_{2i},\quad k_i\geq k_{2i+1}\quad 或\quad k_{i}\leq k_{2i},\quad k_i\leq k_{si+1}$$ 其中之一时，可以称为堆。</p>
+<p>筛选法调整成堆</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">heap_adjust</span><span class="hljs-params">(<span class="hljs-type">int</span> array[], <span class="hljs-type">int</span> s, <span class="hljs-type">int</span> m)</span></span><br><span class="hljs-function"></span>&#123;   <br>    <span class="hljs-type">int</span> temp = array[s];<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">2</span> * s; j &lt;= m; j *= <span class="hljs-number">2</span>)<br>    &#123;<br>        <span class="hljs-keyword">if</span>(j &lt; m &amp;&amp; array[j] &lt; array[j + <span class="hljs-number">1</span>])<br>            ++j;<br>        <span class="hljs-keyword">if</span>(temp &gt;= array[j])<br>            <span class="hljs-keyword">break</span>;<br>        array[s] = array[j];<br>        s = j;<br>    &#125;<br>    array[s] = temp;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>建初堆</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">create_heap</span><span class="hljs-params">(<span class="hljs-type">int</span> array[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = length / <span class="hljs-number">2</span>; i &gt;= <span class="hljs-number">0</span>; --i)<br>        <span class="hljs-built_in">heap_adjust</span>(array, i, length);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在堆中进行排序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">sort</span><span class="hljs-params">(<span class="hljs-type">int</span> array[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">create_heap</span>(array);<br>    <span class="hljs-type">int</span> temp;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = length; i &gt; <span class="hljs-number">0</span>; --i)<br>    &#123;<br>        temp = array[<span class="hljs-number">0</span>];<br>        array[<span class="hljs-number">0</span>] = array[i];<br>        array[i] = temp;<br>        <span class="hljs-built_in">heap_adjust</span>(array, <span class="hljs-number">0</span>, i - <span class="hljs-number">1</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>是不稳定排序，时间复杂度接近于 $O(n\log n)$，记录较多时更有优势。</p>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>通过递归进行排序，稳定排序。</p>
+<h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><h3 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h3><p>以下是对邻接矩阵和邻接表的定义<br>邻接矩阵</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Matrix_array</span><br>&#123;<br>    <span class="hljs-type">bool</span> array[maxnum][maxnum];<br>    <span class="hljs-type">bool</span> visited[maxnum];<br>    <span class="hljs-type">int</span> dot;<br>    <span class="hljs-type">int</span> line;<br>&#125; Matrix_array;<br>Matrix_array matrix_array;<br></code></pre></td></tr></table></figure>
+
+<p>邻接表</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span><br>&#123;<br>    <span class="hljs-type">int</span> belong;<br>    <span class="hljs-type">int</span> weight;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span> *next;<br>    <span class="hljs-built_in">Node</span>(<span class="hljs-type">int</span> belong, <span class="hljs-type">int</span> weight, <span class="hljs-keyword">struct</span> Node *next) : <span class="hljs-built_in">belong</span>(belong), <span class="hljs-built_in">weight</span>(weight), <span class="hljs-built_in">next</span>(next) &#123;&#125;<br>&#125; *node;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Link</span><br>&#123;<br>    node matrix_link[maxnum];<br>    <span class="hljs-type">int</span> dot;<br>    <span class="hljs-type">int</span> line;<br>    <span class="hljs-type">int</span> visited[maxnum];<br>    <span class="hljs-built_in">Link</span>()<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; maxnum; i++)<br>            matrix_link[i] = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(emp, emp, <span class="hljs-literal">nullptr</span>);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-type">int</span> last_node, <span class="hljs-type">int</span> next_node, <span class="hljs-type">int</span> weight)</span></span><br><span class="hljs-function">    </span>&#123;<br>        node before = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(next_node, weight, matrix_link[last_node]-&gt;next);<br>        matrix_link[last_node]-&gt;next = before;<br>        node after = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(last_node, weight, matrix_link[next_node]-&gt;next);<br>        matrix_link[next_node]-&gt;next = after;<br>    &#125;<br>&#125; Link;<br>Link link;<br></code></pre></td></tr></table></figure>
+
+<p>在邻接数列中进行DFS遍历</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DFS_in_array</span><span class="hljs-params">(<span class="hljs-type">int</span> v)</span></span><br><span class="hljs-function"></span>&#123;<br>    matrix_array.visited[v] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> w = <span class="hljs-number">0</span>; w &lt; matrix_array.dot; w++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (matrix_array.array[v][w] &amp;&amp; !matrix_array.visited[w])<br>        &#123;<br>            q.<span class="hljs-built_in">push</span>(w + <span class="hljs-number">1</span>);<br>            <span class="hljs-built_in">DFS_in_array</span>(w);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在邻接表中进行DFS遍历</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DFS_in_link</span><span class="hljs-params">(<span class="hljs-type">int</span> v)</span></span><br><span class="hljs-function"></span>&#123;<br>    link.visited[v] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-type">int</span> w;<br>    node p = link.matrix_link[v]-&gt;next;<br>    <span class="hljs-keyword">while</span> (p)<br>    &#123;<br>        w = p-&gt;belong;<br>        <span class="hljs-keyword">if</span> (!link.visited[w])<br>        &#123;<br>            q.<span class="hljs-built_in">push</span>(w + <span class="hljs-number">1</span>);<br>            <span class="hljs-built_in">DFS_in_link</span>(w);<br>        &#125;<br>        p = p-&gt;next;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在邻接数列中进行BFS遍历</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BFS_in_array</span><span class="hljs-params">(<span class="hljs-type">int</span> v)</span></span><br><span class="hljs-function"></span>&#123;<br>    std::queue&lt;<span class="hljs-type">int</span>&gt; temp;<br>    matrix_array.visited[v] = <span class="hljs-literal">true</span>;<br>    temp.<span class="hljs-built_in">push</span>(v + <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">while</span> (!temp.<span class="hljs-built_in">empty</span>())<br>    &#123;<br>        q.<span class="hljs-built_in">push</span>(temp.<span class="hljs-built_in">front</span>());<br>        temp.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> w = <span class="hljs-number">0</span>; w &lt; matrix_array.dot; w++)<br>            <span class="hljs-keyword">if</span> (matrix_array.array[v][w] &amp;&amp; !matrix_array.visited[w])<br>            &#123;<br>                temp.<span class="hljs-built_in">push</span>(w + <span class="hljs-number">1</span>);<br>                <span class="hljs-built_in">BFS_in_array</span>(w);<br>            &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在邻接表中进行BFS遍历</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BFS_in_link</span><span class="hljs-params">(<span class="hljs-type">int</span> v)</span></span><br><span class="hljs-function"></span>&#123;<br>    queue&lt;<span class="hljs-type">int</span>&gt; temp;<br>    link.visited[v] = <span class="hljs-literal">true</span>;<br>    temp.<span class="hljs-built_in">push</span>(v + <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">while</span> (!temp.<span class="hljs-built_in">empty</span>())<br>    &#123;<br>        q.<span class="hljs-built_in">push</span>(temp.<span class="hljs-built_in">front</span>());<br>        temp.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">for</span> (node p = link.matrix_link[v]-&gt;next; p != <span class="hljs-literal">nullptr</span>; p = p-&gt;next)<br>            <span class="hljs-keyword">if</span> (!link.visited[p-&gt;belong])<br>            &#123;<br>                temp.<span class="hljs-built_in">push</span>(p-&gt;belong + <span class="hljs-number">1</span>);<br>                link.visited[p-&gt;belong] = <span class="hljs-literal">true</span>;<br>            &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<div class="note note-info">
+            <p>若图中有不止一个连通分量，则需要另设一个大循环，在循环中不断检测未遍历到的分量继续遍历</p>
+          </div>
+
+<div class="note note-info">
+            <p>克鲁斯卡尔算法更适合求稀疏网的最小生成树</p>
+          </div>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/%E5%A4%8D%E4%B9%A0/" class="print-no-link">#复习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>数据结构复习</div>
+      <div>https://ivanclf.github.io/2024/12/30/data-structure-1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="../../../../2025/03/14/vue3/" title="vue-3的使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vue-3的使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../../11/16/order-set/" title="指令集">
+                        <span class="hidden-mobile">指令集</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

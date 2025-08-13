@@ -1,0 +1,816 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="No Memory AbstractionThe simplest memory abstraction is to have no abstraction at all. Even with no memory abstraction, it is possible to run multiple programs at the same time. What the operating sys">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Memory Management - Modern Operating System">
+<meta property="og:url" content="https://ivanclf.github.io/2025/05/22/os-2/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="No Memory AbstractionThe simplest memory abstraction is to have no abstraction at all. Even with no memory abstraction, it is possible to run multiple programs at the same time. What the operating sys">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-2.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-4.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-6.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-8.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-9.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-10.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-11.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-13.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-14.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-15.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-16.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-17.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-25.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-26.png">
+<meta property="article:published_time" content="2025-05-22T06:11:26.000Z">
+<meta property="article:modified_time" content="2025-08-13T15:13:09.742Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="复习">
+<meta property="article:tag" content="日常">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ivanclf.github.io/2025/05/22/os-2/3-2.png">
+  
+  
+  
+  <title>Memory Management - Modern Operating System - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Memory Management - Modern Operating System"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-22 14:11" pubdate>
+          2025年5月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          359 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Memory Management - Modern Operating System</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="No-Memory-Abstraction"><a href="#No-Memory-Abstraction" class="headerlink" title="No Memory Abstraction"></a>No Memory Abstraction</h2><p>The simplest memory abstraction is to have no abstraction at all.</p>
+<p>Even with no memory abstraction, it is possible to run multiple programs at the same time. What the operating system has to do is save the entire contents of memory to a disk file, then bring in and run the next program. As long as there is only one program at a time in memory, there are no conflicts.</p>
+<p>With the addition of some special hardware, it is possible to run multiple programs concurrently, even without swapping. It is shown as below. The figure (C) was the combination of program of (a) and (b)</p>
+<p><img src="3-2.png" srcset="/img/loading.gif" lazyload alt="illustration of the relocation problem"></p>
+<p>Modify the second program on the fly as it loaded it into memory using a technique known as <strong>static relocation</strong>. It worked like this: When a program was loaded at address 16,384, the constant 16,384 was added to every program address during the load process (so “JMP 28” became “JMP 16,412”, etc.). While the <strong>dynamic relocation</strong> (动态重定位) is to add a base address to the program.</p>
+<p>Static relocation is like printing a map where all of addresses can easy to find, but once the map is printed, the location would have settled. And the dynamic relocation is like using GPS that knows your currently address, once you move to different location, address would change.</p>
+<p>But the physical memory of the computer isn’t large enough to hold all the processes often, so we need a strategy to manage the processes.</p>
+<h3 id="Swapping"><a href="#Swapping" class="headerlink" title="Swapping"></a>Swapping</h3><p>The operation of a swapping system is illustrated below.</p>
+<p><img src="3-4.png" srcset="/img/loading.gif" lazyload alt="an example of swapping"></p>
+<h3 id="Managing-Free-Memory"><a href="#Managing-Free-Memory" class="headerlink" title="Managing Free Memory"></a>Managing Free Memory</h3><p>When memory is assigned dynamically, the operating system must manage it. We have two ways to manage the operating system.</p>
+<p><img src="3-6.png" srcset="/img/loading.gif" lazyload alt="overview of two ways"></p>
+<ul>
+<li><p>with bitmap<br>  Memory is divided into allocation units (small as a few words, large as several kilobytes). Corresponding to each allocation unit is a bit in the bitmap, which is 0 if the unit is free and 1 if it is occupied (or vice versa).</p>
+</li>
+<li><p>with linked lists<br>  Another way is to maintain a linked list of allocated and free memory segments, where a segment either contains a process (P) or is an empty hole (H) between two processes.</p>
+</li>
+</ul>
+<p>Both methods have their pros and cons. Bitmap is simple. The main problem is that when it has been decided to bring a k-unit process into memory, the memory manager must search the bitmap to find a run of $k$ consecutive 0 bits in the map. Searching a bitmap for a run of a given length is a slow operation. And the linked lists might be too large when there are too many processes.</p>
+<p>When the processes and holes are kept on a list sorted by address, several algorithms can be allocate memory for a created process.</p>
+<ul>
+<li><p>first fit<br>  Simplest algorithm. The memory manager scans along the list of segments until it finds a hole that is big enough.</p>
+</li>
+<li><p>next fit<br>  The same way as first fit, except that it keeps track of where it is whenever it finds a suitable hole.</p>
+</li>
+<li><p>best fit<br>  Searches the entire list, from beginning to end, and takes the smallest hole that is adequate.</p>
+</li>
+<li><p>worst fit<br>  Always take the largest available hole, so that the new hole will be big enough to be useful.</p>
+</li>
+</ul>
+<h2 id="Virtual-Memory"><a href="#Virtual-Memory" class="headerlink" title="Virtual Memory"></a>Virtual Memory</h2><p>The basic idea behind virtual memory is that each program has its own address space, which is broken up into chunks called pages. Each page is a contiguous range of addresses. These pages are mapped onto physical memory, but not all pages have to be in physical memory at the same time to run the program.</p>
+<h3 id="Paging"><a href="#Paging" class="headerlink" title="Paging"></a>Paging</h3><p><img src="3-8.png" srcset="/img/loading.gif" lazyload alt="how the virtual address work"></p>
+<p>Those program-generated addresses are called <strong>virtual addresses</strong> and form the <strong>virtual address space</strong>. When virtual memory is used, the virtual addresses do not go directly to the memory bus. Instead, they go to an <strong>MMU</strong> (<strong>Memory Management Unit</strong>) that maps the virtual addresses onto the physical memory addresses.</p>
+<p>The virtual address space consists of fixed-size units called pages. The corresponding units in the physical memory are called <strong>page frames</strong>. The pages and page frames are generally the same size.</p>
+<p><img src="3-9.png" srcset="/img/loading.gif" lazyload alt="relationship between different addresses"></p>
+<p>In the actual hardware, a <strong>Present&#x2F;absent bit</strong> keeps track of which pages are physical present in memory. If the program references an unmapped address, it will cause CPU to trap to the operating system. This trap is called a <strong>page fault</strong>. The operating system picks a little-used page frame and writes its contents back to the disk (if it is not already there), and then fetches (also from the disk) the page that was just referenced into the page frame just freed, change the map, and restarts the trapped instruction.</p>
+<p>The page number is used as an index into the <strong>page table</strong>, yielding the number of the page frame corresponding to that virtual page.</p>
+<h3 id="Page-Tables"><a href="#Page-Tables" class="headerlink" title="Page Tables"></a>Page Tables</h3><p>The purpose of the page table is to map virtual pages onto page frames.</p>
+<p><img src="3-10.png" srcset="/img/loading.gif" lazyload alt="page table"></p>
+<div class="note note-info">
+            <p>NOTES:</p><ul><li>page table (页表)</li><li>Because in this case the pages occupied 4KB (or $2^{12}$ bit), we take the back 12 bits (The lowest $\log _2B$ bits) to contain the offset.</li><li>There are 16 pages, so we take the front 4 bits to contain the virtual page number.</li></ul>
+          </div>
+
+<div class="note note-success">
+            <p>Usually, each process has its own page table.</p>
+          </div>
+
+<p><img src="3-11.png" srcset="/img/loading.gif" lazyload alt="structure of a page table entry"></p>
+<p>We could see that</p>
+<ul>
+<li>the <em>Caching disable</em> bits tell whether being caching is permitted.</li>
+<li>the <em>Protection</em> bits tell what kind of access are permitted.</li>
+<li>the <em>Modified</em> and <em>Referenced</em> bits keep track of page usage. If the page in it has been modified (修改), it must be written back to the disk, and it also called dirty bit. The Reference bit is set a page is referenced, either for reading or for writing.</li>
+<li>the <em>Present&#x2F;absent</em> bits tells whether this virtual page is in the physical memory.</li>
+</ul>
+<h3 id="Speeding-Up-Paging"><a href="#Speeding-Up-Paging" class="headerlink" title="Speeding Up Paging"></a>Speeding Up Paging</h3><p>In any paging system, two issues must be faced:</p>
+<ol>
+<li>The mapping from virtual address to physical address must be fast.</li>
+<li>If the virtual address space is large, the page table will be large.</li>
+</ol>
+<p>The former is easier but the latter would be harder. In order to solve the problem we would add a devise called <strong>TLB</strong> (<strong>Translation Lookaside Buffer</strong> 页表缓存).</p>
+<p>When software TLB management is used, it is essential to understand the difference between different kinds of misses. A <strong>soft miss</strong> occurs when the page referenced is not in the TLB, but is in memory. All that is needed here is for the TLB to be updated. No disk I&#x2F;O is needed. In contrast, a <strong>hard miss</strong> occurs when the page itself is not in memory (and of course, also not in the TLB). A disk access is required to bring in the page, which can take several milliseconds, depending on the disk being used.</p>
+<p>The error that we do not need to access the disk again, but merely map the page appropriately in the page tables. This is a pretty soft miss that is known as a <strong>minor page fault</strong>. A <strong>major page fault</strong> occurs if the page needs to be brought in from disk. And it is possible that the program simply accessed an invalid address and no mapping needs to be added in the TLB at all. In that case, the operating system typically kills the program with a <strong>segmentation fault</strong>.</p>
+<h3 id="Page-Table-for-Large-Memories"><a href="#Page-Table-for-Large-Memories" class="headerlink" title="Page Table for Large Memories"></a>Page Table for Large Memories</h3><h4 id="multilevel-page-tables"><a href="#multilevel-page-tables" class="headerlink" title="multilevel page tables"></a>multilevel page tables</h4><p><img src="3-13.png" srcset="/img/loading.gif" lazyload alt="multilevel page tables"></p>
+<div class="note note-info">
+            <p>As an example, consider the 32-bit virtual address 0x00403004. This virtual address corresponds to <code>PT1 = 1</code>, <code>PT2 = 3</code>, and <code>Offset = 4</code>. The MMU first uses <code>PT1</code> to index into the top-level page table and obtain entry 1, which corresponds to addresses 4M to 8M − 1. It then uses <code>PT2</code> to index into the second-level page table just found and extract entry 3, which corresponds to addresses 12288 to 16383 within its 4M chunk. This entry contains the page frame number of the page containing virtual address 0x00403004.</p>
+          </div>
+
+<h4 id="Inverted-Page-Tables"><a href="#Inverted-Page-Tables" class="headerlink" title="Inverted Page Tables"></a>Inverted Page Tables</h4><p><img src="3-14.png" srcset="/img/loading.gif" lazyload alt="inverted page tables"></p>
+<p>Operating system only maintains a global page table. Physical address is just a index by hash on virtual page, and attaches a string of virtual addresses.</p>
+<p>Inverted Page Tables can obviously cut down physical memory occupied, but the speed of address transferring is relatively slow.</p>
+<h2 id="Page-Replacement-Algorithms"><a href="#Page-Replacement-Algorithms" class="headerlink" title="Page Replacement Algorithms"></a>Page Replacement Algorithms</h2><p>Now we are trying to find out algorithms that can avoid page fault occurring most.</p>
+<h3 id="The-Optimal-Page-Replacement-Algorithm-OPT"><a href="#The-Optimal-Page-Replacement-Algorithm-OPT" class="headerlink" title="The Optimal Page Replacement Algorithm (OPT)"></a>The Optimal Page Replacement Algorithm (OPT)</h3><p>It is the best possible replacement algorithm. And it goes like this: at the moment that a page fault occurs, the page with the highest number of instructions that will be execute before that page is first referenced should be removed.</p>
+<h3 id="The-First-In-First-Out-FIFO-Replacement-Algorithm"><a href="#The-First-In-First-Out-FIFO-Replacement-Algorithm" class="headerlink" title="The First-In First-Out (FIFO) Replacement Algorithm"></a>The First-In First-Out (FIFO) Replacement Algorithm</h3><p>It is easy to figure out.</p>
+<h3 id="The-Second-Chance-Page-Replacement-Algorithm"><a href="#The-Second-Chance-Page-Replacement-Algorithm" class="headerlink" title="The Second-Chance Page Replacement Algorithm"></a>The Second-Chance Page Replacement Algorithm</h3><p>A progress in FIFO algorithm.</p>
+<p><img src="3-15.png" srcset="/img/loading.gif" lazyload alt="an instance of second-chance replacement algorithm"></p>
+<h3 id="The-Clock-Page-Replacement-Algorithm"><a href="#The-Clock-Page-Replacement-Algorithm" class="headerlink" title="The Clock Page Replacement Algorithm"></a>The Clock Page Replacement Algorithm</h3><p><img src="3-16.png" srcset="/img/loading.gif" lazyload alt="an instance of clock replacement algorithm"></p>
+<h3 id="The-Last-Recently-Used-LRU-Page-Replacement-Algorithm"><a href="#The-Last-Recently-Used-LRU-Page-Replacement-Algorithm" class="headerlink" title="The Last Recently Used (LRU) Page Replacement Algorithm"></a>The Last Recently Used (LRU) Page Replacement Algorithm</h3><p>When a page fault occurs, the <strong>Last Recently Used</strong> (<strong>LRU</strong>) algorithm throws out the page that has been unused for the longest time.</p>
+<p>But this algorithm has a problem: it is not cheap by a long shot. To fully implement LRU, it is necessary to maintain a linked list of all pages in memory, with the most recently used page at the front and the least recently used page at the rear. The difficulty is that the list must be updated on every memory reference.</p>
+<h3 id="Simulating-LRU-in-Software"><a href="#Simulating-LRU-in-Software" class="headerlink" title="Simulating LRU in Software"></a>Simulating LRU in Software</h3><p>One possibility is called the <strong>NFU</strong> (<strong>Not Frequently Used</strong>) algorithm. When a page fault occurs, the page with the lowest counter is chosen for replacement.</p>
+<p>The main problem with NFU is that it never forgets anything. Consequently, the operating system will remove useful pages instead of pages no longer in use. So there is a modification to NFU, known as <strong>aging</strong>.</p>
+<p><img src="3-17.png" srcset="/img/loading.gif" lazyload alt="how aging works"></p>
+<h2 id="Design-Issues-for-Paging-Systems"><a href="#Design-Issues-for-Paging-Systems" class="headerlink" title="Design Issues for Paging Systems"></a>Design Issues for Paging Systems</h2><h3 id="Page-Size"><a href="#Page-Size" class="headerlink" title="Page Size"></a>Page Size</h3><p>We stand $s$ bytes for average process size, $p$ bytes for page size, $e$ bytes for each page entry. So its overhead (开销) can be figure out</p>
+<p>$$<br>\text{overhead}&#x3D;\frac{se}{p}+\frac{p}{2}<br>$$</p>
+<p>take the first derivative</p>
+<p>$$<br>-\frac{se}{p^2}+\frac{1}{2}&#x3D;0<br>$$</p>
+<p>So the optimum page size is</p>
+<p>$$<br>p&#x3D;\sqrt{2se}<br>$$</p>
+<h3 id="Share-Pages"><a href="#Share-Pages" class="headerlink" title="Share Pages"></a>Share Pages</h3><p>When more processes share some code, a problem occurs with the shared pages. If one process is removed from the memory, evicting all its pages, others will generate large number of page faults. So when a process terminates, special page data structures are needed to keep track of shared pages.</p>
+<p>Sharing data is more tricker than sharing code, and what is often done is to give each of these processes its own page table and have both od them point to the same set of pages. However, all the data pages are mapped into both processes as <code>READ ONLY</code>. As soon as one process updates a memory system, the violation of the read-only protection causes a trap to the operating system. A copy is then made of the offending page so that each process now has its own <strong>private copy</strong> (专用副本). All copies are now set to <code>READ/WRITE</code>, so subsequent writes to one copy proceed without trapping. This strategy means that those pages that are never modified (including all the program pages) need not be copied. Only the data pages that are actually modified need to be copied. This approach, called <strong>copy on write</strong>(<strong>COW</strong>), improves performance by reducing copying.</p>
+<p><img src="3-25.png" srcset="/img/loading.gif" lazyload alt="an instance that share the same program"></p>
+<h3 id="Shared-Libraries"><a href="#Shared-Libraries" class="headerlink" title="Shared Libraries"></a>Shared Libraries</h3><div class="note note-warning">
+            <p>This part should be linked to file system.</p>
+          </div>
+
+<p>Statically linking hundreds of programs with all these libraries would waste a tremendous amount of space on the disk as well as wasting space in RAM when they were loaded since the system would have no way of knowing it could share them. This is where shared libraries come in. When a program is linked with shared libraries, instead of including the actual function called, the linker includes a small stub routine (存根例程) that binds to the called function at run time.</p>
+<p>Note that when a library is loaded or used, the entire library is not read into memory whole. It is paged in, page by page, as needed.</p>
+<p>As shared library, <code>.so</code> on Linux, <code>.dll</code> on Windows, inner data and code must use relative addresses.</p>
+<p><img src="3-26.png" srcset="/img/loading.gif" lazyload alt="an instance of share library"></p>
+<div class="note note-success">
+            <p>Shared library uses relative address instead of absolute address. When program loading shared library, it will map shared library to address space while running, so using relative address can let shared library load to different memory addresses.</p>
+          </div>
+
+<h3 id="Mapped-Files"><a href="#Mapped-Files" class="headerlink" title="Mapped Files"></a>Mapped Files</h3><p>Shared libraries are really a special case of a more general facility called <strong>memory-mapped files</strong>. The idea here is that a process can issue a system call to map a file onto a portion of its virtual address space.</p>
+<p>We can imagine “copying” file to a portion of virtual memory, where program can treat file as common memory.</p>
+<div class="note note-info">
+            <p>So in C language and C++, before operating a file, define a file pointer is necessary.</p>
+          </div>
+
+<p>Mapped files provide an alternative model for I&#x2F;O. Instead, of doing <code>read()</code> and <code>write()</code>, the file can be accessed as a big character array in memory.</p>
+<p>If two or more processes map onto the same file at the same time, they can communicate over shared memory. Writes done by one process to the shared memory are immediately visible when the other one reads from the part of its virtual address spaced mapped onto the file.</p>
+<h2 id="Implementation-issues"><a href="#Implementation-issues" class="headerlink" title="Implementation issues"></a>Implementation issues</h2><h3 id="Locking-Pages-in-Memory"><a href="#Locking-Pages-in-Memory" class="headerlink" title="Locking Pages in Memory"></a>Locking Pages in Memory</h3><p>Consider a process that has just issued a system call to read from some file or device into a buffer within its address space. While waiting for the I&#x2F;O to complete, the process is suspended and another process is allowed to run. This other process gets a page fault. So we need to lock this page in memory to avoid it happened.</p>
+<p>So locking pages in memory means keeping physical address corresponded with certain virtual address forcibly, not allowing operating system swap these pages to disk.</p>
+<p>Excessive locking pages will decline available space of physical memory, and more page faults would be happened on other processes.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/%E5%A4%8D%E4%B9%A0/" class="print-no-link">#复习</a>
+      
+        <a href="../../../../tags/%E6%97%A5%E5%B8%B8/" class="print-no-link">#日常</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Memory Management - Modern Operating System</div>
+      <div>https://ivanclf.github.io/2025/05/22/os-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="../../27/os-3/" title="File Systems and I/O - Modern Operating System">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">File Systems and I/O - Modern Operating System</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../14/os/" title="Processes and Threads - Modern Operating System">
+                        <span class="hidden-mobile">Processes and Threads - Modern Operating System</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

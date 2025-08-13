@@ -1,9 +1,7 @@
 ---
-title: about
+title: 关于页
 date: 2025-07-12 16:01:17
+layout: about
 ---
 
-l'm just sitting here watching the wheels go round and round.
-I really love to watch them roll.
-No longer riding on the merry-go-round.
-I just had to let it go.
+该网站主要是个人技术类文章以及各种笔记。具体的部署工作则交给我的.com网站了。当然，既然该网站不受监管，那我可能也会发点其他东西😋

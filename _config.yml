@@ -11,6 +11,11 @@ author: Ivan Chan
 language: zh-CN
 timezone: ''
 
+mermaid:
+  enable: true
+  theme: default
+  cdn: https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js
+
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://ivanclf.github.io

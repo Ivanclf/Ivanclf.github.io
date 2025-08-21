@@ -243,7 +243,7 @@ public class Solution {
 <p align="right">——某神评</p>
 {% endnote %}
 
-#### 反转链表
+#### **反转链表**
 
 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
 
@@ -286,6 +286,8 @@ public:
 {% endnote %}
 
 ##### 迭代
+
+头插法创建新链表。
 
 ```mermaid
 flowchart LR

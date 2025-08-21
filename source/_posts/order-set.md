@@ -53,8 +53,9 @@ tags: 速查
 |$\lfloor$|`\lfloor`|$\rfloor$|`\rfloor`|
 |$\lceil$|`\lceil`|$\rceil$|`\rceil`|
 |$\subseteq$|`\subseteq`|$\cap$|`\cap`|
-|$\cup$|`\cup`|||
-|$\infty$|`\infty`|
+|$\cup$|`\cup`|$\in$|`\in`|
+|$\forall$|`\forall`|$\exist$|`\exist`|
+|$\infty$|`\infty`|||
 
 ### 公式示例
 

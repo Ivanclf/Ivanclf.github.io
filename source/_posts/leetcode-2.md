@@ -145,6 +145,232 @@ public List<Integer> findAnagrams(String s, String p) {
 
 其中的`count`数组存着串`s - p`的各个字母的差，其中每一个非0项都会让`differ` + 1。在`differ`赋值后，开始进行循环。`temp`变量用于获取当前的差值。首先是将左端划出窗口的情况，需要将`differ`中包含的情况给出清。然后是将右端划入窗口的情况，需要在`differ`中增加新差值。而循环体本身则演示滑动的过程。
 
+### 子串
+
+#### 和为K的子数组
+
+给你一个整数数组 `nums` 和一个整数 `k` ，请你统计并返回 该数组中和为 `k` 的子数组的个数 。
+子数组是数组中元素的连续非空序列。
+
+{% note info %}
+按照提示，使用哈希表进行操作。但哈希表上放什么是个值得考虑的问题，由于前缀和可能一样，所以这里放的是前缀和的值和出现的次数。
+
+```java
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int sum = 0;
+        int count = 0;
+        for (int num : nums) {
+            sum += num;
+            if (map.containsKey(sum - k))
+                count += map.get(sum - k);
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return count;
+    }
+}
+```
+
+{% endnote %}
+
+题解和上面的差不多
+
+#### 滑动窗口最大值
+
+给你一个整数数组 `nums`，有一个大小为 `k` 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 `k` 个数字。滑动窗口每次只向右移动一位。
+返回 **滑动窗口中的最大值**。
+示例：
+    输入：`[1 3 -1 -3 5 3 6 7]`
+    输出：`[3 3 5 5 6 7]`
+
+| 滑动窗口的位置           | 最大值 |
+|-|-|
+| [1  3  -1] -3  5  3  6  7 | 3      |
+| 1 [3  -1  -3] 5  3  6  7  | 3      |
+| 1  3 [-1  -3  5] 3  6  7  | 5      |
+| 1  3  -1 [-3  5  3] 6  7  | 5      |
+| 1  3  -1  -3 [5  3  6] 7  | 6      |
+| 1  3  -1  -3  5 [3  6  7] | 7      |
+
+{% note info %}
+滑动窗口就要注意其出来的数据和进来的数字。
+勇敢一次次遍历，最后时间复杂度超过5%。
+
+```java
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums.length == 0) {
+            return new int[0];
+        }
+        int[] ans = new int[nums.length - k + 1];
+        int max = nums[0], maxIndex = 0;
+        
+        for (int i = 0; i < k; i++)
+            if (max <= nums[i]) {
+                max = nums[i];
+                maxIndex = i;                
+            }
+        ans[0] = max;
+        
+        for (int i = k; i < nums.length; i++) {
+            if (maxIndex == i - k) {
+                max = nums[i - k + 1];
+                maxIndex = i - k + 1;
+                for (int j = i - k + 2; j <= i; j++)
+                    if (max <= nums[j]) {
+                        max = nums[j];
+                        maxIndex = j;
+                    }
+            } else if (max <= nums[i]) {
+                    max = nums[i];
+                    maxIndex = i;
+                }
+            ans[i - k + 1] = max;
+        }
+        return ans;
+    }
+}
+```
+
+{% endnote %}
+
+##### 优先队列
+
+维护一个优先队列，初始时，将数组`nums`的前`k`个元素放入队列中，每次向右移动窗口是就把一个新的元素放入优先队列中。此时堆顶的元素就是堆中所有元素的最大值，但这个最大值可能并不在窗口中，这时候我们就要移除这个数据
+
+```java
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>(new Comparator<int[]>() {
+            public int compare(int[] pair1, int[] pair2) {
+                return pair1[0] != pair2[0] ? pair2[0] - pair1[0] : pair2[1] - pair1[1];
+            }
+        });
+        for (int i = 0; i < k; ++i) {
+            pq.offer(new int[]{nums[i], i});
+        }
+        int[] ans = new int[n - k + 1];
+        ans[0] = pq.peek()[0];
+        for (int i = k; i < n; ++i) {
+            pq.offer(new int[]{nums[i], i});
+            while (pq.peek()[1] <= i - k) {
+                pq.poll();
+            }
+            ans[i - k + 1] = pq.peek()[0];
+        }
+        return ans;
+    }
+}
+```
+
+##### 单调队列
+
+维护一个双向队列，存储所有还没有被移除的下标。这些下标按照从小到大的顺序存储。
+当窗口向右移动时，我们需要把一个新元素放入队列中，若新元素大于队尾，就弹出队尾元素，直到空或队尾大于新元素。
+此时的最大值可能在滑动窗口左边界的左侧，并且随着窗口向右移动，因此还需要不断从队首移除元素，直到队首元素在窗口中为止。
+这种满足单调性的双端队列一般叫做单调队列。
+
+```java
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        Deque<Integer> deque = new LinkedList<Integer>();
+        for (int i = 0; i < k; ++i) {
+            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+                deque.pollLast();
+            }
+            deque.offerLast(i);
+        }
+
+        int[] ans = new int[n - k + 1];
+        ans[0] = nums[deque.peekFirst()];
+        for (int i = k; i < n; ++i) {
+            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+                deque.pollLast();
+            }
+            deque.offerLast(i);
+            while (deque.peekFirst() <= i - k) {
+                deque.pollFirst();
+            }
+            ans[i - k + 1] = nums[deque.peekFirst()];
+        }
+        return ans;
+    }
+}
+```
+
+#### 最小覆盖子串
+
+给你一个字符串 `s` 、一个字符串 `t` 。返回 `s` 中涵盖 `t` 所有字符的最小子串。如果 `s` 中不存在涵盖 `t` 所有字符的子串，则返回空字符串 `""` 。
+
+示例 1：
+    输入：`s = "ADOBECODEBANC", t = "ABC"`
+    输出：`"BANC"`
+    解释：最小覆盖子串 `"BANC"` 包含来自字符串 `t` 的 `'A'`、`'B'` 和 `'C'`。
+
+示例 2:
+    输入: `s = "a", t = "aa"`
+    输出: `""`
+    解释: `t` 中两个字符 `'a'` 均应包含在 `s` 的子串中，
+    因此没有符合条件的子字符串，返回空字符串。
+
+可以使用滑动窗口的方式来解决。维护两个指针，让右指针不断延申直到覆盖`t`中所有字母。然后让左指针运动，试图缩小范围。
+如何判断包含了所有的字母？使用两个哈希表解决。
+
+![图例](76_fig1.gif)
+
+```java
+class Solution {
+    Map<Character, Integer> ori = new HashMap<Character, Integer>();
+    Map<Character, Integer> cnt = new HashMap<Character, Integer>();
+
+    public String minWindow(String s, String t) {
+        int tLen = t.length();
+        for (int i = 0; i < tLen; i++) {
+            char c = t.charAt(i);
+            ori.put(c, ori.getOrDefault(c, 0) + 1);
+        }
+        int l = 0, r = -1;
+        int len = Integer.MAX_VALUE, ansL = -1, ansR = -1;
+        int sLen = s.length();
+        while (r < sLen) {
+            ++r;
+            if (r < sLen && ori.containsKey(s.charAt(r))) {
+                cnt.put(s.charAt(r), cnt.getOrDefault(s.charAt(r), 0) + 1);
+            }
+            while (check() && l <= r) {
+                if (r - l + 1 < len) {
+                    len = r - l + 1;
+                    ansL = l;
+                    ansR = l + len;
+                }
+                if (ori.containsKey(s.charAt(l))) {
+                    cnt.put(s.charAt(l), cnt.getOrDefault(s.charAt(l), 0) - 1);
+                }
+                ++l;
+            }
+        }
+        return ansL == -1 ? "" : s.substring(ansL, ansR);
+    }
+
+    public boolean check() {
+        Iterator iter = ori.entrySet().iterator(); 
+        while (iter.hasNext()) { 
+            Map.Entry entry = (Map.Entry) iter.next(); 
+            Character key = (Character) entry.getKey(); 
+            Integer val = (Integer) entry.getValue(); 
+            if (cnt.getOrDefault(key, 0) < val) {
+                return false;
+            }
+        } 
+        return true;
+    }
+}
+```
+
 ### 链表
 
 #### 相交链表
@@ -637,17 +863,23 @@ public class Solution {
 ![图例](142_fig1.png)
 
 设`slow`指针走了 `b` 距离与 `fast` 相遇，此时，`fast`指针已经走了`n`圈，此时快指针走过的总距离为
+
 $$
 a+n(b+c)+b=a+(n+1)b+nc
 $$
+
 由于$v_{fast}=2v_{slow}$，因此有
+
 $$
 \underbrace{a+(n+1)b+nc}_{\text{快指针}}=\underbrace{2(a+b)}_{\text{慢指针}}⟹a=c+(n−1)(b+c)
 $$
+
 但对于指针而言，绕圈圈数可以忽略。因此最后简化成
+
 $$
 a=c
 $$
+
 于是，在二者相遇时，我们再用一个指针指向头部，并与slow指针同步走动，二者相遇的位置即是环开始点。
 
 ```java
@@ -1286,6 +1518,220 @@ class Solution {
 
 由于第二次循环只是给`random`赋值而已，应该可以把第三次的一起合并起来，只要循环两次即可。但还没想到可以怎么做。
 
-### 脚注
-
 [^1]: 深拷贝出来的两个链表有3个特征：1. 原来的值全部拷贝；2. 保证拷贝后的链表和原来的链表不重叠（`return head`是不行的）；3. 原来的链表必须保持原样（删去原来链表一部分的行为是不行的）。
+
+#### 排序链表
+
+给好链表头结点，对链表进行排序
+
+##### 自顶向下归并排序
+
+找到链表的中点，以中点为分界，将链表拆分为两个子链表，对两个子链表进行排序，最后按照[上一道题](#合并两个有序链表)的方法合并链表。当然拆分过程可以递归实现
+
+```java
+class Solution {
+    public ListNode sortList(ListNode head) {
+        return sortList(head, null);
+    }
+
+    public ListNode sortList(ListNode head, ListNode tail) {
+        if (head == null) {
+            return head;
+        }
+        if (head.next == tail) {
+            head.next = null;
+            return head;
+        }
+        ListNode slow = head, fast = head;
+        while (fast != tail) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != tail) {
+                fast = fast.next;
+            }
+        }
+        ListNode mid = slow;
+        ListNode list1 = sortList(head, mid);
+        ListNode list2 = sortList(mid, tail);
+        ListNode sorted = merge(list1, list2);
+        return sorted;
+    }
+
+    public ListNode merge(ListNode head1, ListNode head2) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode temp = dummyHead, temp1 = head1, temp2 = head2;
+        while (temp1 != null && temp2 != null) {
+            if (temp1.val <= temp2.val) {
+                temp.next = temp1;
+                temp1 = temp1.next;
+            } else {
+                temp.next = temp2;
+                temp2 = temp2.next;
+            }
+            temp = temp.next;
+        }
+        if (temp1 != null) {
+            temp.next = temp1;
+        } else if (temp2 != null) {
+            temp.next = temp2;
+        }
+        return dummyHead.next;
+    }
+}
+```
+
+##### 自底向上归并排序
+
+1. 用`subLength`表示每次需要排序的子链表长度，初始时`subLength = 1`
+2. 每次将链表拆分成若干个长度为`subLength`的子链表，按照每两个子链表一组进行合并，[合并方法仍然是这个](#合并两个有序链表)
+3. 重复上面的步骤
+
+```java
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        int length = 0;
+        ListNode node = head;
+        while (node != null) {
+            length++;
+            node = node.next;
+        }
+        ListNode dummyHead = new ListNode(0, head);
+        for (int subLength = 1; subLength < length; subLength <<= 1) {
+            ListNode prev = dummyHead, curr = dummyHead.next;
+            while (curr != null) {
+                ListNode head1 = curr;
+                for (int i = 1; i < subLength && curr.next != null; i++) {
+                    curr = curr.next;
+                }
+                ListNode head2 = curr.next;
+                curr.next = null;
+                curr = head2;
+                for (int i = 1; i < subLength && curr != null && curr.next != null; i++) {
+                    curr = curr.next;
+                }
+                ListNode next = null;
+                if (curr != null) {
+                    next = curr.next;
+                    curr.next = null;
+                }
+                ListNode merged = merge(head1, head2);
+                prev.next = merged;
+                while (prev.next != null) {
+                    prev = prev.next;
+                }
+                curr = next;
+            }
+        }
+        return dummyHead.next;
+    }
+
+    public ListNode merge(ListNode head1, ListNode head2) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode temp = dummyHead, temp1 = head1, temp2 = head2;
+        while (temp1 != null && temp2 != null) {
+            if (temp1.val <= temp2.val) {
+                temp.next = temp1;
+                temp1 = temp1.next;
+            } else {
+                temp.next = temp2;
+                temp2 = temp2.next;
+            }
+            temp = temp.next;
+        }
+        if (temp1 != null) {
+            temp.next = temp1;
+        } else if (temp2 != null) {
+            temp.next = temp2;
+        }
+        return dummyHead.next;
+    }
+}
+```
+
+#### LRU缓存
+
+请你设计并实现一个满足 **LRU** (最近最少使用) 缓存约束的数据结构。
+实现 LRUCache 类：
+
+- `LRUCache(int capacity)` 以 **正整数** 作为容量 `capacity` 初始化 `LRU` 缓存
+- `int get(int key)` 如果关键字 `key` 存在于缓存中，则返回关键字的值，否则返回 `-1` 。
+- `void put(int key, int value)` 如果关键字 `key` 已经存在，则变更其数据值 value ；如果不存在，则向缓存中插入该组 `key-value` 。如果插入操作导致关键字数量超过 `capacity` ，则应该 **逐出** 最久未使用的关键字。
+
+函数 `get` 和 `put` 必须以 $O(1)$ 的平均时间复杂度运行。
+
+{% note info %}
+难点是必需要在$O(1)$时间复杂度做好`get`和`put`操作。这就要求不能用数组之类的结构了，使用双向链表明显是最便捷的：用链表的位置表明最近的使用情况。当达到容量大小时直接删除末位的链表即可。而链表的查找可以交给哈希表解决。
+但这又导致了新的问题。当进行`get`或`put`操作时，该缓存块被使用，因此需要把该节点运到头节点处，这也是最难办的部分。
+
+此处将其分为两个部分：要么尾部没有节点，要么尾部有节点。
+在某节点需要前移的时候
+
+```mermaid
+graph LR
+subgraph g1[尾部有节点]
+h1[H]
+one1[1]
+two1[2]
+three[3]
+end
+h1-->one1-->two1-->three-->two1-->one1-->h1
+subgraph g2[尾部为null]
+h2[H]
+one2[1]
+two2[2]
+null[null]
+end
+h2-->one2-->two2-->null
+two2-->one2-->h2
+```
+
+{% endnote %}
+
+#### 合并K个排序链表
+
+给你一个链表数组，每个链表都已经按升序排列。
+请你将所有链表合并到一个升序链表中，返回合并后的链表。
+
+以[前面的题目为基础](#合并两个有序链表)，可以一个个链表合并。更快的办法是用分治的办法进行合并。在第一轮合并后，$k$个链表被合并为了$k/2$和链表，以此类推，直到只剩一条
+
+![图例](6f70a6649d2192cf32af68500915d84b476aa34ec899f98766c038fc9cc54662-image.png)
+
+```java
+class Solution {
+    class Status implements Comparable<Status> {
+        int val;
+        ListNode ptr;
+
+        Status(int val, ListNode ptr) {
+            this.val = val;
+            this.ptr = ptr;
+        }
+
+        public int compareTo(Status status2) {
+            return this.val - status2.val;
+        }
+    }
+
+    PriorityQueue<Status> queue = new PriorityQueue<Status>();
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        for (ListNode node: lists)
+            if (node != null)
+                queue.offer(new Status(node.val, node));
+        ListNode head = new ListNode(0);
+        ListNode tail = head;
+        while (!queue.isEmpty()) {
+            Status f = queue.poll();
+            tail.next = f.ptr;
+            tail = tail.next;
+            if (f.ptr.next != null)
+                queue.offer(new Status(f.ptr.next.val, f.ptr.next));
+        }
+        return head.next;
+    }
+}
+```
+

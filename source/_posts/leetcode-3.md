@@ -805,7 +805,7 @@ inorder = [4, 5, 8, 10, 9, 3, 15, 20, 7]
 我们依次枚举前序遍历中除了第一个节点以外的每个节点。若指针恰好指向栈顶，那么我们不断地弹出栈顶节点并向右移动指针，并将当前节点作为最后一个弹出节点的右儿子。若指针和栈顶节点不同，我们将当前节点作为栈顶节点的右儿子。
 无论哪一种情况，我们最后都将当前的节点入栈。
 
-#### 路径总和
+#### 路径总和III
 
 给定一个二叉树根节点`root`，和一个整数 `targetSum` ，求该二叉树里节点值之和等于 `targetSum` 的 **路径** 的数目。
 **路径** 不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。
@@ -899,3 +899,371 @@ class Solution {
 `curr - targetSum = 15 - 8 = 7`
 
 查找前缀和为7的出现次数，若结果为2，则说明存在2个不同的祖先节点，`节点->当前节点`的路径和为8。
+
+#### 二叉树的最近公共祖先
+
+给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+
+示例：
+![示例](./leetcode-3/binarytree.png)
+    输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+    输出：3
+    解释：节点 5 和节点 1 的最近公共祖先是节点 3 。
+
+##### 递归
+
+遍历整棵二叉树，定义$f_x$表示$x$节点的子树是否包含$p$节点或$q$节点。需要最近公共祖先满足以下条件
+$$
+(f_{lson} \cap f_{rson}) \cup ((x=p\cup x=q)\cap (f_{lson}\cup f_{rson}))
+$$
+
+{% note success %}
+也就是说，需要这个节点
+
+- 同时有左右孩子，并且两个子树上都有要求的节点
+- 自己本身等于一个值，并且有一个子树上有要求的节点
+
+{% endnote %}
+
+```java
+class Solution {
+
+    private TreeNode ans;
+
+    public Solution() {
+        this.ans = null;
+    }
+
+    private boolean dfs(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) return false;
+        boolean lson = dfs(root.left, p, q);
+        boolean rson = dfs(root.right, p, q);
+        if ((lson && rson) || ((root.val == p.val || root.val == q.val) && (lson || rson)))
+            ans = root;
+        return lson || rson || (root.val == p.val || root.val == q.val);
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        this.dfs(root, p, q);
+        return this.ans;
+    }
+}
+```
+
+##### 存储父节点
+
+- 从根节点遍历整棵二叉树，用哈希表记录每个节点的父节点指针
+- 从$p$节点开始不断往它的祖先移动，并用数据结构记录已访问过的祖先节点
+- 对$q$同理，但是，若有祖先已经被访问过，那么返回这个节点
+
+```java
+class Solution {
+    Map<Integer, TreeNode> parent = new HashMap<Integer, TreeNode>();
+    Set<Integer> visited = new HashSet<Integer>();
+
+    public void dfs(TreeNode root) {
+        if (root.left != null) {
+            parent.put(root.left.val, root);
+            dfs(root.left);
+        }
+        if (root.right != null) {
+            parent.put(root.right.val, root);
+            dfs(root.right);
+        }
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        dfs(root);
+        while (p != null) {
+            visited.add(p.val);
+            p = parent.get(p.val);
+        }
+        while (q != null) {
+            if (visited.contains(q.val))
+                return q;
+            q = parent.get(q.val);
+        }
+        return null;
+    }
+}
+```
+
+#### 二叉树中最大的路径和
+
+二叉树中的 **路径** 被定义为一条节点序列，序列中每对相邻节点之间都存在一条边。同一个节点在一条路径序列中 至多出现一次 。该路径 **至少包含一个** 节点，且不一定经过根节点。**路径和** 是路径中各节点值的总和。给你一个二叉树的根节点 `root` ，返回其 **最大路径和** 。
+
+##### 递归
+
+考虑一个函数`maxGain(node)`，计算二叉树某个节点的最大贡献值，也就是说，以该节点为根节点的子树中，寻找以该节点为起点的一条路径，使得该路径上的节点之和最大。
+计算方式如下
+
+- 空姐点的最大贡献值为0
+- 非空节点的最大贡献值等于该节点与其子节点中的最大贡献值之和（叶节点则为节点值本身）
+
+对于以下子树
+
+```mermaid
+graph TD
+-10-->9
+-10-->20-->15
+20-->7
+```
+
+`9` `15` `7`的最大贡献值是其本身，`20`的贡献值为`20 + max(15,7) = 35`，节点`-10`的最大贡献值为`-10 + max(9,35) = 25`。
+计算完每个节点的最大贡献值后，某节点的最大路径和取决于该节点的值和这个节点的左右子节点的最大贡献值。若子节点的最大贡献值为正，那么就计入该节点的最大路径和。维护变量存贮最大路径和并不断更新
+
+```java
+class Solution {
+    int maxSum = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        maxGain(root);
+        return maxSum;
+    }
+
+    public int maxGain(TreeNode node) {
+        if (node == null)
+            return 0;
+        
+        int leftGain = Math.max(maxGain(node.left), 0);
+        int rightGain = Math.max(maxGain(node.right), 0);
+        int priceNewpath = node.val + leftGain + rightGain;
+        maxSum = Math.max(maxSum, priceNewpath);
+        return node.val + Math.max(leftGain, rightGain);
+    }
+}
+```
+
+### 堆
+
+#### 数组中第K个最大的元素
+
+给定整数数组 `nums` 和整数 `k`，请返回数组中第 `k` 个最大的元素。
+你必须设计并实现时间复杂度为 $O(n)$ 的算法解决此问题。
+
+##### 快排
+
+[有关快排的内容可以看这里](https://ivanclf.github.io/2024/12/30/data-structure-1/#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F)
+快排需要进行划分操作，而每次划分后，对于子数组`a[l...q-1]`中的每个元素，都小于`a[q]`，且`a[q]`小于`a[q+1...r]`中的每个元素，因此，只要某次划分的`q`为倒数第`k`个下标的时候，我们就找到了答案。
+因此在划分中，若划分的`q`恰好就是需要的数，就返回`a[q]`；若`q`比目标下标小，就递归右区间，否则递归左区间。
+
+```java
+class Solution {
+    int quickselect(int[] nums, int l, int r, int k) {
+        if (l == r) return nums[k];
+        int x = nums[l], i = l - 1, j = r + 1;
+        while (i < j) {
+            do i++; while (nums[i] < x);
+            do j--; while (nums[j] > x);
+            if (i < j){
+                int tmp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = tmp;
+            }
+        }
+        if (k <= j) return quickselect(nums, l, j, k);
+        else return quickselect(nums, j + 1, r, k);
+    }
+    public int findKthLargest(int[] _nums, int k) {
+        int n = _nums.length;
+        return quickselect(_nums, 0, n - 1, n - k);
+    }
+}
+```
+
+`quickselect()`函数中，第二第三个参数是数组的指定区间，最后一个参数为指定元素的索引。在入口函数`findKthLargest()`中，寻找的是第`k`大的元素在升序数组中的位置`n - k`。以最左元素`nums[l]`为基准，
+
+- 初始化指针`i = l - 1`和`j = r + 1`
+- 移动`i`直到找到不小于基准的元素，移动`j`直到找到不大于基准的元素
+- 交换`i`和`j`的元素，确保左侧元素不大于基准，右侧元素不小于基准
+
+这其实就是快排的过程。然后自然就是递归。但我们只需要找出对应元素即可，因此可以递归半边。若`k <= j`，说明目标在左半部分，只需递归左半部分即可，右边同理。
+平均时间复杂度为$O(n)$
+
+##### 堆排
+
+建立一个大根堆，做$k-1$次删除操作后堆顶的元素就是我们要找的答案。
+[有关堆排序的内容可以看这里](https://ivanclf.github.io/2024/12/30/data-structure-1/#%E5%A0%86%E6%8E%92%E5%BA%8F)
+大根堆中，每个节点的值都大于等于其节点的值。代码首先将数组重新排列成一个最大堆，然后每次我们拿走塔顶的数字（最大值），然后重新调整金字塔，让下一个最大的数字升到塔顶，重复K次后就是最后结果。
+
+```java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int heapSize = nums.length;
+        buildMaxHeap(nums, heapSize);
+        for (int i = nums.length - 1; i >= nums.length - k + 1; --i) {
+            swap(nums, 0, i);
+            --heapSize;
+            maxHeapify(nums, 0, heapSize);
+        }
+        return nums[0];
+    }
+
+    public void buildMaxHeap(int[] a, int heapSize) {
+        for (int i = heapSize / 2 - 1; i >= 0; --i)
+            maxHeapify(a, i, heapSize);
+    }
+
+    public void maxHeapify(int[] a, int i, int heapSize) {
+        int l = i * 2 + 1, r = i * 2 + 2, largest = i;
+        if (l < heapSize && a[l] > a[largest])
+            largest = l;
+        if (r < heapSize && a[r] > a[largest])
+            largest = r;
+        if (largest != i) {
+            swap(a, i, largest);
+            maxHeapify(a, largest, heapSize);
+        }
+    }
+
+    public void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+}
+```
+
+时间复杂度为$O(n \log n)$
+
+#### 前K个高频元素
+
+给你一个整数数组 `nums` 和一个整数 `k` ，请你返回其中出现频率前 `k` 高的元素。你可以按 **任意顺序** 返回答案。
+你所设计算法的时间复杂度 **必须** 优于 $O(n \log n)$ ，其中 `n` 是数组大小。
+
+##### 堆
+
+维护一个“出现次数数组”，建立一个小顶堆，然后给这个“出现次数数组”排序。
+
+- 若堆的元素个数小于k，就直接插入堆中
+- 若堆的元素个数等于k，就检查堆顶与当前出现次数的大小，堆顶值更小时就弹出堆顶，并将当前值插入堆中
+
+```java
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> occurrences = new HashMap<Integer, Integer>();
+        for (int num : nums)
+            occurrences.put(num, occurrences.getOrDefault(num, 0) + 1);
+
+        // int[] 的第一个元素代表数组的值，第二个元素代表了该值出现的次数
+        PriorityQueue<int[]> queue = new PriorityQueue<int[]>(new Comparator<int[]>() {
+            public int compare(int[] m, int[] n) {
+                return m[1] - n[1];
+            }
+        });
+        for (Map.Entry<Integer, Integer> entry : occurrences.entrySet()) {
+            int num = entry.getKey(), count = entry.getValue();
+            if (queue.size() == k)
+                if (queue.peek()[1] < count) {
+                    queue.poll();
+                    queue.offer(new int[]{num, count});
+                }
+            else
+                queue.offer(new int[]{num, count});
+        }
+        int[] ret = new int[k];
+        for (int i = 0; i < k; ++i)
+            ret[i] = queue.poll()[0];
+        return ret;
+    }
+}
+```
+
+{% note success %}
+`PriorityQueue`是一个优先队列，在Java中默认是一个小顶堆，中间的`Comparator<int[]>`是其优先级插队规则（按出现次数排序）
+`Map.Entry<Integer, Integer> entry`表示`Map`的一个键值对
+{% endnote %}
+
+##### 快排
+
+在进行划分时，根据k与左侧子数组的长度`q - i`的大小关系
+
+- 若`k <= q - i`，则数组`arr[i...r]`前k大的值就等于数组`arr[i...q - 1]`中前k大的值
+- 否则，数组`arr[i...r]`前k大的值，就等于左侧子数组的全部元素
+
+```java
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> occurrences = new HashMap<Integer, Integer>();
+        for (int num : nums)
+            occurrences.put(num, occurrences.getOrDefault(num, 0) + 1);
+        List<int[]> values = new ArrayList<int[]>();
+        for (Map.Entry<Integer, Integer> entry : occurrences.entrySet()) {
+            int num = entry.getKey(), count = entry.getValue();
+            values.add(new int[]{num, count});
+        }
+        int[] ret = new int[k];
+        qsort(values, 0, values.size() - 1, ret, 0, k);
+        return ret;
+    }
+
+    public void qsort(List<int[]> values, int start, int end, int[] ret, int retIndex, int k) {
+        int picked = (int) (Math.random() * (end - start + 1)) + start;
+        Collections.swap(values, picked, start);
+        
+        int pivot = values.get(start)[1];
+        int index = start;
+        for (int i = start + 1; i <= end; i++)
+            if (values.get(i)[1] >= pivot) {
+                Collections.swap(values, index + 1, i);
+                index++;
+            }
+        Collections.swap(values, start, index);
+
+        if (k <= index - start)
+            qsort(values, start, index - 1, ret, retIndex, k);
+        else {
+            for (int i = start; i <= index; i++)
+                ret[retIndex++] = values.get(i)[0];
+            if (k > index - start + 1)
+                qsort(values, index + 1, end, ret, retIndex, k - (index - start + 1));
+        }
+    }
+}
+```
+
+{% note success %}
+讽刺的是这两个官方题解都没过。
+{% endnote %}
+
+#### 数据流的中位数
+
+实现 `MedianFinder` 类:
+
+- `MedianFinder()` 初始化 `MedianFinder` 对象。
+- `void addNum(int num)` 将数据流中的整数 `num` 添加到数据结构中。
+- `double findMedian()` 返回到目前为止所有元素的中位数。与实际答案相差 $10^{-5}$ 以内的答案将被接受。
+
+用两个优先队列`queMax`和`queMin`来存比中位数小的数和大于等于中位数的数。
+当累计添加的数量为奇数时，`queMin`中的数量比`queMax`多一个，此时中位数为`queMin`的队头；为偶数时中位数为两个优先队列的平均数。特别地，当累计添加的数据为0时，先将数据加到小的那半。
+尝试添加一个数时，若数字小于`queMin`中的中位数，就将这个数添加到`queMin`中，否则加到`queMax`中。若两个堆的元素数量尽量平衡，若不平衡（相差超过1）就把多的那堆放一个数据到另一边。
+
+```java
+class MedianFinder {
+    PriorityQueue<Integer> queMin;
+    PriorityQueue<Integer> queMax;
+
+    public MedianFinder() {
+        queMin = new PriorityQueue<Integer>((a, b) -> (b - a));
+        queMax = new PriorityQueue<Integer>((a, b) -> (a - b));
+    }
+    
+    public void addNum(int num) {
+        if (queMin.isEmpty() || num <= queMin.peek()) {
+            queMin.offer(num);
+            if (queMax.size() + 1 < queMin.size())
+                queMax.offer(queMin.poll());
+        } else {
+            queMax.offer(num);
+            if (queMax.size() > queMin.size())
+                queMin.offer(queMax.poll());
+        }
+    }
+    
+    public double findMedian() {
+        if (queMin.size() > queMax.size())
+            return queMin.peek();
+        return (queMin.peek() + queMax.peek()) / 2.0;
+    }
+}
+```

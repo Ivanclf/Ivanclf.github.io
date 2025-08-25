@@ -54,7 +54,7 @@ tags: 速查
 |$\lceil$|`\lceil`|$\rceil$|`\rceil`|
 |$\subseteq$|`\subseteq`|$\cap$|`\cap`|
 |$\cup$|`\cup`|$\in$|`\in`|
-|$\forall$|`\forall`|$\exist$|`\exist`|
+|$\forall$|`\forall`|$\exists$|`\exists`|
 |$\infty$|`\infty`|||
 
 ### 公式示例

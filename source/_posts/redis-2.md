@@ -130,3 +130,165 @@ sequenceDiagram
 {% note info %}
 redis是用C语言写的，但也支持使用lua脚本语言执行批处理操作。在这个脚本中的操作redis保证实现原子性。
 {% endnote %}
+
+但是目前还存在四个问题
+
+1. 同一个线程无法多次获取同一把锁
+2. 目前获取锁只尝试一次就返回false，没有重试机制
+3. 若任务执行时间较长，会导致锁提前超时释放
+4. 在多集群redis中，主从的同步存在一定的延迟。当主机宕机时，可能锁会出现问题
+
+## Redisson
+
+[redisson官方网址](https://redisson.pro/)
+
+redisson在redis基础上提供了许多Java中许多分布式服务的实现，如各种分布式锁（可重入锁、公平锁、红锁、读写锁等等）。
+
+### Redisson可重入锁原理
+
+在redis中存入哈希类型，其中的`field`存储线程的标识、`value`部分存储重入的次数。
+
+加锁时，首先判断锁是否存在。若不存在，则获取锁并添加线程标示，设置过期时间并执行业务。
+若存在，则判断锁表示是不是自己的，若不是自己的则获取失败。
+是自己的，就将锁的计数加1，并重新设置锁的有效期，执行业务。
+
+解锁时，首先判断锁是不是自己的。若不是自己的，就说明锁已经释放过了，不用管了。
+若是自己的，则将锁的计数减1，最后判断计数是否为0。若不为0，则说明还要用，重置锁有效期，执行业务。
+若为0，说明已经用好了资源，可以释放锁了。
+
+流程图如下
+
+```mermaid
+graph TD
+    StartLock[开始加锁] --> CheckLockExist{锁是否存在?}
+    
+    CheckLockExist -->|不存在| AcquireLock[获取锁]
+    AcquireLock --> SetThreadId[添加线程标识]
+    SetThreadId --> SetExpire[设置过期时间]
+    SetExpire --> LockSuccess[加锁成功]
+    LockSuccess --> ExecuteBusiness[执行业务]
+    
+    CheckLockExist -->|存在| CheckOwner{锁标识是否自己的?}
+    CheckOwner -->|不是| LockFail[获取锁失败]
+    CheckOwner -->|是| IncreaseCount[锁计数加1]
+    IncreaseCount --> ResetExpireLock[重置锁有效期]
+    ResetExpireLock --> LockSuccess
+    
+    ExecuteBusiness --> StartUnlock[开始解锁]
+    
+    StartUnlock --> CheckOwnerUnlock{锁标识是否自己的?}
+    CheckOwnerUnlock -->|不是| Ignore[无需处理]
+    CheckOwnerUnlock -->|是| DecreaseCount[锁计数减1]
+    
+    DecreaseCount --> CheckCount{计数是否为0?}
+    CheckCount -->|不为0| ResetExpireUnlock[重置锁有效期]
+    CheckCount -->|为0| ReleaseLock[释放锁]
+    
+    ResetExpireUnlock --> UnlockSuccess[解锁完成]
+    ReleaseLock --> UnlockSuccess
+    Ignore --> UnlockSuccess
+    
+    UnlockSuccess --> End[结束]
+```
+
+### 锁重试与WatchDog机制
+
+注意：若写明了释放锁的时间，则不会触发看门狗机制。
+
+在redisson的`trylock()`方法中，在参数中设置等待时间（与释放锁时间）。在该方法运行时，除了获取等待时间，还需要获取当前时间与线程ID。若释放锁时间没有指定，则设为30秒。获取相关参数后开始尝试获取锁。尝试获取锁的操作与上文一致，即只有锁存在且不是自己的时候获取失败。若成功则返回`nil`。若获取锁失败，则返回锁的剩余有效期。后面执行判断，若剩余有效期为`null`则表示执行成功，返回`true`；反之则需要重试。
+
+重试时，先用当前时间减去获取锁前获得的当前时间，再用等待时间减去这个时间差，获取剩下的等待时间。剩余等待时间小于0则结束。大于0则再次获取当前时间。然后，使用`subscribe()`方法，“订阅”锁释放的消息，在有锁释放的时候再启动，或者在大于剩余等待时间时取消订阅并返回`false`。而在成功等到时，再次获取剩余等待时间，时间有剩余时尝试获取锁。
+
+若依然获取锁失败，则查看当前剩余时间，再次准备获取锁。但这次与上次不同，此次使用了信号量`getLatch()`方法，并且对剩余等待时间进行判定。取其他锁的剩余有效期与剩余等待时间的较小值作获取锁的等待时间。等好了再看看时间，若剩余等待时间不够了就返回`false`，足够则再重复该段操作。
+
+获取锁成功后，为了保证业务先于锁释放执行完，需要运行额外的机制。若抛异常则直接释放。获取锁成功时（即剩余有效期为`null`），执行过期时间更新的方法。
+
+该方法先往map中放入一个键值对（若不存在），键大致为锁的名称，值为一个独特的Entry对象。使用一个Entry获取插入的数据，若锁原先存在则为`null`，若不存在则为全新的Entry，以保证每一个锁拿到的是自己的Entry。原先存在时，只需要往Entry中放入ThreadId即可，等价为重入；原先不存在的情况下，除了要往Entry中放入ThreadId，还要更新有效时间。
+
+在更新操作中，先拿到Entry，然后设置一个定时任务，在释放时间参数的1/3（没有指定时为10s）后拿出Entry与线程ID，然后更新有效期，最后再调用自己，从而不断更新。老线程中由于一直在执行这个操作，就不用另行执行时间更新的方法了。
+
+而释放锁时，从map中拿出Entry，然后销毁线程ID，取消任务，最后销毁Entry本身，锁成功释放。
+
+总之，可以归纳为以下流程
+
+**加锁流程：**
+1. 调用tryLock()时，若指定释放时间则禁用看门狗，否则设为30秒
+2. 尝试获取锁：锁不存在或为自己所有则成功，否则失败返回剩余有效期
+3. 获取失败时进行重试：计算剩余等待时间，订阅锁释放消息，使用信号量等待
+4. 成功后在map中创建/更新Entry对象管理锁状态
+5. 未指定释放时间时启动看门狗：每10秒自动续期，防止业务未完成锁过期
+
+**解锁流程：**
+1. 从map中获取Entry，移除线程ID
+2. 取消看门狗定时任务
+3. 销毁Entry，释放锁资源
+
+{% note info %}
+反反复复折腾有效期，为什么不直接不设置有效期呢？这个主要是防止服务器宕机时锁还没释放，导致服务器重启时发生各种问题。
+{% endnote %}
+
+总结此处上方获取可重入锁的机制，可以做出如下的流程图
+
+```mermaid
+graph TD
+    Start[调用tryLock] --> CheckLeaseTime{是否指定释放时间?}
+    
+    CheckLeaseTime -->|是| DisableWatchdog[禁用看门狗机制]
+    CheckLeaseTime -->|否| SetDefaultLease[设置默认30秒释放时间]
+    
+    DisableWatchdog --> TryAcquireLock
+    SetDefaultLease --> TryAcquireLock
+    
+    subgraph 尝试获取锁
+        TryAcquireLock{锁状态判断} -->|不存在| CreateLock[创建锁并设置线程ID]
+        TryAcquireLock -->|存在且为自己| ReentrantLock[重入: 计数+1]
+        TryAcquireLock -->|存在且为他人| ReturnTTL[返回剩余有效期]
+        
+        CreateLock --> SetExpireTime[设置过期时间]
+        ReentrantLock --> ResetExpire[重置过期时间]
+        SetExpireTime --> AcquireSuccess[获取成功]
+        ResetExpire --> AcquireSuccess
+    end
+    
+    ReturnTTL --> CheckWaitTime{剩余等待时间>0?}
+    CheckWaitTime -->|否| ReturnFalse[返回false]
+    CheckWaitTime -->|是| Subscribe[订阅锁释放消息]
+    
+    Subscribe --> WaitNotification[等待通知/超时]
+    WaitNotification --> Retry[重新尝试获取锁]
+    Retry --> TryAcquireLock
+    
+    AcquireSuccess --> InitWatchdog{是否禁用看门狗?}
+    InitWatchdog -->|否| StartWatchdog[启动看门狗定时任务: 每10秒续期]
+    InitWatchdog -->|是| SkipWatchdog[跳过看门狗初始化]
+    
+    StartWatchdog --> UpdateEntry
+    SkipWatchdog --> UpdateEntry
+    
+    subgraph 锁状态管理
+        UpdateEntry[创建/更新Map中的Entry] --> CheckExisting{Entry是否存在?}
+        CheckExisting -->|否| CreateNewEntry[创建新Entry+线程ID]
+        CheckExisting -->|是| UpdateExisting[更新现有Entry+线程ID]
+        CreateNewEntry --> ScheduleRenewal[安排定时续期任务]
+        UpdateExisting --> OnlyIncrement[仅增加重入计数]
+    end
+    
+    ScheduleRenewal --> BusinessLogic[执行业务逻辑]
+    OnlyIncrement --> BusinessLogic
+    
+    BusinessLogic --> UnlockProcess[开始解锁]
+    
+    subgraph 解锁过程
+        UnlockProcess --> GetEntry[获取Map中的Entry]
+        GetEntry --> RemoveThreadID[移除线程ID]
+        RemoveThreadID --> CancelWatchdog[取消看门狗任务]
+        CancelWatchdog --> DestroyEntry[销毁Entry]
+        DestroyEntry --> ReleaseSuccess[锁释放成功]
+    end
+```
+
+### 主从一致性
+
+什么是redis主从呢？是设置多个redis节点，一个为主节点，其他的为从节点。主节点处理所有写操作，从节点处理所有读操作，主节点会不断把数据同步到从节点。若主节点宕机，则将一个从节点转化为主节点。但不同机子之间毕竟存在延迟，就可能存在不一致的问题。要是Java应用设置了锁，还没同步到从节点，主节点就宕机了，又应该如何解决呢？
+
+redisson的解决方案比较暴力，就是将所有的redis节点都做读写，不做主从分别，主从设置在每一个节点直接做。换句话说，就是搞多个主从集群。Java应用设置锁则将所有节点加锁，反之亦然。这种多个锁的方法称为`multilock`（联锁）。

@@ -4,3 +4,4 @@ node_modules/
 public/
 indexForFluid/
 deploy.sh
+.deploy_git/

@@ -19,25 +19,22 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="使用spring或者json进行相关配置的时候，需要先将其变成maven依赖的工程文件。以下是在IDEA编辑器将普通工程文件添加到maven依赖的方法。 下载与配置下载地址 然后和往常一样，添加环境变量  在IDEA中创建maven项目              其实，如果要创建spring项目的话，最好是找网站spring initializer">
+    <meta name="description" content="阻塞队列在抢单业务中，同一时间内会有大量的请求，但MySQL中的写速度总是有限的，因此就需要通过读写分离来提高响应速度。优化的内容在第二篇中已经提到过，此处主要是读写不均衡下队列的一种实现方式。 阻塞队列与其他队列不一样的地方在于，当队列为空时，若一个线程试图从队列中取出元素，那么这个操作将被阻塞，直到有元素被放入为止；当队列为满时，若一个线程试图向队列中放入元素，那么这个操作也会被阻塞，直到有元">
 <meta property="og:type" content="article">
-<meta property="og:title" content="maven的下载">
-<meta property="og:url" content="https://ivanclf.github.io/2024/05/15/maven/index.html">
+<meta property="og:title" content="高并发下的缓存策略 - 3">
+<meta property="og:url" content="https://ivanclf.github.io/2025/09/25/redis-3/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="使用spring或者json进行相关配置的时候，需要先将其变成maven依赖的工程文件。以下是在IDEA编辑器将普通工程文件添加到maven依赖的方法。 下载与配置下载地址 然后和往常一样，添加环境变量  在IDEA中创建maven项目              其实，如果要创建spring项目的话，最好是找网站spring initializer">
+<meta property="og:description" content="阻塞队列在抢单业务中，同一时间内会有大量的请求，但MySQL中的写速度总是有限的，因此就需要通过读写分离来提高响应速度。优化的内容在第二篇中已经提到过，此处主要是读写不均衡下队列的一种实现方式。 阻塞队列与其他队列不一样的地方在于，当队列为空时，若一个线程试图从队列中取出元素，那么这个操作将被阻塞，直到有元素被放入为止；当队列为满时，若一个线程试图向队列中放入元素，那么这个操作也会被阻塞，直到有元">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ivanclf.github.io/2024/05/15/maven/maven_1.png">
-<meta property="og:image" content="https://ivanclf.github.io/2024/05/15/maven/maven_2.png">
-<meta property="article:published_time" content="2024-05-15T13:51:09.000Z">
-<meta property="article:modified_time" content="2025-08-13T15:13:09.739Z">
+<meta property="article:published_time" content="2025-09-25T12:08:52.000Z">
+<meta property="article:modified_time" content="2025-09-26T00:37:22.320Z">
 <meta property="article:author" content="Ivan Chan">
-<meta property="article:tag" content="碎片知识">
+<meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://ivanclf.github.io/2024/05/15/maven/maven_1.png">
   
   
   
-  <title>maven的下载 - Ivan的博客</title>
+  <title>高并发下的缓存策略 - 3 - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +212,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="maven的下载"></span>
+            <span id="subtitle" data-typed-text="高并发下的缓存策略 - 3"></span>
           
         </div>
 
@@ -226,8 +223,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-15 21:51" pubdate>
-          2024年5月15日 晚上
+        <time datetime="2025-09-25 20:08" pubdate>
+          2025年9月25日 晚上
         </time>
       </span>
     
@@ -238,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          100 字
+          1k 字
         
       </span>
     
@@ -281,19 +278,30 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">maven的下载</h1>
+            <h1 id="seo-header">高并发下的缓存策略 - 3</h1>
             
             
               <div class="markdown-body">
                 
-                <p>使用spring或者json进行相关配置的时候，需要先将其变成maven依赖的工程文件。以下是在IDEA编辑器将普通工程文件添加到maven依赖的方法。</p>
-<h3 id="下载与配置"><a href="#下载与配置" class="headerlink" title="下载与配置"></a>下载与配置</h3><p><a target="_blank" rel="noopener" href="https://maven.apache.org/download.cgi">下载地址</a></p>
-<p>然后和往常一样，添加环境变量</p>
-<p><img src="maven_1.png" srcset="/img/loading.gif" lazyload alt="最后效果"></p>
-<h3 id="在IDEA中创建maven项目"><a href="#在IDEA中创建maven项目" class="headerlink" title="在IDEA中创建maven项目"></a>在IDEA中创建maven项目</h3><p><img src="maven_2.png" srcset="/img/loading.gif" lazyload alt="在IDEA中创建maven项目"></p>
-<div class="note note-info">
-            <p>其实，如果要创建spring项目的话，最好是找网站<a target="_blank" rel="noopener" href="https://start.spring.io/">spring initializer</a></p>
-          </div>
+                <h2 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h2><p>在抢单业务中，同一时间内会有大量的请求，但MySQL中的写速度总是有限的，因此就需要通过读写分离来提高响应速度。优化的内容在第二篇中已经提到过，此处主要是读写不均衡下队列的一种实现方式。</p>
+<p>阻塞队列与其他队列不一样的地方在于，当队列为空时，若一个线程试图从队列中取出元素，那么这个操作将被<strong>阻塞</strong>，直到有元素被放入为止；当队列为满时，若一个线程试图向队列中放入元素，那么这个操作也会被阻塞，直到有元素被取出为止。也就是说，阻塞队列是一种更加智能的生产-消费者模型。</p>
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p>阻塞队列也存在问题，例如超过上限时处理速度仍然较慢，而且由于没有持久化，阻塞队列中容易出现安全问题。使用消息队列就容易解决这些问题。消息队列仍然是一种更智能的生产-消费者模型。在redis中，可以通过stream类型实现消息队列的功能。当然，更常用的还是Rabbit MQ。</p>
+<h2 id="Feed流的实现方案"><a href="#Feed流的实现方案" class="headerlink" title="Feed流的实现方案"></a>Feed流的实现方案</h2><p>Feed流可以为用户持续提供的“沉浸式”体验，通过无限下拉刷新获取信息。而Feed流产品有两种实现方式，一种是不做内容筛选，简单的按照内容发布时间排序，常用于好友或关注。如关注栏和朋友圈等；而另一种则是利用智能算法屏蔽掉用户不感兴趣的内容，推送用户感兴趣的内容来吸引用户。</p>
+<p>对于其中的第一种实现方式，有3种不同的解决方案</p>
+<ul>
+<li><p>拉模式<br>  拉模式也叫做读扩散。每个内容发布者准备一个发件箱，内容发布者在发布内容时，将内容和时间戳一起放到发件箱内。普通用户有一个收件箱。收件箱平时为空，只有在普通用户需要观看时才将所有人的发件箱消息全部拉到收件箱里去，并按时间顺序排列。<br>  由于收件箱是一次性的，因此该方法能节省内存。但是由于每一次读取时都要重新找发件箱内的消息，所以读取速度较慢。</p>
+</li>
+<li><p>推模式<br>  推模式也叫做写扩散。与拉模式不同，每个普通用户准备一个收件箱。内容发布者向关注他的所有粉丝的收件箱。<br>  一份消息需要储存多次，因此内存消耗较大。但用户直接打开收件箱即可，因此读取速度较快。因此适用于用户量较少，没有大V的应用。</p>
+</li>
+<li><p>推拉结合<br>  空间与时间总是不能兼容，因此需要在二者之中进行取舍。内容发布者都有发件箱，普通用户都有收件箱。对粉丝少的内容发布者使用推模式，对粉丝多的内容发布者，对活跃粉丝使用推模式，对僵尸粉使用拉模式。适合超千万的用户量，大V云集的应用。</p>
+</li>
+</ul>
+<h2 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h2><p>对日活量的统计可以分为两个统计指标</p>
+<ul>
+<li><strong>UV</strong> (Unique Visitor): 独立访客量，通过互联网访问、浏览这个网页的人。一天内同一个用户多次访问该网站，只记录一次。</li>
+<li><strong>PV</strong> (Page View): 页面访问量，用户每访问一个页面就记录一次，访问多次就记录多次。</li>
+</ul>
+<p>因为对用户的统计信息需要存储，因此这种统计在服务器段做会比较麻烦，就是在redis中进行缓存，数据量也会很恐怖。因此对于UV统计，常用的方法是使用redis内置的HyperLogLog功能，该功能能确定非常大的集合的基数，但统计会有误差，误差为小于0.81%。</p>
 
                 
               </div>
@@ -302,11 +310,32 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/web/" class="category-chain-item">web</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="../../../../tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
+        <a href="../../../../tags/java/" class="print-no-link">#java</a>
       
     </div>
   
@@ -318,8 +347,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>maven的下载</div>
-      <div>https://ivanclf.github.io/2024/05/15/maven/</div>
+      <div>高并发下的缓存策略 - 3</div>
+      <div>https://ivanclf.github.io/2025/09/25/redis-3/</div>
     </div>
     <div class="license-meta">
       
@@ -331,7 +360,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月15日</div>
+          <div>2025年9月25日</div>
         </div>
       
       
@@ -363,9 +392,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="../../../08/01/internet-1/" title="计网协议杂记">
+                      <a href="../../26/java/" title="java高级特性">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">计网协议杂记</span>
+                        <span class="hidden-mobile">java高级特性</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -373,8 +402,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="../git-use/" title="git-use">
-                        <span class="hidden-mobile">git-use</span>
+                      <a href="../../24/redis-2/" title="高并发下的缓存策略 - 2">
+                        <span class="hidden-mobile">高并发下的缓存策略 - 2</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

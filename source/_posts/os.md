@@ -2,6 +2,7 @@
 title: Processes and Threads - Modern Operating System
 date: 2025-05-14 12:09:46
 tags: [日常,复习]
+category: OS
 ---
 
 {% note success %}

@@ -1,9 +1,11 @@
 ---
-title: java高级特性
+title: Java高级特性
 date: 2025-09-26 08:40:25
 tags: [java]
 category: web
 ---
+
+[参考文献](https://javabetter.cn/sidebar/sanfene/javase.html)
 
 ## 面向对象，多态
 

@@ -2,6 +2,7 @@
 title: vue-3的使用
 date: 2025-03-14 11:15:18
 tags: [前端,vue,JavaScript]
+category: web
 ---
 
 ## JavaScript概要

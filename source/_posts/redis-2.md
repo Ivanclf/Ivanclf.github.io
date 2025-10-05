@@ -39,14 +39,32 @@ sequenceDiagram
 sequenceDiagram
     participant t1 as Thread1
     participant t2 as Thread2
+    participant t3 as Thread3
 
-    t1->>t1: storage: 1 version: 1
-    t2->>t2: storage: 1 version: 1
-    t1->>t1: storage > 0 & version = 1 ? success : failed
-    t1->>t1: success, storage = 0, version = 2
-    t2->>t2: storage > 0 & version = 1 ? success : failed
-    t2->>t2: failed, storage = 0, version = 2
+    Note over t1, t3: 初始状态: storage=1
+
+    par 并发检查
+        t1->>t1: 检查storage，剩余: 1
+    and
+        t2->>t2: 检查storage，剩余: 1
+    and
+        t3->>t3: 检查storage，剩余: 1
+    end
+
+    par 并发更新(存在竞态条件)
+        t1->>t1: 操作成功，剩余: 0
+    and
+        t2->>t2: 操作成功，剩余: -1
+    and
+        t3->>t3: 操作成功，剩余: -2
+    end
+
+    Note over t1, t3: 最终状态不一致<br/>出现数据竞争问题
 ```
+
+{% note info %}
+除了ABA这个最经典的问题，在高并发场景下，CAS操作可能会频繁失败，导致线程不断重试，增加CPU开销。可以加一个自选次数的限制，超过次数就升级锁。
+{% endnote %}
 
 而在实际操作中，后一次version的判断往往在MySQL中进行，这样就保证了判断相等与改变数据的原子性——其实就是把应该原子化操作的部分扔给MySQL完成了。上图的示例演示了优惠券刚好减到0的状况，如果不是0，没抢到关键区的线程还需要再重试。
 
@@ -151,16 +169,16 @@ c[查询订单]
 d[校验一人一单]
 e[减库存]
 f[创建订单]
-    subgraph redis
-    A[判断秒杀库存]-->B[校验一人一单]
+    subgraph r[redis]
+        A[判断秒杀库存]-->B[校验一人一单]
     end
-    B-->C[记录相关信息，存储到队列里]
-    C-->|返回订单ID|D[用户]
-    D-->|抢单|C
-    subgraph tomcat
-    a-->b-->c-->d-->e-->f
+        B-->C[记录相关信息，存储到队列里]
+        C-->|返回订单ID|D[用户]
+        D-->|抢单|C
+    subgraph t[tomcat]
+        a-->b-->c-->d-->e-->f
     end
-    tomcat-...->|读取队列信息，并进行相关操作|C
+    t-->|读取队列信息，并进行相关操作|C
 ```
 
 因此需要把库存信息和已经拿到优惠券的用户存到redis里，原子性操作也能通过lua脚本统一写好。

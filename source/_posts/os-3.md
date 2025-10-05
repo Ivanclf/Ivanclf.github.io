@@ -2,6 +2,7 @@
 title: File Systems and I/O - Modern Operating System
 date: 2025-05-27 14:31:42
 tags: [日常,复习]
+category: OS
 ---
 
 ## Files

@@ -1,7 +1,7 @@
 ---
 title: 面向对象 - 运作逻辑
 date: 2024-04-26 19:46:44
-tags: [Java, 面向对象, cpp]
+tags: [java, 面向对象, cpp]
 ---
 
 ## Java

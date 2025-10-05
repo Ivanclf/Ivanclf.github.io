@@ -27,7 +27,7 @@
 <meta property="og:description" content="超卖问题与一人一单以下以优惠券（或者理解成门票也行）的抢购为例，列举并解决高并发下各种可能发生的情况。 优惠券的抢购规则如下：提供N张优惠券，在指定时间内可以进行抢购，一人只能抢一张，抢完为止。在一般的服务器中，该需求执行流程如下  向数据库查询用户是否抢到过了，抢到过就报错。 向数据库查询是否还有库存，没有就报错。 没问题就返回成功信息。  sequenceDiagram     partici">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-24T03:14:34.000Z">
-<meta property="article:modified_time" content="2025-09-26T00:37:14.895Z">
+<meta property="article:modified_time" content="2025-10-05T17:03:20.778Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.7k 字
+          3.8k 字
         
       </span>
     
@@ -309,14 +309,32 @@
 <pre><code class=" mermaid">sequenceDiagram
     participant t1 as Thread1
     participant t2 as Thread2
+    participant t3 as Thread3
 
-    t1-&gt;&gt;t1: storage: 1 version: 1
-    t2-&gt;&gt;t2: storage: 1 version: 1
-    t1-&gt;&gt;t1: storage &gt; 0 &amp; version = 1 ? success : failed
-    t1-&gt;&gt;t1: success, storage = 0, version = 2
-    t2-&gt;&gt;t2: storage &gt; 0 &amp; version = 1 ? success : failed
-    t2-&gt;&gt;t2: failed, storage = 0, version = 2
+    Note over t1, t3: 初始状态: storage=1
+
+    par 并发检查
+        t1-&gt;&gt;t1: 检查storage，剩余: 1
+    and
+        t2-&gt;&gt;t2: 检查storage，剩余: 1
+    and
+        t3-&gt;&gt;t3: 检查storage，剩余: 1
+    end
+
+    par 并发更新(存在竞态条件)
+        t1-&gt;&gt;t1: 操作成功，剩余: 0
+    and
+        t2-&gt;&gt;t2: 操作成功，剩余: -1
+    and
+        t3-&gt;&gt;t3: 操作成功，剩余: -2
+    end
+
+    Note over t1, t3: 最终状态不一致&lt;br/&gt;出现数据竞争问题
 </code></pre>
+
+<div class="note note-info">
+            <p>除了ABA这个最经典的问题，在高并发场景下，CAS操作可能会频繁失败，导致线程不断重试，增加CPU开销。可以加一个自选次数的限制，超过次数就升级锁。</p>
+          </div>
 
 <p>而在实际操作中，后一次version的判断往往在MySQL中进行，这样就保证了判断相等与改变数据的原子性——其实就是把应该原子化操作的部分扔给MySQL完成了。上图的示例演示了优惠券刚好减到0的状况，如果不是0，没抢到关键区的线程还需要再重试。</p>
 <p>对于一人一单问题，如果单纯加一层判断，那么就可能出现和上面超卖问题中类似的问题</p>
@@ -400,16 +418,16 @@ c[查询订单]
 d[校验一人一单]
 e[减库存]
 f[创建订单]
-    subgraph redis
-    A[判断秒杀库存]--&gt;B[校验一人一单]
+    subgraph r[redis]
+        A[判断秒杀库存]--&gt;B[校验一人一单]
     end
-    B--&gt;C[记录相关信息，存储到队列里]
-    C--&gt;|返回订单ID|D[用户]
-    D--&gt;|抢单|C
-    subgraph tomcat
-    a--&gt;b--&gt;c--&gt;d--&gt;e--&gt;f
+        B--&gt;C[记录相关信息，存储到队列里]
+        C--&gt;|返回订单ID|D[用户]
+        D--&gt;|抢单|C
+    subgraph t[tomcat]
+        a--&gt;b--&gt;c--&gt;d--&gt;e--&gt;f
     end
-    tomcat-...-&gt;|读取队列信息，并进行相关操作|C
+    t--&gt;|读取队列信息，并进行相关操作|C
 </code></pre>
 
 <p>因此需要把库存信息和已经拿到优惠券的用户存到redis里，原子性操作也能通过lua脚本统一写好。</p>

@@ -290,6 +290,13 @@ class DataQueryExample {
 
 线程池是用来管理和复用线程的工具，可以提高系统的性能和资源利用率。Java 中线程池的核心实现为`ThreadPoolExecutor`，并提供了 `Executor` 框架来简化线程池的创建和管理。
 
+在创建线程时可以显式指定线程组
+```java
+public Thread(ThreadGroup group, Runnable target);
+public Thread(ThreadGroup group, String name);
+public Thread(ThreadGroup group, Runnable target, String name);
+```
+
 其工作流程如下
 
 1. 线程池通过`submit()`或`execute()`方法接收任务。

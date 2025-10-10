@@ -7,6 +7,13 @@ category: web
 
 [参考文献](https://javabetter.cn/sidebar/sanfene/javase.html)
 
+{% note success %}
+- JVM: Java Virtual Machine
+- JRE: Java Runtime Environment
+- JDK: Java Development Kit
+
+{% endnote %}
+
 ## 面向对象，多态
 
 多态就是“同一个行为，不同对象有不同的实现方式”。对于同一个方法，在同一父类下的不同子类都会有不同的反应。编译时，编译器只认某个变量的类型为其父类，只要父类中有这个方法，代码就能通过。而在运行时，jvm会查看变量指向的对象实际是什么，再调用真正的方法。这叫“动态绑定”或“运行时多态”。而在重写方法时，子类会复制一份父类的方法到自己的虚方法中。在调用方法时，若子类实现了该方法，则直接调用；反之调用指针指向的父类方法。

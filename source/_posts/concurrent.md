@@ -34,7 +34,7 @@ class ThreadTask extends Thread {
 
 该方法的缺点是如果`ThreadTask`已经继承了另外一个类，就不能再继承`Thread`类了。
 
-第二种是重写`Runnable`接口的`run()`方法。并将实现类的对象作为参数传递给`Thread`对象的构造方法，最后调用`start()`方法启动线程。
+第二种是实现`Runnable`接口的`run()`方法。并将实现类的对象作为参数传递给`Thread`对象的构造方法，最后调用`start()`方法启动线程。
 
 ```java
 class RunnableTask implements Runnable {
@@ -318,9 +318,7 @@ public class Singleton {
 `ThreadLocalMap`是`ThreadLocal`类的一个内部类，它是一个哈希表，用于存储每个线程的`ThreadLocal`变量及其对应的值。`ThreadLocalMap`的键是`ThreadLocal`对象，值是对应的变量值。键值对继承了弱引用的特性，当`ThreadLocal`对象不再被引用时，垃圾回收器可以回收它，从而避免内存泄漏。
 
 {% note info %}
-弱引用和强引用有什么区别？
-- 强引用是指在程序中普遍存在的引用，只要强引用还存在，垃圾回收器就不会回收被引用的对象。如`User user = new User();`中的`user`就是一个强引用。
-- 弱引用是指在垃圾回收器进行回收时，弱引用的对象可以被回收，即使它还被引用着。弱引用通常用于实现一些缓存机制。`ThreadLocalMap`中的键就是弱引用。
+强引用与弱引用的区别详见jvm篇。
 {% endnote %}
 
 `ThreadLocalMap`的key是弱引用，但value是强引用，因此如果不手动调用`remove()`方法，value会一直存在，导致内存泄漏。因此需要在不需要使用`ThreadLocal`变量时，调用`remove()`方法来清除当前线程的局部变量值。`remove()`方法会调用`ThreadLocalMap`的`remove()`方法，删除当前线程的`ThreadLocal`变量及其对应的值。

@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/29/concurrent/status.png">
 <meta property="article:published_time" content="2025-09-29T07:47:15.000Z">
-<meta property="article:modified_time" content="2025-10-05T16:58:34.721Z">
+<meta property="article:modified_time" content="2025-10-06T18:13:24.540Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -237,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.7k 字
+          3.5k 字
         
       </span>
     
@@ -295,7 +295,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ThreadTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Thread</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// Task...</span><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">ThreadTask</span> <span class="hljs-variable">task</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadTask</span>();<br>        task.start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>该方法的缺点是如果<code>ThreadTask</code>已经继承了另外一个类，就不能再继承<code>Thread</code>类了。</p>
-<p>第二种是重写<code>Runnable</code>接口的<code>run()</code>方法。并将实现类的对象作为参数传递给<code>Thread</code>对象的构造方法，最后调用<code>start()</code>方法启动线程。</p>
+<p>第二种是实现<code>Runnable</code>接口的<code>run()</code>方法。并将实现类的对象作为参数传递给<code>Thread</code>对象的构造方法，最后调用<code>start()</code>方法启动线程。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">RunnableTask</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// Task...</span><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">RunnableTask</span> <span class="hljs-variable">task</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RunnableTask</span>();<br>        <span class="hljs-type">Thread</span> <span class="hljs-variable">thread</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(task);<br>        thread.start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>第三种需要重写<code>Callable</code>接口的<code>call()</code>方法，然后创建<code>FutureTask</code>对象，参数为<code>Callable</code>实现类的对象，紧接着创建<code>Thread</code>对象，参数为<code>FutureTask</code>对象，然后调用<code>start()</code>方法启动线程。</p>
@@ -403,7 +403,7 @@
 <p>当我们创建一个<code>ThreadLocal</code>变量时，实际上是为每个线程创建了一个独立的副本，这些副本存储在每个线程的<code>ThreadLocalMap</code>中。</p>
 <p><code>ThreadLocalMap</code>是<code>ThreadLocal</code>类的一个内部类，它是一个哈希表，用于存储每个线程的<code>ThreadLocal</code>变量及其对应的值。<code>ThreadLocalMap</code>的键是<code>ThreadLocal</code>对象，值是对应的变量值。键值对继承了弱引用的特性，当<code>ThreadLocal</code>对象不再被引用时，垃圾回收器可以回收它，从而避免内存泄漏。</p>
 <div class="note note-info">
-            <p>弱引用和强引用有什么区别？</p><ul><li>强引用是指在程序中普遍存在的引用，只要强引用还存在，垃圾回收器就不会回收被引用的对象。如<code>User user = new User();</code>中的<code>user</code>就是一个强引用。</li><li>弱引用是指在垃圾回收器进行回收时，弱引用的对象可以被回收，即使它还被引用着。弱引用通常用于实现一些缓存机制。<code>ThreadLocalMap</code>中的键就是弱引用。</li></ul>
+            <p>强引用与弱引用的区别详见jvm篇。</p>
           </div>
 
 <p><code>ThreadLocalMap</code>的key是弱引用，但value是强引用，因此如果不手动调用<code>remove()</code>方法，value会一直存在，导致内存泄漏。因此需要在不需要使用<code>ThreadLocal</code>变量时，调用<code>remove()</code>方法来清除当前线程的局部变量值。<code>remove()</code>方法会调用<code>ThreadLocalMap</code>的<code>remove()</code>方法，删除当前线程的<code>ThreadLocal</code>变量及其对应的值。</p>

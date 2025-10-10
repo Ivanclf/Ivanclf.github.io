@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/concurrenthashmap1.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/concurrenthashmap2.jpg">
 <meta property="article:published_time" content="2025-09-28T12:52:13.000Z">
-<meta property="article:modified_time" content="2025-10-05T12:22:32.075Z">
+<meta property="article:modified_time" content="2025-10-06T16:46:01.408Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -241,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.4k 字
+          3.3k 字
         
       </span>
     
@@ -320,7 +320,7 @@
 <p>其缺点是写操作的时候会复制一份数组，开销较大，因此适合读多写少的场景。</p>
 <h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><p><code>HashSet</code>是由<code>HashMap</code>实现的，只不过值由一个固定的<code>Object</code>对象填充，而键用于相关操作。该集合主要用于去重。</p>
 <h2 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h2><div class="note note-info">
-            <p>在队列中插入新元素有两种方法</p><ul><li><code>add</code>: 在队尾插入元素，若失败则抛异常</li><li><code>offer</code>: 在队尾插入元素，若失败则返回<code>false</code></li></ul><p>在队列中移除元素有两种方法</p><ul><li><code>remove()</code>: 获取并移除队头元素，若队列为空则抛异常</li><li><code>poll()</code>: 获取并移除队头元素，若队列为空则抛异常</li></ul>
+            <table><thead><tr><th>队列操作</th><th>抛异常方法</th><th>不抛异常方法</th></tr></thead><tbody><tr><td>插入</td><td><code>add</code></td><td><code>offer</code></td></tr><tr><td>删除</td><td><code>remove()</code></td><td><code>poll()</code></td></tr><tr><td>元素检查</td><td><code>element()</code></td><td><code>peek()</code></td></tr></tbody></table>
           </div>
 
 <h3 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h3><p>优先队列中的元素按照自然顺序或<code>Comparator</code>排序，出队顺序按优先级。其底层是基于堆实现的，默认是最小堆。其内部使用动态数组进行存储。</p>

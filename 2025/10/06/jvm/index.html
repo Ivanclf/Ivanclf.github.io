@@ -19,17 +19,18 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考文献 JVM是Java实现跨平台的基石。Java源代码经编译后变成字节码文件，最后在运行时JVM会将字节码文件逐行解释，翻译成机器码指令，由此实现一次编译，处处运行的特性。并且，JVM还能实现自动管理内存和使用即时编译器JIT进行热点代码缓存的功能。  而JVM本身可以分成3部分：类加载器、运行时数据区和执行引擎   类加载器。负责从其他来源加载.class文件，将.class文件中的二进制数">
+    <meta name="description" content="参考文献：https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.htmlhttps:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-garbage-collection.html             JVM是Java实现跨平台的基石。Java源代码经编译后变成字节码文件，最后在运行时JVM会将字节码文件逐行解释，翻译成机器码指令，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM的底层实现">
 <meta property="og:url" content="https://ivanclf.github.io/2025/10/06/jvm/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="参考文献 JVM是Java实现跨平台的基石。Java源代码经编译后变成字节码文件，最后在运行时JVM会将字节码文件逐行解释，翻译成机器码指令，由此实现一次编译，处处运行的特性。并且，JVM还能实现自动管理内存和使用即时编译器JIT进行热点代码缓存的功能。  而JVM本身可以分成3部分：类加载器、运行时数据区和执行引擎   类加载器。负责从其他来源加载.class文件，将.class文件中的二进制数">
+<meta property="og:description" content="参考文献：https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.htmlhttps:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-garbage-collection.html             JVM是Java实现跨平台的基石。Java源代码经编译后变成字节码文件，最后在运行时JVM会将字节码文件逐行解释，翻译成机器码指令，">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/06/jvm/compile.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/06/jvm/structure.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/10/06/jvm/cms.png">
 <meta property="article:published_time" content="2025-10-05T16:39:06.000Z">
-<meta property="article:modified_time" content="2025-10-05T17:07:01.108Z">
+<meta property="article:modified_time" content="2025-10-10T06:57:23.387Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -238,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          223 字
+          8.9k 字
         
       </span>
     
@@ -286,7 +287,10 @@
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/jvm.html">参考文献</a></p>
+                <div class="note note-primary">
+            <p>参考文献：</p><ul><li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/jvm.html">https://javabetter.cn/sidebar/sanfene/jvm.html</a><br><a target="_blank" rel="noopener" href="https://javaguide.cn/java/jvm/jvm-garbage-collection.html">https://javaguide.cn/java/jvm/jvm-garbage-collection.html</a></li></ul>
+          </div>
+
 <p>JVM是Java实现跨平台的基石。Java源代码经编译后变成字节码文件，最后在运行时JVM会将字节码文件逐行解释，翻译成机器码指令，由此实现一次编译，处处运行的特性。并且，JVM还能实现自动管理内存和使用即时编译器JIT进行热点代码缓存的功能。</p>
 <p><img src="compile.png" srcset="/img/loading.gif" lazyload alt="JVM对源代码的处理过程"></p>
 <p>而JVM本身可以分成3部分：类加载器、运行时数据区和执行引擎</p>
@@ -296,6 +300,381 @@
 <li>运行时数据区。JVM在运行Java程序时，需要从内存中分配空间来处理各种数据。</li>
 <li>执行引擎。负责执行字节码，包括一个虚拟处理器、即时编译器JIT和垃圾回收器。</li>
 </ul>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>按照Java虚拟机规范，JVM的内存区域可以细分为<code>程序计数器</code>、<code>虚拟机栈</code>、<code>本地方法栈</code>、<code>堆</code>和<code>方法区</code>。其中后两者是线程共享的，前三者是线程私有的。</p>
+<ul>
+<li><p>程序计数器<br>  即计组的<code>PC</code>寄存器，存放下一条指令的地址。</p>
+</li>
+<li><p>虚拟机栈<br>  即方法执行时创建的<strong>栈帧</strong>，存储方法的参数和返回值等信息（存储局部变量表、操作数栈、动态链接、方法出口等信息）。我们平时所说的Java的<code>栈</code>就是Java虚拟机栈。</p>
+<p>  在空方法中，静态方法由于不需要访问实例对象，因此在局部变量表中不会有任何变量。但非静态方法中即使是空方法也会有一个用于存储<code>this</code>引用的变量。该引用指向当前实例对象，在方法调用时隐式传入。</p>
+</li>
+<li><p>本地方法栈<br>  这个栈与虚拟机栈的不同之处在于，本地方法栈为虚拟机用到的本地<code>native</code>方法服务，如在Java中调用用C&#x2F;C++等语言编写的底层库方法。常用于需要与操作系统底层或硬件交互的时候。如获取系统时间或<code>Object</code>类中的<code>hashCode()</code>和<code>clone()</code>方法等。</p>
+  <div class="note note-info">
+            <p><code>native</code>作为一个关键字来声明方法，表示一个在Java代码中声明，但具体实现是由C或C++来编写，并在JVM外部实现的方法。其实际实现不在<code>.class</code>文件中，而在<code>.dll</code>(Windows)或<code>.so</code>(Linux)中。这个库需要被JVM加载。</p><p>Java代码中调用<code>native</code>方法后，JVM接收到这个调用，并通过JNI接口找到已加载的本地库中对应的C&#x2F;C++函数。执行完成后将返回值通过JNI返回给JVM。</p>
+          </div>
+</li>
+<li><p>堆<br>  JVM所管理的最大一块内存区域，也是垃圾收集器管理的主要区域，因此很多时候也被称为<code>GC堆</code>。几乎所有的对象实例以及数组都应当在堆上分配内存。存放在这里的对象数据都是线程不安全的，进行并发操作时需要同步机制。</p>
+<p>  从 JDK 7 开始，JVM 默认开启了逃逸分析，意味着如果某些方法中的对象引用没有被返回或者没有在方法体外使用，也就是未逃逸出去，那么对象可以直接在栈上分配内存。</p>
+</li>
+<li><p>方法区<br>  存储已被虚拟机加载的类型信息、常量、静态变量、代码缓存等数据。</p>
+  <div class="note note-info">
+            <p>在JDK 7之前，该区域常被称为“永久代”。但在JDK 8及以后，JVM使用元空间作为方法区的实现。元空间不再使用JVM内存，而是使用本地内存，因此受到本地内存大小的限制。</p>
+          </div></li>
+</ul>
+<div class="note note-success">
+            <p>堆和栈的区别是什么？<br>堆属于线程共享的内存区域，几乎所有<code>new</code>出来的对象都会在堆上分配，在不再被任何变量引用时被垃圾收集器回收。<br>栈属于线程的私有区域，主要存储局部变量等数据，通常随着方法调用的结束而自动释放，不需要垃圾收集器参与。</p>
+          </div>
+
+<div class="note note-success">
+            <p>JDK 1.6中使用永久代来实现方法区；JDK1.7中将字符串常量池、静态变量存放到了堆上；JDK1.8后直接在内存里划出一块叫做元空间的区域，并将运行时常量池、类常量池都放到了元空间。</p><p>这种改变带来了一些好处</p><ul><li>永久代是JVM的一部分，受JVM进程本身的内存限制，容易内存溢出。</li><li>永久代是堆的一部分，但其回收规则和普通的类不一样，导致GC算法变得复杂。换成元空间后，由元空间虚拟机管理。</li></ul><p>主观原因则是，Oracle在收购Sun之后，致力于将自家的JRockit VM（一款高性能JVM）与HotSpot VM的优势进行融合。JRockit VM的设计中就没有“永久代”的概念。移除永久代，统一使用元空间，是实现JVM技术栈统一的重要一步。</p>
+          </div>
+
+<h3 id="对象的生命周期"><a href="#对象的生命周期" class="headerlink" title="对象的生命周期"></a>对象的生命周期</h3><h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><pre><code class=" mermaid">graph LR
+A(new一个对象)
+B&#123;类加载检查&#125;
+C[类加载]
+D[分配内存]
+E[对象内存初始化]
+F[设置对象头]
+G[执行init方法]
+
+A--&gt;B--&gt;D--&gt;E--&gt;F--&gt;G
+B--&gt;|否|C--&gt;D
+</code></pre>
+
+<ol>
+<li><p>JVM遇到一条<code>new</code>指令时，首先会检查这个指令的参数是否能在运行时常量池中定位到一个类的符号引用，检查这个符号引用代表的类是否已经被<strong>加载</strong>、<strong>解析</strong>和<strong>初始化</strong>过。如果没有，就必须要先执行响应的<strong>类加载</strong>过程，这是对象创建的前提。</p>
+</li>
+<li><p>类加载检查通过后，JVM将为新生对象分配内存。JVM在堆中划分出一块确定大小的内存有两种方式：</p>
+<ol>
+<li><strong>指针碰撞</strong>，在堆内存是绝对规整的情况下，所有用过的内存在一边，空闲的内存在另一边，中间放着一个指针作为分界点的指示器。分配内存就是把这个指针向空闲方向移动合适的距离。</li>
+<li><strong>空闲列表</strong>，在堆内存不规整的情况下，JVM维护一个记录那些内存块是可用的列表。在分配时，从列表中找出一块足够大的空间划分给对象，并更新列表记录。</li>
+</ol>
+ <div class="note note-info">
+            <p>这不就是<a href="https://ivanclf.github.io/2025/05/22/os-2/#Managing-Free-Memory">这篇文章</a>里的<strong>first fit</strong>嘛</p>
+          </div>
+
+<p> 其线程安全问题主要通过CAS机制和分配缓冲区的方法解决。</p>
+ <div class="note note-info">
+            <p>每个线程在Java堆中分配一小块称为<code>TLAB</code>的内存空间。线程需要分配对象时，直接从<code>TLAB</code>中分配。只有当<code>TLAB</code>用完并分配新的<code>TLAB</code>时，才需要同步锁定，使用全局分配指针。</p><p>当没有<code>TLAB</code>时，<code>Eden</code>区更快被填满，导致年轻代<code>GC</code>频繁触发，一部分长生命周期对象被晋升为老年代，间接导致老年代<code>GC</code>频繁触发。</p>
+          </div>
+</li>
+<li><p>JVM将分配到的空间都初始化为零值（<code>0</code>、<code>0.0</code>、<code>false</code>、<code>null</code>等）。</p>
+</li>
+<li><p>JVM对对象进行必要的设置，这些消息主要放在对象头中。</p>
+</li>
+<li><p>从JVM的视角看，对象已经产生了。但对于Java程序来说，对象创建才刚刚开始。构造器代码开始执行。编译器将实例变量初始化语句和构造器代码合并后，生成了<code>&lt;init&gt;</code>方法。</p>
+<ol>
+<li>递归向上，执行父类的<code>&lt;init&gt;</code>方法，确保父类先初始化</li>
+<li>按出现顺序初始化类中的实例变量（如<code>int a = 1</code>这样的语句）</li>
+<li>执行构造器中的剩余代码</li>
+</ol>
+</li>
+</ol>
+<h4 id="内存分区转移"><a href="#内存分区转移" class="headerlink" title="内存分区转移"></a>内存分区转移</h4><p>Java堆被分为新生代和老生代两个区域。其中，新生代又被划分为一个较大的<code>Eden</code>空间和两个较小的<code>Survivor</code>空间（<code>From Survivor</code>和<code>To Survivor</code>）。</p>
+<p>新创建的对象会被分配到<code>Eden</code>空间。当<code>Eden</code>区填满时，会触发一次<code>Minor GC</code>，清除不再使用的对象。存活下来的对象会移动到<code>Survivor</code>区。</p>
+<p>详细来说，新创建的对象绝大多数会首先被分配在<code>Eden</code>区。在<code>Minor GC</code>时，<code>Eden</code>区和一个<code>Survivor</code>（这个<code>Survivor</code>称为<code>From Survivor</code>）区中存活的对象，会被复制到另一个空的<code>Survivor</code>（<code>To Survivor</code>）中，然后清空<code>Eden</code>和刚使用的<code>Survivor</code>，将<code>To Survivor</code>转变为新的<code>From Survivor</code>，另一个同理。如此<code>Survivor</code>的角色互换。</p>
+<p>对象在新生代中经历多次GC后仍然存活的（默认为15次），或者很大的对象，会被移动到老年代。若<code>Survivor</code>中所有对象的总大小超过了一定比例，那么年龄较小的对象也可能提前移动到老年代。老年代内存不足时，会触发<code>Major GC</code>，对整个堆进行垃圾回收。</p>
+<p>而对于大对象的定义，一般由参数<code>-XX:PretenureSizeThreshold</code>控制。但在JDK 8中这个值默认为0。在G1垃圾收集器中，大对象会被直接分配到<code>HUMONGOUS</code>区域。当对象大小超过一个Region容量的一半时，会被认为是一个大对象。</p>
+<h4 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h4><p>垃圾收集器通过可达性分析算法判断对象是否可达，若对象不可达则会被回收。</p>
+<p>可以通过 <code>java -XX:+PrintCommandLineFlags -version</code> 和 <code>java -XX:+PrintGCDetails -version</code> 命令查看 JVM 的 GC 收集器。</p>
+<p>JVM在进行垃圾回收的过程中，会涉及到对象的移动。为了保证对象引用过程中不被修改，必须暂停所有用户线程。这样的停顿称为<code>Stop The World</code>，简称<strong>STW</strong>。</p>
+<p>JWT会使用一个名为安全点(<code>Safe Point</code>)的机制来确保线程能够安全地暂停。通常位于方法调用、循环跳转、异常处理等位置。其过程包括四个步骤</p>
+<ul>
+<li>JVM发出暂停信号</li>
+<li>线程执行到安全点后，挂起自身并等待垃圾收集完成</li>
+<li>垃圾回收器完成操作</li>
+<li>线程恢复执行</li>
+</ul>
+<p>该机制会导致应用程序的响应延迟，可能会出现短暂的卡顿。对于高并发任务，频繁或长时间的STW会严重影响到服务的响应时间。但在现代垃圾回收器中，STW导致的性能问题已经能得到较好解决。</p>
+<h3 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h3><p>对象在内存中包括三部分：对象头、示例数据与对齐填充。</p>
+<p>对象头在32位JVM上是8字节，在64位JVM上是16字节。对象头包括</p>
+<ol>
+<li><code>Mark Word</code>：用于存储对象自身运行时数据，如哈希码、GC分代、锁状态、持有锁、偏向线程ID、偏向时间戳等。详见<a href="https://ivanclf.github.io/2025/09/30/concurrent-2/#synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%8EReentrantLock">上一篇文章</a></li>
+<li>类型指针：即对象指向它的类元数据的指针，JVM通过这个指针确定这个对象是哪个类的实例。</li>
+<li>如果是数组，对象头还有一块用于记录数据长度的数据。</li>
+</ol>
+<p>在JDK 8中，只要堆内存不大于32GB，类型指针默认会被压缩，以节省内存空间。比如说在开启压缩指针的情况下占 4 个字节，否则占 8 个字节。</p>
+<p>JVM会对实例数据进行对齐&#x2F;重排，以提高内存访问速度。<br>JVM（特别是HotSpot JVM）一般会对数据进行8字节对齐。因为常用的64位CPU进行内存访问时，一次寻址的指针大小是8字节，这也正好是<code>L1 Cache</code>缓存行的大小。若未对齐访问</p>
+<ul>
+<li>CPU需要发起两次内存访问（而非一次）</li>
+<li>可能发生并发问题</li>
+<li>可能造成缓存行污染<br>  即加载一个对象需要占用两个缓存行。</li>
+<li>可能造成伪共享<br>  即两个无关的变量在同一个缓存中，当一个线程修改其中的一个变量时，会导致整个缓存行失效。</li>
+</ul>
+<p>一个<code>Object</code>对象在64位的JVM上的大小是16字节（12字节的对象头 + 4字节的对齐填充）。而一般而言，一个对象的引用占4个字节（在压缩指针的情况下）。</p>
+<div class="note note-info">
+            <p><code>Object o = new Object()</code>占多少个字节？其中<code>Object</code>的实例化对象占16个字节，然后<code>Object o</code>这个指针占4个字节。（但这个问题本身指向性就很模糊，不严谨）</p>
+          </div>
+
+<h4 id="对象访问"><a href="#对象访问" class="headerlink" title="对象访问"></a>对象访问</h4><p>JVM一般通过两种方式访问对象：句柄和直接指针。<br>句柄访问中，<code>reference</code>中存储的是对象的句柄地址，而句柄中则包含了对象实例数据和类型数据各自的具体地址信息。优点是在对象移动时较为稳定，只需要更新句柄池中“实例数据指针”的值就行。这对垃圾收集算法非常友好。但缺点是访问速度较慢。<br>直接指针访问则引用直接存储对象的地址，通过对象实例内部的“类型数据指针”再找到方法区中的类信息。优点是访问速度快，缺点是在垃圾收集器移动对象时，需要更新所有指向该对象的<code>reference</code>，开销较大。这是<code>HotSpot VM</code>等主流虚拟机默认采用的方式。</p>
+<h4 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h4><p>对象的引用有4种：强引用、软引用、弱引用和虚引用。</p>
+<ul>
+<li>强引用是最普遍的引用类型。只有在该对象不可达时垃圾收集器才会回收。一般<code>new</code>出来的对象就是强引用。</li>
+<li>软引用用来描述一些还有用但非必需的对象。在内存即将溢出前，垃圾收集器会把这些对象列入回收范围进行第二次回收。若回收后内存还是不够则抛出OOM错误。</li>
+<li>弱引用强度比软引用更弱，被弱引用关联的对象只能生存到下一次垃圾收集器发生之前。</li>
+<li>虚引用是最弱的一种引用关系。<br>  完全无法通过虚引用来获取一个对象。其<code>get()</code>方法总返回<code>null</code>。<br>  必须与<code>ReferenceQueue</code>（引用队列）联合使用。当GC准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之后，把这个虚引用加入到与之关联的引用队列中。<br>  用于在对象被销毁后，执行一些后续的清理工作，比如管理堆外部的内存等。</li>
+</ul>
+<h4 id="逃逸分析"><a href="#逃逸分析" class="headerlink" title="逃逸分析"></a>逃逸分析</h4><p>逃逸分析的核心目的是分析一个新创建的对象在方法中定义后，其引用是否会被暴露到方法之外，即这个对象的“活动范围”是否会“逃逸”出当前方法或当前线程。</p>
+<p>根据对象的作用域，可以将对象分为3种状态：</p>
+<ul>
+<li>不逃逸。对象仅在当前方法内部使用，也没有被其他线程操作的可能。</li>
+<li>方法逃逸。对象的引用被传递到其他方法中，或者作为返回值返回。</li>
+<li>线程逃逸。对象的引用被赋值给了一个可以被其他线程访问的实例变量（如静态变量），或者在一个线程中创建并启动另一个线程中直接使用。</li>
+</ul>
+<p>对于不逃逸的对象，即使是<code>new</code>出来的对象JVM也会将对象进行拆解，将其成员变量当作局部变量，直接分配在栈帧上。</p>
+<p>对于方法逃逸的对象，若其被证实不会发生线程逃逸，那么JVM就可以移除这个对象上的所有<code>synchronized</code>块。</p>
+<p>逃逸分析是JIT在编译器<strong>运行时</strong>进行的优化。由于其本身是一个复杂的算法，因此JVM往往只对热点代码进行。</p>
+<h4 id="内存溢出和内存泄漏"><a href="#内存溢出和内存泄漏" class="headerlink" title="内存溢出和内存泄漏"></a>内存溢出和内存泄漏</h4><p>内存溢出指程序在申请内存时发现内存不够了，此时程序就会跑出<code>OOM</code>(<code>OutOfMemoryError</code>)，一般是因为堆内存或者机器内存太小，或者内存中存在大量无法回收的对象。</p>
+<p>内存泄漏指程序在申请内存后，无法释放已经不再使用的对象的内存。这是导致内存溢出的常见原因。</p>
+<p>发生内存泄漏有以下可能原因</p>
+<ul>
+<li>静态集合类持有对象引用，导致对象无法被回收。这是最常见的情况。</li>
+<li>数据库链接、网络链接、文件流等资源使用后没有正确关闭，导致资源泄漏甚至内存泄漏，因为这些对象可能持有缓冲区或其他大型对象的引用。</li>
+<li>监听器或回调函数在不需要时没有注销，那么发布者会一直持有对监听器的引用。</li>
+<li>非静态内部类（包括匿名内部类）会隐式持有其外部类引用（如后台线程）。内部类不回收时外部类也不会回收。</li>
+<li>使用强引用构建内存，并且没有有效的淘汰策略。</li>
+<li><code>ThreadLocal</code>中存储了对象且没有在任务结束后调用<code>ThreadLocal.remove()</code>进行清理，那么对象就会一直存在与线程的<code>ThreadLocalMap</code>中。</li>
+</ul>
+<h2 id="垃圾收集"><a href="#垃圾收集" class="headerlink" title="垃圾收集"></a>垃圾收集</h2><h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><p>判断一个对象是不是垃圾主要有两种方法：引用计数算法和可达性分析算法。</p>
+<p>引用计数算法在对象中添加一个引用计数器，当计数器为0时不再被使用。该方法实现简单，但不能处理对象之间相互循环引用的问题。因此这不是目前JVM使用的算法。</p>
+<p>目前主流JVM均使用可达性分析算法。其通过一系列<code>GC Roots</code>的根对象作为起始节点集，然后从这个节点开始，根据引用关系向下搜索。搜索的路径称为<strong>引用链</strong>。若某个对象到<code>GC Roots</code>没有任何引用链相连，那么该对象不再被使用。</p>
+<p>一般<code>GC Roots</code>包含以下对象</p>
+<ol>
+<li>虚拟机栈（栈帧中的局部变量表）中引用的对象。</li>
+<li><code>native</code>方法引用的对象。</li>
+<li>静态属性引用的对象。</li>
+<li>方法区中静态属性或者常量池引用的对象。</li>
+<li>Java虚拟机内部引用。例如基本数据类型对应的<code>Class</code>对象，还有一些常驻的异常对象。</li>
+<li>所有被同步锁持有的对象。</li>
+<li>反映Java虚拟机内部情况的JMXBean、JVMTI中注册的回调、本地代码缓存等。</li>
+</ol>
+<p>即使是被标记为不可达对象，也并非是“非死不可”的。经过可达性分析后，不可达的对象会被第一次标记。然后JVM会判断此对象是否有必要执行<code>finalize()</code>方法。对于有必要执行<code>finalize()</code>方法的对象，会被放置到一个名为<code>F-Queue</code>队列中，稍后由一个由虚拟机自动创建的、低优先级的<code>Finalizer</code>线程去执行它们的<code>finalize()</code>方法。</p>
+<p>若对象没有覆盖<code>finalize()</code>方法或该方法已经被虚拟机调用过，虚拟机会认为该方法“没有必要执行”，也不会将其放入<code>F-Queue</code>里。放入<code>F-Queue</code>的对象还会进行二次标记，在执行<code>finalize()</code>方法中成功通过重新引用拯救了自己，那么也可以不在标记中，避免被回收。</p>
+<p><code>finalize()</code>方法运行代价高昂，不确定性大，无法保证对象的调用顺序。因此一般使用<code>try-finally</code>或其他方式来做此类清理工作。</p>
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><h4 id="回收算法"><a href="#回收算法" class="headerlink" title="回收算法"></a>回收算法</h4><p>在确定了哪些对象是垃圾之后，不同的收集算法采用了不同的回收策略。主要可以分为以下几类：</p>
+<ul>
+<li>标记-清除算法<br>  最基础的收集算法。它将要清理的对象分为“标记”和“清除”两个阶段。首先标记出所有需要回收的对象，然后统一回收所有被标记的对象。这样做虽然实现简单，也不需要移动对象，但标记和清除两个过程的效率都不高，且容易产生大量不连续的内存碎片。</li>
+<li>标记-复制算法<br>  将可用内存按容量分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活者的对象复制到另一块上，然后再把已经使用过的内存空间一次清理掉。这样，在实现简单的同时还避免了产生内存碎片的问题。但这样就浪费了一半的内存，代价高昂。同时其标记和复制阶段都会有STW，标记阶段是为了保证对象的引用关系不被修改，复制阶段是防止对象在复制过程不被修改。</li>
+<li>标记-整理算法<br>  标记完成后，不是直接清理，而是让所有存活的对象都向内存空间的一端移动，然后直接清理掉边界之外的内存。这样就没有内存碎片，也没有空间浪费。但这种操作需要STW。</li>
+<li>分代收集算法<br>  目前商业虚拟机的普遍做法。新生代中使用复制算法，老年代中使用清除或整理算法。因为新生代中大部分对象生命周期较短，复制算法可以实现快速回收。老年代中对象生命周期长，整理算法可以减少移动对象的成本。</li>
+</ul>
+<h4 id="GC分类"><a href="#GC分类" class="headerlink" title="GC分类"></a>GC分类</h4><p>前面提及了许多种GC机制，此处做一个总结</p>
+<ul>
+<li><code>Minor GC</code><br>  也叫做<code>Young GC</code>，指发生在年轻代的垃圾收集。</li>
+<li><code>Major GC</code><br>  也叫做<code>Old GC</code>，指发生在老年代的垃圾收集，是CMS的特有行为</li>
+<li><code>Mixed GC</code><br>  G1收集器特有的一种GC类型，在一次GC种同时清理年轻代和部分老年代</li>
+<li><code>Full GC</code><br>  最彻底的垃圾收集，涉及整个Java堆和方法区，最为耗时，往往在JVM压力很大时发生。</li>
+</ul>
+<p>在<code>Minor GC</code>发现老年代可用的连续空间小于新生代历次<code>Minor GC</code>后升入老年代的对象总和的平均大小，说明本次<code>Minor GC</code>后升入老年代的对象大小很可能超过了老年代当前可用的内存空间，就会触发<code>Full GC</code>。</p>
+<p>空间分配担保是指在进行 <code>Minor GC</code> 前，JVM会确保老年代有足够的空间存放从新生代晋升的对象。如果老年代空间不足，可能会触发 <code>Full GC</code>。</p>
+<h4 id="垃圾收集器种类"><a href="#垃圾收集器种类" class="headerlink" title="垃圾收集器种类"></a>垃圾收集器种类</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>分代</th>
+<th>线程模式</th>
+<th>回收算法</th>
+<th>搭配</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Serial</code></td>
+<td>新生代</td>
+<td>串行</td>
+<td>复制</td>
+<td>可与<code>Serial Old</code>搭配</td>
+<td>最古老最基础的收集器，<br>是Client模式下的默认新生代收集器</td>
+</tr>
+<tr>
+<td><code>ParNew</code></td>
+<td>新生代</td>
+<td>并行</td>
+<td>复制</td>
+<td>是<code>CMS</code>默认的新生代搭配</td>
+<td>本质上是<code>Serial</code>的多线程版本，<br>是许多JVM在Server模式下的首选新生代收集器，因为在JDK 5时，只有它能和<code>CMS</code>配合工作</td>
+</tr>
+<tr>
+<td><code>Parallel Scavenge</code></td>
+<td>新生代</td>
+<td>并行</td>
+<td>复制</td>
+<td>与<code>Parallel Old</code>搭配</td>
+<td>JDK 8的默认配置<br>$吞吐量&#x3D;\frac{运行用户代码时间}{运行用户代码时间\ +\ 垃圾收集时间}$<br>该收集器的目标是达到一个可控制的吞吐量。高吞吐量意味着高效率利用CPU时间，适合在后台进行运算而不需要太多交互的任务</td>
+</tr>
+<tr>
+<td><code>Serial Old</code></td>
+<td>老年代</td>
+<td>串行</td>
+<td>整理</td>
+<td>可与<code>Serial</code>&#x2F;<code>Parallel Scavenge</code>搭配</td>
+<td>主要意义也是在于给Client模式下的虚拟机使用。<br>在Server模式下，它主要作为CMS收集器的后备预案，在并发收集发生<code>Concurrent Mode Failure</code>时使用。</td>
+</tr>
+<tr>
+<td><code>Parallel Old</code></td>
+<td>老年代</td>
+<td>并行</td>
+<td>整理</td>
+<td>与<code>Parallel Scavenge</code>搭配</td>
+<td>是 <code>Parallel Scavenge</code>的老年代版本，二者组合是一个吞吐量优先的经典组合，适合关注吞吐量和CPU资源敏感的应用。</td>
+</tr>
+<tr>
+<td><code>CMS</code></td>
+<td>老年代</td>
+<td>并发</td>
+<td>清除</td>
+<td>与<code>Serial</code>&#x2F;<code>ParNew</code>搭配</td>
+<td>见下</td>
+</tr>
+<tr>
+<td><code>G1</code></td>
+<td>全堆</td>
+<td>并发+并行</td>
+<td>整体整理，局部复制</td>
+<td>自身管理，不分代</td>
+<td>见下</td>
+</tr>
+<tr>
+<td><code>ZGC</code></td>
+<td>全堆</td>
+<td>并发</td>
+<td>染色指针+读屏障</td>
+<td>自身管理，不分代</td>
+<td>见下</td>
+</tr>
+</tbody></table>
+<p><code>CMS</code>(<code>COncurrent Mark-Sweep</code>)，在JDK 1.5时引入，JDK 9时标记为弃用，JDK 14时移除。CMS是第一个关注GC停顿时间的垃圾收集器。</p>
+<p><img src="cms.png" srcset="/img/loading.gif" lazyload alt="CMS示意图"></p>
+<ol>
+<li>初始标记。标记出<code>GC Roots</code>能直接关联到的对象。该阶段单线程进行，且需要STW。但由于只标记直接关联的对象，所以停顿时间非常短。</li>
+<li>并发标记。从初始标记的对象开始，进行<code>GC Roots Tracing</code>，标记出所有存活的对象。这个过程是和用户线程并发执行的。该过程耗时最长，但不需要STW，也不会影响程序响应速度。</li>
+<li>重新标记。修正在并发标记期间因程序运作而导致变动的记录，需要STW，但时间非常短。</li>
+<li>并发清除。清理掉死亡对象，回收占用的空间。</li>
+</ol>
+<p>因此，CMS在整个收集过程种只有两次短暂的停顿，极大改善了用户体验。但是CMS也存在一些问题，如并发时占用CPU资源而导致总吞吐量降低，无法对在并发标记和并发清理阶段产生的新垃圾进行清理，可能会产生内存碎片等问题。当然还有一个问题在于，若在垃圾清理时，老年代没有足够空间容纳新生代上来的对象，JVM将不得不使用<code>Serial Old</code>收集器进行重新垃圾收集，大大拖慢速度。</p>
+<p>G1(<code>Garbage First</code>)收集器在JDK 1.7时引入，在JDK 9时称为默认的收集器，其运作更加复杂。首先，G1把Java堆划分成多个大小相等的独立区域Region，每个Region可以扮演新生代或老生代的角色。同时，G1还有一个专门为大对象设计的<code>Humongous</code>区。</p>
+<pre><code class=" mermaid">flowchart TD
+    A[G1垃圾收集过程] --&gt; B&#123;堆内存占用超过阈值IHOP?&#125;
+    
+    B --&gt;|是| C
+    B --&gt;|否| B2[继续常规的年轻代GC]
+    
+    subgraph C [全局并发周期 为混合GC做准备]
+        C1[初始标记 STW] --&gt; C2[根区域扫描]
+        C2 --&gt; C3[并发标记]
+        C3 --&gt; C4[最终标记 STW]
+        C4 --&gt; C5[独占清理 STW]
+        C5 --&gt; C6[并发清理]
+    end
+
+    C6 --&gt; D[混合回收 清理标记出的老年代Region]
+    D --&gt; E[收集结束 释放大量内存]
+    
+    B2 --&gt; F[后续GC流程...]
+</code></pre>
+
+<ol>
+<li>年轻代 GC<br> 当 <code>Eden</code> 区被对象填满时，就会触发一次年轻代垃圾回收。这个过程会暂停所有应用线程（STW），然后把还存活的对象复制到 <code>Survivor</code> 区或老年代。</li>
+<li>全局并发标记周期（核心阶段）<br> 当整个堆内存的使用量超过一定比例（默认 45%）时，G1 会启动一个完整的标记流程，目的是找出老年代里哪些区域垃圾最多、最值得回收。这个周期分几步走：<ol>
+<li>初始标记：STW，快速标记那些直接被 <code>GC Roots</code> 引用到的对象。</li>
+<li>根区域扫描：并发进行，不暂停应用。主要扫描 <code>Survivor</code> 区中被标记的对象，看它们是否引用了老年代的对象。这一步必须在下次年轻代 GC 前完成，因为年轻代 GC 会改变 <code>Survivor</code> 区的布局。</li>
+<li>并发标记：同样不暂停应用，系统会顺着 <code>GC Roots</code> 遍历整个堆，找出所有存活对象。G1 采用“初始快照”技术，确保标记期间新产生的垃圾不会干扰本次回收。</li>
+<li>最终标记：再一次短暂暂停，处理并发标记期间因程序运行产生的变动记录，停顿时间很短。</li>
+<li>清理准备：最后一次暂停，这一步并不实际清理垃圾，而是统计各个老年代区域的存活对象比例和回收价值，排出优先级，并直接回收那些完全空闲的区域。</li>
+<li>并发清理：不暂停应用，把在标记阶段发现的完全空闲区域归还给系统，供后续使用。</li>
+</ol>
+</li>
+<li>混合回收<br> 在全局并发标记完成之后，G1 已经清楚知道哪些老年代区域是“回收性价比最高”的。当老年代中积压的待回收区域达到一定数量，G1 就会启动一次混合回收：在暂停应用的同时，采用复制算法，同时清理年轻代和选中的老年代区域。</li>
+<li>后备方案：<code>Full GC</code><br> 如果上述回收速度跟不上对象分配的速度，G1 会启用最后的保障——一次完全的 <code>Full GC</code>。这时候会使用 <code>Serial Old</code> 收集器，暂停时间会比较长，是 G1 尽力避免发生的情况。</li>
+</ol>
+<div class="note note-info">
+            <p>其实可以发现，G1和CMS有许多相同之处，甚至G1还要用更多次的STW，那为什么目前的主流是G1呢？首先列表显示其核心差别</p><table><thead><tr><th>对比项</th><th>CMS</th><th>G1</th></tr></thead><tbody><tr><td>设计目标</td><td>低延迟，追求最短的单次停顿时间</td><td><strong>可预测</strong>的停顿时间，在保证吞吐量的同时尽可能控制每次停顿在一个可控范围内</td></tr><tr><td>堆内存布局</td><td>物理分代：严格分为连续的新生代、老年代</td><td>逻辑分代，物理分区：堆被划分为多个大小相等的Region，每个Region在逻辑上属于不同区域</td></tr><tr><td>算法</td><td>标记-清除</td><td>标记-整理（整体上看）</td></tr><tr><td>内存碎片</td><td>严重，清除法容易产生碎片，可能导致<code>Full GC</code></td><td>有效避免，通过复制算法进行回收</td></tr><tr><td>对堆大小的适应性</td><td>适合中小堆，堆太大时，扫描时间变长</td><td>更适合大堆</td></tr><tr><td>预测能力</td><td>弱，难以预测下次停顿会多久</td><td>强，可以建立可靠的停顿时间</td></tr></tbody></table><p>G1就是为了解决CMS中的内存碎片与不可预测的停顿而诞生的。G1在混合回收阶段就已经将存活的Region复制到新的空Region中了，整理好了。并且在大堆时，G1可以做到每次只回收一部分Region，而不是像CMS那样每次回收老年代都要扫描整个堆，对性能更加友好。</p>
+          </div>
+
+<p>ZGC是JDK 11时引入的低延迟垃圾处理器，可以将垃圾收集的停顿时间控制在10ms内，它通过并发标记和重定位来避免大部分STW，主要依赖指针染色来管理对象状态。</p>
+<p>ZGC从指针中“偷”出几个比特位来存储与垃圾收集相关的元数据（如标记、重定位信息）。<br>同时，使用了读屏障技术，当线程读取一个对象指针时，读屏障会检查这个指针上的“染色”信息。如果这个对象正在被GC并发地移动，读屏障会立即“拦截”这个操作。并返回对象的新地址，同时甚至会帮忙完成这个对象的移动和指针的更新。</p>
+<p>适用于需要超低延迟的场景，如金融交易系统、电商平台。</p>
+<h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><h3 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h3><p>类的生命周期，从被加载到虚拟机内存中开始到被卸载为止，共经历7个阶段</p>
+<pre><code class=" mermaid">graph LR
+    load[加载]
+    subgraph link[链接]
+        verify[验证]
+        prepare[准备]
+        resolute[解析]
+    end
+    initialize[初始化]
+    use[使用]
+    unload[加载]
+    load--&gt;verify--&gt;prepare--&gt;resolute--&gt;initialize--&gt;use--&gt;unload
+</code></pre>
+
+<p>而类的加载过程包括三个阶段：加载，链接和初始化。</p>
+<ul>
+<li><p>在加载时，JVM需要完成这三件事</p>
+<ol>
+<li>通过全类名获取定义此类的二进制字节流</li>
+<li>将字节流所代表的静态存储结构转换为方法区运行时数据结构（和反序列化类似，可理解为方法的反序列化）</li>
+<li>内存中生成一个代表该类的<code>Class</code>对象，作为方法区这些数据的访问入口</li>
+</ol>
+<p>  每个Java类都有一个引用指向加载它的<code>ClassLoader</code></p>
+</li>
+<li><p>验证是链接阶段的第一步。其主要包含</p>
+<ol>
+<li>文件格式验证，<code>Class</code>文件格式检查</li>
+<li>元数据验证，字节码语义检查</li>
+<li>字节码验证，程序语义检查</li>
+<li>符号引用验证，类的正确性检查</li>
+</ol>
+</li>
+<li><p>准备阶段，正式为类变量分配内存并设置变量初始值的阶段，此时为静态变量进行内存分配并设置默认值（零值）。</p>
+</li>
+<li><p>解析阶段是虚拟机将常量池内符号引用替换为直接引用的过程。</p>
+  <div class="note note-info">
+            <p>符号引用用一组符号来描述引用的目标，如<code>com/example/MyClass</code>等，而直接引用则是直接指向内存的指针。</p>
+          </div></li>
+<li><p>初始化阶段是开始执行初始化方法<code>&lt;clinit&gt;()</code>的过程。准备阶段中对一些静态变量赋过零值了，此时会赋值为期望值。</p>
+</li>
+</ul>
+<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><p>类加载器主要有4种</p>
+<ol>
+<li>启动类加载器，负责加载JVM核心库，也是最顶层的加载类，由C++实现，通常表示为<code>null</code>，因为这个加载器在Java中没有对应的类</li>
+<li>扩展类加载器，负责加载<code>%JRE_HOME%/lib/ext</code> 目录下的 jar 包和类以及被 <code>java.ext.dirs</code> 系统变量所指定的路径下的所有类</li>
+<li>应用程序类加载器，面向用户的类加载器，加载当前应用目录下的所有jar包和类</li>
+<li>用户自定义的类加载器，通过继承<code>java.lang.ClassLoader</code>类实现</li>
+</ol>
+<pre><code class=" mermaid">flowchart BT
+    bootstrap[启动类加载器]
+    extension[扩展类加载器]
+    app[应用程序类加载器]
+    custom1[自定义类加载器1]
+    custom2[自定义类加载器2]
+    custom3[自定义类加载器3]
+    custom3--&gt;custom1--&gt;app--&gt;extension--&gt;bootstrap
+    custom2--&gt;app
+</code></pre>
+
+<p>选用加载器时，一般选用<strong>双亲委派模型</strong>，即先委托父加载器尝试加载，只有父加载器无法加载时，子加载器才会加载。又或者说，先自底向上查找判断类是否被加载，然后自顶向下尝试加载类。无法加载类则会抛异常<code>ClassNotFoundException</code>。</p>
+<p>自定义加载器时，若不想打破双亲委派模型，则重写<code>ClassLoader</code>类中的<code>findClass()</code>方法；若需要打破双亲委派模型，则重写<code>ClassLoader</code>类中的<code>loadClass()</code>方法。</p>
+<p>打破该模型的应用有很多</p>
+<ul>
+<li><p>SPI机制<br>  SPI(<code>Service Device Interface</code>)是Java的一种扩展机制，用于加载和注册第三方库，常见于JDBC等框架。</p>
+<p>  其接口定义方是Java核心库，由启动类加载器加载，然而接口的实现方为第三方厂商的jar包，由应用类加载器加载。按照双亲委派模型，启动类加载器无法知道应用类加载器加载的实现类，从而导致服务接口找不到具体的实现。</p>
+<p>  因此使用线程上下文加载器实现。每个线程都持有一个类加载器引用，该引用默认继承父线程的。而SPI场景中通过<code>META-INF/services/接口全限定名</code>文件声明实现类。然后父加载器委托子加载器完成加载。</p>
+</li>
+<li><p>热部署<br>  指在不重启服务器的情况下更新应用程序的代码，需要替换旧版本的类，但旧版本的累可能由父加载器加载。如spring boot的DevTools通常会自定义加载器。</p>
+</li>
+<li><p>Tomcat<br>  Tomcat基于双亲委派模型进行了一些扩展。其中<code>Catalina ClassLoader</code>加载Tomcat的核心类库，<code>Shared ClassLoader</code>加载共享类库，<code>WebApp ClassLoader</code>加载Web应用程序的类库，支持多应用隔离和优先加载应用自定义的类库。</p>
+</li>
+</ul>
+<pre><code class=" mermaid">flowchart BT
+app[应用程序类加载器]
+common[通用自定义类加载器]
+shared[共享类加载器]
+webapp[web应用类加载器]
+catalina[Catalina类加载器]
+webapp--&gt;shared--&gt;common--&gt;app
+catalina--&gt;common
+</code></pre>
 
                 
               </div>
@@ -385,6 +764,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="../../10/jvm-2/" title="JVM调优">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JVM调优</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

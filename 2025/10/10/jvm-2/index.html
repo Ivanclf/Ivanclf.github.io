@@ -19,24 +19,22 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Java如前面所述，Java中一个对象的创建语句为 1A a &#x3D; new A();  在该行定义中，A a声明了一个对象的引用a，后面new了一个对象的实例，并将该实例的地址赋值给a，让a指向该对象的实例。 而在执行new A()的过程如下：  当程序首次主动使用一个类（如创建对象、访问类的静态变量等），jvm会加载这个类。当这个类有父类时，父类先于子类被加载。               由于除">
+    <meta name="description" content="参考文献https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.htmlhttps:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-parameters-intro.html             命令行工具JDK命令行工具有  jmap 生成堆存储快照 jps 类似UNIX的ps，查看所有Java进程的相关信息 jstat 收集Ho">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面向对象 - 运作逻辑">
-<meta property="og:url" content="https://ivanclf.github.io/2024/04/26/oo-3/index.html">
+<meta property="og:title" content="JVM调优">
+<meta property="og:url" content="https://ivanclf.github.io/2025/10/10/jvm-2/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="Java如前面所述，Java中一个对象的创建语句为 1A a &#x3D; new A();  在该行定义中，A a声明了一个对象的引用a，后面new了一个对象的实例，并将该实例的地址赋值给a，让a指向该对象的实例。 而在执行new A()的过程如下：  当程序首次主动使用一个类（如创建对象、访问类的静态变量等），jvm会加载这个类。当这个类有父类时，父类先于子类被加载。               由于除">
+<meta property="og:description" content="参考文献https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.htmlhttps:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-parameters-intro.html             命令行工具JDK命令行工具有  jmap 生成堆存储快照 jps 类似UNIX的ps，查看所有Java进程的相关信息 jstat 收集Ho">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-26T11:46:44.000Z">
-<meta property="article:modified_time" content="2025-10-05T17:16:04.214Z">
+<meta property="article:published_time" content="2025-10-10T01:27:24.000Z">
+<meta property="article:modified_time" content="2025-10-10T03:22:07.024Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
-<meta property="article:tag" content="面向对象">
-<meta property="article:tag" content="cpp">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>面向对象 - 运作逻辑 - Ivan的博客</title>
+  <title>JVM调优 - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +212,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="面向对象 - 运作逻辑"></span>
+            <span id="subtitle" data-typed-text="JVM调优"></span>
           
         </div>
 
@@ -225,8 +223,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-26 19:46" pubdate>
-          2024年4月26日 晚上
+        <time datetime="2025-10-10 09:27" pubdate>
+          2025年10月10日 上午
         </time>
       </span>
     
@@ -237,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          685 字
+          1.7k 字
         
       </span>
     
@@ -280,30 +278,305 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">面向对象 - 运作逻辑</h1>
+            <h1 id="seo-header">JVM调优</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p>如前面所述，Java中一个对象的创建语句为</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">A</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">A</span>();<br></code></pre></td></tr></table></figure>
+                <div class="note note-primary">
+            <p>参考文献</p><ul><li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/jvm.html#_39-jvm-%E7%9A%84%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B">https://javabetter.cn/sidebar/sanfene/jvm.html</a></li><li><a target="_blank" rel="noopener" href="https://javaguide.cn/java/jvm/jvm-parameters-intro.html">https://javaguide.cn/java/jvm/jvm-parameters-intro.html</a></li></ul>
+          </div>
 
-<p>在该行定义中，<code>A a</code>声明了一个对象的引用a，后面<code>new</code>了一个对象的实例，并将该实例的地址赋值给a，让a指向该对象的实例。</p>
-<p>而在执行<code>new A()</code>的过程如下：</p>
-<ol>
-<li><p>当程序首次主动使用一个类（如创建对象、访问类的静态变量等），jvm会加载这个类。当这个类有父类时，父类先于子类被加载。</p>
- <div class="note note-info">
-            <p>由于除Object类外的所有类都有父类，因此基本所有类都会执行这个操作。</p>
-          </div></li>
-<li><p>在验证语法符合规范后，为类的静态变量分配内存，并设置默认初始值（int为0，bool为false，引用型为null）。</p>
- <div class="note note-warning">
-            <ul><li><p>静态成员在对象实例化前就分配好内存了，在创建该类的实例时将不再分配空间，所有的实例将共享类的静态变量。</p></li><li><p>虽然Java中没有全局变量，但这种静态变量在一个类的所有实例对象都可以访问（权限最严格能到这个程度），因此可以充当一部分全局变量的作用。</p></li><li><p>使用时，直接引用类名即可，不需要引用对象的实例。</p></li><li><p>由于静态方法的调用不是通过实例对象进行的，所以静态成员不能使用this指针，子类也不能重写父类的静态方法（但可以声明与父类静态方法相同的方法，从而将其 隐藏。</p></li><li><p>main()也是一个静态方法，也是程序的入口点。在Java中main函数可以不止一个，只要运行逻辑自洽，一个工程中可以有多个main函数。</p></li><li><p>可以用static修饰语句块，这类语句块在加载该类时执行且只执行一次。对象中含多个静态初始化程序块时按次序执行。</p></li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> &#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
-          </div></li>
-<li><p>从父类开始，执行构造方法，给静态变量进行赋值，执行构造器相关操作。其中，子类初始化时为子类分配内存时也包含从父类继承的实例变量和子类自己的实例变量（子类中也包含有一份父类）。</p>
-</li>
-</ol>
-<h2 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h2><p>当创建一个派生类的对象时，g++也会先调用基类的构造函数，再调用派生类的构造函数。然而，与C语言类似，静态成员在程序启动时就就已经创建好静态成员变量了。若基类和派生类都定义了同名的静态成员变量，那么在派生类的范围内，会隐藏基类的静态成员变量。</p>
+<h2 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h2><p>JDK命令行工具有</p>
+<ul>
+<li><code>jmap</code> 生成堆存储快照</li>
+<li><code>jps</code> 类似UNIX的<code>ps</code>，查看所有Java进程的相关信息</li>
+<li><code>jstat</code> 收集HotSpot虚拟机各方面的运行数据</li>
+<li><code>jinfo</code> 实时查看和调整虚拟机配置信息</li>
+<li><code>jstack</code> 生成虚拟机此时的线程快照</li>
+</ul>
+<p>jmap相关指令</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>使用场景</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-heap &lt;pid&gt;</code></td>
+<td>查看堆内数据</td>
+<td>了解堆配置、GC算法、各区域（如<code>Eden</code>, <code>Old Gen</code>）使用情况</td>
+</tr>
+<tr>
+<td><code>-histo &lt;pid&gt;</code></td>
+<td>查看对象统计信息</td>
+<td>浏览堆中所有对象实例的数量和占用内存</td>
+</tr>
+<tr>
+<td><code>-histo:live &lt;pid&gt;</code></td>
+<td>查看存活对象统计</td>
+<td>只统计存活对象，会触发<code>Full GC</code></td>
+</tr>
+<tr>
+<td><code>-dump:format=b,file=文件名 &lt;pid&gt;</code></td>
+<td>生成堆存储</td>
+<td>用于详细离线分析，会暂停应用</td>
+</tr>
+<tr>
+<td><code>-clstats &lt;pid&gt;</code></td>
+<td>查看类加载器信息</td>
+<td>获取类加载器相关统计</td>
+</tr>
+<tr>
+<td><code>-finalizerinfo &lt;pid&gt;</code></td>
+<td>查看等待终结的对象</td>
+<td>查看等待<code>finalize</code>方法的对象队列</td>
+</tr>
+</tbody></table>
+<p>一般可以使用jmap<a href="#%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%92%8C%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F">分析内存溢出或泄漏</a>。注意</p>
+<ul>
+<li>谨慎使用 <code>-histo:live</code> 和 <code>-dump:live：</code>这两个命令都会触发<code>Full GC</code></li>
+<li>使用 <code>jmap</code> 需要具有目标Java进程的操作权限。</li>
+</ul>
+<p>jps相关命令参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-l</code></td>
+<td>输出主类全名和jar包路径</td>
+</tr>
+<tr>
+<td><code>-v</code></td>
+<td>输出启动时的JVM参数</td>
+</tr>
+<tr>
+<td><code>-m</code></td>
+<td>输出<code>main()</code>函数参数</td>
+</tr>
+</tbody></table>
+<p>jstat相关命令</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-class &lt;vmid&gt;</code></td>
+<td>显示类加载器的相关信息</td>
+</tr>
+<tr>
+<td><code>-compiler &lt;vmid&gt;</code></td>
+<td>显示JIT编译的相关信息</td>
+</tr>
+<tr>
+<td><code>-gc &lt;vmid&gt;</code></td>
+<td>显示GC相关的堆信息</td>
+</tr>
+<tr>
+<td><code>-gccapacity &lt;vmid&gt;</code></td>
+<td>显示各个代的容量及使用情况</td>
+</tr>
+<tr>
+<td><code>-gcnew &lt;vmid&gt;</code></td>
+<td>显示新生代信息</td>
+</tr>
+<tr>
+<td><code>-gcnewcapacity &lt;vmid&gt;</code></td>
+<td>显示新生代大小和使用情况</td>
+</tr>
+<tr>
+<td><code>-gcold &lt;vmid&gt;</code></td>
+<td>显示老年代（和永久代）的行为统计</td>
+</tr>
+<tr>
+<td><code>-gcoldcapacity &lt;vmid&gt;</code></td>
+<td>显示老年代的大小</td>
+</tr>
+<tr>
+<td><code>-gcutil &lt;vmid&gt;</code></td>
+<td>显示垃圾收集信息</td>
+</tr>
+</tbody></table>
+<p>加上<code>-t</code>还能在输出信息后加<code>Timestamp</code>列，显示程序运行时间。</p>
+<p>jinfo相关命令</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;vmid&gt;</code></td>
+<td>输出当前jvm进程的全部参数和系统属性</td>
+</tr>
+<tr>
+<td><code>-flag &lt;name&gt; &lt;vmid&gt;</code></td>
+<td>输出对应名称的参数的具体值，如<code>MaxHeapSize</code>等</td>
+</tr>
+<tr>
+<td><code>-flag [+/-]&lt;name&gt; &lt;vmid&gt;</code></td>
+<td>开启或关闭对应名称的参数</td>
+</tr>
+</tbody></table>
+<h2 id="JVM参数"><a href="#JVM参数" class="headerlink" title="JVM参数"></a>JVM参数</h2><p>内存相关参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-Xms</code></td>
+<td>初始堆大小</td>
+<td><code>-Xms2g</code>表示初始堆大小为2g<br>一般与<code>-Xmx</code>保持一致，避免动态调整内存带来的损耗</td>
+</tr>
+<tr>
+<td><code>-Xmx</code></td>
+<td>最大堆大小</td>
+<td><code>-Xmx4g</code>表示堆最大为4g</td>
+</tr>
+<tr>
+<td><code>-Xmn</code><br><code>-XX:NewSize=&lt;young size&gt;[unit]</code><br><code>-XX:MaxNewSize=&lt;young size&gt;[unit]</code></td>
+<td>年轻代大小<br>初始年轻代大小<br>最大年轻代大小</td>
+<td>一般是整个堆的3&#x2F;8左右</td>
+</tr>
+<tr>
+<td><code>-XX:NewRatio=2</code></td>
+<td>老年代 : 年轻代的比例</td>
+<td>默认是2，表示老年代 : 年轻代 &#x3D; 2 : 1<br>与<code>-Xmn</code>冲突时以<code>-Xmn</code>为准</td>
+</tr>
+<tr>
+<td><code>-XX:SurvivorRatio=8</code></td>
+<td><code>Eden</code>区和<code>Survivor</code>区的比例</td>
+<td><code>Eden</code> : <code>Survivor</code> &#x3D; 8 : 1时，<code>Survivor</code>区占堆的1&#x2F;10</td>
+</tr>
+<tr>
+<td><code>-XX:permsize</code><br><code>-XX:MetaspaceSize</code></td>
+<td>JDK 7前永久代的初始大小<br>JDK 7后<code>Metaspace</code>的初始大小</td>
+<td><code>Metaspace</code>的初始容量并不是这个设置，无论此处设置什么值，对于64位JVM，元空间的初始容量通常是一个固定的较小值(12-20Mb)</td>
+</tr>
+<tr>
+<td><code>-XX:MaxPermSize</code><br><code>-XX:MaxMetaspaceSize</code></td>
+<td>JDK 7前永久代的最大大小<br>JDK 7后<code>Metaspace</code>的最大大小</td>
+<td>默认无上限</td>
+</tr>
+</tbody></table>
+<p>垃圾收集相关参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-XX:+UseG1GC</code></td>
+<td>启用G1垃圾收集器</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td><code>-XX:+UseConMarkSweepGC</code></td>
+<td>启用CMS垃圾收集器</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td><code>-XX:+UseParallelGC</code></td>
+<td>启用<code>Parallel Scavenge</code> + <code>Parallel Old</code><br>若只使用<code>Parallel Old</code>则参数为<code>-XX:+UseParallelOldGC</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-XX:MaxPauseMillis</code></td>
+<td>期望的最大GC停顿时间</td>
+<td>收集器会尽力达成这个目标</td>
+</tr>
+<tr>
+<td><code>-XX:GCTimeRatio</code></td>
+<td>吞吐量目标</td>
+<td>计算吞吐量式子为$\frac{1}{1+\text{GCTimeRatio}}$</td>
+</tr>
+<tr>
+<td><code>-XX:InitiatingHeapOccupancyPercent</code></td>
+<td>触发并发GC周期的堆占用阈值</td>
+<td>默认为45，即当堆占用率达到45%时，G1开始并发标记周期</td>
+</tr>
+<tr>
+<td><code>-Xloggc:&lt;file&gt;</code> <code>-XX:PrintGC</code></td>
+<td>将GC日志输出到文件<br>JDK 9后引入了统一的JVM日志框架<code>-Xlog</code></td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td><code>-XX:+PrintGCDetails</code></td>
+<td>打印详细的GC信息</td>
+<td>提供包括各代容量、使用情况、耗时等详细信息</td>
+</tr>
+<tr>
+<td><code>-XX:+PrintGCTimeStamps</code></td>
+<td>打印GC发生的时间戳</td>
+<td>从JVM启动开始计算的时间</td>
+</tr>
+<tr>
+<td><code>-XX:+PrintGCDateStamps</code></td>
+<td>打印GC发生的日期和时间</td>
+<td>更常用</td>
+</tr>
+<tr>
+<td><code>-XX:+UseGCLogFileRotation</code><br><code>-XX:NumberOfGCLogFiles</code><br><code>-XX:GCLogFileSize</code></td>
+<td>开启GC日志滚动<br>滚动日志文件的数量，保留最近的多少个<br>设置每个日志文件的最大大小</td>
+<td>避免单个日志文件过大，需要多个参数配合使用</td>
+</tr>
+</tbody></table>
+<p>处理OOM，生成相关文件等</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-XX:+HeapDumpOnOutOfMemoryError</code></td>
+<td>在发生OOM时生成转储文件</td>
+</tr>
+<tr>
+<td><code>-XX:HeapDumpPath=/path/to/heapdump/java_pid&lt;pid&gt;.hprof</code></td>
+<td>指定堆转储文件的输出路径</td>
+</tr>
+<tr>
+<td><code>-XX:OnOutOfMemoryError=&quot;&lt;command&gt; &lt;args&gt;&quot;</code></td>
+<td>发生OOM时执行的命令</td>
+</tr>
+<tr>
+<td><code>-XX:+UseGCOverheadLimit</code></td>
+<td>在GC时间占比过高（默认98%）时抛出OOM</td>
+</tr>
+</tbody></table>
+<p>一个JVM参数配置示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">java -server \<br>     -Xms4g -Xmx4g -Xmn2g \                    <span class="hljs-comment"># 堆内存固定4G，年轻代2G</span><br>     -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m \ <span class="hljs-comment"># 元空间固定256M</span><br>     -XX:+UseG1GC \                            <span class="hljs-comment"># 使用G1收集器</span><br>     -XX:MaxGCPauseMillis=200 \                <span class="hljs-comment"># 目标停顿200ms</span><br>     -XX:InitiatingHeapOccupancyPercent=45 \   <span class="hljs-comment"># IHOP阈值45%</span><br>     -Xloggc:/app/logs/gc.log \                <span class="hljs-comment"># GC日志路径</span><br>     -XX:+PrintGCDetails -XX:+PrintGCDateStamps \ <span class="hljs-comment"># 打印详细GC信息和日期</span><br>     -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=10M \ <span class="hljs-comment"># 日志滚动</span><br>     -XX:+HeapDumpOnOutOfMemoryError \         <span class="hljs-comment"># OOM时生成Dump</span><br>     -XX:HeapDumpPath=/app/logs \              <span class="hljs-comment"># Dump文件路径</span><br>     -Dfile.encoding=UTF-8 \                   <span class="hljs-comment"># 系统属性：文件编码</span><br>     -Dspring.profiles.active=prod \           <span class="hljs-comment"># 系统属性：Spring环境</span><br>     -jar my-application.jar<br></code></pre></td></tr></table></figure>
 
+<h2 id="调优案例"><a href="#调优案例" class="headerlink" title="调优案例"></a>调优案例</h2><p><a target="_blank" rel="noopener" href="https://javaguide.cn/java/jvm/jvm-in-action.html">资料</a></p>
+<h3 id="内存溢出和内存泄漏"><a href="#内存溢出和内存泄漏" class="headerlink" title="内存溢出和内存泄漏"></a>内存溢出和内存泄漏</h3><p>在出现以下问题时则很可能发生了内存泄漏</p>
+<ul>
+<li>应用响应越来越慢，频繁进行 <code>Full GC</code>。</li>
+<li>通过监控系统（如 Prometheus + Grafana）发现 Java 堆内存使用率持续上升，且即使经过 <code>Full GC</code> 也无法回落到正常水平，呈现“锯齿状但整体向上”的趋势。</li>
+<li>最终抛出 <code>java.lang.OutOfMemoryError: Java heap space</code> 错误。</li>
+</ul>
+<p>排查内存泄漏的流程如下</p>
+<div class="note note-info">
+            <p>首先使用以下的监控工具进行监视</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看GC概况，1s打印一次，共打印10次</span><br>jstat -gcutil &lt;pid&gt; 1s 10<br></code></pre></td></tr></table></figure><p>重点关注<code>OU</code>（老年代使用率）和<code>FU</code>（元空间使用率）。若发生了老年代内存泄漏，那么<code>OU</code>会持续增长，即使<code>Full GC</code>后也不下去。</p><p>然后获取内存快照(Heap Dump)。当确认存在内存泄漏嫌疑后，需要在内存占用量高的时候，生成堆转储文件，即一个时刻的Java堆内存快照。<br>生成Heap Dump有两种方法：</p><ol><li>一般使用命令行工具<code>jmap</code>。命令中，<code>live</code> 选项会触发一次 <code>Full GC</code>，只转储存活的对象。这能使快照更小，分析焦点更集中。如果不想要触发 GC，可以去掉 <code>live</code>。</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 在当前目录生成一个 heap.hprof 文件</span><br>jmap -dump:live,format=b,file=heap.hprof &lt;pid&gt;<br></code></pre></td></tr></table></figure><ol start="2"><li>也可以加JVM启动参数。当JVM发生OOM时，会自动生成Heap Dump。</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/dump.hprof<br></code></pre></td></tr></table></figure><p>接着分析这个巨大的二进制文件。一般可以使用<code>Eclipse Memory Analyzer Tool</code> (<code>MAT</code>)或<code>JVisualVM</code>分析。</p>
+          </div>
                 
               </div>
             
@@ -311,15 +584,32 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/web/" class="category-chain-item">web</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
         <a href="../../../../tags/java/" class="print-no-link">#java</a>
-      
-        <a href="../../../../tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="print-no-link">#面向对象</a>
-      
-        <a href="../../../../tags/cpp/" class="print-no-link">#cpp</a>
       
     </div>
   
@@ -331,8 +621,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>面向对象 - 运作逻辑</div>
-      <div>https://ivanclf.github.io/2024/04/26/oo-3/</div>
+      <div>JVM调优</div>
+      <div>https://ivanclf.github.io/2025/10/10/jvm-2/</div>
     </div>
     <div class="license-meta">
       
@@ -344,7 +634,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月26日</div>
+          <div>2025年10月10日</div>
         </div>
       
       
@@ -376,18 +666,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="../../../05/15/git-use/" title="git的常见用法">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">git的常见用法</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="../../24/oo-2/" title="面向对象 - 继承与多态">
-                        <span class="hidden-mobile">面向对象 - 继承与多态</span>
+                      <a href="../../06/jvm/" title="JVM的底层实现">
+                        <span class="hidden-mobile">JVM的底层实现</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -19,23 +19,25 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Spring的底层Servlet中，一个请求对应一个线程。为了提高网页响应速度，提供缓存并进行维护，使得缓存满足高并发状态下的请求，就显得非常重要。此处使用redis，解决部分高并发问题。 redis核心就是单线程，不容易出现线程问题。但redis也采用了多线程的IO多路复用技术，可以在只有一个线程的情况下同时监听多个客户端链接。 redis 6.0后，redis引入了多线程机制，把网络IO和命令">
+    <meta name="description" content="这部分主要涉及SQL语法及部分实现上的差别，暂不涉及太底层的内容。 参考文献：  https:&#x2F;&#x2F;javaguide.cn&#x2F;database&#x2F;sql&#x2F;sql-syntax-summary.html https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;mysql.html               数据库范式有3种第一范式：属性不可再分，确保表的每一列都是不可分割的基本数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="高并发下的缓存策略 - 1">
-<meta property="og:url" content="https://ivanclf.github.io/2025/09/22/redis/index.html">
+<meta property="og:title" content="SQL基础">
+<meta property="og:url" content="https://ivanclf.github.io/2025/10/10/sql/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="Spring的底层Servlet中，一个请求对应一个线程。为了提高网页响应速度，提供缓存并进行维护，使得缓存满足高并发状态下的请求，就显得非常重要。此处使用redis，解决部分高并发问题。 redis核心就是单线程，不容易出现线程问题。但redis也采用了多线程的IO多路复用技术，可以在只有一个线程的情况下同时监听多个客户端链接。 redis 6.0后，redis引入了多线程机制，把网络IO和命令">
+<meta property="og:description" content="这部分主要涉及SQL语法及部分实现上的差别，暂不涉及太底层的内容。 参考文献：  https:&#x2F;&#x2F;javaguide.cn&#x2F;database&#x2F;sql&#x2F;sql-syntax-summary.html https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;mysql.html               数据库范式有3种第一范式：属性不可再分，确保表的每一列都是不可分割的基本数据">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-09-22T11:19:32.000Z">
-<meta property="article:modified_time" content="2025-10-23T06:15:55.128Z">
+<meta property="og:image" content="https://ivanclf.github.io/2025/10/10/sql/join.jpg">
+<meta property="article:published_time" content="2025-10-10T12:13:26.000Z">
+<meta property="article:modified_time" content="2025-10-23T06:26:54.569Z">
 <meta property="article:author" content="Ivan Chan">
-<meta property="article:tag" content="java">
-<meta property="article:tag" content="redis">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ivanclf.github.io/2025/10/10/sql/join.jpg">
   
   
   
-  <title>高并发下的缓存策略 - 1 - Ivan的博客</title>
+  <title>SQL基础 - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="高并发下的缓存策略 - 1"></span>
+            <span id="subtitle" data-typed-text="SQL基础"></span>
           
         </div>
 
@@ -224,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-09-22 19:19" pubdate>
-          2025年9月22日 晚上
+        <time datetime="2025-10-10 20:13" pubdate>
+          2025年10月10日 晚上
         </time>
       </span>
     
@@ -236,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          1.8k 字
         
       </span>
     
@@ -279,125 +281,183 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">高并发下的缓存策略 - 1</h1>
+            <h1 id="seo-header">SQL基础</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Spring的底层Servlet中，一个请求对应一个线程。为了提高网页响应速度，提供缓存并进行维护，使得缓存满足高并发状态下的请求，就显得非常重要。此处使用redis，解决部分高并发问题。</p>
-<p>redis核心就是单线程，不容易出现线程问题。但redis也采用了多线程的IO多路复用技术，可以在只有一个线程的情况下同时监听多个客户端链接。</p>
-<p>redis 6.0后，redis引入了多线程机制，把网络IO和命令执行分开，将网络IO交给线程池来处理。从而提高性能。</p>
-<div class="note note-success">
-            <p>IO多路复用的核心思想是，让单个线程可以等待多个文件描述符就绪，然后对就绪的描述符进行操作。这样就可以在不使用多线程的情况下进行并发连接</p>
-          </div>
-
-<div class="note note-info">
-            <p><a target="_blank" rel="noopener" href="https://www.runoob.com/redis/redis-tutorial.html">点击这里</a>学redis基础操作。在Java中，涉及redis的操作一般可以通过特定形式的API解决。</p>
-          </div>
-
-<h2 id="为什么需要缓存？"><a href="#为什么需要缓存？" class="headerlink" title="为什么需要缓存？"></a>为什么需要缓存？</h2><p>一般的前后端分离项目中，遵循以下结构</p>
-<pre><code class=" mermaid">graph LR
-fronted[fronted]--&gt;|step 1|backend[backend]--&gt;|step 2|database[database]
-</code></pre>
-
-<p>为了在多后端的集群（或微服务）中对多种多样的请求进行中转，需要在<code>step 1</code>中插入nginx作为中间件，而大量重复的请求（如登录校验、热点信息查询）会导致MySQL这些数据库压力过大，并使得用户访问速度较慢。因此<code>step 2</code>中需要非关系型数据库作为缓冲，减少大量重复或不必要的数据库读取。Redis就是非关系型数据库的一种。</p>
-<p>比如，在实现登录状态持久化的功能时，常用的手段包括jwt和存在redis中的token。</p>
+                <p>这部分主要涉及SQL语法及部分实现上的差别，暂不涉及太底层的内容。</p>
+<p>参考文献：</p>
 <ul>
-<li>jwt(JSON Web Token): 在用户登录时，后端将存有用户信息、有效期的JSON文件通过Base64解码并进行数字签名后传输给客户。客户在后续的请求中带上jwt。</li>
-<li>存在redis中的token: 在用户登录时，后端将随机token发送给用户，同时存一份到Redis中。客户在后续的请求中带上token。</li>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/database/sql/sql-syntax-summary.html">https://javaguide.cn/database/sql/sql-syntax-summary.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/mysql.html">https://javabetter.cn/sidebar/sanfene/mysql.html</a></li>
 </ul>
-<p>后一种能够实现主动登出服务，并且对有效期的管理更加灵活（例如在用户发送请求时由redis动态调整有效期），在某些需求下更受青睐。</p>
-<h2 id="为什么是redis"><a href="#为什么是redis" class="headerlink" title="为什么是redis"></a>为什么是redis</h2><p>分布式缓存除了redis，还有Memcacheed方案，这种在分布式缓存最开始兴起那会常用，但现在用得不多。其他的分布式缓存方案也比较多，例如<code>Dragonfliy</code>、<code>KeyDB</code>等。</p>
-<h2 id="redis数据类型指北"><a href="#redis数据类型指北" class="headerlink" title="redis数据类型指北"></a>redis数据类型指北</h2><ul>
-<li><p><code>String</code>可以把序列化后的对象存进去，最大容量是512Mb。</p>
-</li>
-<li><p>相比于<code>Hash</code>，<code>String</code>适合存储对象数据，但如果需要频繁操作对象的部分字段或节省内吨，那么<code>Hash</code>可能更好。</p>
-</li>
-<li><p>redis的<code>String</code>类型的底层实现并不是C语言的字符串，而是自己编写了SDS（<code>Dimple Dynamic String</code> 简单动态字符串）来作为底层实现。相比C语言的字符串，SDS可以快捷获取字符串长度，保证缓冲区安全和二进制安全，使用更聪明的内存分配策略等。<br>  忽略其不同字节下的实现方式变化，其定义方式如下</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sdshdr</span> &#123;</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> len;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> <span class="hljs-built_in">free</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> flags; <span class="hljs-comment">// 低3位保存类型状态</span><br>    <span class="hljs-type">char</span> buf[];<br>&#125;;<br></code></pre></td></tr></table></figure>
+<div class="note note-success">
+            <p>数据库范式有3种</p><ul><li>第一范式：属性不可再分，确保表的每一列都是不可分割的基本数据单元</li><li>第二范式：第一范式的基础上，消除了非主属性对于码的部分函数依赖，即表中每一列都和主键直接相关</li><li>第三范式：第二范式的基础上，消除了非主属性对于码的传递函数依赖，即非主键列应该只依赖于主键列</li></ul>
+          </div>
 
-<p>  其中的<code>len</code>和<code>free</code>中的<code>unsigned int</code>会随着其初始化长度，改变为<code>uint8_t</code>、<code>uint16_t</code>、<code>uint32_t</code>或<code>uint_64t</code>几种类型</p>
+<div class="note note-success">
+            <p>SQL和NoSQL有什么区别？</p><table><thead><tr><th></th><th>SQL</th><th>NoSQL</th></tr></thead><tbody><tr><td>数据存储类型</td><td>结构化存储，具有固定行和列的表格</td><td>非结构化存储。文档：JSON 文档，键值：键值对，宽列：包含行和动态列的表，图：节点和边</td></tr><tr><td>例子</td><td>Oracle、MySQL、Microsoft SQL Server、PostgreSQL</td><td>文档：MongoDB、CouchDB，<br>键值：Redis、DynamoDB，<br>宽列：Cassandra、 HBase，<br>图表：Neo4j、 Amazon Neptune、Giraph</td></tr><tr><td>ACID 属性</td><td>提供原子性、一致性、隔离性和持久性 (ACID) 属性</td><td>通常不支持 ACID 事务，为了可扩展、高性能进行了权衡，少部分支持比如 MongoDB</td></tr><tr><td>性能</td><td>性能通常取决于磁盘子系统。要获得最佳性能，通常需要优化查询、索引和表结构</td><td>性能通常由底层硬件集群大小、网络延迟以及调用应用程序来决定</td></tr><tr><td>扩展</td><td>垂直（使用性能更强大的服务器进行扩展）、读写分离、分库分表</td><td>横向（增加服务器的方式横向扩展，通常是基于分片机制）</td></tr></tbody></table>
+          </div>
+
+<h2 id="基本数据类型指北"><a href="#基本数据类型指北" class="headerlink" title="基本数据类型指北"></a>基本数据类型指北</h2><ul>
+<li><p><code>varchar</code>和<code>char</code>的区别在于，<code>varchar</code>是可变长度的字符类型，最长不会超过声明的大小。原则上最多可以容纳65535个字符（但MySQL需要1到2个字节来表示字符串长度）。但<code>char</code>字段无论存储的字符长度是多少，都会占用声明的长度。<br>  不过，当<code>varchar</code>类型在指定大小较大时，会消耗更多的内存，因为<code>varchar</code>类型在内存中操作时，通常会分配固定大小的内存块来保存值。</p>
+</li>
+<li><p><code>blob</code>和<code>text</code>的区别在于，<code>blob</code>用于存储二进制数据，因此基本所有数据都能存，但存多媒体更好。然而市面上更多人会把文件存到OSS上，然后在数据库中存URL。而<code>text</code>用于存储文本数据，但目前<code>text</code>因为不能有默认值，检索效率较低等缺点，目前也不常用。</p>
+</li>
+<li><p><code>datetime</code>和<code>timestamp</code>的区别在于，一个直接放日期和时间的完整值，和时区无关，占8个字节；而另一个放时间戳，占4个字节，实际开发更常用。</p>
+</li>
+<li><p><code>null</code>和<code>&#39;&#39;</code>是两个不同的值，一个表示值未确定，而另一个表示空字符串。<br>  任何值和<code>null</code>进行比较的结果都是<code>null</code>。<br>  要判断一个值是不是<code>null</code>，必须使用<code>is null</code>或<code>is not null</code>。<br>  大多数聚合函数会忽略<code>null</code>值。</p>
+</li>
+<li><p>MySQL中没有专门的布尔类型，一般使用<code>tinyint(1)</code>表示布尔值。</p>
 </li>
 </ul>
-<h2 id="缓存更新"><a href="#缓存更新" class="headerlink" title="缓存更新"></a>缓存更新</h2><p>既然是把同一份数据存了两遍。那么当数据库中的某些数据已经更改，redis中的数据应该在什么时候更新呢？为了保证数据库与redis的高一致性，每次更新数据库后，都需要同步对redis进行操作。</p>
-<div class="note note-info">
-            <p>除了每次更新数据库都同步更新外，还有其他办法。例如将缓存与数据库合并成一个服务，再插入一个中间件；或者使用写回法，调用者只操作缓存，由其他线程将缓存数据持久化到数据库中。</p>
-          </div>
-
-<p>更新缓存时可能会产生无效更新，且可能导致线程安全问题，因此在更新数据库时直接删除redis中的相关条目。这样，当用户查询到这条数据时，就可以直接查数据库，从而同步到redis中。</p>
-<p>如何保证缓存和数据库的操作同时成功或失败呢？对于单体系统，可以将缓存与数据库放在一个事务中。而在分布式系统中，可以利用TCC等分布式解决方案。</p>
-<div class="note note-info">
-            <p>事务是MySQL中的一个概念，用于将多个操作合并为一个独立的工作单元。事务必须满足四个特性(ACID)：原子性、一致性、隔离性、持久性。该特性用于保证成批的SQL语句一起执行——即要么全部执行成功、要么全部执行失败。Spring中也借用了这一概念。</p><p>TCC(Try-Confirm-Cancel)用于解决分布式系统中传统的数据库ACID事务只能保证单个数据库的原子性问题。首先在Try阶段创建一个状态为“待确认”的订单。若所有的Try操作都成功，则跳转至Confirm阶段，将订单状态从“待确认”更新为“已确认”；若任何一个Try操作失败，则执行Cancel操作，将订单状态更新为“已取消”，回滚语句并释放资源。</p>
-          </div>
-
-<p>先操作缓存还是先操作数据库呢？这个需要考虑读写线程可能引起的并发问题。</p>
-<pre><code class=" mermaid">sequenceDiagram
-    participant t1 as Thread1
-    participant t2 as Thread2
-
-    t1-&gt;&gt;t1: 1. delete cache
-    t2-&gt;&gt;t2: 2. search cache, miss, so check database
-    t2-&gt;&gt;t2: 3. return data and write back to cache
-    t1-&gt;&gt;t1: 4. update database
-</code></pre>
-
-<p>在先删除缓存再操作数据库的情况下，由于更新数据库的速度较慢，所以上图中的状况很有可能发生。最后导致缓存中的数据是老数据而数据库中的数据是新数据。</p>
-<pre><code class=" mermaid">sequenceDiagram
-    participant t1 as Thread1
-    participant t2 as Thread2
-
-    t1-&gt;&gt;t1: 1. search cache, miss, so check database
-    t2-&gt;&gt;t2: 2. update database
-    t2-&gt;&gt;t2: 3. delete cache
-    t1-&gt;&gt;t1: 4. write back to cache
-</code></pre>
-
-<p>在先操作数据库再删除缓存的情况下，可能的不一致问题如上图。但写的时间一般远远大于读的时间，因此上图发生的概率极小。因此，一般先操作数据库。</p>
-<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>当客户端请求的数据不存在时，缓存永远都不会生效，而且这些请求都会打到数据库上。这样要是有大量重复的数据打进来，服务就崩了。</p>
-<p>解决缓存穿透的办法有两个：一个是在第一次发现不存在时，向redis写入一个空对象，这样简单好用，但会造成额外的内存开销与短时间的不一致问题。另一种是使用布隆过滤器，通过过滤器的请求才能进入到redis中，这样不需要太多额外内存，也不会产生不一致问题，但可能会误判，并且删除数据较为困难。</p>
-<div class="note note-info">
-            <p>布隆过滤器是一大串位列表。将数据添加到布隆过滤器时，我们提供数个不同的哈希函数中，将各自算出的值置为1。当请求获得的哈希值与布隆过滤器不匹配时拒绝，并返回空对象，反之放行。当某个空对象刚好能匹配先前其他元素生成过的1时，它也能透过过滤器。</p>
-          </div>
-
-<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>在同一时段内若有大量的缓存key同时失效或者redis服务宕机，那么大量的请求会直接到达数据库，造成巨大的压力。</p>
-<p>对于大量缓存key同时失效的问题，直接给key的TTL设置随机时间即可。但对于redis宕机的问题则比较麻烦。常见的解决方案有设计redis集群、给缓存业务设置降级策略以及设计多级缓存等。</p>
-<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p>一个高频访问并且重建缓存重建业务较为复杂的key突然失效了，大量的请求会挤进数据库里，并且大量申请写入redis的请求也会形成，从而造成巨大压力。为了防止这种情况，可以使用互斥锁或者逻辑过期方法。</p>
-<pre><code class=" mermaid">sequenceDiagram
-    participant t1 as Thread1
-    participant t2 as Thread2
-
-    t1-&gt;&gt;t1: 1. check cache, miss
-    t2-&gt;&gt;t2: 1. check cache, miss
-    t1-&gt;&gt;t1: 2. get mutex, success
-    t2-&gt;&gt;t2: 2. get mutex, failed
-    t1-&gt;&gt;t1: 3. select in database
-    t2-&gt;&gt;t2: 3. wait and retry to check cache again
-    t2-&gt;&gt;t2: retry
-    t1-&gt;&gt;t1: 4. write back to cache
-    t1-&gt;&gt;t1: 5. release mutex
-    t2-&gt;&gt;t2: check cache, success
-</code></pre>
-
-<p>在互斥锁解决方案中，在进行缓存重建时，一群请求中只有一个可以进入数据库中，其余的请求都在等待。而在写入缓存后，其他的请求都直接从缓存中读取。</p>
-<pre><code class=" mermaid">sequenceDiagram
-    participant t1 as Thread1
-    participant t2 as Thread2
-    participant t3 as Thread3
-
-    t1-&gt;&gt;t1: 1. check cache, miss
-    t3-&gt;&gt;t3: 1. check cache, miss
-    t1-&gt;&gt;t1: 2. get mutex, success
-    t3-&gt;&gt;t3: 2. get mutex, failed
-    t1-&gt;&gt;t2: 3. create a new thread
-    t3-&gt;&gt;t3: 3. return overdue data
-    t2-&gt;&gt;t2: 1. select database
-    t1-&gt;&gt;t1: 4. return overdue data
-    t2-&gt;&gt;t2: 2. write back to cache
-    t2-&gt;&gt;t2: 3. release mutex
-</code></pre>
-
-<p>逻辑过期与物理过期存在很大的差别。当使用逻辑过期时，物理过期时间可能会特别长甚至没有。逻辑过期结束时会另发线程更新数据，而在数据更新完成前，另外的线程都会使用旧数据。</p>
-<p>这两种方法适用于不同的情形。互斥锁适用于需要在每次数据库更新是都需要缓存重建的场景，一致性强且实现较为简单。但线程的等待时间较长。而逻辑过期方案适用于定期更新缓存的场景，一致性弱但不会出现线程等待的问题。</p>
+<h2 id="关键字指北"><a href="#关键字指北" class="headerlink" title="关键字指北"></a>关键字指北</h2><p><img src="join.jpg" srcset="/img/loading.gif" lazyload alt="提到数据库基础就必须要放的join图"></p>
+<ul>
+<li><p><code>drop</code>，<code>delete</code>，<code>truncate</code>的区别在于，<code>drop</code>直接把整个表删除掉，<code>truncate</code>只是清空表中的数据而不改变表的结构，同时自增id也重新开始，<code>delete</code>删除某一行的数据，不加<code>where</code>字句时和<code>truncate</code>类似，不改变表的结构。同时，<code>truncate</code>和<code>drop</code>直接对整张表进行操作，因此原数据不能回滚，也不会触发trigger。</p>
+</li>
+<li><p><code>in</code>和<code>exists</code>的区别在于，在使用<code>in</code>时，MySQL会首先执行子查询，然后将结果集用于外部查询的条件，适用于结果集较小的情况；<code>exists</code>会对外部查询的每一行执行一次子查询，若子查询返回任何行则<code>exists</code>条件为真，适用于结果集可能很大的情况。<br>  还有，<code>in</code>可能会受到null值陷的影响，产生意外结果，而<code>exists</code>完全不受影响。</p>
+</li>
+<li><p><code>union</code>，<code>union all</code>，<code>join</code>的区别在于，<code>union</code>和<code>union all</code>都是垂直合并，用于合并多个<code>select</code>语句的结果集，但前者会自动去重，后者不去重，而<code>join</code>为列合并，基于某个条件将多个表的列组合到一起。</p>
+</li>
+<li><p><code>like</code>操作符用于确定字符串是否匹配模式，支持两个通配符选项：<code>%</code>和<code>_</code><br>  <code>%</code>表示任何字符出现任意次数<br>  <code>_</code>表示任何字符出现一次</p>
+</li>
+<li><p>事务管理不对<code>select</code>操作生效，不能回退<code>create</code>和<code>drop</code>语句。</p>
+</li>
+<li><p>使用<code>start transaction</code>开启事务，<code>commit</code>提交事务，<code>savepoint</code>创建保留点，<code>rollback to</code>用于回滚到某个保留点（没有设置则回滚到<code>start transaction</code>）。</p>
+</li>
+<li><p><code>where</code>用于过滤指定行，后面不跟聚合函数，放<code>group by</code>前；<code>having</code>用于过滤分组，一般和<code>group by</code>连用。</p>
+</li>
+<li><p>约束条件可以在创建表(<code>create table</code>)时约定，也可以在表创建后更新(<code>alter table</code>)。常用的约束条件有</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>not null</code></td>
+<td>存不了<code>null</code>值</td>
+</tr>
+<tr>
+<td><code>unique</code></td>
+<td>每行必须有唯一值</td>
+</tr>
+<tr>
+<td><code>primary key</code></td>
+<td><code>not null</code> + <code>unique</code>，主键</td>
+</tr>
+<tr>
+<td><code>foreign key</code></td>
+<td>外键</td>
+</tr>
+<tr>
+<td><code>check</code></td>
+<td>保证列中的值符合指定条件</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>默认值</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><code>explain</code>可以用于普通crud语句，显示其执行查询的计划。以下是其中的一些输出列。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>查询的标识符。如果是复杂查询（如子查询或UNION），数字大的先执行，数字相同的从上到下执行</td>
+</tr>
+<tr>
+<td><code>select_type</code></td>
+<td>查询类型常见的有<br><code>simple</code> 简单查询<br><code>primary</code> 最外层的查询<br> <code>subquery</code> 子查询中的第一个<code>select</code><br><code>derived</code> 派生表（<code>from</code>字句里的子查询）<br><code>union</code> <code>union</code>中的第二个或后面的<code>select</code></td>
+</tr>
+<tr>
+<td><code>table</code></td>
+<td>当前行访问的是哪个表</td>
+</tr>
+<tr>
+<td><code>partitions</code></td>
+<td>匹配的分区</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>连接类型或访问类型。是衡量查询效率的关键指标<br>从好到坏大致是<br><code>system</code>&gt;<code>count</code>&gt;<code>eq_ref</code>&gt;<code>ref</code>&gt;<code>range</code>&gt;<code>index</code>&gt;<code>all</code><br>达到<code>const</code> <code>eq_ref</code> <code>ref</code>的推荐情况；范围查询下，使用<code>range</code>也可以接受。如果是<code>all</code>，则需要进行优化</td>
+</tr>
+<tr>
+<td><code>possible_keys</code></td>
+<td>查询可能使用的索引</td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td>查询实际使用的索引，<code>null</code>为没有使用索引</td>
+</tr>
+<tr>
+<td><code>key_len</code></td>
+<td>使用索引的长度，越短越好</td>
+</tr>
+<tr>
+<td><code>ref</code></td>
+<td>显示索引的哪一列被使用了</td>
+</tr>
+<tr>
+<td><code>extra</code></td>
+<td>包含不适合放其他列的额外信息。包括<br><code>using index</code> 使用了覆盖索引<br><code>using where</code> 在存储引擎检索行后进行了过滤<br><code>using temporary</code> 需要创建临时表来处理查询，这通常需要优化<br><code>using filesort</code> 需要额外的排序操作，通常需要优化</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>MySQL常用函数如下</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>left()</code> <code>right()</code></td>
+<td>左边或右边的字符</td>
+<td><code>lower()</code> <code>upper()</code></td>
+<td>转换为小写或大写</td>
+</tr>
+<tr>
+<td><code>ltrim()</code> <code>rtrim()</code> <code>trim()</code></td>
+<td>去掉左边或右边或两边的空格</td>
+<td><code>concat()</code></td>
+<td>链接多个字符串</td>
+</tr>
+<tr>
+<td><code>length()</code></td>
+<td>长度，以字节为单位</td>
+<td><code>round()</code></td>
+<td>返回小数的四舍五入值</td>
+</tr>
+<tr>
+<td><code>now()</code></td>
+<td>当前日期和时间</td>
+<td><code>curdate()</code></td>
+<td>当前日期</td>
+</tr>
+<tr>
+<td><code>if()</code></td>
+<td>若条件为真，返回一个值，否则返回另一个值</td>
+<td><code>case</code></td>
+<td>根据一系列条件返回值</td>
+</tr>
+</tbody></table>
+<p>以下都以MySQL的函数为例。</p>
+<ul>
+<li><code>count(&lt;constance&gt;)</code>和<code>count(*)</code>之间没什么差别，<code>count(&lt;col&gt;)</code>只统计列中非<code>null</code>值数据。</li>
+</ul>
 
                 
               </div>
@@ -431,9 +491,9 @@ fronted[fronted]--&gt;|step 1|backend[backend]--&gt;|step 2|database[database]
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="../../../../tags/java/" class="print-no-link">#java</a>
+        <a href="../../../../tags/SQL/" class="print-no-link">#SQL</a>
       
-        <a href="../../../../tags/redis/" class="print-no-link">#redis</a>
+        <a href="../../../../tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
       
     </div>
   
@@ -445,8 +505,8 @@ fronted[fronted]--&gt;|step 1|backend[backend]--&gt;|step 2|database[database]
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>高并发下的缓存策略 - 1</div>
-      <div>https://ivanclf.github.io/2025/09/22/redis/</div>
+      <div>SQL基础</div>
+      <div>https://ivanclf.github.io/2025/10/10/sql/</div>
     </div>
     <div class="license-meta">
       
@@ -458,7 +518,7 @@ fronted[fronted]--&gt;|step 1|backend[backend]--&gt;|step 2|database[database]
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年9月22日</div>
+          <div>2025年10月10日</div>
         </div>
       
       
@@ -490,9 +550,9 @@ fronted[fronted]--&gt;|step 1|backend[backend]--&gt;|step 2|database[database]
                   <article class="post-prev col-6">
                     
                     
-                      <a href="../../24/redis-2/" title="高并发下的缓存策略 - 2">
+                      <a href="../../11/sql-2/" title="MySQL底层">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">高并发下的缓存策略 - 2</span>
+                        <span class="hidden-mobile">MySQL底层</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -500,8 +560,8 @@ fronted[fronted]--&gt;|step 1|backend[backend]--&gt;|step 2|database[database]
                   <article class="post-next col-6">
                     
                     
-                      <a href="../../../08/22/leetcode-6/" title="leetcode热题100官方题解 - 6">
-                        <span class="hidden-mobile">leetcode热题100官方题解 - 6</span>
+                      <a href="../jvm-2/" title="JVM调优">
+                        <span class="hidden-mobile">JVM调优</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

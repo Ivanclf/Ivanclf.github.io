@@ -27,9 +27,10 @@
 <meta property="og:description" content="阻塞队列在抢单业务中，同一时间内会有大量的请求，但MySQL中的写速度总是有限的，因此就需要通过读写分离来提高响应速度。优化的内容在第二篇中已经提到过，此处主要是读写不均衡下队列的一种实现方式。 阻塞队列与其他队列不一样的地方在于，当队列为空时，若一个线程试图从队列中取出元素，那么这个操作将被阻塞，直到有元素被放入为止；当队列为满时，若一个线程试图向队列中放入元素，那么这个操作也会被阻塞，直到有元">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-25T12:08:52.000Z">
-<meta property="article:modified_time" content="2025-09-26T00:37:22.320Z">
+<meta property="article:modified_time" content="2025-10-23T05:58:06.187Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
+<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -235,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          1.3k 字
         
       </span>
     
@@ -286,6 +287,7 @@
                 <h2 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h2><p>在抢单业务中，同一时间内会有大量的请求，但MySQL中的写速度总是有限的，因此就需要通过读写分离来提高响应速度。优化的内容在第二篇中已经提到过，此处主要是读写不均衡下队列的一种实现方式。</p>
 <p>阻塞队列与其他队列不一样的地方在于，当队列为空时，若一个线程试图从队列中取出元素，那么这个操作将被<strong>阻塞</strong>，直到有元素被放入为止；当队列为满时，若一个线程试图向队列中放入元素，那么这个操作也会被阻塞，直到有元素被取出为止。也就是说，阻塞队列是一种更加智能的生产-消费者模型。</p>
 <h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p>阻塞队列也存在问题，例如超过上限时处理速度仍然较慢，而且由于没有持久化，阻塞队列中容易出现安全问题。使用消息队列就容易解决这些问题。消息队列仍然是一种更智能的生产-消费者模型。在redis中，可以通过stream类型实现消息队列的功能。当然，更常用的还是Rabbit MQ。</p>
+<p>在redis 2.0前，只能通过List的<code>rpush/rpop</code>或<code>lpush/lpop</code>来实现简易版消息队列。但这样可能会存在性能问题。在redis 2.0后，5.0前，可以使用发布&#x2F;订阅功能（<code>pub</code>&#x2F;<code>sub</code>），解决了List没有广播机制的问题。在redis 5.0后，可以使用<code>Stream</code>来实现消息队列，Stream是一个有序的消息列表，可以满足一个消息队列的基本要求。不过，其在实际使用中依然会有一些小问题。</p>
 <h2 id="Feed流的实现方案"><a href="#Feed流的实现方案" class="headerlink" title="Feed流的实现方案"></a>Feed流的实现方案</h2><p>Feed流可以为用户持续提供的“沉浸式”体验，通过无限下拉刷新获取信息。而Feed流产品有两种实现方式，一种是不做内容筛选，简单的按照内容发布时间排序，常用于好友或关注。如关注栏和朋友圈等；而另一种则是利用智能算法屏蔽掉用户不感兴趣的内容，推送用户感兴趣的内容来吸引用户。</p>
 <p>对于其中的第一种实现方式，有3种不同的解决方案</p>
 <ul>
@@ -302,6 +304,8 @@
 <li><strong>PV</strong> (Page View): 页面访问量，用户每访问一个页面就记录一次，访问多次就记录多次。</li>
 </ul>
 <p>因为对用户的统计信息需要存储，因此这种统计在服务器段做会比较麻烦，就是在redis中进行缓存，数据量也会很恐怖。因此对于UV统计，常用的方法是使用redis内置的HyperLogLog功能，该功能能确定非常大的集合的基数，但统计会有误差，误差为小于0.81%。</p>
+<h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><p>GEO用于存储和查询地理位置信息，其底层基于ZSet实现，用过Geohash算法把经纬度编码成score。</p>
+<h2 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h2><p>对于小型项目，可以使用<code>RedisSearch</code>，搭配<code>RedisJSON</code>，可以作为搜索引擎使用。然而在比较复杂的场景下，则需要使用<code>Elasticsearch</code>。前者适用于快速数据存储、缓存和简单查询的场景，后者适用于全文搜索、复杂查询、实时数据分析和聚合的场景。</p>
 
                 
               </div>
@@ -336,6 +340,8 @@
       <i class="iconfont icon-tags"></i>
       
         <a href="../../../../tags/java/" class="print-no-link">#java</a>
+      
+        <a href="../../../../tags/redis/" class="print-no-link">#redis</a>
       
     </div>
   

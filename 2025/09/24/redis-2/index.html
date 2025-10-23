@@ -19,17 +19,18 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="超卖问题与一人一单以下以优惠券（或者理解成门票也行）的抢购为例，列举并解决高并发下各种可能发生的情况。 优惠券的抢购规则如下：提供N张优惠券，在指定时间内可以进行抢购，一人只能抢一张，抢完为止。在一般的服务器中，该需求执行流程如下  向数据库查询用户是否抢到过了，抢到过就报错。 向数据库查询是否还有库存，没有就报错。 没问题就返回成功信息。  sequenceDiagram     partici">
+    <meta name="description" content="雪花算法是Twitter开源的分布式ID生成算法，使用一个64位数字来作为全局唯一ID第一位是符号位，永远是0接下来41位是时间戳，可以用69年然后是10位工作机器ID最后是12位序列号，每毫秒可生成4096个ID             超卖问题与一人一单以下以优惠券（或者理解成门票也行）的抢购为例，列举并解决高并发下各种可能发生的情况。 优惠券的抢购规则如下：提供N张">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高并发下的缓存策略 - 2">
 <meta property="og:url" content="https://ivanclf.github.io/2025/09/24/redis-2/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="超卖问题与一人一单以下以优惠券（或者理解成门票也行）的抢购为例，列举并解决高并发下各种可能发生的情况。 优惠券的抢购规则如下：提供N张优惠券，在指定时间内可以进行抢购，一人只能抢一张，抢完为止。在一般的服务器中，该需求执行流程如下  向数据库查询用户是否抢到过了，抢到过就报错。 向数据库查询是否还有库存，没有就报错。 没问题就返回成功信息。  sequenceDiagram     partici">
+<meta property="og:description" content="雪花算法是Twitter开源的分布式ID生成算法，使用一个64位数字来作为全局唯一ID第一位是符号位，永远是0接下来41位是时间戳，可以用69年然后是10位工作机器ID最后是12位序列号，每毫秒可生成4096个ID             超卖问题与一人一单以下以优惠券（或者理解成门票也行）的抢购为例，列举并解决高并发下各种可能发生的情况。 优惠券的抢购规则如下：提供N张">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-24T03:14:34.000Z">
-<meta property="article:modified_time" content="2025-10-05T17:03:20.778Z">
+<meta property="article:modified_time" content="2025-10-23T03:53:11.569Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
+<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -235,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.8k 字
+          3.9k 字
         
       </span>
     
@@ -283,7 +284,11 @@
             
               <div class="markdown-body">
                 
-                <h2 id="超卖问题与一人一单"><a href="#超卖问题与一人一单" class="headerlink" title="超卖问题与一人一单"></a>超卖问题与一人一单</h2><p>以下以优惠券（或者理解成门票也行）的抢购为例，列举并解决高并发下各种可能发生的情况。</p>
+                <div class="note note-success">
+            <p>雪花算法是Twitter开源的分布式ID生成算法，使用一个64位数字来作为全局唯一ID</p><ul><li>第一位是符号位，永远是0</li><li>接下来41位是时间戳，可以用69年</li><li>然后是10位工作机器ID</li><li>最后是12位序列号，每毫秒可生成4096个ID</li></ul>
+          </div>
+
+<h2 id="超卖问题与一人一单"><a href="#超卖问题与一人一单" class="headerlink" title="超卖问题与一人一单"></a>超卖问题与一人一单</h2><p>以下以优惠券（或者理解成门票也行）的抢购为例，列举并解决高并发下各种可能发生的情况。</p>
 <p>优惠券的抢购规则如下：提供N张优惠券，在指定时间内可以进行抢购，一人只能抢一张，抢完为止。在一般的服务器中，该需求执行流程如下</p>
 <ol>
 <li>向数据库查询用户是否抢到过了，抢到过就报错。</li>
@@ -440,6 +445,7 @@ f[创建订单]
 </ol>
 <h2 id="Redisson"><a href="#Redisson" class="headerlink" title="Redisson"></a>Redisson</h2><p><a target="_blank" rel="noopener" href="https://redisson.pro/">redisson官方网址</a></p>
 <p>redisson在redis基础上提供了许多Java中许多分布式服务的实现，如各种分布式锁（可重入锁、公平锁、红锁、读写锁等等）。</p>
+<p>还可以直接利用redisson中的<code>RRateLimiter</code>来实现分布式限流。</p>
 <h3 id="Redisson可重入锁原理"><a href="#Redisson可重入锁原理" class="headerlink" title="Redisson可重入锁原理"></a>Redisson可重入锁原理</h3><p>在redis中存入哈希类型，其中的<code>field</code>存储线程的标识、<code>value</code>部分存储重入的次数。</p>
 <p>加锁时，首先判断锁是否存在。若不存在，则获取锁并添加线程标示，设置过期时间并执行业务。<br>若存在，则判断锁表示是不是自己的，若不是自己的则获取失败。<br>是自己的，就将锁的计数加1，并重新设置锁的有效期，执行业务。</p>
 <p>解锁时，首先判断锁是不是自己的。若不是自己的，就说明锁已经释放过了，不用管了。<br>若是自己的，则将锁的计数减1，最后判断计数是否为0。若不为0，则说明还要用，重置锁有效期，执行业务。<br>若为0，说明已经用好了资源，可以释放锁了。</p>
@@ -597,6 +603,8 @@ f[创建订单]
       <i class="iconfont icon-tags"></i>
       
         <a href="../../../../tags/java/" class="print-no-link">#java</a>
+      
+        <a href="../../../../tags/redis/" class="print-no-link">#redis</a>
       
     </div>
   

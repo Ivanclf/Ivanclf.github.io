@@ -1,9 +1,18 @@
 ---
 title: 高并发下的缓存策略 - 2
 date: 2025-09-24 11:14:34
-tags: [java]
+tags: [java, redis]
 category: web
 ---
+
+{% note success %}
+雪花算法是Twitter开源的分布式ID生成算法，使用一个64位数字来作为全局唯一ID
+- 第一位是符号位，永远是0
+- 接下来41位是时间戳，可以用69年
+- 然后是10位工作机器ID
+- 最后是12位序列号，每毫秒可生成4096个ID
+
+{% endnote %}
 
 ## 超卖问题与一人一单
 
@@ -195,6 +204,8 @@ f[创建订单]
 [redisson官方网址](https://redisson.pro/)
 
 redisson在redis基础上提供了许多Java中许多分布式服务的实现，如各种分布式锁（可重入锁、公平锁、红锁、读写锁等等）。
+
+还可以直接利用redisson中的`RRateLimiter`来实现分布式限流。
 
 ### Redisson可重入锁原理
 

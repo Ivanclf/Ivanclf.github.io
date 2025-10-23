@@ -1,12 +1,20 @@
 ---
 title: 高并发下的缓存策略 - 1
 date: 2025-09-22 19:19:32
-tags: [java]
+tags: [java, redis]
 category: web
 ---
 
 Spring的底层Servlet中，一个请求对应一个线程。为了提高网页响应速度，提供缓存并进行维护，使得缓存满足高并发状态下的请求，就显得非常重要。此处使用redis，解决部分高并发问题。
-redis本身就是单线程，不容易出现线程问题。
+
+redis核心就是单线程，不容易出现线程问题。但redis也采用了多线程的IO多路复用技术，可以在只有一个线程的情况下同时监听多个客户端链接。
+
+redis 6.0后，redis引入了多线程机制，把网络IO和命令执行分开，将网络IO交给线程池来处理。从而提高性能。
+
+{% note success %}
+IO多路复用的核心思想是，让单个线程可以等待多个文件描述符就绪，然后对就绪的描述符进行操作。这样就可以在不使用多线程的情况下进行并发连接
+{% endnote %}
+
 {% note info %}
 [点击这里](https://www.runoob.com/redis/redis-tutorial.html)学redis基础操作。在Java中，涉及redis的操作一般可以通过特定形式的API解决。
 {% endnote %}
@@ -28,6 +36,28 @@ fronted[fronted]-->|step 1|backend[backend]-->|step 2|database[database]
 - 存在redis中的token: 在用户登录时，后端将随机token发送给用户，同时存一份到Redis中。客户在后续的请求中带上token。
 
 后一种能够实现主动登出服务，并且对有效期的管理更加灵活（例如在用户发送请求时由redis动态调整有效期），在某些需求下更受青睐。
+
+## 为什么是redis
+
+分布式缓存除了redis，还有Memcacheed方案，这种在分布式缓存最开始兴起那会常用，但现在用得不多。其他的分布式缓存方案也比较多，例如`Dragonfliy`、`KeyDB`等。
+
+## redis数据类型指北
+
+- `String`可以把序列化后的对象存进去，最大容量是512Mb。
+- 相比于`Hash`，`String`适合存储对象数据，但如果需要频繁操作对象的部分字段或节省内吨，那么`Hash`可能更好。
+- redis的`String`类型的底层实现并不是C语言的字符串，而是自己编写了SDS（`Dimple Dynamic String` 简单动态字符串）来作为底层实现。相比C语言的字符串，SDS可以快捷获取字符串长度，保证缓冲区安全和二进制安全，使用更聪明的内存分配策略等。
+    忽略其不同字节下的实现方式变化，其定义方式如下
+
+    ```c
+    struct sdshdr {
+        unsigned int len;
+        unsigned int free;
+        unsigned char flags; // 低3位保存类型状态
+        char buf[];
+    };
+    ```
+
+    其中的`len`和`free`中的`unsigned int`会随着其初始化长度，改变为`uint8_t`、`uint16_t`、`uint32_t`或`uint_64t`几种类型
 
 ## 缓存更新
 

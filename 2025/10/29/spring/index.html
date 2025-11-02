@@ -1,0 +1,976 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考文献https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;spring.htmlhttps:&#x2F;&#x2F;javaguide.cn&#x2F;system-design&#x2F;framework&#x2F;spring&#x2F;spring-knowledge-and-questions-summary.html             Spring 框架一般指 Spring Framew">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring 基本知识">
+<meta property="og:url" content="https://ivanclf.github.io/2025/10/29/spring/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="参考文献https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;spring.htmlhttps:&#x2F;&#x2F;javaguide.cn&#x2F;system-design&#x2F;framework&#x2F;spring&#x2F;spring-knowledge-and-questions-summary.html             Spring 框架一般指 Spring Framew">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ivanclf.github.io/2025/10/29/spring/20200831175708.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/10/29/spring/spring-20250706065436.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/10/29/spring/230ae587a322d6e4d09510161987d346.jpeg">
+<meta property="article:published_time" content="2025-10-29T14:57:43.000Z">
+<meta property="article:modified_time" content="2025-11-02T14:50:41.364Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ivanclf.github.io/2025/10/29/spring/20200831175708.png">
+  
+  
+  
+  <title>spring 基本知识 - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="spring 基本知识"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-29 22:57" pubdate>
+          2025年10月29日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.5k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">spring 基本知识</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <div class="note note-info">
+            <p>参考文献</p><ul><li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/spring.html">https://javabetter.cn/sidebar/sanfene/spring.html</a><br><a target="_blank" rel="noopener" href="https://javaguide.cn/system-design/framework/spring/spring-knowledge-and-questions-summary.html">https://javaguide.cn/system-design/framework/spring/spring-knowledge-and-questions-summary.html</a></li></ul>
+          </div>
+
+<p>Spring 框架一般指 Spring Framework，它是多模块的集合，讲究开箱即用。其最核心的两个特性为</p>
+<ul>
+<li><a href="#ioc-%E6%9C%BA%E5%88%B6">IoC 控制反转</a><br>  以前用一个对象要自己 new 出来，现在只需要告诉 spring 需要什么对象就行</li>
+<li><a href="#aop">AOP 面向切面编程</a><br>  在某些通用步骤（如鉴权、事务管理、日志记录）提供统一的代码</li>
+</ul>
+<h2 id="包含模块"><a href="#包含模块" class="headerlink" title="包含模块"></a>包含模块</h2><p><img src="20200831175708.png" srcset="/img/loading.gif" lazyload alt="spring 5.x中的模块"></p>
+<ul>
+<li>Core Container 核心模块，提供IoC依赖注入功能的支持<ul>
+<li>spring-core<br>  基本的核心工具类，包括IoC和DI功能，关键组件是 <code>BeanFactory</code> ，它是工厂模式的实现，负责创建和管理 Bean 对象</li>
+<li>spring-beans<br>  提供对 <code>BeanFactory</code> 的实现，负责创建、配置和管理 Bean 及其之间的依赖关系</li>
+<li>spring-context<br>  在前两者的基础上构建，以一种更面向框架的方式访问对象，类似于 JNDI 注册表。<code>ApplicationContext</code> 接口是 Context 模块的焦点。它增加了企业级功能，如国际化、事件传播、资源加载等</li>
+<li>spring-expression<br>  提供对表达式语言（Spring Expression Language） SpEL 的支持。用于在运行时查询和操作对象图。它支持在 Bean 中设置属性值和执行方法</li>
+</ul>
+</li>
+<li>AOP <ul>
+<li>spring-aop<br>  提供了面向切面的编程实现，允许将横切关注点与业务逻辑分离。它基于代理模式实现</li>
+<li>spring-aspects<br>  提供了与 AspectJ （一个更成熟的AOP框架）的继承支持</li>
+<li>spring-instrumentation<br>  提供类植入和类加载器实现，主要用于应用服务器</li>
+</ul>
+</li>
+<li>Data Access&#x2F;Integration 提供与数据库交互和数据集成的支持<ul>
+<li>spring-JDBC<br>  提供一个 JDBC 抽象层，极大简化了 JDBC 编码和错误处理，不需要再编写繁琐的 <code>try-catch</code> 语句来处理链接了</li>
+<li>spring-ORM<br>  提供与主流对象关系映射框架的继承支持，如 Hibernate、 JPA、 Mybatis 等。spring还可以统一这些ORM框架的配置和事务管理</li>
+<li>spring-OXM<br>  提供对 Object&#x2F;XML 映射实现的抽象层支持，如 JAXB、 Castor、 XStream 等</li>
+<li>spring-Transactions<br>  支持编程式和声明式事务管理，是 spring 数据访问层的核心功能</li>
+</ul>
+</li>
+<li>Web<ul>
+<li>spring-web<br>  面向 Web 的基本的集成功能。如多部份文件上传、初始化IoC容器等</li>
+<li>spring-web-MVC<br>  包含了 spring 的 MVC 实现，用于构建 Web 应用程序</li>
+<li>spring-websocket<br>  提供了 WebSocket 通信的全双工协议支持</li>
+<li>spring-webflux<br>  spring 5 引入的响应式 web 框架，用于构建非阻塞、异步、事件驱动的服务。与 spring MVC 不同，它不需要 Servlet API，是完全异步的</li>
+</ul>
+</li>
+<li>test<ul>
+<li>spring-test<br>  支持使用 JUnit 或 TestNG 对 spring 组件进行单元测试和集成测试。还提供了用于测试 web 应用的 <code>Mock</code> 对象</li>
+</ul>
+</li>
+</ul>
+<p>spring 旨在简化 Java EE 开发，而 spring boot 旨在简化 spring 开发，大大减少了配置文件。</p>
+<h2 id="IoC-机制"><a href="#IoC-机制" class="headerlink" title="IoC 机制"></a>IoC 机制</h2><p>IoC (<code>Inversion of Control</code>) 机制带来的好处是显而易见的，它使得对象之间的耦合度或者依赖程度降低，资源也变得更加容易管理。</p>
+<div class="note note-success">
+            <p>而 DI，也就是依赖注入，是实现 IoC 这种思想的具体技术手段，在 spring 里使用 <code>@Autowired</code> 注解就是在用 DI 的字段注入方式。DI 可以实现字段注入、构造方法注入、Setter 方法注入三种方式。除了 DI，IoC 还能通过 Service Locator （实现 <code>ApplicationContextAware</code> 接口）模式获取 spring 容器中的 Bean</p>
+          </div>
+
+<h3 id="Bean"><a href="#Bean" class="headerlink" title="Bean"></a>Bean</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>我们使用 Bean 代指那些被IoC容器所管理的对象。一般我们需要在专门的XML文件、注解或者Java配置类来配置元数据以定义 Bean 。</p>
+<p>将一个类声明为 Bean 的注解有</p>
+<ul>
+<li><code>@Component</code> 通用注解，如果一个 Bean 不知道在哪个层，就可以用这个注解</li>
+<li><code>@Repository</code> 持久层，即 Dao 层，用于数据库相关操作</li>
+<li><code>@Service</code> 服务层，主要涉及一些复杂的逻辑，需要用到 Dao 层</li>
+<li><code>@Controller</code> 对应 spring MVC 控制层，主要用于接受用户请求，并调用 service&#96; 层返回数据给前端</li>
+<li><code>@RestController</code> 对应 RESTful API 下的控制层，是 <code>@Controller</code> 和 <code>@ResponseBody</code> 的结合。被它标注的类，其所有方法返回的数据都会直接 HTTP 响应体</li>
+<li><code>@Configuration</code> 配置类，其内部可以包含使用 <code>@Bean</code> 的方法，它本身也会被 spring 容器管理</li>
+</ul>
+<p><code>@Bean</code> 是唯一的方法级别注解。被注释的方法会返回一个对象，该对象会被 spring 容器注册为一个 Bean。</p>
+<p>这些被注释的对象（或方法）会被 spring 容器管理。在需要注入时，使用如下方法</p>
+<ul>
+<li><code>@Autowired</code> spring 内置的注解，默认注入逻辑为先按类型匹配，若存在多个同类型 Bean，再尝试按名称筛选<br>  当注入接口但接口有多个实现类时，spring 会抛出 <code>NoUniqueBeanDefinitionException</code> 异常，因此可以在该注解后面追加 <code>@Qualifier()</code> 注解，指明是哪个实现类，或者在默认使用的 Bean 前加 <code>@Primary</code> 注解</li>
+<li><code>@Resource</code> JDK 提供的注解，默认注入逻辑为先按名称匹配，若存在多个同名 Bean，则再尝试按类型匹配<br>  该注解可以指定 name 和 type</li>
+</ul>
+<h4 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h4><p>注入 Bean 的方式有以下几种</p>
+<ul>
+<li>构造函数注入  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> UserRepository userRepository;<br><span class="hljs-keyword">public</span> <span class="hljs-title function_">UserService</span><span class="hljs-params">(UserRepository userRepository)</span> &#123;<br>    <span class="hljs-built_in">this</span>.userRepository = userRepository;<br>&#125;<br><span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>Setter 注入  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-keyword">private</span> UserRepository userRepository;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setUserRepository</span><span class="hljs-params">(UserRepository userRepository)</span> &#123;<br>        <span class="hljs-built_in">this</span>.userRepository = userRepository;<br>    &#125;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>Field 注入  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserRepository userRepository;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>相比 setter 注入，spring 官方推荐构造注入。构造注入有以下优势</p>
+<ul>
+<li>依赖可声明为 <code>final</code>，创建不可变的 Bean，保证线程安全和业务逻辑安全</li>
+<li>保证依赖不为空</li>
+<li>在不使用 spring 容器下进行单元测试也非常方便</li>
+</ul>
+<p>而 Field 注入则更不推荐了，该方法虽然方便，但</p>
+<ul>
+<li>破坏封装性</li>
+<li>测试困难，需要依赖 spring 容器。而构造函数注入可以直接 mock 依赖</li>
+<li>隐藏了依赖关系，外部看不出需要什么依赖</li>
+<li>注入的对象可能是 null</li>
+<li>可能会导致循环依赖问题  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServiceA</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> ServiceB serviceB;<br>&#125;<br><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServiceB</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> ServiceA serviceA;  <span class="hljs-comment">// 循环依赖！</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>字段注入的依赖是可变的</li>
+</ul>
+<div class="note note-info">
+            <p><code>@Autowired</code> 注入在 Bean 生命周期的属性填充阶段执行。首先，spring 会扫描 Bean 类，找出所有 <code>@Autowired</code> 注解的字段和方法。然后，spring 根据字段&#x2F;参数类型在容器中查找匹配的 Bean。最后，通过<strong>反射</strong>设置字段值，将找到的 Bean 注入到目标字段。对于字段注入，会调用 <code>Field.set()</code> 方法，对于 setter 注入，会调用 <code>Method.invoke()</code> 方法。</p>
+          </div>
+
+<div class="note note-success">
+            <p>对于 Field 或 Setter 注入时可能产生的循环依赖问题，spring 通过三级缓存机制，巧妙解决了单例 Bean 场景下的循环依赖问题。</p><p>在 spring 的 <code>DefaultSingletonBeanRegistry</code> 类中，维护了三个重要的 Map，也就是我们常说的三级缓存：</p><ol><li>一级缓存 <code>singletonObjects</code> ：存放已完成实例化、注入、初始化的 Bean。我们平时从 spring 容器中获取到的就是这里的 Bean</li><li>二级缓存 <code>earlySingletonObjects</code> ：存放已实例化，但未注入、初始化的 Bean。用于解决循环依赖</li><li>三级缓存 <code>singletonFactories</code> ：存放一个 <code>ObjectFactory</code> （对象工厂）。这个工厂可以返回一个目标 Bean 的早期引用（通过动态代理等技术），以便后面有机会创建代理对象</li></ol><p>以 A 依赖 B，B 依赖 A 为例，</p><ol><li>开始创建 A<ul><li>在 <code>getBean(&quot;a&quot;)</code> 时，spring 还没意识到 A 还没被创建，正常创建</li><li>调用 A 的构造器，实例化 A 对象。此时 A 还是个半成品，属性 b 为 null</li><li>spring 将构建好的 A 对象包装成一个 <code>ObjectFactory</code>，并放入<strong>三级缓存</strong>，同时从<strong>二级缓存</strong>移除 A （若存在）。</li></ul></li><li>为 A 进行属性填充<ul><li>spring 发现 A 依赖 B，于是执行 <code>getBean(&quot;b&quot;)</code> 获取 B</li></ul></li><li>开始创建 B<ul><li>和创建 A 的过程一样，实例化 B 对象，放入<strong>三级缓存</strong></li></ul></li><li>为 B 进行属性填充<ul><li>spring 发现 B 依赖 A，于是执行 <code>getBean(&quot;a&quot;)</code> 获取 A</li></ul></li><li><strong>关键步骤</strong> 获取早期引用<ul><li>这次的 <code>getBean(&quot;a&quot;)</code> 不会从头开始创建 A，因为在第一级、第二级没找到，但在第三级找到了 A 的 <code>ObjectFactory</code></li><li>spring 通过 <code>ObjectFactory.getObject()</code> 方法，获取到 A 对象的早期引用（这个引用可能是一个代理对象，也可能就是原始对象）</li><li>然后 spring 将这个早期引用放入<strong>二级缓存</strong>，并从<strong>三级缓存</strong>中移除 A 的工厂</li><li>最后，将这个早期引用返回给 B。至此，B成功完成了属性注入，属性 a 指向了 A 的早期引用</li></ul></li><li>B 完成初始化<ul><li>B 在注入 A 的早期引用后，继续执行后续步骤。最后变成一个完全初始化的 Bean</li><li>spring 将初始化好的 B 对象放入第一级缓存，并清除二级和三级缓存中关于 B 的记录</li></ul></li><li>A 完成初始化<ul><li>B 创建完成后，步骤 2 中的 <code>getBean(&quot;b&quot;)</code> 的调用成功返回了完整实例</li><li>A 成功注入 B 并完成初始化</li></ul></li></ol><p><img src="spring-20250706065436.png" srcset="/img/loading.gif" lazyload alt="简图"></p><p><strong>那为什么需要三级缓存呢？</strong></p><p>主要是为了解决 <a href="#aop">AOP</a> 的问题。关键在于三级缓存存储的是一个工厂，而不是直接的对象。这个工厂的核心作用是调用 <code>getEarlyBeanReference</code> 方法。这个方法在 Bean 存在 AOP 时至关重要。</p><p>如果缺少了三级缓存，在 B 注入 A 时，我们只能从二级缓存拿到 A 的原始对象。但如果 A 最终需要被 AOP 代理，那么 B 注入就是一个原始对象，而不是代理对象，这会导致问题（同一个 Bean 居然会产生两个实例）。有了三级缓存，B 注入 A 时会通过三级缓存中的<code>ObjectFactory</code> 来获取 A 的调用。若 A 需要被代理，那么 <code>getEarlyBeanReference</code> 方法会在这里提前生成并返回代理对象，如果不需要，则返回原始对象。这样就保证了 B 注入的 A 和最终放入一级缓存的 A 是同一个对象，保证了行为一致性。</p><p>如果缺少了二级缓存，那么在三个及以上（假设为 A、B、C）的 Bean 构成间接依赖时，每次 B 或 C 需要获取 A 时，都需要调用 A 中的 <code>ObjectFactory.getObject()</code> 方法。这意味着如果 A 需要被代理的话，代理对象可能会重复创建多次。</p><p>以下情况的循环依赖 spring 无法被创建出来：</p><ul><li>若使用构造器注入的循环依赖，构造时对象还没创建出来，无法放入三级缓存，spring 会直接抛出 <code>BeanCurrentlyInCreationException</code></li><li>原型 Bean 循环依赖，由于 spring 不缓存 Prototype Bean，所以无法暴露其早期引用</li><li><code>@Async</code> 方法导致的循环依赖，因为 <code>@Async</code> 的大力创建时机交完，在三级缓存机制后，可能导致注入的不是最终的代理对象</li></ul>
+          </div>
+
+<h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><p>spring 中 Bean 的作用域可以通过注释 <code>@Scope()</code> 指定，通常有以下几种</p>
+<ul>
+<li><code>singleton</code> 单例<br>  默认作用域。在整个 spring IoC 容器中，只存在一个该 Bean 的共享实例，该实例在容器启动或第一次请求时创建，容器关闭时销毁</li>
+<li><code>prototype</code> 原型<br>  每次通过容器获取 Bean 时，都会创建一个新的实例。其销毁由 GC 决定。注意，在 singleton Bean 中注入 prototype Bean 时要小心，因为 singleton Bean 只创建一次，所以 prototype Bean 也只会创建一次，这时候可用 <code>@Lookup</code> 注解或者 <code>ApplicationContext</code> 动态获取</li>
+<li><code>request</code> 请求 <code>WebApplicationContext.SCOPE_REQUEST</code><br>  <strong>仅 Web 应用可用</strong>，为每一个 HTTP 请求创建一个新的 Bean，请求结束时销毁</li>
+<li><code>session</code> 会话 <code>WebApplicationContext.SCOPE_SESSION</code><br>  <strong>仅 Web 应用可用</strong>，为每一个 HTTP Session 创建一个新的 Bean，Session 失效时销毁</li>
+<li><code>application</code> 应用 <code>WebApplicationContext.SCOPE_APPLICATION</code><br>  <strong>仅 Web 应用可用</strong>，为整个 Web 应用创建一个 Bean，其与 <code>singleton</code> 的区别在于，前者在整个 Web应用中共享，无论几个 spring 容器均只有一个，后者在每个 JVM 中一个 Bean</li>
+<li><code>websocket</code><br>  <strong>仅 Web 应用可用</strong>，为每一个 <code>websocket</code> 会话创建一个 Bean，绘画结束后销毁</li>
+</ul>
+<p>无状态的服务类使用默认的 <code>singleton</code>。</p>
+<p>单例作用域下，由于只有一个 Bean，所以可能会存在线程安全问题，而在原型作用域下，则不太可能产生线程安全问题。不过，大部分 Bean 都是无状态（没有可变的成员变量）的，也就不存在资源竞争的问题，线程安全。</p>
+<p>对于状态单例下的 Bean 线程安全问题，常见的解决办法是</p>
+<ul>
+<li>避免存在可变成员变量，尽量设计其为无状态</li>
+<li>将可变成员变量存在 <code>ThreadLocal</code> 中</li>
+<li>使用各种锁进行同步控制</li>
+</ul>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><ol>
+<li>实例化<br> spring 容器通过 Bean 的构造方法（默认是无参构造，或指定的有参构造）来创建一个新的对象实例。此时的对象属性还是默认值。</li>
+<li>属性赋值&#x2F;依赖注入<br> 通过 <code>@Autowired</code> <code>@Resource</code> 注入依赖对象，通过 <code>@Value</code> 注入配置值。</li>
+<li>初始化<br> Bean 的属性已注入完毕，但可能还需要执行一些自定义的初始化逻辑。初始化的顺序如下<ol>
+<li><code>BeanPostProcessor.postProcessBeforeInitialization</code><br> 容器级别的处理器，对所有 Bean 生效，对 Bean 的任何初始化方法都在被调用前执行，可用于修改 Bean 的包装类，进行某些检查等</li>
+<li><code>Aware</code> 接口回调<br> 如果 Bean 实现了这种接口，spring 容器就会回调响应的方法，将容器本身的一些信息“感知”给 Bean。<br> 常用的接口为 <code>ApplicationContextAware</code> （设置 <code>ApplicationContext</code>，让 Bean 获取到 <code>ApplicationContext</code> 本身）、<code>BeanNameAware</code> （设置 Bean 的 ID&#x2F;名字）、<code>BeanFactoryAware</code> （设置 BeanFactory）、<code>BeanClassLoaderAware</code>（设置当前 Bean 的 ClassLoader）等</li>
+<li><code>@PostConstruct</code> 注释<br> 这是 JSR-250 规范提供的注解，标记在方法上，在依赖注入完后立即执行。这是最推荐使用的初始化注解，因为它和 spring 解耦</li>
+<li><code>InitializingBean.afterPropertiesSet</code><br> spring 提供的接口，用于重写该方法</li>
+<li><code>init-method</code><br> 在 Bean 定义中通过 <code>@Bean(initMethod = &quot;myInit&quot;)</code> 指定自定义方法，这是另一种解耦的方式</li>
+<li><code>BeanPostProcessor.postProcessAfterInitialization</code><br> 在 Bean 的所有初始化方法都执行之后执行。string AOP 就是在这里为 Bean 创建代理对象的</li>
+</ol>
+</li>
+<li>使用期<br> 现在的 Bean 已经随时可以使用了</li>
+<li>销毁<br> 在 spring 容器被关闭（调用 <code>applicationContext.close()</code> 或 web 应用关闭），容器会管理 Bean 的销毁。销毁的顺序如下<ol>
+<li><code>@PreDestroy</code> 注解<br> JSR-250 规范提供的注解</li>
+<li><code>DisposableBean.destroy</code><br> spring 提供的接口</li>
+<li><code>destroy-method</code><br> 在 Bean 定义中通过 <code>Bean(destroyMethod = &quot;myDestroy&quot;)</code> 指定自定义方法</li>
+</ol>
+</li>
+</ol>
+<div class="note note-info">
+            <p>Aware 接口能让 Bean 感知到 spring 容器的一些内部组件。</p>
+          </div>
+
+<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>Java web 中的容器有两种，spring 容器和 web 容器。</p>
+<p>web 容器是一个运行时环境，管理着 web 应用的生命周期，用于处理各种网络协议，管理 Servlet、Filter、Listener 等 web 层面的组件。在服务器启动时就初始化，如 Tomcat、Jetty、Undertow 等</p>
+<p>spring 容器是一个IoC和Bean的管理框架，管理所有由它创建的 Bean，包括上文提到的各种 <code>@Component</code></p>
+<p>在一个 spring MVC web 应用中，它们的关系如下</p>
+<ul>
+<li>Tomcat 启动时，根据 <code>web.xml</code> 或 <code>Servlet 3.0+</code> 的注解，加载并初始化一个特殊的 Servlet —— <code>DispatchServlet</code>，这个容器属于 spring MVC，但运行在 Web 容器里。初始化的过程中，它会创建一个 spring 容器 (<code>ApplicationContext</code>)。然后，spring 容器开始扫描指定的包，根据注解或配置创建并组装所有的 Bean （如 <code>Controller</code>、<code>Service</code> 等）。</li>
+<li>用户发起一个请求到服务器时，Tomcat 收到请求，根据 URL 映射，将请求交给 <code>DispatchServlet</code> 处理。<code>DispatchServlet</code> 开始工作，利用 spring 容器来查找对应的 <code>@Controller</code> Bean，然后逐层查找，完成业务逻辑。<code>Controller</code> 处理完毕后，返回一个视图名或数据给 <code>DispatchServlet</code>。<code>DispatchServlet</code> 完成视图解析等后续处理，最终 Tomcat 将 HTTP 响应返回给用户端。</li>
+</ul>
+<div class="note note-info">
+            <p>spring MVC 和其他 web 框架一样围绕着前端控制器的模式设计，其中一个中央的 <code>Servlet</code> 就是 <code>DispatchServlet</code>，这个Servlet会把请求分发给各个处理器，并支持可配置的处理器映射、视图渲染、本地化、时区与主题渲染和文件上传等功能。</p>
+          </div>
+
+<p>在 spring MVC 应用中，一般需要先打包一个 WAR 文件，然后将其部署到一个外部的，预先安装好的 Web 容器（如 Tomcat）中。但在 spring boot 中，应用会默认打包为一个可执行的 JAR 文件，这个 JAR 文件内部包含了一个内嵌的 Web 容器（默认为 Tomcat）。在启动应用时，spring boot 会启动内嵌的 Tomcat 示例，并自动将应用部署在上面。</p>
+<p>于是两种容器的关系也发生了变化。在执行 JAR 包时，会首先创建 spring 容器(<code>ApplicationContext</code>)，然后在 spring 容器创建和刷新时，自动配置机制会检测到 classpath 下有 Servlet 相关的类（因为引入了 <code>spring-boot-starter-web</code>），然后启动内嵌的 web 容器，并将其集成到当前正在运行的 spring 容器里。同时，spring boot 会自动将 <code>DispatchServlet</code> 注册到这个内嵌的 web 容器里。</p>
+<div class="note note-success">
+            <p>spring 容器会在启动时自动扫描 <code>@ComponentScan</code> 指定包下的所有类，然后根据类上的注解，来判断哪些 Bean 需要被<strong>自动装配</strong>。</p><p>自动装配一般有 <code>byType</code>、<code>byName</code>、<code>constructor</code>、<code>autodetect</code> 四种。<code>@Autowired</code> 下默认为 <code>byType</code>，<code>@Resource</code> 注解默认按名称装配</p>
+          </div>
+
+<h3 id="IoC-实现机制"><a href="#IoC-实现机制" class="headerlink" title="IoC 实现机制"></a>IoC 实现机制</h3><p>IoC 的本质是一个高度可配置、可扩展的工厂模式。其核心是 <code>BeanFactory</code> 和 <code>ApplicationContext</code> 容器。我们通过各种注解告诉工厂自己需要什么产品，产品有什么特性，需要什么原材料，等等。然后工厂里的各种生产线（在 spring 中就是各种 <code>BeanPostProcessor</code>）进行生产和缓存。工厂里还有各种缓存机制用来存放产品。</p>
+<pre><code class=" mermaid">flowchart TD
+    subgraph order [订单]
+        register[注册]
+        define[定义 Bean]
+        get[获取]
+        singleton[单例]
+    end
+    subgraph factory [工厂]
+        load[资源加载]
+        create[实例创建]
+        singleton2[单例]
+        cache[实例缓存]
+    end
+    storage[仓库 HashMap]
+
+    get--&gt;singleton--&gt;factory
+    factory--&gt;storage
+    factory--&gt;define--&gt;register
+</code></pre>
+
+<ol>
+<li><p>加载 Bean 的定义信息。spring 会扫描我们配置的包路径。找到所有标注了相关注解的类，然后将写类的元信息封装成 <code>BeanDefinition</code> 对象，注册到容器的 <code>BeanDefinitionRegistry</code> 中，这个阶段只是收集信息，还没有真正创建对象</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Bean定义信息</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BeanDefinition</span> &#123;<br>    <span class="hljs-keyword">private</span> String beanClassName;     <span class="hljs-comment">// 类名</span><br>    <span class="hljs-keyword">private</span> String scope;            <span class="hljs-comment">// 作用域</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">boolean</span> lazyInit;        <span class="hljs-comment">// 是否懒加载</span><br>    <span class="hljs-keyword">private</span> String[] dependsOn;      <span class="hljs-comment">// 依赖的Bean</span><br>    <span class="hljs-keyword">private</span> ConstructorArgumentValues constructorArgumentValues; <span class="hljs-comment">// 构造参数</span><br>    <span class="hljs-keyword">private</span> MutablePropertyValues propertyValues; <span class="hljs-comment">// 属性值</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>准备 Bean 工厂，spring 会创建一个 <code>DefaultListableBeanFactory</code> 作为 Bean 工厂来负责 Bean 的创建化和管理。以 <code>ApplicationContext</code> 为例，启动过程的核心是 <code>refresh()</code> 方法，该方法包含准备 Bean 工厂、加载 Bean 定义、实例化所有单例 Bean 三步骤</p>
+</li>
+<li><p>Bean 实例化和初始化，spring 会根据 <code>BeanDefinition</code> 来创建 Bean 实例。对于单例 Bean，spring 会先检查缓存中是否已经存在，如果不存在就创建新实例。创建实例的时候会通过反射调用构造方法，然后进行属性注入，最后执行初始化回调方法。</p>
+</li>
+<li><p>依赖注入的实现主要是通过反射来完成的。比如我们用 <code>@Autowired</code> 标注了一个字段，spring 在创建 Bean 的时候会扫描这个字段，然后从容器中找到对应类型的 Bean，通过反射的方式设置到这个字段上。</p>
+</li>
+</ol>
+<div class="note note-info">
+            <p><code>BeanFactory</code> 和 <code>ApplicationContext</code> 的区别在于</p><table><thead><tr><th></th><th><code>BeanFactory</code></th><th><code>ApplicationContext</code></th></tr></thead><tbody><tr><td>定位</td><td>IoC 容器的基础，核心功能</td><td>在 IoC 的基础上，提供完整的应用框架上下文</td></tr><tr><td>Bean 加载策略</td><td>懒加载：只有在使用 <code>gerBean()</code> 请求时，才会实例化 Bean</td><td>预加载&#x2F;饿汉式：容器启动时，立即实例化所有单例 Bean（非懒加载的）。有助于提前发现配置错误</td></tr><tr><td>容器功能</td><td>基础的 Bean 生命周期管理、依赖注入</td><td>额外提供 <code>BeanFactory</code> 外的国际化、AOP 集成、Web 应用上下文等功能</td></tr><tr><td>适用场景</td><td>资源及其受限的环境</td><td>绝大多数 Java EE 应用</td></tr></tbody></table>
+          </div>
+
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>AOP 能够将那些和业务无关，但为业务模块所共同调用的逻辑（如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度。</p>
+<p>实现 AOP 需要使用<strong>代理对象</strong>，代理对象实现与目标 Bean 相同的接口或子类，因此它和原始对象没有任何区别。然而，在代理对象的方法内部，包含了处理 AOP 的其他逻辑。</p>
+<p>spring AOP 基于动态代理。如果要代理的对象实现了某个接口，那么 spring AOP 会使用 JDK Proxy 去创建代理对象。而对于没有实现接口的对象，spring 会使用 Cglib 生成一个被代理对象的子类来来作为代理。但在目前，主流的 AOP 框架为 AspectJ。</p>
+<p><img src="230ae587a322d6e4d09510161987d346.jpeg" srcset="/img/loading.gif" lazyload alt="两种代理对象的区别"></p>
+<div class="note note-info">
+            <p>JDK 代理要求目标类至少实现一个接口，因为它是基于接口来实现代理的。而 Cglib 代理不需要目标类实现接口，它是通过继承目标类来创建代理的，这是两者最根本的区别。</p><p>从实现原理来说，JDK 代理是 Java 原生支持的。当我们调用代理对象的方法时，会被转发到 <code>InvocationHandler</code> 的 <code>invoke</code> 方法中，我们可以在这个方法里插入切面逻辑，然后再通过反射调用目标对象的真实方法。而 Cglib 是第三方的字节码生成库，它通过 ASM 字节码框架动态生成目标类的子类，然后重写父类的方法来插入切面逻辑。</p><p>例如，在 <code>@Controller</code> 中的类，就只能使用 Cglib 代理；而定义了接口的 <code>@Service</code>，通常首选 JDK 动态代理。</p><p>在 spring boot 2.0 后。spring AOP 默认使用 Cglib 代理。毕竟 spring boot 作为“约定优于配置”的框架，选择 Cglib 可以简化操作。</p><p>对于以下场景</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 1. 接口（JDK 代理需要）</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">addUser</span><span class="hljs-params">(String username)</span>;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">deleteUser</span><span class="hljs-params">(String username)</span>;<br>&#125;<br><br><span class="hljs-comment">// 2. 实现类（目标对象）</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addUser</span><span class="hljs-params">(String username)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;添加用户: &quot;</span> + username);<br>        <span class="hljs-comment">// 模拟业务逻辑</span><br>    &#125;<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deleteUser</span><span class="hljs-params">(String username)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;删除用户: &quot;</span> + username);<br>        <span class="hljs-comment">// 模拟业务逻辑</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>使用 JDK 动态代理时，使用方法如下</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LogInvocationHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">InvocationHandler</span> &#123;<br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Object target; <span class="hljs-comment">// 目标对象</span><br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">LogInvocationHandler</span><span class="hljs-params">(Object target)</span> &#123;<br>        <span class="hljs-built_in">this</span>.target = target;<br>    &#125;<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        <span class="hljs-comment">// 前置增强</span><br>        System.out.println(<span class="hljs-string">&quot;[JDK代理] 开始执行: &quot;</span> + method.getName());<br>        <br>        <span class="hljs-comment">// 调用目标方法</span><br>        <span class="hljs-type">Object</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> method.invoke(target, args);<br>        <br>        <span class="hljs-comment">// 后置增强</span><br>        System.out.println(<span class="hljs-string">&quot;[JDK代理] 执行完成: &quot;</span> + method.getName());<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 创建代理对象的便捷方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; T <span class="hljs-title function_">createProxy</span><span class="hljs-params">(T target, Class&lt;T&gt; interfaceClass)</span> &#123;<br>        <span class="hljs-keyword">return</span> (T) Proxy.newProxyInstance(<br>            target.getClass().getClassLoader(),<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>&lt;?&gt;[]&#123;interfaceClass&#125;,<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">LogInvocationHandler</span>(target)<br>        );<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 测试类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JdkProxyTest</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 创建目标对象</span><br>        <span class="hljs-type">UserService</span> <span class="hljs-variable">target</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UserServiceImpl</span>();<br>        <br>        <span class="hljs-comment">// 创建代理对象</span><br>        <span class="hljs-type">UserService</span> <span class="hljs-variable">proxy</span> <span class="hljs-operator">=</span> LogInvocationHandler.createProxy(target, UserService.class);<br>        <br>        <span class="hljs-comment">// 通过代理对象调用方法</span><br>        proxy.addUser(<span class="hljs-string">&quot;张三&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;---&quot;</span>);<br>        proxy.deleteUser(<span class="hljs-string">&quot;李四&quot;</span>);<br>        <br>        <span class="hljs-comment">// 验证代理类型</span><br>        System.out.println(<span class="hljs-string">&quot;代理对象类型: &quot;</span> + proxy.getClass());<br>        System.out.println(<span class="hljs-string">&quot;是否是JDK代理: &quot;</span> + Proxy.isProxyClass(proxy.getClass()));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>而 Cglib 的实现方式如下</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LogMethodInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MethodInterceptor</span> &#123;<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">intercept</span><span class="hljs-params">(Object obj, Method method, Object[] args, MethodProxy proxy)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        <span class="hljs-comment">// 前置增强</span><br>        System.out.println(<span class="hljs-string">&quot;[CGLIB代理] 开始执行: &quot;</span> + method.getName());<br>        <br>        <span class="hljs-comment">// 调用目标方法 - 注意这里使用proxy.invokeSuper，而不是method.invoke</span><br>        <span class="hljs-type">Object</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> proxy.invokeSuper(obj, args);<br>        <br>        <span class="hljs-comment">// 后置增强</span><br>        System.out.println(<span class="hljs-string">&quot;[CGLIB代理] 执行完成: &quot;</span> + method.getName());<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 创建代理对象的便捷方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; T <span class="hljs-title function_">createProxy</span><span class="hljs-params">(Class&lt;T&gt; targetClass)</span> &#123;<br>        <span class="hljs-type">Enhancer</span> <span class="hljs-variable">enhancer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Enhancer</span>();<br>        <span class="hljs-comment">// 设置父类（目标类）</span><br>        enhancer.setSuperclass(targetClass);<br>        <span class="hljs-comment">// 设置回调</span><br>        enhancer.setCallback(<span class="hljs-keyword">new</span> <span class="hljs-title class_">LogMethodInterceptor</span>());<br>        <span class="hljs-comment">// 创建代理对象</span><br>        <span class="hljs-keyword">return</span> (T) enhancer.create();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 测试类 - 注意：这里的目标类不需要实现接口</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CglibProxyTest</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 创建代理对象 - 直接基于实现类</span><br>        <span class="hljs-type">UserService</span> <span class="hljs-variable">proxy</span> <span class="hljs-operator">=</span> LogMethodInterceptor.createProxy(UserServiceImpl.class);<br>        <br>        <span class="hljs-comment">// 通过代理对象调用方法</span><br>        proxy.addUser(<span class="hljs-string">&quot;王五&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;---&quot;</span>);<br>        proxy.deleteUser(<span class="hljs-string">&quot;赵六&quot;</span>);<br>        <br>        <span class="hljs-comment">// 验证代理类型</span><br>        System.out.println(<span class="hljs-string">&quot;代理对象类型: &quot;</span> + proxy.getClass());<br>        System.out.println(<span class="hljs-string">&quot;父类: &quot;</span> + proxy.getClass().getSuperclass());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+          </div>
+
+<p>AOP 切面编程涉及到的相关术语（或者说概念）有</p>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目标 <code>Target</code></td>
+<td>被通知的对象</td>
+</tr>
+<tr>
+<td>代理 <code>Proxy</code></td>
+<td>向目标对象应用通知后创建的代理对象</td>
+</tr>
+<tr>
+<td>连接点 <code>JoinPoint</code></td>
+<td>目标对象的所属类中，定义的所有方法均为连接点</td>
+</tr>
+<tr>
+<td>切入点 <code>PointCut</code></td>
+<td>被切面拦截&#x2F;增强的连接点（切入点属于连接点）</td>
+</tr>
+<tr>
+<td>通知 <code>Advice</code></td>
+<td>增强的逻辑&#x2F;代码，拦截到目标对象的连接点后要做的事情</td>
+</tr>
+<tr>
+<td>切面 <code>Aspect</code></td>
+<td>切入点 + 通知</td>
+</tr>
+<tr>
+<td>织入 <code>Weaving</code></td>
+<td>将通知应用到目标对象，进而生成代理对象的过程动作</td>
+</tr>
+</tbody></table>
+<p>相比 spring AOP，AspectJ </p>
+<ul>
+<li>通过在编译时增强、类加载时增强（直接操作字节码）而非在运行时增强（基于动态代理）</li>
+<li>支持方法级、字段、构造器、静态方法等切入点，但 spring AOP 支支持方法级</li>
+<li>运行时无代理开销，性能更高</li>
+<li>适合高性能，高复杂度的 AOP 需求</li>
+</ul>
+<p>spring AOP 是在 Bean 初始化阶段发生的，具体来说是在 Bean 生命周期的后置处理阶段。在 Bean 实例化和属性注入完成后，spring 会调用所有的 <code>BeanPostProcessor</code> 的 <code>postProcessAfterInitialization</code> 方法，AOP 代理的创建就是在这个阶段完成的。</p>
+<h3 id="通知"><a href="#通知" class="headerlink" title="通知"></a>通知</h3><p>AOP 常见的通知类型如下</p>
+<ul>
+<li><code>Before</code> 前置通知，在目标对象方法调用前触发</li>
+<li><code>After</code> 后置通知，在目标对象方法调用后触发</li>
+<li><code>AfterReturning</code> 返回通知，目标对象的方法调用完成，在返回结果前触发</li>
+<li><code>AfterThrowing</code> 异常通知，目标对象的方法运行中抛出异常后触发</li>
+<li><code>Around</code> 环绕通知，该通知类型可以直接拿到目标对象和要执行的方法，所以环绕通知可以在目标对象的任意时刻通知</li>
+</ul>
+<p>对于多个切面的执行顺序，一般可以通过 <code>@Order()</code> 注释指定，数值越小优先级越高。也可以实现 <code>Ordered</code> 接口重写 <code>getOrder</code> 方法</p>
+<div class="note note-success">
+            <p>AOP 和反射的区别在于，反射主要是为了让程序能够检查和操作自身的结构，而 AOP 则是为了在不修改业务的前提下，动态地为方法添加额外的行为。</p>
+          </div>
+
+<div class="note note-success">
+            <p>AOP 和装饰器模式的区别在于，装饰器模式是通过创建一个包装类来实现的，这个包装类持有被装饰对象的引用，并在调用方法时添加额外的逻辑。而 AOP 是通过代理对象或者其他方式实现的。</p>
+          </div>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/web/" class="category-chain-item">web</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/java/" class="print-no-link">#java</a>
+      
+        <a href="../../../../tags/spring/" class="print-no-link">#spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>spring 基本知识</div>
+      <div>https://ivanclf.github.io/2025/10/29/spring/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../11/sql-2/" title="MySQL底层">
+                        <span class="hidden-mobile">MySQL底层</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

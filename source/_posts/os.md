@@ -644,6 +644,56 @@ four conditions must hold for there to be a (resource) deadlock:
 4. 环路等待。必须存在2个以上的进程构成的环路链，每个进程都在等待链条上的另一个进程持有的资源。
 {% endnote %}
 
+{% note success %}
+以下是一个会发生死锁的例子
+
+```java
+public class DeadlockDemo {
+
+    private static final Object lockA = new Object();
+    private static final Object lockB = new Object();
+
+    public static void main(String[] args) {
+        Thread thread1 = new Thread(() -> {
+            synchronized (lockA) {
+                System.out.println("线程1 获取了 lockA");
+                try {
+                    // 睡眠一段时间，确保线程2能获取到lockB
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                synchronized (lockB) {
+                    System.out.println("线程1 获取了 lockB");
+                }
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            synchronized (lockB) {
+                System.out.println("线程2 获取了 lockB");
+                try {
+                    // 睡眠一段时间，确保线程1能获取到lockA
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                synchronized (lockA) {
+                    System.out.println("线程2 获取了 lockA");
+                }
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+}
+```
+
+这样，线程 1 和 2 都在等待对方的 Object，从而产生了死锁。在这个程序中，要想避免死锁的问题。可以要求程序在获取另一个 Object 前先释放自己手里的 Object，或者让这两个程序用相同的顺序来获取锁。
+
+{% endnote %}
+
 ### Deadlock Prevention
 
 The key to break deadlock is to break one of the 4 conditions.

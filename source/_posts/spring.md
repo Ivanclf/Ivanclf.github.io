@@ -1,5 +1,5 @@
 ---
-title: spring 基本知识
+title: spring 基础特性
 date: 2025-10-29 22:57:43
 tags: [java, spring]
 category: web
@@ -351,6 +351,16 @@ flowchart TD
 
 {% endnote %}
 
+{% note success %}
+`@Lazy` 用来标识类是否需要懒加载/延迟加载，可以作用在类或方法上。也可以在配置文件中设置懒加载
+
+```properties
+spring.main.lazy-initialization=true
+```
+
+如非必要，一般不用全局懒加载。全局懒加载会让 Bean 的第一次使用加载会变慢，并且会延迟应用程序问题的发现（Bean 被加载时问题才会出现）。
+{% endnote %}
+
 ## AOP
 
 AOP 能够将那些和业务无关，但为业务模块所共同调用的逻辑（如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度。
@@ -537,4 +547,51 @@ AOP 和反射的区别在于，反射主要是为了让程序能够检查和操�
 
 {% note success %}
 AOP 和装饰器模式的区别在于，装饰器模式是通过创建一个包装类来实现的，这个包装类持有被装饰对象的引用，并在调用方法时添加额外的逻辑。而 AOP 是通过代理对象或者其他方式实现的。
+{% endnote %}
+
+{% note success %}
+若在同一个 Bean 中注册了多个 AOP，那么 spring 会一个个创建代理，一个个包装。包装的顺序通过 `@Order()` 注释等方法指定。一般而言，切面的顺序可以是 缓存、安全 -> 日志、监控 -> 事务等。
+{% endnote %}
+
+{% note success %}
+`private` 方法在子类中是不可见的，在 `private` 方法中创建 AOP 没有任何意义。同理，`protected` 和 `default` 方法也要避免使用。
+{% endnote %}
+
+{% note success %}
+可以使用 `@ControllerAdvice` + `@ExceptionHandler` 注解统一异常处理
+
+首先创建全局异常处理类
+
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    
+    /**
+     * 处理业务异常
+     */
+    @ExceptionHandler(BusinessException.class)
+    @ResponseBody
+    public ResponseEntity<Result<?>> handleBusinessException(BusinessException e) {
+        logger.warn("业务异常: {}", e.getMessage());
+        Result<?> result = Result.error(e.getCode(), e.getMessage());
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+    
+    /**
+     * 处理数据不存在异常
+     */
+    @ExceptionHandler(DataNotFoundException.class)
+    @ResponseBody
+    public ResponseEntity<Result<?>> handleDataNotFoundException(DataNotFoundException e) {
+        logger.warn("数据不存在: {}", e.getMessage());
+        Result<?> result = Result.error("DATA_NOT_FOUND", e.getMessage());
+        return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+    }
+    // ...
+}
+```
+
+然后定义统一的业务结果类（略）和自定义业务异常类即可
 {% endnote %}

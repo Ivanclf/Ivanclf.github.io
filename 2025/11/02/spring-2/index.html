@@ -1,0 +1,1284 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="注解杂记数据获取 可以使用 @Value($&#123;&#125;) 注入配置文件中的单个属性值，也可以使用 @ConfigurationProperties(prefix &#x3D; &quot;&quot;) 读取配置信息并和 Bean 绑定。 使用 @PropertySource 注解允许加载自定义配置文件 @PathVariable 用于在 URL 路径中获取参数 @RequestParam 用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring 高级特性">
+<meta property="og:url" content="https://ivanclf.github.io/2025/11/02/spring-2/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="注解杂记数据获取 可以使用 @Value($&#123;&#125;) 注入配置文件中的单个属性值，也可以使用 @ConfigurationProperties(prefix &#x3D; &quot;&quot;) 读取配置信息并和 Bean 绑定。 使用 @PropertySource 注解允许加载自定义配置文件 @PathVariable 用于在 URL 路径中获取参数 @RequestParam 用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-02T14:58:48.000Z">
+<meta property="article:modified_time" content="2025-11-03T16:09:57.708Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>spring 高级特性 - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="spring 高级特性"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-02 22:58" pubdate>
+          2025年11月2日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">spring 高级特性</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="注解杂记"><a href="#注解杂记" class="headerlink" title="注解杂记"></a>注解杂记</h2><h3 id="数据获取"><a href="#数据获取" class="headerlink" title="数据获取"></a>数据获取</h3><ul>
+<li>可以使用 <code>@Value($&#123;&#125;)</code> 注入配置文件中的单个属性值，也可以使用 <code>@ConfigurationProperties(prefix = &quot;&quot;)</code> 读取配置信息并和 Bean 绑定。</li>
+<li>使用 <code>@PropertySource</code> 注解允许加载自定义配置文件</li>
+<li><code>@PathVariable</code> 用于在 URL 路径中获取参数</li>
+<li><code>@RequestParam</code> 用于绑定查询参数</li>
+<li><code>@RequestBody</code> 用于读取 Request 请求的 Body 部分并且 Content-type 为 application&#x2F;json 格式的数据，接收到数据后会自动将数据绑定到 Java 对象上去。一个方法只能有一个 <code>@RequestBody</code>，但能有多个 <code>@PathVariable</code> 和 <code>@RequestParam</code></li>
+</ul>
+<h3 id="数据校验"><a href="#数据校验" class="headerlink" title="数据校验"></a>数据校验</h3><p>Bean Validation 是一套定义 JavaBean 参数校验标准的规范，它提供了一系列注解，可以直接用于 JavaBean 属性上。其本身只是一套规范，我们需要一个实现了这套规范的具体框架来执行校验逻辑。目前，Hibernate Validator 是 Bean Validation 规范最权威最广泛的实现方式。此处的注释不仅能加在实体类上，还能加在控制类的参数里。</p>
+<p><strong>空值检查</strong></p>
+<table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Null</code></td>
+<td>必须为 null</td>
+</tr>
+<tr>
+<td><code>@NotNull</code></td>
+<td>必须不为 null</td>
+</tr>
+<tr>
+<td><code>@NotEmpty</code></td>
+<td>不为 null 且长度&#x2F;大小必须大于 0</td>
+</tr>
+<tr>
+<td><code>@NotBlank</code></td>
+<td>不为 null 且包含至少一个非空字符</td>
+</tr>
+</tbody></table>
+<p><strong>布尔值检查</strong></p>
+<table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@AssertTrue</code></td>
+<td>必须为 true</td>
+</tr>
+<tr>
+<td><code>@AssertFalse</code></td>
+<td>必须为 false</td>
+</tr>
+</tbody></table>
+<p><strong>数值检查</strong></p>
+<table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Min()</code> <code>@Max()</code></td>
+<td>指定数字最小（大）值</td>
+</tr>
+<tr>
+<td><code>@DecimalMin()</code> <code>@DecimalMax()</code></td>
+<td>指定大数字最小（大）值</td>
+</tr>
+<tr>
+<td><code>@Digits(Integer = 6, fraction = 2)</code></td>
+<td>指定整数位和小数位限制</td>
+</tr>
+<tr>
+<td><code>@Positive</code> <code>@Negative</code></td>
+<td>必须是正（负）数</td>
+</tr>
+<tr>
+<td><code>@PositiveOrZero</code> <code>@NegativeOrZero</code></td>
+<td>必须不是负（正）数</td>
+</tr>
+</tbody></table>
+<p><strong>字符串检查</strong></p>
+<table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Size(min = 2, max = 50)</code></td>
+<td>长度范围</td>
+</tr>
+<tr>
+<td><code>@Pattern(regexp = &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]&#123;2,&#125;$&quot;)</code></td>
+<td>输入正则表达式</td>
+</tr>
+<tr>
+<td><code>@Email</code></td>
+<td>邮箱格式</td>
+</tr>
+</tbody></table>
+<p><strong>日期</strong></p>
+<table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Past</code> <code>@Future</code></td>
+<td>必须是过去（未来）时间</td>
+</tr>
+<tr>
+<td><code>@PostOrPresent</code> <code>@FutureOrPresent</code></td>
+<td>必须是过去（未来）和现在时间</td>
+</tr>
+</tbody></table>
+<p><strong>集合和数组检查</strong></p>
+<table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Size(min = 1, max = 10)</code></td>
+<td>集合大小限制</td>
+</tr>
+<tr>
+<td><code>@NotEmpty</code></td>
+<td>非空集合</td>
+</tr>
+</tbody></table>
+<p><strong>常用组合注解</strong></p>
+<table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@CreditCardNumber</code></td>
+<td>信号卡号格式</td>
+</tr>
+<tr>
+<td><code>@URL</code></td>
+<td>URL 格式</td>
+</tr>
+<tr>
+<td><code>SafeHtml</code></td>
+<td>安全的 HTML（防 XSS）</td>
+</tr>
+<tr>
+<td><code>@Range(min = 18, max = 100)</code></td>
+<td>数值范围</td>
+</tr>
+</tbody></table>
+<p>在这些信息后添加 <code>message</code> 属性，可以添加提示信息</p>
+<h3 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h3><table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Entity</code></td>
+<td>声明一个类为 JPA 实体类，和数据库中的表映射</td>
+</tr>
+<tr>
+<td><code>@Table(name = &quot;&quot;)</code></td>
+<td>指定对应的表名</td>
+</tr>
+<tr>
+<td><code>@id</code></td>
+<td>声明主键</td>
+</tr>
+<tr>
+<td><code>@GeneratedValue</code></td>
+<td>指定主键生成的策略。有以下4种：<br><code>GenerationType.TABLE</code> 通过数据库表生成<br><code>GenerationType.SEQUENCE</code> 通过数据库序列生成，适用于 Oracle 等数据库<br><code>GenerationType.IDENTIFY</code> 主键自增，适用于 MySQL 等数据库<br><code>GenerationType.AUTO</code> 自动选择</td>
+</tr>
+<tr>
+<td><code>@Column</code></td>
+<td>指定实体字段与数据库列的映射关系，指定属性为 <code>name</code> <code>nullable</code> <code>length</code> <code>columnDefinition</code> 等</td>
+</tr>
+<tr>
+<td><code>@Transient</code></td>
+<td>不需要写入数据库的字段</td>
+</tr>
+<tr>
+<td><code>@Lob</code></td>
+<td>声明大字段</td>
+</tr>
+<tr>
+<td><code>@Enumerated()</code></td>
+<td>将枚举类型映射为数据库字段，策略为<br><code>EnumType.ORDINAL</code> 默认的存序号<br><code>EnumType.STRING</code> 存名称<br>两种</td>
+</tr>
+<tr>
+<td><code>@EnableJpaAuditing</code></td>
+<td>开启 JPA 审计功能</td>
+</tr>
+<tr>
+<td><code>@Modifying</code></td>
+<td>标识修改和删除操作，必须和 <code>@Transactional</code> 注解一起用</td>
+</tr>
+<tr>
+<td><code>@OneToOne</code> <code>@OneToMany</code> <code>@ManyToOne</code> <code>@ManyToMany</code></td>
+<td>JPA 的四种关联关系，分别是一对一、一对多、多对一、多对多</td>
+</tr>
+</tbody></table>
+<h3 id="Lomlok"><a href="#Lomlok" class="headerlink" title="Lomlok"></a>Lomlok</h3><table>
+<thead>
+<tr>
+<th>注释</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Getter</code> <code>@Setter</code></td>
+<td>生成 getter 和 setter</td>
+</tr>
+<tr>
+<td><code>@ToString</code></td>
+<td>生成 toString</td>
+</tr>
+<tr>
+<td><code>@EqualsAndHashCode</code></td>
+<td>生成 equals 和 hashCode</td>
+</tr>
+<tr>
+<td><code>@NoArgsConstructor</code></td>
+<td>生成无参构造方法</td>
+</tr>
+<tr>
+<td><code>@AllArgsConstructor</code></td>
+<td>生成全参构造方法</td>
+</tr>
+<tr>
+<td><code>@RequiredArgsConstructor</code></td>
+<td>生成构造方法，参数为所有 <code>@NotNull</code> 和 final 字段</td>
+</tr>
+<tr>
+<td><code>@Data</code></td>
+<td>包含 <code>@Getter</code> <code>@Setter</code> <code>@EqualsAndHashCode</code> <code>@RequiredArgsConstructor</code></td>
+</tr>
+<tr>
+<td><code>@Value</code></td>
+<td>不可变对象的 <code>@Data</code></td>
+</tr>
+<tr>
+<td><code>@Builder</code></td>
+<td>提供建造者模式</td>
+</tr>
+<tr>
+<td><code>@SneakyThrows</code></td>
+<td>偷偷抛出受检异常，无需在方法签名中声明</td>
+</tr>
+<tr>
+<td><code>@Cleanup</code></td>
+<td>默认关闭资源（如IO流）</td>
+</tr>
+<tr>
+<td><code>@Slf4j</code> <code>Log4j</code></td>
+<td>自动注入一个日志记录器</td>
+</tr>
+</tbody></table>
+<h3 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h3><ul>
+<li><code>@JsonIgnoreProperties(&#123;&#125;)</code> 过滤掉特定属性，若允许未知属性进入，可添加 <code>ignoreUnknown = true</code></li>
+<li><code>@JsonIgnore</code> 作用于字段或 <code>getter/setter</code> 方法级别，用于指定在序列化&#x2F;反序列化时忽略该特定特性</li>
+<li><code>@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = &quot;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS&#39;Z&#39;&quot;, timezone = &quot;GMT&quot;)</code> 指定属性在序列化&#x2F;反序列化时的格式，常用于日期时间类型的格式化</li>
+<li><code>@JsonUnwrapped</code> 作用于字段上，用于在序列化时将其嵌套对象的属性“提升”到当前对象的层级。反序列化时执行反操作</li>
+</ul>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><ul>
+<li><code>@ActiveProperties</code> 一般用于测试类上，用于声明生效的 spring 配置文件</li>
+<li><code>@Test</code> 是 JUnit 框架下提供的注解，用于标记一个方法是测试方法</li>
+<li><code>@WithMockUser</code> 是 spring security test 模块下提供的注解，用于在测试期间模拟一个已认证的用户</li>
+</ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>spring 中的事务分两种：编程式事务和声明式事务。</p>
+<ul>
+<li>编程式事务：在代码中硬编码，在分布式系统中推荐使用。通过 <code>TransactionTemplate</code> 或者 <code>TransactionManager</code> 手动管理事务。若事务范围过大，会出现事务未提交导致超时，因此事务比锁的粒度更小</li>
+<li>声明式事务：在 xml 配置文件中配置或者直接基于注解，实际通过 AOP 实现（使用注解 <code>@Transaction</code> 最多）</li>
+</ul>
+<h3 id="事务传播行为-propagation"><a href="#事务传播行为-propagation" class="headerlink" title="事务传播行为 propagation"></a>事务传播行为 <code>propagation</code></h3><p>当事务方法被另一个事务方法调用时，必须指定事务应该如何传播，是继续在现有事务中运行，还是新开一个事务。正确的事务传播薪给的值如下：</p>
+<ol>
+<li><code>TransactionDefinition.PROPAGATION_REQUIRED</code><br> 使用最多的一个事务行为，默认值。若当前存在事务则加入该事务；若当前没有事务则创建一个新事务</li>
+<li><code>TransactionDefinition.PROPAGATION_REQUIRES_NEW</code><br> 创建一个新事务。若当前存在事务，则将当前事务挂起。不管外部方法是否开启事务，该方法都会开启新事务</li>
+<li><code>TransactionDefinition.PROPAGATION_NESTED</code><br> 若当前存在事务，则创建一个事务作为当前事务的嵌套事务进行；若当前没有事务，则创建一个新事务</li>
+<li><code>TransactionDefinition.PROPAGATION_MANDATORY</code><br> 若当前存在事务，则加入该事务；若当前没有事务，则抛出异常</li>
+</ol>
+<p>以下三种级别，事务在发生错误时可能不会回滚</p>
+<ol start="5">
+<li><code>TransactionDefinition.PROPAGATION.SUPPORT</code><br> 若当前存在事务，则加入该事务；若当前没有事务，则以非事务的方式运行</li>
+<li><code>TransactionDefinition.PROPAGATION_NOT_SUPPORT</code><br> 非事务方式运行，若存在事务则把当前事务挂起</li>
+<li><code>TransactionDefinition.PROPAGATION_NEVER</code><br> 非事务方式进行，若存在事务则抛出异常</li>
+</ol>
+<h3 id="事务隔离级别-isolation"><a href="#事务隔离级别-isolation" class="headerlink" title="事务隔离级别 isolation"></a>事务隔离级别 <code>isolation</code></h3><p>和数据库一样，spring 也支持事务隔离，其级别和 SQL 差不多</p>
+<ul>
+<li><code>TransactionDefinition.ISOLATION_DEFAULT</code><br>  使用后端数据库默认的隔离级别</li>
+<li><code>TransactionDefinition.ISOLATION_READ_UNCOMMITTED</code><br>  读未提交</li>
+<li><code>TransactionDefinition.ISOLATION_READ_COMMITTED</code><br>  读已提交</li>
+<li><code>TransactionDefinition.ISOLATION_REPEATABLE_READ</code><br>  可重复读</li>
+<li><code>TransactionDefinition.ISOLATION_SERIALIZABLE</code><br>  可串行化</li>
+</ul>
+<p>四种隔离级别的区别详见<a href="https://ivanclf.github.io/2025/10/11/sql-2/#%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB">https://ivanclf.github.io/2025/10/11/sql-2/#隔离级别</a></p>
+<h3 id="声明式事务"><a href="#声明式事务" class="headerlink" title="声明式事务"></a>声明式事务</h3><p>当在配置类上使用 <code>@EnableTransactionManagement</code> 后，spring 容器会向容器中注册一个关键的 Bean 后处理器—— <code>InfrastructureAdvisorProxyCreator</code>。这个类的作用很明确，就是一个“自动代理创建器”，用于在 Bean 初始化后阶段，扫描容器中所有的 Bean，判断哪些 Bean 存在 <code>@Transactional</code> 注解，需要被代理。</p>
+<p>如果匹配成功，spring 会通过 JDK 动态代理或 Cglib 代理来创建代理。</p>
+<p>在调用该代理对象的方法时，代理对象会拦截所有的方法调用，检查被调用的方法是否有 <code>@Transactional</code> 注解。如果有，就解析其属性（<code>propagation</code> <code>isolation</code> <code>rollbackfor</code> 等），执行事务拦截器。该十五拦截器的逻辑如下</p>
+<ul>
+<li>通过 <code>PlatformTransactionManager</code> 事务管理器，根据当前的事务属性，判断是加入现有事务还是开启一个新事务。然后通过事务管理器开启一个新的事务，并从数据库连接池中获取一个链接，关闭其自动提交</li>
+<li>调用<strong>原始目标对象</strong>的对应方法</li>
+<li>根据目标执行方法的执行情况来决定事务的最终状态。若正常返回则提交事务，若抛出异常，则事务拦截器会捕获它，检查抛出的异常是否匹配 <code>@Transactional.rollbackfor</code> 指定的规则，匹配则回滚事务，不匹配则提交事务</li>
+<li>无论事务是提交还是回滚，拦截器都会释放数据库链接</li>
+</ul>
+<p>在以下情况下，<code>@Transactional</code> 注解会失效</p>
+<ul>
+<li>自调用。spring 事务基于 AOP 代理，自调用绕过了代理机制<br>  这是最常见的一个问题。是因为方法 A 在调用方法 B 时，用的是 <code>this</code> 引用，绕过了 spring 的代理对象，也就导致代理对象中的事务逻辑没有机会执行。解决犯法是把当前类作为一个 Bean 注入到自己中，然后通过这个注入的 Bean 来调用方法 B</li>
+<li>捕获异常未抛出，而是通过其他处理方式解决</li>
+<li>抛出未受检异常<br>  spring 事务默认只对 <code>RuntimeException</code> 和 <code>Error</code> 类型的异常进行回滚。若一个异常是 <code>Exception</code> 的子类但不是 <code>RuntimeException</code> 的子类则不会回滚。需要指定为 <code>@Transactional(rollbackfor = Exception.class)</code></li>
+<li>不是 <code>public</code> 方法，spring 创建不了代理</li>
+<li><code>@Async</code> 和 <code>@Transactional</code> 混用，异步方法在另一个线程执行，事务不生效</li>
+</ul>
+<h2 id="spring-MVC"><a href="#spring-MVC" class="headerlink" title="spring MVC"></a>spring MVC</h2><p>spring  MVC 的核心组件有以下几种</p>
+<ul>
+<li><code>DispatcherServlet</code> 核心的中央处理器，负责接收请求、分发，并给予客户端响应</li>
+<li><code>HandlerMapping</code> 处理器映射器，根据 URL 去匹配查找能处理的 <code>Handler</code>，并会将请求涉及到的拦截器和 <code>Handler</code> 一起封装</li>
+<li><code>HandlerAdapter</code> 处理器适配器，根据找到的 <code>Handler</code> 去适配执行对应的 <code>Handler</code></li>
+<li><code>Handler</code> 请求处理器，处理实际请求的处理器</li>
+<li><code>ViewResolver</code> 视图解析器，根据 <code>Handler</code> 返回的逻辑视图&#x2F;视图，解析并渲染真正的驶入，并传递给 <code>DispatcherServlet</code> 客户端</li>
+</ul>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><ol>
+<li>当一个 HTTP 请求到达服务器时，首先由 <code>DispatcherServlet</code> 接收。它负责将请求分发到合适的处理器，也就是 <code>@Controller</code> 中的方法，并协调其他组件的工作。</li>
+<li><code>DispatcherServlet</code> 查询配置的 <code>HandlerMapping</code>。后者扫描是所有带有 <code>@Controller</code> 或 <code>@RestController</code> 的 Bean，找到对应路由的具体方法。</li>
+<li>找到对应方法后，<code>DispatcherServlet</code> 会委托给 <code>HandlerAdapter</code> 进行调用。在注解驱动开发中，常用的是 <code>RequestMappingHandlerAdapter</code>，这一层会把请求参数自动注入到方法形参中，并调用 Controller 执行实际的业务逻辑。</li>
+<li>Controller 方法最终会返回结果，比如视图名称、ModelAndView 或直接返回 JSON 数据</li>
+<li>渲染完成的 HTML 或者换好的 JSON 数据，通过 <code>HttpServletResponse</code> 返回给客户端</li>
+</ol>
+<p>其中的 <code>HandlerAdapter</code> 用于处理多种风格的处理器调用方式，屏蔽不同控制器的差异。</p>
+<pre><code class=" mermaid">flowchart LR
+    client((客户端))
+    
+    subgraph spring [Spring MVC 流程]
+        dispatcher[DispatcherServlet]
+        existsMapping&#123;是否存在映射&#125;
+        handlerMapping[HandlerMapping]
+        handlerAdapter[HandlerAdapter]
+        controller[Handler/Controller]
+        viewResolver[ViewResolver]
+    end
+
+    client --&gt;|1. 发送请求 URL| dispatcher
+    dispatcher --&gt;|2. 检查映射| existsMapping
+    
+    existsMapping --&gt;|否| client
+    existsMapping --&gt;|是| handlerMapping
+    
+    handlerMapping --&gt;|3. 返回执行链| dispatcher
+    dispatcher --&gt;|4. 获取适配器| handlerAdapter
+    handlerAdapter --&gt;|5. 执行处理方法| controller
+    controller --&gt;|6. 返回 ModelAndView| handlerAdapter
+    handlerAdapter --&gt;|7. 返回 ModelAndView| dispatcher
+    
+    dispatcher --&gt;|8. 解析视图| viewResolver
+    viewResolver --&gt;|9. 返回 View 对象| dispatcher
+    dispatcher --&gt;|10. 渲染视图并响应| client
+</code></pre>
+
+<p>传统的 MVC 中，返回的数据通常是 HTML 页面。但在 RESTful 架构中，通常返回的是 JSON 或 XML，而不再是一个完整的页面。当一个类上使用 <code>@RestController</code> 时，它会告诉 spring 这个类中所有方法的返回值都应该直接写入 HTTP 响应体中，而不再被解析为视图。<code>@ResponseBody</code> 是其在方法级别的呈现。</p>
+<h2 id="spring-boot"><a href="#spring-boot" class="headerlink" title="spring boot"></a>spring boot</h2><p>spring boot 是 spring 生态的一个重大突破，它极大简化了 spring 应用和开发过程。“约定大于配置”是 spring boot 最核心的概念。它预设了很多的默认配置。</p>
+<p>比如 <code>@SpringBootApplication</code> 标志着一个 spring boot应用的入口，包含了 <code>@Configuration</code>、<code>@EnableAutoConfiguration</code>、<code>@ComponentScan</code> 等注解</p>
+<h3 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h3><p>开启自动装配的注解是 <code>@EnableAUtoConfiguration</code>。这个注解会告诉 spring 去扫描所有可用的自动配置类。当 main 方法执行的时候，spring 回去类路径下找 <code>spring.factory</code> 这个文件，读取里面配置的自动配置类列表。在每个自动配置类的内部，通常会有一个 <code>@Configuration</code> 注解，同时结合各种 <code>@Conditional</code> 注解来做控制。常用的条件注解为</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@ConditionalOnClass</code></td>
+<td>类路径下存在指定类时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnMissingClass</code></td>
+<td>类路径下不存在指定类时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnBean</code></td>
+<td>容器中存在指定 Bean 时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnMissingBean</code></td>
+<td>容器中不存在指定 Bean 时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnProperty</code></td>
+<td>配置文件中存在指定属性时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnWebApplication</code></td>
+<td>当前是 web 应用时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnExpression</code></td>
+<td>SpEL 表达式为 true 时生效</td>
+</tr>
+</tbody></table>
+<h3 id="创建-spring-boot-starter"><a href="#创建-spring-boot-starter" class="headerlink" title="创建 spring boot starter"></a>创建 spring boot starter</h3><ol>
+<li><p>创建 starter 项目结构<br> 通常将 starter 分成两个模块：启动器模块和自动配置模块。</p>
+<p> 启动器模块的 <code>pom.xml</code> 如下。其中只包含依赖声明</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">project</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.example<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>hello-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 引入自动配置模块 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.example<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>hello-spring-boot-starter-autoconfigure<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p> 自动配置模块的 <code>pom.xml</code> 配置如下。其中包含核心配置逻辑</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-autoconfigure<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p> 创建一个自动配置类，该类的作用是根据配置文件中的属性来创建和配置 Bean</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableConfigurationProperties(MyStarterProperties.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyServiceAutoConfiguration</span> &#123;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@ConditionalOnMissingBean</span><br>    <span class="hljs-keyword">public</span> MyService <span class="hljs-title function_">myService</span><span class="hljs-params">(HelloProperties properties)</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyService</span>(properties.getMessage());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>定义配置属性类。<br> 使用 <code>@ConfigurationProperties</code> 绑定外部配置，让用户可以在 <code>application.yml</code> 或其他文件中自定义参数</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;example.hello&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloProperties</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">prefix</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Hello&quot;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">suffix</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;!&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>编写业务服务类</p>
+</li>
+<li><p>创建自动配置类<br> 使用条件注解控制何时生效</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableConfigurationProperties(HelloProperties.class)</span><br><span class="hljs-meta">@ConditionalOnProperty(prefix = &quot;example.hello&quot;, value = &quot;enabled&quot;, matchIfMissing = true)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloAutoConfiguration</span> &#123;<br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@ConditionalOnMissingBean</span> <span class="hljs-comment">// 容器中不存在HelloService时创建</span><br>    <span class="hljs-keyword">public</span> HelloService <span class="hljs-title function_">helloService</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HelloService</span>(properties);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>注册自动配置类<br> 在 <code>resources/META-INF/</code> 下创建 <code>spring.factory</code> 文件</p>
+ <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span>=<span class="hljs-string">\</span><br><span class="hljs-string">com.example.hello.HelloAutoConfiguration</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>使用自定义 starter<br> 引入依赖</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.example<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>hello-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p> 在 <code>application.properties</code> 下配置参数</p>
+ <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">example.hello.prefix</span>=<span class="hljs-string">Hi</span><br><span class="hljs-attr">example.hello.suffix</span>=<span class="hljs-string">!!!</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><h4 id="SpringBootApplication-注解"><a href="#SpringBootApplication-注解" class="headerlink" title="@SpringBootApplication 注解"></a><code>@SpringBootApplication</code> 注解</h4><p>执行该注解的内容。该注解包括三个内容</p>
+<ul>
+<li><code>@SpringBootConfiguration</code> 标记这个类是一个 spring boot 配置类，相当于一个 spring 配置文件</li>
+<li><code>@EnableAutoConfiguration</code> 标记 spring boot 可以进行自动配置，自动注册各种组件</li>
+<li><code>@ComponentScan</code> 扫描当前包及其子包下的组件，注册为 Bean</li>
+</ul>
+<div class="note note-info">
+            <p>main 方法里的 run 方法怎么会识别到 main 方法外的 <code>@SpringBootApplication</code> 注解呢？因为在 run 方法中已经传入了 <code>Application.class</code>，这个类中有对应的注解，自然就知道了。</p>
+          </div>
+
+<h4 id="创建-SpringApplication-实例"><a href="#创建-SpringApplication-实例" class="headerlink" title="创建 SpringApplication 实例"></a>创建 <code>SpringApplication</code> 实例</h4><p>要执行 <code>SpringApplication.run()</code> 前，首先需要创造一个 <code>SpringApplication</code> 的实例。在构造方法中，主要完成了以下几件关键的事情：</p>
+<ol>
+<li>推断应用类型：根据类路径判断是 Servlet Web、响应式 Web 还是非 Web 应用。</li>
+<li>加载初始化器与监听器：从 META-INF&#x2F;spring.factories 加载 <code>ApplicationContextInitializer</code> 和 <code>ApplicationListener</code> 实现类，用于容器初始化和事件监听。</li>
+<li>推断主配置类：根据 main 方法定位主配置类。</li>
+</ol>
+<h3 id="启动-run-方法"><a href="#启动-run-方法" class="headerlink" title="启动 run() 方法"></a>启动 <code>run()</code> 方法</h3><ol>
+<li>启动计时器，创建并配置环境，加载配置源。</li>
+<li>发布 <code>ApplicationEnvironmentPreparedEvent</code> 事件，触发配置加载（如 <code>application.yml</code>）。</li>
+<li>根据应用类型创建对应的 <code>ApplicationContext</code>（如 Web 应用使用 <code>AnnotationConfigServletWebServerApplicationContext</code>）。</li>
+<li>准备上下文：设置环境、执行初始化器，发布 <code>ApplicationContextInitializedEvent</code>。</li>
+<li>刷新上下文（核心步骤）：<ol>
+<li>准备 <code>BeanFactory</code>，配置基础组件。</li>
+<li>调用 <code>BeanFactoryPostProcessor</code>，解析配置类，处理 <code>@SpringBootApplication</code>。</li>
+<li>执行自动配置：通过 <code>AutoConfigurationImportSelector</code> 读取 <code>spring.factories</code>，按条件加载配置类。</li>
+<li>注册 <code>BeanPostProcessor</code>，初始化事件广播器。</li>
+<li>在 <code>onRefresh()</code> 中创建并启动内嵌 Web 服务器。</li>
+<li>初始化剩余单例 Bean，完成刷新，发布 <code>ContextRefreshedEvent</code> 等事件。</li>
+</ol>
+</li>
+<li>停止计时，输出启动日志。</li>
+</ol>
+<div class="note note-success">
+            <p>spring MVC 是 spring 的一个模块，专门用来做 Web 开发，处理 HTTP 请求和响应。而 spring boot 的目标是简化 spring 应用的开发过程，可以通过 starter 的方式快速集成 spring MVC</p>
+          </div>
+
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h3 id="spring-data-JPA"><a href="#spring-data-JPA" class="headerlink" title="spring data JPA"></a>spring data JPA</h3><p>JPA 是 Java EE 的一个 ORM 标准。</p>
+<p>使用 JPA，在数据库中非持久化一个字段，可以使用以下方式</p>
+<ul>
+<li>将其变成 <code>static</code></li>
+<li>将其变成 <code>final</code></li>
+<li>使用 <code>transient</code> 修饰</li>
+<li>使用 <code>@Transient</code> 注释修饰</li>
+</ul>
+<p>可以使用 <code>@CreatedDate</code> 表示改字段是创建时间字段，当这个实体被 insert 时，会设置值<br>可以使用 <code>@CreatedBy</code> 表示该字段为创建人，在这个实体被 insert 时，会设置值<br><code>@LastModifiedDate</code> <code>@LastModifiedBy</code> 同理</p>
+<h3 id="spring-security"><a href="#spring-security" class="headerlink" title="spring security"></a>spring security</h3><p>spring security 是 spring 提供的安全框架，核心功能包括认证和授权。其控制请求访问权限的方法如下</p>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>permitAll()</code></td>
+<td>无条件允许任何形式访问，不管你登录还是没有登录</td>
+</tr>
+<tr>
+<td><code>anonymous()</code></td>
+<td>允许匿名访问，也就是没有登录才可以访问</td>
+</tr>
+<tr>
+<td><code>denyAll()</code></td>
+<td>无条件决绝任何形式的访问</td>
+</tr>
+<tr>
+<td><code>authenticated()</code></td>
+<td>只允许已认证的用户访问</td>
+</tr>
+<tr>
+<td><code>fullyAuthenticated()</code></td>
+<td>只允许已经登录或者通过 <code>remember-me</code> 登录的用户访问</td>
+</tr>
+<tr>
+<td><code>hasRole(String)</code></td>
+<td>只允许指定的角色访问</td>
+</tr>
+<tr>
+<td><code>hasAnyRole(String)</code></td>
+<td>指定一个或者多个角色，满足其一的用户即可访问</td>
+</tr>
+<tr>
+<td><code>hasAuthority(String)</code></td>
+<td>只允许具有指定权限的用户访问</td>
+</tr>
+<tr>
+<td><code>hasAnyAuthority(String)</code></td>
+<td>指定一个或者多个权限，满足其一的用户即可访问</td>
+</tr>
+<tr>
+<td><code>hasIpAddress(String)</code></td>
+<td>只允许指定 ip 的用户访问</td>
+</tr>
+</tbody></table>
+<p>实现密码加密需要实现 <code>PasswordEncoder</code> 接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">PasswordEncoder</span> &#123;<br>    <span class="hljs-comment">// 加密也就是对原始密码进行编码</span><br>    String <span class="hljs-title function_">encode</span><span class="hljs-params">(CharSequence var1)</span>;<br>    <span class="hljs-comment">// 比对原始密码和数据库中保存的密码</span><br>    <span class="hljs-type">boolean</span> <span class="hljs-title function_">matches</span><span class="hljs-params">(CharSequence var1, String var2)</span>;<br>    <span class="hljs-comment">// 判断加密密码是否需要再次进行加密，默认返回 false</span><br>    <span class="hljs-keyword">default</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">upgradeEncoding</span><span class="hljs-params">(String encodedPassword)</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="spring-cloud"><a href="#spring-cloud" class="headerlink" title="spring cloud"></a>spring cloud</h3><p>spring cloud 是一套基于 spring boot 的微服务全家桶。而 spring boot Alibaba 在 spring boot 的基础上，增加了如下组件</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nacos</td>
+<td>提供服务注册和发现、动态配置管理等功能</td>
+</tr>
+<tr>
+<td>Sentiel</td>
+<td>提供流量控制、熔断降级和系统自适应保护等功能</td>
+</tr>
+<tr>
+<td>Seata</td>
+<td>分布式事务解决方案</td>
+</tr>
+<tr>
+<td>RocketMQ</td>
+<td>分布式消息中间件</td>
+</tr>
+<tr>
+<td>Dubbo</td>
+<td>高性能的 Java RPC 框架</td>
+</tr>
+</tbody></table>
+<h3 id="spring-task"><a href="#spring-task" class="headerlink" title="spring task"></a>spring task</h3><p>spring task 是 spring 框架提供的轻量级任务调度框架。要使用该框架，首先使用 <code>@EnableScheduling</code> 开始定时任务的支持。然后在需要定时任务的方法加上 <code>@Schedule</code> 注解，支持 fixedRate、fixedDelay、cron 三种表达式。</p>
+<p>默认情况下，spring task 会使用单线程执行所有定时任务。若某个任务执行时间过长或任务数量多，就会造成阻塞。因此可以通过线程池解决这个问题</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableScheduling</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ScheduleConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">SchedulingConfigurer</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">configureTasks</span><span class="hljs-params">(ScheduledTaskRegistrar taskRegistrar)</span> &#123;<br>        taskRegistrar.setScheduler(Executors.newScheduledThreadPool(<span class="hljs-number">10</span>));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>另外可以将 spring task 迁移到其他框架（例如 <code>Quartz</code> 等）。</p>
+<h3 id="spring-cache"><a href="#spring-cache" class="headerlink" title="spring cache"></a>spring cache</h3><p>spring cache 是 spring 框架提供的一套缓存抽象，通过提供统一的接口支持多种缓存的实现，如 redis、Caffeine 等。</p>
+<p>spring cache 本身只是提供了一套统一的接口和注解来管理缓存，本身并不具备缓存能力，而 redis 是具体的缓存实现。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/web/" class="category-chain-item">web</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/java/" class="print-no-link">#java</a>
+      
+        <a href="../../../../tags/spring/" class="print-no-link">#spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>spring 高级特性</div>
+      <div>https://ivanclf.github.io/2025/11/02/spring-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../../10/29/spring/" title="spring 基础特性">
+                        <span class="hidden-mobile">spring 基础特性</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

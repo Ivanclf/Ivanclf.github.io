@@ -167,6 +167,14 @@ spring 中的事务分两种：编程式事务和声明式事务。
 
 四种隔离级别的区别详见[https://ivanclf.github.io/2025/10/11/sql-2/#隔离级别](https://ivanclf.github.io/2025/10/11/sql-2/#%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB)
 
+### 事务超时属性
+
+事务超时就是指一个事务所允许执行的最长时间，若超时则自动回滚。在 `TransactionDefinition` 中以 int 值表示超时时间，单位是秒，默认为 -1，表示超时时间取决于底层系统或没有超时时间。
+
+### 事务只读属性
+
+对于只有读取数据查询的事务，可以指定事务类型为 `readonly`，即只读事务。由于不涉及数据的修改，数据库会提供一些优化手段，适合用在有多条数据库查询操作的方法中。
+
 ### 声明式事务
 
 当在配置类上使用 `@EnableTransactionManagement` 后，spring 容器会向容器中注册一个关键的 Bean 后处理器—— `InfrastructureAdvisorProxyCreator`。这个类的作用很明确，就是一个“自动代理创建器”，用于在 Bean 初始化后阶段，扫描容器中所有的 Bean，判断哪些 Bean 存在 `@Transactional` 注解，需要被代理。

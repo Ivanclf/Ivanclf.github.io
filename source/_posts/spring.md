@@ -541,6 +541,53 @@ AOP 常见的通知类型如下
 
 对于多个切面的执行顺序，一般可以通过 `@Order()` 注释指定，数值越小优先级越高。也可以实现 `Ordered` 接口重写 `getOrder` 方法
 
+## `@Async` 注解原理
+
+在启动类上添加注解 `@EnableAsync`，开启异步任务支持，然后在需要异步执行的方法上添加注解 `@Async`，就可以让这个方法异步执行。
+
+在一个方法上标注 `@Async` 时，spring 在启动容器并创建这个 Bean 的过程中，创建一个代理对象。在调用这个代理对象时，拦截器不会直接调用原始 Bean 的 方法，而是将这个方法调用封装成一个 `Runnable` 任务（例如 `Callable` 或 `Runnable`），然后拦截器将这个任务提交给一个 `TaskExecuter`（任务执行器，通常是线程池）。
+
+一旦任务被成功提交到线程池，代理对象的拦截过程就结束了。`triggerAsync()` 方法中的调用会立刻返回（返回一个 `void` 或一个占位符 `Future`），主线程可以继续执行后面的各种语句，不受影响。
+
+线程池会从它的线程池中分配一个空闲的工作线程，这个工作线程会执行上面封装好的 `Runnable` 任务，调用真正对象的方法。因此，主线程和工作线程是并发进行的。
+
+如果没有显式配置线程池，在 `@Async` 底层会先在 `BeanFactory` 中尝试获取线程池。获取不到则会创建一个 `SimpleAsyncTaskExecutor` 实现，但这个执行器对于每个请求都会启动一个线程，而非使用线程池。因此在使用这个注解前，需要显式配置一个线程池，推荐为 `ThreadPoolTaskExecutor`。
+
+```java
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+
+    @Bean(name = "executor1")
+    public Executor executor1() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(3);
+        executor.setMaxPoolSize(5);
+        executor.setQueueCapacity(50);
+        executor.setThreadNamePrefix("AsyncExecutor1-");
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean(name = "executor2")
+    public Executor executor2() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(4);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("AsyncExecutor2-");
+        executor.initialize();
+        return executor;
+    }
+}
+```
+
+注意，由于 `@Async` 仍然是基于 AOP 实现，因此若在同一个类内部调用一个 `@Async` 注解的方法，那这个方法不会异步执行。使用某些关键字修饰的方法也不会生效，等等。
+
+异步方法中的异常默认不会被调用者捕获。为了管理这些异常，建议使用 `CompletableFuture` 的异常处理功能，或者配置一个全局的异常处理器。
+
+`@Async` 注解的方法需要事务支持时，无比在该异步方法上独立使用。
+
 {% note success %}
 AOP 和反射的区别在于，反射主要是为了让程序能够检查和操作自身的结构，而 AOP 则是为了在不修改业务的前提下，动态地为方法添加额外的行为。
 {% endnote %}

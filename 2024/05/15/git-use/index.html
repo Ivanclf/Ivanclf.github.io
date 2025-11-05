@@ -19,21 +19,18 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="下面以本人的GitHub账户为例，说明几个常用的git操作，演示如何将本地文件上传到GitHub上。git文档在 GitHub操作输入以下指令以验证是否成功连上GitHub。 1$ ssh -T git@github.com  然后在GitHub上新建一个仓库，建好后，弹出以下页面  按照其中的指示操作即可。">
+    <meta name="description" content="暂存区暂存区暂时存储相关文件  git add . 将所有文件放入暂存区，若不需要所有文件放入就将 . 改为文件名 git add --all 将工作区中的所有变化都添加到暂存区，包括删除 git restore --staged &lt;file&gt; 将指定文件从暂存区撤回到工作区，但本地的文件不会改变 git reset HEAD &lt;file&gt; 和上个同理 git restor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git的常见用法">
 <meta property="og:url" content="https://ivanclf.github.io/2024/05/15/git-use/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="下面以本人的GitHub账户为例，说明几个常用的git操作，演示如何将本地文件上传到GitHub上。git文档在 GitHub操作输入以下指令以验证是否成功连上GitHub。 1$ ssh -T git@github.com  然后在GitHub上新建一个仓库，建好后，弹出以下页面  按照其中的指示操作即可。">
+<meta property="og:description" content="暂存区暂存区暂时存储相关文件  git add . 将所有文件放入暂存区，若不需要所有文件放入就将 . 改为文件名 git add --all 将工作区中的所有变化都添加到暂存区，包括删除 git restore --staged &lt;file&gt; 将指定文件从暂存区撤回到工作区，但本地的文件不会改变 git reset HEAD &lt;file&gt; 和上个同理 git restor">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://git-scm.com/book/en/v2/Appendix-C%3A-Git-Commands-Setup-and-Config">
-<meta property="og:image" content="https://ivanclf.github.io/2024/05/15/git-use/git_1.png">
 <meta property="article:published_time" content="2024-05-15T12:49:41.000Z">
-<meta property="article:modified_time" content="2025-10-05T17:41:07.988Z">
+<meta property="article:modified_time" content="2025-11-05T09:07:20.841Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="碎片知识">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://git-scm.com/book/en/v2/Appendix-C%3A-Git-Commands-Setup-and-Config">
   
   
   
@@ -238,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          91 字
+          1.1k 字
         
       </span>
     
@@ -286,14 +283,94 @@
             
               <div class="markdown-body">
                 
-                <p>下面以本人的GitHub账户为例，说明几个常用的git操作，演示如何将本地文件上传到GitHub上。git文档在<img src="https://git-scm.com/book/en/v2/Appendix-C%3A-Git-Commands-Setup-and-Config" srcset="/img/loading.gif" lazyload alt="这里"></p>
-<h2 id="GitHub操作"><a href="#GitHub操作" class="headerlink" title="GitHub操作"></a>GitHub操作</h2><p>输入以下指令以验证是否成功连上GitHub。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ ssh -T git@github.com<br></code></pre></td></tr></table></figure>
-
-<p>然后在GitHub上新建一个仓库，建好后，弹出以下页面</p>
-<p><img src="git_1.png" srcset="/img/loading.gif" lazyload alt="页面内容"></p>
-<p>按照其中的指示操作即可。</p>
-
+                <h2 id="暂存区"><a href="#暂存区" class="headerlink" title="暂存区"></a>暂存区</h2><p>暂存区暂时存储相关文件</p>
+<ul>
+<li><code>git add .</code> 将所有文件放入暂存区，若不需要所有文件放入就将 <code>.</code> 改为文件名</li>
+<li><code>git add --all</code> 将工作区中的所有变化都添加到暂存区，包括删除</li>
+<li><code>git restore --staged &lt;file&gt;</code> 将指定文件从暂存区撤回到工作区，但本地的文件不会改变</li>
+<li><code>git reset HEAD &lt;file&gt;</code> 和上个同理</li>
+<li><code>git restore &lt;file&gt;</code> 将指定文件还原到暂存区的状态</li>
+<li><code>git checkout -- &lt;file&gt;</code> 和上个同理</li>
+<li><code>git status</code> 查看暂存区状态</li>
+<li><code>git diff --staged</code> <code>git diff --cached</code> 比较暂存区和本地库中最新提交的差异</li>
+</ul>
+<h2 id="本地库"><a href="#本地库" class="headerlink" title="本地库"></a>本地库</h2><p>本地库保存了项目的所有提交历史</p>
+<ul>
+<li><code>git commit</code> 提交暂存区的文件，需要写提交说明</li>
+<li><code>git commit -a</code> 提交前会自动执行一步 <code>git add -u</code>，即添加所有已跟踪文件的修改和删除</li>
+<li><code>git commit --amend</code> 修改最近一次提交的说明信息，或者将当前暂存区的更改追加到上一次提交中</li>
+<li><code>git log</code> 查看详细的提交历史<ul>
+<li><code>--oneline</code> 以单行模式查看</li>
+<li><code>--graph</code> 以拓补图的形式查看</li>
+<li><code>show &lt;commit-id&gt;</code> 查看某一次提交的详细信息</li>
+</ul>
+</li>
+<li><code>git reset</code> 回退到指定提交<ul>
+<li><code>--soft &lt;commit-id&gt;</code> 保留更改作为已暂存状态，工作区保存更改</li>
+<li><code>--mixed &lt;commit-id&gt;</code> 默认模式，暂存区重置，工作区保留更改</li>
+<li><code>--hard &lt;commit-id&gt;</code> 丢弃所有更改</li>
+</ul>
+</li>
+</ul>
+<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><p>远程库一般在 GitHub、gitee 等网站上</p>
+<ul>
+<li><code>git clone</code> 克隆项目到当前目录</li>
+<li><code>git remote add origin &lt;url&gt;</code> 为远程库添加一个名字为 origin 的别名</li>
+<li><code>git remote -v</code> 查看已配置的远程库别名和对应的 url</li>
+<li><code>git remote show origin</code> 查看远程库 origin 的详细信息</li>
+<li><code>git fetch origin</code> 从远程库下载所有最新的链接，但还不会合并到当前的工作分支，也不会修改工作区</li>
+<li><code>git pull</code> 相当于 <code>git fetch</code> + <code>git merge</code> 下载数据并进行合并</li>
+<li><code>git pull --rebase</code> 相当于 <code>gti fetch</code> + <code>git rebase</code>，使提交历史更加简洁，避免不必要的合并提交</li>
+<li><code>git push</code> 向远程库提交代码</li>
+<li><code>git push -u</code> 提交的同时建立上游关联，这样下次只需要打 <code>git push</code> 就可以了，不需要指定名字</li>
+<li><code>git push --force-with-lease</code> 强制提交。只有在自己的本地远程跟踪分支是最新的情况下才能覆盖</li>
+<li><code>git push -f</code> 强制提交</li>
+</ul>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><ul>
+<li><code>git branch</code> 列出所有本地分支<ul>
+<li><code>-v</code> 查看本地分支和其最新提交信息</li>
+<li><code>-vv</code> 查看本地分支及其跟踪的远程分支关系</li>
+<li><code>-r</code> 列出所有远程跟踪分支</li>
+<li><code>-a</code> 列出所有本地和远程分支</li>
+<li><code>&lt;branch name&gt;</code> 基于当前提交创建新分支</li>
+<li><code>&lt;branch name&gt; &lt;commit-id&gt;</code> 基于特定提交创建新分支</li>
+<li><code>&lt;branch name&gt; &lt;tag name&gt;</code> 基于标签创建新分支</li>
+<li><code>--merged</code> 查看已合并到当前分支的分支列表</li>
+<li><code>--no-merged</code> 查看未合并到当前分支的分支列表</li>
+<li><code>--merged | grep -v &quot;\*&quot; | xargs git branch -d</code> 批量删除已合并分支，但保留当前分支</li>
+<li><code>-m</code> 重命名当前分支</li>
+</ul>
+</li>
+<li><code>git checkout</code> 创建或切换分支<ul>
+<li><code>&lt;branch name&gt;</code> 切换到新分支</li>
+<li><code>-b &lt;branch name&gt;</code> 创建并切换到新分支</li>
+<li><code>-</code> 切换到上一分支</li>
+<li><code>-d &lt;branch name&gt;</code> 安全删除，只在分支已合并时允许</li>
+<li><code>-D &lt;branch name&gt;</code> 强制删除</li>
+</ul>
+</li>
+<li><code>git merge</code> 将指定分支合并到当前分支<ul>
+<li><code>--no-diff</code> 禁用快进合并，总是创建合并提交</li>
+<li><code>--squash</code> 将多个提交压缩成一个，然后提交</li>
+<li><code>--continue</code> 解决冲突后继续合并</li>
+<li><code>--abort</code> 中止合并，回到合并前的状态</li>
+</ul>
+</li>
+<li><code>git rebase</code> 将当前分支变基到指定分支<ul>
+<li><code>--interactive &lt;commit-id&gt;</code> 交互式变基，可以编辑、合并、重排提交</li>
+<li><code>--abort</code> 中止变基操作</li>
+<li><code>--continue</code> 解决冲突后继续变基</li>
+</ul>
+</li>
+<li><code>git push origin --delete &lt;branch name&gt;</code> 删除远程分支</li>
+<li><code>git diff &lt;branch name 1&gt;..&lt;branch name 2&gt;</code> 比较两个分支的差异</li>
+<li><code>git diff &lt;branch name 1&gt;...&lt;branch name 2&gt;</code> 比较两个分支从共同祖先开始的差异</li>
+<li><code>git log &lt;branch name 1&gt;..&lt;branch name 2&gt;</code> 查看分支2有但分支1没有的提交</li>
+<li><code>gti log --oneline --graph --all</code> 图形化显示所有分支历史</li>
+</ul>
+<div class="note note-info">
+            <p>要修改历史中的某次提交（比如倒数第三次提交）中的 README 文件</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动交互式变基，编辑最近3次提交</span><br>git rebase -i HEAD~3<br><br><span class="hljs-comment"># 在编辑器中找到要修改的那次提交，将前面的 pick 改为 edit，保存退出</span><br><br><span class="hljs-comment"># 现在 git 停在了那次上，可以修改工作区中的文件了</span><br><br><span class="hljs-comment"># 修改完后，正常操作</span><br>git add &lt;file&gt;<br>git commit -amend<br>git rebase --<span class="hljs-built_in">continue</span><br></code></pre></td></tr></table></figure>
+          </div>
                 
               </div>
             

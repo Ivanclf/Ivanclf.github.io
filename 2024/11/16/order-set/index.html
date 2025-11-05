@@ -21,14 +21,15 @@
   
     <meta name="description" content="latex的碎片化使用希腊字母需要大写的希腊字母时，首字母大写即可    显示 命令 显示 命令 显示 命令    $\alpha$ \alpha $\beta$ \beta $\gamma$ \gamma   $\delta$ \delta $\epsilon$ \epsilon $\zeta$ \zeta   $\eta$ \eta $\theta$ \theta $\iota$ \iota">
 <meta property="og:type" content="article">
-<meta property="og:title" content="指令集">
+<meta property="og:title" content="指令集和 Linux 杂记">
 <meta property="og:url" content="https://ivanclf.github.io/2024/11/16/order-set/index.html">
 <meta property="og:site_name" content="Ivan的博客">
 <meta property="og:description" content="latex的碎片化使用希腊字母需要大写的希腊字母时，首字母大写即可    显示 命令 显示 命令 显示 命令    $\alpha$ \alpha $\beta$ \beta $\gamma$ \gamma   $\delta$ \delta $\epsilon$ \epsilon $\zeta$ \zeta   $\eta$ \eta $\theta$ \theta $\iota$ \iota">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2024/11/16/order-set/vi-vim-cheat-sheet-sch.gif">
+<meta property="og:image" content="https://ivanclf.github.io/2024/11/16/order-set/Linux%E6%9D%83%E9%99%90%E8%A7%A3%E8%AF%BB-BGnXOuG0.png">
 <meta property="article:published_time" content="2024-11-16T11:51:38.000Z">
-<meta property="article:modified_time" content="2025-08-24T11:10:38.059Z">
+<meta property="article:modified_time" content="2025-11-05T08:14:15.385Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="速查">
 <meta name="twitter:card" content="summary_large_image">
@@ -36,7 +37,7 @@
   
   
   
-  <title>指令集 - Ivan的博客</title>
+  <title>指令集和 Linux 杂记 - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="指令集"></span>
+            <span id="subtitle" data-typed-text="指令集和 Linux 杂记"></span>
           
         </div>
 
@@ -237,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          901 字
+          1.9k 字
         
       </span>
     
@@ -280,7 +281,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">指令集</h1>
+            <h1 id="seo-header">指令集和 Linux 杂记</h1>
             
             
               <div class="markdown-body">
@@ -730,7 +731,7 @@
 </tr>
 </tbody></table>
 <p><img src="vi-vim-cheat-sheet-sch.gif" srcset="/img/loading.gif" lazyload alt="更详细的指令"></p>
-<h2 id="Linux上的bash指令"><a href="#Linux上的bash指令" class="headerlink" title="Linux上的bash指令"></a>Linux上的bash指令</h2><p>学习OS需要，现列出部分指令</p>
+<h2 id="Linux上的bash指令"><a href="#Linux上的bash指令" class="headerlink" title="Linux上的bash指令"></a>Linux上的bash指令</h2><p>学习 OS 和服务器维护需要，现列出部分指令</p>
 <h3 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h3><table>
 <thead>
 <tr>
@@ -740,41 +741,153 @@
 </thead>
 <tbody><tr>
 <td><code>ls</code></td>
-<td>显示该目录下的所有文件</td>
+<td>显示该目录下的所有文件<br><code>-a</code> 所有文件，包括隐藏文件<br><code>-h</code> 人类可读的文件大小<br><code>-t</code> 按时间排序</td>
+</tr>
+<tr>
+<td><code>ll</code></td>
+<td><code>ls -l</code> 的别名，查看该目录下的所有目录和文件的详细信息</td>
 </tr>
 <tr>
 <td><code>cd</code></td>
-<td>打开该目录</td>
-</tr>
-<tr>
-<td><code>cd /</code></td>
-<td>打开根目录下的文件</td>
-</tr>
-<tr>
-<td><code>cd ..</code></td>
-<td>打开上一级目录</td>
-</tr>
-<tr>
-<td><code>vi file</code> <code>vim example</code></td>
-<td>在当前目录下，用vim新建或打开某个文件</td>
+<td>打开该目录<br><code>/</code> 表示根目录<br><code>..</code> 表示上一级目录</td>
 </tr>
 <tr>
 <td><code>cp file1 file2</code></td>
-<td>将file1中的内容复制到file2中</td>
+<td>将 file1 中的内容复制到 file2 中<br><code>-i</code> 覆盖前提示确认</td>
 </tr>
 <tr>
-<td><code>rm file1 file2</code></td>
-<td>删除file1与file2</td>
+<td><code>mv file1 file2</code></td>
+<td>将 file1 中的内容移动到 file2 中</td>
 </tr>
 <tr>
-<td><code>rm -r dir</code></td>
-<td>删除dir文件夹下的所有文件</td>
+<td><code>rm</code></td>
+<td>删除文件<br><code>-r</code> 表示递归删除文件夹下的所有文件<br><code>-f</code> 表示强制删除文件</td>
 </tr>
 <tr>
-<td><code>rm -f file</code></td>
-<td>强行删除file</td>
+<td><code>find &lt;path&gt; &lt;expression&gt;</code></td>
+<td>在指定目录下寻找文件和目录<br><code>-name</code> 文字名称过滤<br><code>-type</code> 按类型过滤（如 <code>f</code> 文件，<code>d</code> 目录）<br><code>-exec</code> 对找到的文件执行命令</td>
+</tr>
+<tr>
+<td><code>pwd</code></td>
+<td>显示当前工作目录的路径</td>
+</tr>
+<tr>
+<td><code>touch</code></td>
+<td>创建新文件或更新已存在文件的时间戳<br><code>-a</code> 仅更改访问时间<br><code>-m</code> 仅访问修改时间</td>
+</tr>
+<tr>
+<td><code>ln</code></td>
+<td>创建硬链接，软连接需要加参数 <code>-s</code></td>
+</tr>
+<tr>
+<td><code>cat</code> <code>more</code> <code>less</code> <code>tail</code></td>
+<td>文件的查看<br><code>cat</code> 为一次性输出。<code>-n</code> 显示行号，<code>-b</code> 显示非空行行号<br><code>more</code> 为分页输出（只能向下分页）<br><code>less</code> 分页输出（功能更丰富） <code>S</code> 禁用换行<br><code>tail</code> 查看文件末尾的内容。<code>-n</code> 指定行数，<code>-f</code> 实时监控日志</td>
+</tr>
+<tr>
+<td><code>tar &lt;input&gt; &lt;output&gt;</code></td>
+<td>打包并压缩文件<br><code>-z</code> 调用 gzip 压缩命令进行压缩<br><code>-c</code> 打包文件，<code>-v</code> 显示运行过程<br><code>-f</code> 指定文件名<br><code>-x</code> 解压</td>
+</tr>
+<tr>
+<td><code>scp &lt;input&gt; &lt;output&gt;</code></td>
+<td>通过 SSH 协议传输<br><code>p</code> 指定远程端口</td>
+</tr>
+<tr>
+<td><code>chmod &lt;auth&gt; &lt;file&gt;</code></td>
+<td>修改权限</td>
+</tr>
+<tr>
+<td><code>chown</code></td>
+<td>修改所有者或所属组</td>
+</tr>
+<tr>
+<td><code>top</code></td>
+<td>实时查看系统的 CPU 使用率、内存使用率、进程信息等</td>
+</tr>
+<tr>
+<td><code>htop</code></td>
+<td>相比 <code>top</code> 提供了友好的界面</td>
+</tr>
+<tr>
+<td><code>uptime</code></td>
+<td>查看系统运行事件和系统的平均负载</td>
+</tr>
+<tr>
+<td><code>vmstat</code></td>
+<td>显示虚拟内存状态，也可以报告关于进程、内存、I&#x2F;O 等系统状态<br><code>-a</code> 显示活动&#x2F;非活动内存<br><code>-s</code> 显示内存统计摘要</td>
+</tr>
+<tr>
+<td><code>free</code></td>
+<td>查看系统的内存使用情况<br><code>-h</code> 以人类可读单位显示<br><code>-s</code> 仅显示统计，不显示子目录</td>
+</tr>
+<tr>
+<td><code>df</code></td>
+<td>查看系统的磁盘空间使用情况</td>
+</tr>
+<tr>
+<td><code>du</code></td>
+<td>查看指定目录或文件的磁盘空间使用情况</td>
+</tr>
+<tr>
+<td><code>sar &lt;time&gt; &lt;repeat&gt;</code></td>
+<td>收集、报告和分析系统的性能统计信息<br><code>-u</code> 显示 CPU 使用率<br><code>-r</code> 显示内存使用率<br><code>-n</code> 网络统计</td>
+</tr>
+<tr>
+<td><code>systemctl &lt;order&gt; &lt;name&gt;</code></td>
+<td>管理系统的服务单元，查看系统服务的状态信息<br><code>start</code> 启动服务<br><code>stop</code>停止服务<br><code>status</code> 查看服务状态</td>
+</tr>
+<tr>
+<td><code>netstat</code> <code>ss</code></td>
+<td>查看系统的网络连接状态和网络统计信息<br><code>-t</code> 仅显示 TCP<br><code>-u</code> 仅显示 UDP<br> <code>l</code> 显示端口</td>
+</tr>
+<tr>
+<td><code>grep &lt;content&gt; &lt;filepath&gt;</code></td>
+<td>根据指定的字符串或正则表达式在文件或命令输出中进行匹配查找<br><code>-i</code> 忽略大小写<br><code>-v</code> 反向匹配</td>
+</tr>
+<tr>
+<td><code>kill -9</code></td>
+<td>杀死进程</td>
+</tr>
+<tr>
+<td><code>useradd &lt;name&gt;</code></td>
+<td>创建账号</td>
+</tr>
+<tr>
+<td><code>userdel &lt;name&gt;</code></td>
+<td>删除账号</td>
+</tr>
+<tr>
+<td><code>passwd &lt;name&gt;</code></td>
+<td>设置用户的认证信息，包括认证密码，密码过期时间等<br><code>-S</code> 显示账密<br><code>-d</code> 删除用户密码，导致用户无法登录<br>无参时修改用户密码</td>
+</tr>
+<tr>
+<td><code>su &lt;name&gt;</code></td>
+<td>切换用户</td>
+</tr>
+<tr>
+<td><code>groupadd &lt;user group&gt;</code></td>
+<td>增加一个新用户组</td>
+</tr>
+<tr>
+<td><code>groupdel &lt;user group&gt;</code></td>
+<td>删除一个用户组</td>
+</tr>
+<tr>
+<td><code>groupmod &lt;user group&gt;</code></td>
+<td>修改一个用户组的属性</td>
 </tr>
 </tbody></table>
+<div class="note note-success">
+            <p>Linux 中打包文件一般是以 <code>.tar</code> 结尾的，压缩的命令一般是以 <code>.gz</code> 结尾的。而一般情况下打包和压缩是一起进行的。</p>
+          </div>
+
+<div class="note note-success">
+            <p>使用 <code>ll</code> 指令能看到文件的权限。文件的权限如下</p><p><img src="Linux%E6%9D%83%E9%99%90%E8%A7%A3%E8%AF%BB-BGnXOuG0.png" srcset="/img/loading.gif" lazyload alt="示意图"></p><p>文件的类型栏中，<code>d</code> 代表目录，<code>-</code> 代表文件，<code>l</code> 代表软链接</p><p>属主指文件的创建者，属组指用户创建文件后该文件所在的组</p>
+          </div>
+
+<div class="note note-info">
+            <p>以下为一些具体应用</p><ul><li><code>ps aux --sort=-%cpu | head -5</code> 查看 CPU 使用率最高的5个进程</li><li><code>watch -n 1 &quot;netstat -an | grep &#39;:8080&#39; | grep ESTABLISHED | wc -l&quot;</code> 统计 8080 端口每秒的请求数</li></ul>
+          </div>
+
 <h3 id="gcc"><a href="#gcc" class="headerlink" title="gcc"></a>gcc</h3><table>
 <thead>
 <tr>
@@ -787,6 +900,9 @@
 <td>编译C语言文件<code>example.c</code>，生成可执行文件<code>example</code></td>
 </tr>
 </tbody></table>
+<h2 id="Linux-文件"><a href="#Linux-文件" class="headerlink" title="Linux 文件"></a>Linux 文件</h2><p>用户级别的环境变量存储在 <code>~/.bashrc</code> <code>~/.bash_profile</code>；系统级别的环境变量存储在<code>/etc/environment</code> <code>/etc/profile</code> <code>/etc/profile.d</code> <code>/etc/bashrc</code> 。可以通过<code>export</code> 或 <code>env</code> 命令输出当前系统定义的所有环境变量。</p>
+<p>系统的日志文件存在 <code>/var/log/syslog</code> <code>/var/log/messages</code> 中。</p>
+<p>使用 <code>useradd</code> 命令建立的常昊存在 <code>/etc/passwd</code> 文件中。对用户组的增删改查就是在 <code>/etc/group</code> 文件的更新。</p>
 
                 
               </div>
@@ -811,7 +927,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>指令集</div>
+      <div>指令集和 Linux 杂记</div>
       <div>https://ivanclf.github.io/2024/11/16/order-set/</div>
     </div>
     <div class="license-meta">

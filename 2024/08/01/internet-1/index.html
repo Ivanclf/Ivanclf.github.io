@@ -27,7 +27,7 @@
 <meta property="og:description" content="URLURL(Uniform Resource Locators)是统一资源定位器的简称，Web浏览器通过URL从Web服务器请求页面。其一般格式为： 1protocol :&#x2F;&#x2F; hostname[:port] &#x2F; path &#x2F; [;parameters][?query]#fragment([]中内容可省略)     类型名 说明    protocol (协议) 指定使用的传输协议   host">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-01T14:20:04.000Z">
-<meta property="article:modified_time" content="2025-09-26T00:36:55.703Z">
+<meta property="article:modified_time" content="2025-11-07T18:02:54.536Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="碎片知识">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          682 字
+          1k 字
         
       </span>
     
@@ -326,6 +326,10 @@
             <p>常用的传输协议有</p><ul><li><code>file</code>本地计算机文件</li><li><code>http</code>超文本传输协议，不加密的普通网页</li><li><code>https</code>在SSL证书的加持下的安全网页</li><li><code>ftp</code>文件传输协议</li></ul>
           </div>
 
+<p>参考文献</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/system-design/basis/RESTfulAPI.html">https://javaguide.cn/system-design/basis/RESTfulAPI.html</a></li>
+</ul>
 <h2 id="MIME简述"><a href="#MIME简述" class="headerlink" title="MIME简述"></a>MIME简述</h2><p>媒体类型（也通常称为多用途互联网邮件扩展或 MIME 类型）是一种标准，用来表示文档、文件或一组数据的性质和格式。浏览器通常通过MIME类型而非文件扩展名来决定如何处理URL。<br>其格式为：<code>type/subtype</code> ，即一个类型和一个子类型。类型分为独立类型和多部粉类型，多部份类型可分成不同部分的独立文件。以下是一些常用的类型。</p>
 <h3 id="application"><a href="#application" class="headerlink" title="application"></a>application</h3><p>不明确类型</p>
 <table>
@@ -440,7 +444,13 @@
 <td>把部分响应报文发送回浏览器</td>
 </tr>
 </tbody></table>
-<h2 id="HTTP方法"><a href="#HTTP方法" class="headerlink" title="HTTP方法"></a>HTTP方法</h2><p>HTTP 定义了一组请求方法，以表明要对给定资源执行的操作。指示针对给定资源要执行的期望动作。</p>
+<h2 id="RestFul-API"><a href="#RestFul-API" class="headerlink" title="RestFul API"></a>RestFul API</h2><p>RestFul API 也叫 REST API，REST 是 <code>REpresentational State Transfer</code> 的缩写，或者简单点，是 <strong>Resource Representational State Transfer</strong> 的缩写</p>
+<ul>
+<li>Resource 一个资源可以是一个集合，也可以是单个个体，每一种资源都有特定的 URI 与之对应</li>
+<li>Representational 资源是一种信息实体，其具体呈现出来的形式，如 <code>json</code>、<code>xml</code>、<code>image</code>、<code>txt</code> 等等称为其“表现形式”</li>
+<li>State Transfer 通过 REST 中的状态转移（如 crud）来描述服务器资源端的状态和相关操作</li>
+</ul>
+<h3 id="HTTP-方法"><a href="#HTTP-方法" class="headerlink" title="HTTP 方法"></a>HTTP 方法</h3><p>HTTP 定义了一组请求方法，以表明要对给定资源执行的操作。指示针对给定资源要执行的期望动作。</p>
 <table>
 <thead>
 <tr>
@@ -450,11 +460,11 @@
 </thead>
 <tbody><tr>
 <td><code>GET</code></td>
-<td>获取资源，请求一个指定资源的表示形式。用于请求已被URL识别的资源，常用于向服务器查询信息</td>
+<td>获取特定资源，常用于向服务器查询信息</td>
 </tr>
 <tr>
 <td><code>POST</code></td>
-<td>传输实体文本</td>
+<td>传输实体文本，在服务器上创建一个新的资源</td>
 </tr>
 <tr>
 <td><code>HEAD</code></td>
@@ -462,11 +472,11 @@
 </tr>
 <tr>
 <td><code>PUT</code></td>
-<td>传输文件</td>
+<td>传输文件，更新服务器上的资源</td>
 </tr>
 <tr>
 <td><code>DELETE</code></td>
-<td>删除文件</td>
+<td>删除资源</td>
 </tr>
 <tr>
 <td><code>OPTION</code></td>
@@ -480,7 +490,74 @@
 <td><code>CONNECT</code></td>
 <td>使用隧道协议进行TCP通信</td>
 </tr>
+<tr>
+<td><code>PATCH</code></td>
+<td>更新服务器上的资源</td>
+</tr>
 </tbody></table>
+<h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><table>
+<thead>
+<tr>
+<th>2xx 成功</th>
+<th>3xx 重定向</th>
+<th>4xx 客户端错误</th>
+<th>5xx 服务器错误</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200 <strong>OK</strong></td>
+<td>301 <strong>永久移动</strong>到新 URL</td>
+<td>400 <strong>不良请求</strong></td>
+<td>500 <strong>服务器错误</strong></td>
+</tr>
+<tr>
+<td>201 已<strong>创建</strong>资源</td>
+<td>302 <strong>找到</strong></td>
+<td>401 <strong>未授权</strong></td>
+<td>502 <strong>网关错误</strong></td>
+</tr>
+<tr>
+<td>202 <strong>已接受</strong>，但未完成创建资源</td>
+<td>303 <em>见其他</em>，发送对资源的引用但不强制客户端下载状态</td>
+<td>403 <strong>禁止</strong>访问</td>
+<td>504 <strong>网关超时</strong></td>
+</tr>
+<tr>
+<td>204 <strong>无内容</strong></td>
+<td>304 资源<strong>未修改</strong>，与 204 类似</td>
+<td>404 <strong>未找到</strong></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>307 <em>临时重定向</em>，不会处理客户端的请求</td>
+<td>405 <strong>方法不允许</strong></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>406 响应<em>不可接受</em></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>412 <em>前提条件失败</em>，这里的前提条件通常是客户端要求的</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>415 <em>不支持的媒体类型</em></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><ul>
+<li>网址和接口中不能有动词，只能有名词，API 中的名词也应该用复数</li>
+<li>不用大写字母，建议用 <code>-</code> 而不是 <code>_</code></li>
+<li>善用版本化 API</li>
+</ul>
 
                 
               </div>

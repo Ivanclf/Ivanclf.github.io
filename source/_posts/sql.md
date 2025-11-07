@@ -45,11 +45,15 @@ SQL和NoSQL有什么区别？
     要判断一个值是不是`null`，必须使用`is null`或`is not null`。
     大多数聚合函数会忽略`null`值。
 
+- 若需要包含有 null 的数据，需要加上 `is null` 进行筛选，否则不会选到。
+
 - MySQL中没有专门的布尔类型，一般使用`tinyint(1)`表示布尔值。
 
 ## 关键字指北
 
 ![提到数据库基础就必须要放的join图](join.jpg)
+
+- `left join` 在遇到没有的数据时会置 null，而 `inner join` 在遇到没有的数据会不合并。最后查询时，前者会返回 null，后者不返回结果。
 
 - `drop`，`delete`，`truncate`的区别在于，`drop`直接把整个表删除掉，`truncate`只是清空表中的数据而不改变表的结构，同时自增id也重新开始，`delete`删除某一行的数据，不加`where`字句时和`truncate`类似，不改变表的结构。同时，`truncate`和`drop`直接对整张表进行操作，因此原数据不能回滚，也不会触发trigger。
 
@@ -101,9 +105,27 @@ MySQL常用函数如下
 |`left()` `right()`|左边或右边的字符|`lower()` `upper()`|转换为小写或大写|
 |`ltrim()` `rtrim()` `trim()`|去掉左边或右边或两边的空格|`concat()`|链接多个字符串|
 |`length()`|长度，以字节为单位|`round()`|返回小数的四舍五入值|
-|`now()`|当前日期和时间|`curdate()`|当前日期|
 |`if()`|若条件为真，返回一个值，否则返回另一个值|`case`|根据一系列条件返回值|
 
 以下都以MySQL的函数为例。
 
 - `count(<constance>)`和`count(*)`之间没什么差别，`count(<col>)`只统计列中非`null`值数据。
+
+- `char_length()` 用于计算字符串的字符数，`length()` 用于计算字符串的字节数
+
+- 常见的计算时间函数有
+    |函数|说明|
+    |-|-|
+    |`curdate()`|当前日期|
+    |`now()`|当前日期和时间|
+    |`to_days`|返回从 0000 年到现在的天数|
+    |`date_add` `date_sub`|加减天数，参数1为目前时间，参数二可以为 `interval <num> hour/day/month/...`|
+    |`datediff` `timestampdiff`|计算时间差，前者只计算日期，后者计算两个时间点<br>后者的第一个参数为 `day/hour/second/...`，后两个参数为需要计算的两个时间|
+    |`date`|提取日期部分|
+    |`last_day`|获取指定日期所在月的最后一天|
+
+- `nullif()` 函数使用两个参数，比较两个表达式的值，若两表达式相等则返回 null，否则返回第一个表达式
+
+- `ifnull()` 函数使用两个参数，若第一个参数为 null 则返回第二个参数的值，否则返回第一个参数的值
+
+- `coalesce()` 函数返回参数列表中第一个非 null 的值，若全为 null 则返回 null

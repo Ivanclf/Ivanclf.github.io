@@ -1,7 +1,7 @@
 ---
 title: spring 高级特性
 date: 2025-11-02 22:58:48
-tags: [java, spring]
+tags: [java, spring, spring-boot]
 category: web
 ---
 

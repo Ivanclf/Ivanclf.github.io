@@ -1,0 +1,940 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;fenbushi.html https:&#x2F;&#x2F;javaguide.cn&#x2F;distributed-system&#x2F;protocol&#x2F;cap-and-base-theorem.html  CAP 理论CAP 就是 Consistency (一致性)、Availability (可用性)、Partition Tolera">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式理论和算法">
+<meta property="og:url" content="https://ivanclf.github.io/2025/11/08/distributed/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;fenbushi.html https:&#x2F;&#x2F;javaguide.cn&#x2F;distributed-system&#x2F;protocol&#x2F;cap-and-base-theorem.html  CAP 理论CAP 就是 Consistency (一致性)、Availability (可用性)、Partition Tolera">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/08/distributed/client.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/08/distributed/v2-df7697714fe3366b8e457cb1eb96606e_1440w.jpg">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/08/distributed/v2-64b4cea34525019db2fbc3394c4af9e8_1440w.jpg">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/08/distributed/up-890fa3212e8bf72886a595a34654918486c.png">
+<meta property="article:published_time" content="2025-11-08T05:47:44.000Z">
+<meta property="article:modified_time" content="2025-11-08T12:33:24.885Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="碎片知识">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="spring-cloud">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ivanclf.github.io/2025/11/08/distributed/client.png">
+  
+  
+  
+  <title>分布式理论和算法 - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="分布式理论和算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-08 13:47" pubdate>
+          2025年11月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">分布式理论和算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>参考文献</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/fenbushi.html">https://javabetter.cn/sidebar/sanfene/fenbushi.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/distributed-system/protocol/cap-and-base-theorem.html">https://javaguide.cn/distributed-system/protocol/cap-and-base-theorem.html</a></li>
+</ul>
+<h2 id="CAP-理论"><a href="#CAP-理论" class="headerlink" title="CAP 理论"></a>CAP 理论</h2><p>CAP 就是 Consistency (一致性)、Availability (可用性)、Partition Tolerance (分区容错性)这三个单词的首字母组合</p>
+<ul>
+<li>一致性：所有节点在同一时间看到的数据都是一致的</li>
+<li>可用性：系统在正常时间内返回合理的响应，即使部分节点出现故障，系统仍然能提供服务</li>
+<li>分区容错性：网络分区故障发生时，系统仍然能正常运行</li>
+</ul>
+<div class="note note-info">
+            <p>分布式系统中，多个节点之间的网络本来是联通的，但因为某些故障，某些节点之间不连通了，整个网络就分成了几块区域，这就叫网络分区。</p>
+          </div>
+
+<div class="note note-info">
+            <p>一致性分为强一致性和最终一致性。涉及金钱的必须保证强一致性，即任何时候所有节点看到的数据都是相同的。最终一致性允许系统在短时间内存在数据不一致的情况，例如分布式缓存系统。</p>
+          </div>
+
+<p>CAP 理论中，分区容错性 P 一定需要满足，在此基础上，只能满足可用性 A 或一致性 C，但不能同时满足。</p>
+<p>为什么？假设以下场景</p>
+<p><img src="client.png" srcset="/img/loading.gif" lazyload alt="有两个服务 A 和 B"></p>
+<p>用户访问了 服务端1，修改了 D1 的数据。用户访问 服务端2，此时 D1 和 D2 的数据不一致，此时</p>
+<ul>
+<li>若要保证 C，则 D1 和 D2 数据不一致，D2 数据无法返回，违反 A</li>
+<li>若要保证 A，则 D1 和 D2 数据不一致，违反 C</li>
+</ul>
+<p>但是，若网络分区正常，即不需要保证 P 的时候，C 和 A 也能同时保证。总之，若系统发生了分区，就需要考虑是选择 CP 还是 AP，如果系统没有发生分区，则需要考虑如何保证 CA。</p>
+<p>在 spring could 的注册中心组件中，ZooKeeper 可以保证 CP，Eureka 可以保证 AP，Nacos 可以保证其一。</p>
+<h2 id="BASE-理论"><a href="#BASE-理论" class="headerlink" title="BASE 理论"></a>BASE 理论</h2><p>BASE 理论基于 CAP 理论特别是 CAP 理论的 AP 方案，演化而来，是 Basically Available (基本可用)、Soft-state (软状态)、Eventually Consistent (最终一致性) 的缩写。</p>
+<ul>
+<li>基本可用：假设系统出现了不可预知的故障，但还是能用，只是相较正常系统来说，可能会有响应时间上的损失</li>
+<li>软状态：<em>硬状态</em> 指要求多个节点的数据副本都是一致的，软状态相比硬状态，允许系统中的数据存在中间状态，并认为该状态不影响系统的整体可用性，即允许系统在多个不同节点的数据副本存在数据延时</li>
+<li>最终一致性：在一定时间后，软状态应该到达一个最终的状态。这个时间取决于网络延时、系统负载、数据复制方案设计等等因素</li>
+</ul>
+<div class="note note-info">
+            <p>实现最终一致性有<strong>读时修复</strong>、<strong>写时修复</strong>、<strong>异步修复</strong>三种方式，其中用写时修复的方式对性能损耗较低。</p>
+          </div>
+
+<div class="note note-success">
+            <p>ACID 是数据库事务完整性的理论、CAP 是分布式系统设计理论、BASE 是 CAP 理论中 AP 方案的延申。</p>
+          </div>
+
+<h2 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a>幂等性</h2><p>幂等性是一个数学概念，用在接口上则可以理解为：同一个接口，多次发出同一请求，请求的结果是一致的。为例保证接口的幂等性，可以进行以下操作</p>
+<ol>
+<li>唯一索引，防重复插入</li>
+<li>token 机制，防重复提交<br> 服务端生成一个 token，存入缓存中，并返回给前端。前端提交请求时携带此 token，由服务端检查 token 是否存在，若存在则重复提交</li>
+<li>悲观锁，适用于更新操作，并发量不高的情景<br> 使用 <code>select ... for update</code> 锁定记录，处理完业务后再提交事务</li>
+<li>乐观锁，在表中增加版本号字段，更新时校验版本号</li>
+<li>状态机，在更新时校验当前状态，只有在特定状态下才允许更新</li>
+<li>分布式锁，防并发重复</li>
+<li>建表时指定某些数据不能重复</li>
+</ol>
+<h2 id="Paxos-算法与-Raft-算法"><a href="#Paxos-算法与-Raft-算法" class="headerlink" title="Paxos 算法与 Raft 算法"></a>Paxos 算法与 Raft 算法</h2><h3 id="拜占庭将军问题"><a href="#拜占庭将军问题" class="headerlink" title="拜占庭将军问题"></a>拜占庭将军问题</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/107439021">知乎相关文章</a><br><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/949050">阿里云相关文章</a></p>
+<p>以三将军问题为例，有 A、B、C 三个节点，若为以下情况</p>
+<p><img src="v2-df7697714fe3366b8e457cb1eb96606e_1440w.jpg" srcset="/img/loading.gif" lazyload alt="三个将军均为忠诚"></p>
+<p>那么大家都能做出 attack 指令</p>
+<p>但若出了一个叛徒，对两个将军投了不同票</p>
+<p><img src="v2-64b4cea34525019db2fbc3394c4af9e8_1440w.jpg" srcset="/img/loading.gif" lazyload alt="我们中出了一个叛徒"></p>
+<p>那么对于 General A 来说应该撤退，对于 General B 来说应该进攻。</p>
+<p>若存在 $m$ 个叛徒，则至少需要 $3m+1$ 个将军才能拿到一致的行动方案。</p>
+<p>一种解决方案是增加一个指挥官，并进行两轮通信</p>
+<ul>
+<li>第一轮，指挥官向所有将军发布 进攻 指令（假设）</li>
+<li>第二轮，将军之间进行投票，发送从指挥官那里听来的命令</li>
+</ul>
+<p>若将军有一个叛徒，则忠将收到的进攻命令始终是指挥官的 进攻 命令和另一个一个忠将的 进攻命令，人数过半，至于叛徒发送的命令其实无关紧要了。</p>
+<p>若指挥官是叛徒，对不同的将军发送不同的命令 (如对 A 和 B 发送 进攻，对 C 发送 撤退)，那么三位将军最终收到的信息都是 进攻 : 撤退 &#x3D; 2 : 1，继续进攻。</p>
+<p>这样的通信需要进行 $m+1$ 次，但其通信复杂度是指数级的 $O(n^m)$，因此在实际系统（如区块链）中通常会改进成更高效的算法，如 PBFT，所替代。</p>
+<div class="note note-info">
+            <p>PBFT 算法通常无领导者或其轮换机制，但需要复杂的投票阶段来容忍恶意领导者。节点需要相互交换和验证消息的真实性。这依赖于密码学（数字签名）和多数派的严格投票，即使领导者是恶意的，也无法让忠诚节点提交一个无效请求。其中的多数派用于抵御恶意节点，只要恶意节点的数量少于一半，就能发挥纠错作用。</p>
+          </div>
+
+<p>在上面的问题中，叛徒不仅会崩溃，还会发送错误信息，而以下的算法用于解决其简化版：没有叛徒，只有亡将，即节点只会崩溃。</p>
+<h3 id="Basic-Paxos-算法"><a href="#Basic-Paxos-算法" class="headerlink" title="Basic Paxos 算法"></a>Basic Paxos 算法</h3><p>该算法中存在三个重要角色</p>
+<ul>
+<li>Proposer 提议者，负责接收客户端的请求并发起提案</li>
+<li>Accepter 接受者，也叫投票员，负责对提议者的提案投票，同时需要记住自己的投票历史</li>
+<li>Learner 学习者，对投票的结果进行处理</li>
+</ul>
+<p><img src="up-890fa3212e8bf72886a595a34654918486c.png" srcset="/img/loading.gif" lazyload alt="示意图"></p>
+<p>一个节点可以身兼多个角色，并且在少于一半的节点出现故障时，集群仍然能正常工作。</p>
+<h3 id="Multi-Paxos-思想"><a href="#Multi-Paxos-思想" class="headerlink" title="Multi Paxos 思想"></a>Multi Paxos 思想</h3><p>该思想的核心就是通过多个 Basic Paxos 实例就一系列值达成公式。</p>
+<h3 id="Raft-算法"><a href="#Raft-算法" class="headerlink" title="Raft 算法"></a>Raft 算法</h3><h4 id="节点基本状态"><a href="#节点基本状态" class="headerlink" title="节点基本状态"></a>节点基本状态</h4><p>以 5 个服务器集群为例，每个服务器一定会处于以下三个状态中的一个</p>
+<ul>
+<li><code>Leader</code> 领导者，负责发起心跳，响应客户端，创建和同步日志</li>
+<li><code>Candidate</code> 选举领导着过程中的临时角色，发起投票并参与精选</li>
+<li><code>Follower</code> 接受领导者的心跳和同步数据，投票给 Candidate</li>
+</ul>
+<p>此外，每个节点都会在持久性存储中维护以下状态（在响应 RPC 前必须先持久化）</p>
+<ul>
+<li><code>currentTerm</code> 节点所见到的最大任期号</li>
+<li><code>votedFor</code> 当前任期内该节点投票给哪个候选者，可以是 null</li>
+<li><code>log[]</code> 日志条目，每个条目包括状态机命令和该条目产生时的领导者任期号</li>
+</ul>
+<p>以及以下易失性状态，这些状态在重启后会被重置</p>
+<ul>
+<li><code>commitIndex</code> 已提交的最高日志条目索引</li>
+<li><code>lastApplied</code> 已被应用到状态机的最高日志条目索引</li>
+<li><code>nextIndex[]</code> 领导者独有，对于每个服务器，需要发送给它的下一个日志条目的索引</li>
+<li><code>matchIndex[]</code> 领导者独有，对于每个服务器，已知已复制到该服务器的最高日志条目索引</li>
+</ul>
+<h4 id="领导者选举"><a href="#领导者选举" class="headerlink" title="领导者选举"></a>领导者选举</h4><h5 id="心跳和超时机制"><a href="#心跳和超时机制" class="headerlink" title="心跳和超时机制"></a>心跳和超时机制</h5><p>新节点启动时都是 Follower，只要它能从当前领导者或候选者那里收到新的 RPC，那么它就保持 Follower 状态。</p>
+<p>Follower 内部维护一个选举超时定时器，时间通常是 150~300ms 的一个随机值。每当收到来自领导者 <code>AppendEntries</code> RPC 或为候选者投票时，就重置这个定时器。随机时间是为了避免多个 Follower 同时发起选举，导致选票瓜分。</p>
+<p>若选举超时发生，且没有收到任何领导者的消息，该 Follower 就认为领导者挂了，并开始一次新的选举。</p>
+<h5 id="选举过程"><a href="#选举过程" class="headerlink" title="选举过程"></a>选举过程</h5><p>Follower 增加自己的 currentTerm，转换为 Candidate 状态，并先给自己投一票，为自己设置一个新的随机选举超时。</p>
+<p>该 Follower 向集群中所有节点并行发送 RequestVote RPC。这里的 RPC 包含自己的当前任期 <code>term</code>，自己的id <code>candidateId</code> 等数据。</p>
+<p>Candidate 在等待投票期间，可能有三种结果</p>
+<ol>
+<li>赢得选举，若票数大于 <code>(N / 2) + 1</code>，该节点就成为新的领导者，立即发送新的心跳，宣告自己的地位，并阻止新的选举</li>
+<li>收到来自其他领导者的信息，且其中的 term 大于自己的 currentTerm，就承认这个领导者是合法的，并回退为 Follower</li>
+<li>没有赢得选举，也没有收到新领导者消息，那么等待选举超时再次发生，然后开始一轮新的选举</li>
+</ol>
+<h4 id="日志复制"><a href="#日志复制" class="headerlink" title="日志复制"></a>日志复制</h4><p>这是 Raft 保证状态机一致性的核心</p>
+<ol>
+<li>客户端将请求命令发送给领导者</li>
+<li>领导者将该命令作为新条目追加到自己的日志中，并通过 AppendEntries RPC 并行将该条目复制给所有 Followers，等待多数派的 Follower 回应，表示他们已经将日志条目持久化</li>
+<li>一旦确认多数派已复制，领导者就将该条目提交，即通过将 commitIndex 前进到该条目的索引，并将命令应用到自己的状态机，然后返回结果给客户端</li>
+<li>后续的 AppendEntries RPC 中，领导者会携带最新的 commitIndex。Follower 在收到后，会将自己本地日志中直到 commitIndex 的所有条目都应用到自己的状态机</li>
+</ol>
+<h5 id="AppendEntries-RPC"><a href="#AppendEntries-RPC" class="headerlink" title="AppendEntries RPC"></a>AppendEntries RPC</h5><p>该 RPC 既能用作心跳，也用于日志复制，其参数为</p>
+<ul>
+<li><code>term</code> 领导者任期</li>
+<li><code>leaderId</code> 领导者id</li>
+<li><code>prevLogIndex</code> 新日志条目之前那条的日志索引</li>
+<li><code>prevLogTerm</code> 新日志条目之前那条日志的任期</li>
+<li><code>entries[]</code> 需要存储的日志条目，为空时就是心跳</li>
+<li><code>leaderCommit</code> 领导者的 <code>commitIndex</code></li>
+</ul>
+<p>若接收者检测到 term &lt; currentTerm，则返回 false；若接收者在 prevLogIndex 处没有日志，或者该处的日志任期和 prevLogTerm 不匹配，也返回 false。若找到一个已存在的条目与新条目冲突（相同索引但不同任期），则删除该索引及其以后的所有条目，将领导者新发来的、尚未拥有的任何新条目追加到日志中。若 leaderCommit &gt; commitIndex，则将 commitIndex 设置为 min(leaderCommit, 最新条目的索引)。</p>
+<p>若 Follower 成功，领导者就更细腻对应的 nextIndex 和 matchIndex。若 Follower 返回 false，领导者会将 nextIndex 递减，然后重试 AppendEntries RPC 递减，直到找到和 Follower 一致的那个点，用于修复 Follower 的日志。</p>
+<h4 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h4><p>一个 Candidate 必须拥有最新的日志才能赢得选举，这样就能保证被选举的领导有最新的数据，不需要回滚</p>
+<p>在选举领导者期间，整个集群对外都是不可用的。若 Follower 或 Candidate 崩溃，那么处理方式会简单很多，无限重发就行。</p>
+<div class="note note-success">
+            <p><a href="https://ivanclf.github.io/2025/09/25/redis-3/#%E5%93%A8%E5%85%B5%E6%9C%BA%E5%88%B6">redis中的选举算法</a>就是 raft 算法的一种实现</p>
+          </div>
+
+<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><p>分布式锁多用于多个服务中对共享资源的多线程访问。常见的 redis 实现<a href="https://ivanclf.github.io/2025/09/24/redis-2/#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">已经写过了</a>。一般来说，分布式锁除了需要实现互斥功能外，还需要实现</p>
+<ul>
+<li>高可用，当一个锁服务出现问题后，能够自动切换到另一个锁服务。并且，即使客户端的释放锁代码出现问题，锁最后也一定会被释放。总之就是避免死锁</li>
+<li>可重入，一个节点获取锁后，还可以再次获取锁</li>
+</ul>
+<p>除了 redis，类似的关系型数据库（如 MySQL）或分布式协调服务（如 ZooKeeper）也能实现分布式锁的功能。其中 MySQL 的功能用得不多。</p>
+<p>ZooKeeper 中的分布式锁是基于临时顺序节点和 Watcher 实现的。</p>
+<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h2><p>分布式事务将单一库的事务概念扩大到了多库，目的是为了保证跨服数据的一致性。</p>
+<p>目前分布式事务的实现方式有很多种</p>
+<h3 id="2PC-二阶段提交"><a href="#2PC-二阶段提交" class="headerlink" title="2PC 二阶段提交"></a>2PC 二阶段提交</h3><p>在一个 2PC 事务中，通常有三个角色</p>
+<ol>
+<li><strong>AP</strong> 应用系统，即服务</li>
+<li><strong>TM</strong> 协调者，也叫事务管理器，负责发起和协调整个提交或回滚过程，通常由应用程序、中间件（如 Seata）或数据库本身担任</li>
+<li><strong>RM</strong> 参与者：也叫资源管理器，它实际执行具体事务操作，每个参与者管理着自己本地的数据和事务</li>
+</ol>
+<p>协调者和参与者之间通过 <strong>XA</strong> 协议来进行通信。</p>
+<p>2PC 将提交过程分为两个阶段</p>
+<ol>
+<li><p>提交请求阶段<br> 协调者向所有参与者发送一条 prepare 请求，其中包含所有需要执行的事务信息。每个参与者收到该请求后，会执行本地事务中的所有操作，但不会真正提交（即不会将数据永久写入磁盘），而只是将写操作<a href="https://ivanclf.github.io/2025/10/11/sql-2/#%E6%97%A5%E5%BF%97">记录到日志</a>中。最后，参与者向协调者发布同意或拒绝的投票结果。</p>
+</li>
+<li><p>提交执行阶段<br> 若所有参与者都恢复“同意”，则协调者向所有参与者发送 commit 请求，收到所有的 ack 返回消息后，事务完成。</p>
+<p> 若任意一个参与者回复拒绝，则协调者向所有参与者发送 rollback 请求，开始回滚，收到所有 ack 返回信息后，事务回滚成功。</p>
+</li>
+</ol>
+<p>该方法能保证强一致性，原理也较为简单，但容易发生同步阻塞或单点故障问题。而且，当协调者在发送了部分 commit 后就宕机时，也会发生数据不一致问题。</p>
+<h3 id="3PC-三阶段提交"><a href="#3PC-三阶段提交" class="headerlink" title="3PC 三阶段提交"></a>3PC 三阶段提交</h3><p>这是 2PC 的一种改进版本，为解决两阶段提交协议的单点故障和同步阻塞问题。它将事务分为三个阶段</p>
+<ul>
+<li><strong>CanCommit</strong> 准备阶段，协调者向参与者发送 commit 请求，参与者如果可以提交就返回 Yes 响应，否则返回 No 响应</li>
+<li><strong>PreCommit</strong> 预提交阶段，协调者根据参与者在准备阶段的响应判断是否执行事务&#x2F;中断事务，参与者执行完操作后返回 ack，同时开始等待最终指令</li>
+<li><strong>DoCommit</strong> 提交阶段，协调者根据参与者在准备阶段的响应判断是否执行事务还是中断事务。若所有参与者都返回 ack 则提交事务；若不是所有则中断事务；若无法及时接收到来自协调者的提交或中断事务请求时，会继续提交。</li>
+</ul>
+<p>无论 2PC 还是 3PC 都无法保证数据 100% 一致。</p>
+<h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><p>这是 2PC 的一个变种。简要说明可以参考<a href="https://ivanclf.github.io/2025/09/22/redis/#%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0">redis 篇中的缓存更新策略里的注释</a>。它将一个完整的业务逻辑拆解成三个步骤。每个步骤都需要手动编写代码来实现</p>
+<ul>
+<li><strong>Try</strong> 尝试执行，完成所有业务的检查和预留操作（如检查库存、冻结余额、扣减积分）。这是一个中间状态，完成后就会自动释放锁</li>
+<li><strong>Confirm</strong> 确认执行，基于 Try 阶段预留的资源。进行真正的业务操作</li>
+<li><strong>Cancel</strong> 取消执行，用于释放 Try 阶段预留的资源</li>
+</ul>
+<p>如果 Try 都成功，则调用相应服务的 Confirm 接口；若任一 Try 失败，则调用其 Cancel 接口。</p>
+<p>TCC 是业务层面的分布式事务，可以保证最终一致性，并且规避了数据库的 2PC 性能低下问题。但 TCC 的三个功能都需要业务提供，开发成本高。</p>
+<h3 id="本地消息表"><a href="#本地消息表" class="headerlink" title="本地消息表"></a>本地消息表</h3><p>该方法的核心思想是将分布式事务拆分成一系列本地事务，通过异步重试和消息持久化，保证各个本地事务都能成功执行。<br>以实现下单减库存的系统为例</p>
+<ol>
+<li>用户下单，订单服务在本地数据库中开启一个事务，并向本地信息表插入一条消息记录</li>
+<li>使用定时任务查询状态为未同步的信息表，发送到 MQ，如果发送失败就重试发送</li>
+<li>MQ 提交到对应表中执行本地事务</li>
+<li>若事务执行成功，则返回 ack，信息表删除记录；若事务执行失败，则不做处理，等待重试</li>
+<li>对于始终失败的信息，则重试一定次数，达到<strong>最大努力通知</strong>后，需要进行记录告警处理</li>
+</ol>
+<p>该方法可以保证最终一致性，且简单实用，容错性好，但不能实现强一致性，且消息表和业务耦合，还需要实现幂等性。</p>
+<h3 id="基于-MQ"><a href="#基于-MQ" class="headerlink" title="基于 MQ"></a>基于 MQ</h3><p>本地消息表本身就是一种基于 MQ 的分布式事务解决方案。与本地消息表不同的是，MQ 中的解决方案一般由消息中间件原生支持。</p>
+<ol>
+<li>生产者先向 MQ 发送一个“半信息”，这个信息对消费者不可见</li>
+<li>生产者执行本地业务操作，如创建订单</li>
+<li>根据本地事务的执行结果，通知 MQ 提交或回滚信息</li>
+<li>只有提交的信息才会被消费者看到并消费</li>
+</ol>
+<h3 id="Seata"><a href="#Seata" class="headerlink" title="Seata"></a><code>Seata</code></h3><p>Seata 是一个比较常用的分布式事务中间件。其中存在三个核心角色，和经典的 2PC 角色类似但进行了加强</p>
+<ul>
+<li>TC 事务协调者。管理全局的分支事务的状态，用于全局性事务的提交和回滚</li>
+<li>TM 事务管理着。用于开启、提交或回滚事务</li>
+<li>RM 资源管理器。用于分支事务上的资源管理，向 TC 注册分支事务，上报分支事务的状态，接收 TC 的命令来提交或者回滚分支事务</li>
+</ul>
+<p>也就是说，TM 定义事务边界，RM 处理具体资源，TC 统筹全局。</p>
+<p>Seata 的强大之处在于它提供了多种模式。我们一般使用自动补偿(AT)模式。假设有两个服务 A 和 B，其整体执行流程为</p>
+<ol>
+<li>服务 A 中的 TM 向 TC 申请开启一个全局事务，TC 就会创建一个全局事务并返回一个唯一的 XID</li>
+<li>服务 A 中的 RM 向 TC 注册分支事务，然后将这个分支事务纳入 XID 对应的全局事务管辖中</li>
+<li>服务 A 开始执行分支事务</li>
+<li>服务 A 开始远程调用 B 服务，此时 XID 会根据调用链传播</li>
+<li>服务 B 中的 RM 也向 TC 注册分支事务，然后将这个分支事务纳入 XID 对应的全局事务管辖中</li>
+<li>服务 B 开始执行分支事务</li>
+<li>全局事务调用处理结束后，TM 会根据有误异常情况，向 TC 发起全局事务的提交或回滚</li>
+<li>TC 协调其管辖下的所有分支事务，决定提交还是回滚</li>
+</ol>
+<h2 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h2><p>常见的限流算法有以下三种</p>
+<ul>
+<li>计数器<br>  该方法简单粗暴，就时限定 1s 内能通过的请求数。但这种方法容易产生问题：若前 10ms 已经通过了最大的请求数，则后面的 990ms 则只能拒绝。这种现象叫做“突刺现象”。</li>
+<li>漏桶算法<br>  就是桶底出水的速度恒定，但进水的速度可能不一样。也就是说，准备一个队列来保存暂时处理不了的请求。</li>
+<li>令牌桶算法<br>  令牌桶就是生产访问令牌的一个地方，生产令牌的速度恒定，用户访问的时候当桶中有令牌的时候就可以访问，否则将触发限流。一个常用的实现方案是 <strong>Guava RateLimiter</strong> 算法。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/web/" class="category-chain-item">web</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
+      
+        <a href="../../../../tags/%E5%88%86%E5%B8%83%E5%BC%8F/" class="print-no-link">#分布式</a>
+      
+        <a href="../../../../tags/spring-cloud/" class="print-no-link">#spring-cloud</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>分布式理论和算法</div>
+      <div>https://ivanclf.github.io/2025/11/08/distributed/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../design-mode/" title="设计模式">
+                        <span class="hidden-mobile">设计模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

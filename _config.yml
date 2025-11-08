@@ -112,4 +112,4 @@ deploy:
   type: git
   repo: git@github.com:Ivanclf/Ivanclf.github.io.git
   branch: main
-  message: "更新静态文件 ({{ now('YYYY-MM-DD:HH:mm:ss') }})"
+  message: "更新静态文件 ({{ now('HH:mm:ss') }})"

@@ -152,3 +152,7 @@ web 过滤器链（如网关，安全相关等）、审批流程、游戏开发�
 
 - 数据处理的流程与相似的业务操作
 - spring 中的 JdbcTemplate、StringRedisTemplate、RestTemplate 等等
+
+## SOA
+
+SOA (**Service-Oriented Architecture** 面向服务架构) 是一种软件架构设计原则。它强调将应用程序拆分成相互独立的服务，通过标准化的接口进行通信。SOA 关注于服务的重用性和组合性，但并没有具体规定服务的大小。微服务则是 SOA 思想的一种具体实践方式。

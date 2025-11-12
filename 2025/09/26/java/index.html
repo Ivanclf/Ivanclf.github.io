@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/26/java/stream.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/26/java/rpc.png">
 <meta property="article:published_time" content="2025-09-26T00:40:25.000Z">
-<meta property="article:modified_time" content="2025-10-10T06:39:51.194Z">
+<meta property="article:modified_time" content="2025-11-11T03:03:31.929Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.1k 字
+          4.2k 字
         
       </span>
     
@@ -382,7 +382,7 @@
 <p>普通的对象要想转换成流，需要先进行<strong>序列化</strong>。序列化是指将对象转换为字节流的过程，而反序列化是将字节流转换回对象的过程。若希望将某个对象序列化，需要使用<code>Serializable</code>接口进行标记。<br><code>serialVersionUID</code>是Java序列化机制种用于标识类版本的唯一标识符，该标识符要求在序列化和反序列化中保持一致，用于在序列化和反序列化的过程中，类的版本是兼容的。该标识符可以自己设定，可以由IDEA自动生成，也可以交由Java自动生成。<br>Java序列化不包含静态变量。这是因为序列化机制只保存对象的状态，而静态变量属于类的状态。<br>可以用<code>transient</code>关键字修饰不像想被序列化的变量。</p>
 <p>序列化一般包括以下3个过程：先实现<code>Serializable</code>接口，然后使用<code>ObjectOutputStream</code>来将对象写入，最后调用其中的<code>writeObject()</code>方法，将对象序列化后写入输出流中。</p>
 <p>序列化一般有3种方式：对象流序列化、json序列化、protoBuff序列化。一般使用的是json序列化，一般需要Jackson包，将对象转化为byte数组或String字符串。</p>
-<h2 id="Socket套接字"><a href="#Socket套接字" class="headerlink" title="Socket套接字"></a>Socket套接字</h2><p>Socket是网络通信的基础，表示两台设备间通信的一个端点，Socket通常用于简历TCP或UDP链接，实现进程间的网络通信。<br>使用socket实现一个简单的TCP通信。</p>
+<h2 id="Socket套接字-与-RPC"><a href="#Socket套接字-与-RPC" class="headerlink" title="Socket套接字 与 RPC"></a>Socket套接字 与 RPC</h2><p>Socket是网络通信的基础，表示两台设备间通信的一个端点，Socket通常用于简历TCP或UDP链接，实现进程间的网络通信。<br>使用socket实现一个简单的TCP通信。</p>
 <p>TCP客户端</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TcpClient</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">Socket</span> <span class="hljs-variable">socket</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Socket</span>(<span class="hljs-string">&quot;127.0.0.1&quot;</span>, <span class="hljs-number">8080</span>);<br><br>        <span class="hljs-type">BufferedReader</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(socket.getInputStream()));<br>        <span class="hljs-type">PrintWriter</span> <span class="hljs-variable">out</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrintWriter</span>(socket.getOutputStream(), <span class="hljs-literal">true</span>);<br><br>        <span class="hljs-comment">// ...</span><br><br>        socket.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -397,6 +397,7 @@
 <li>Spring Cloud OpenFeign：基于 REST 的轻量级 RPC 框架。</li>
 <li>Thrift：Apache 的跨语言 RPC 框架，支持多语言代码生成。</li>
 </ol>
+<p>RPC 可以使用多种传输协议，如 TCP、UDP 等，使用 IDL（接口定义语言）进行接口定义，如 <code>Protocol Buffers</code>、<code>Thrift</code> 等。也支持跨语言通信，可以使用 IDL 生成不同语言的客户端和服务端代码，其响应速度也比单纯的 HTTP 请求快了不少。</p>
 <div class="note note-success">
             <p>常用的泛型通配符为 <code>?</code> <code>T</code> <code>K</code>&#x2F;<code>V</code> <code>E</code>等。</p><p>Java的泛型是伪泛型，这是因为Java在编译期间，所有的类型信息都会被擦掉，也就是说，在运行的时候是没有泛型的。该特性主要是为了向下兼容，因为jdk5之前是没有泛型的。</p>
           </div>

@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/08/distributed/up-890fa3212e8bf72886a595a34654918486c.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/08/distributed/leaf-principle.png">
 <meta property="article:published_time" content="2025-11-08T05:47:44.000Z">
-<meta property="article:modified_time" content="2025-11-10T08:16:39.500Z">
+<meta property="article:modified_time" content="2025-11-11T09:06:56.941Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="碎片知识">
 <meta property="article:tag" content="分布式">
@@ -243,7 +243,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.6k 字
+          7.8k 字
         
       </span>
     
@@ -505,13 +505,14 @@
 </ol>
 <h2 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h2><p>常见的限流算法有以下三种</p>
 <ul>
-<li>计数器<br>  该方法简单粗暴，就时限定 1s 内能通过的请求数。但这种方法容易产生问题：若前 10ms 已经通过了最大的请求数，则后面的 990ms 则只能拒绝。这种现象叫做“突刺现象”。</li>
-<li>漏桶算法<br>  就是桶底出水的速度恒定，但进水的速度可能不一样。也就是说，准备一个队列来保存暂时处理不了的请求。</li>
-<li>令牌桶算法<br>  令牌桶就是生产访问令牌的一个地方，生产令牌的速度恒定，用户访问的时候当桶中有令牌的时候就可以访问，否则将触发限流。一个常用的实现方案是 <strong>Guava RateLimiter</strong> 算法。</li>
+<li>固定窗口计数器算法<br>  该方法简单粗暴，就是限定窗口时间跨度 <code>Interval</code> (1s) 或其他时间内能通过的请求数。即将时间划分为多个固定窗口。但这种方法容易产生问题：若前 10ms 已经通过了最大的请求数，则后面的 990ms 则只能拒绝。这种现象叫做“突刺现象”。还有，若请求跑到两个窗口之间，那么有一个窗口就可能会放行。</li>
+<li>滑动窗口计数器算法<br>  将一个窗口 (1s) 划分到 n 个更小的区间，窗口会根据当前请求所在时间 <code>currentTime</code> 移动。当然，最后计算了仍然是大的时间窗口。窗口范围是从 <code>currentTime - Interval</code> (<code>currentTime</code> - 1s) <strong>后的第一个时区</strong>开始，到 <code>currentTime</code> 所在时区结束。这种算法可以解决固定窗口之间的问题，但可能会在同一个时间区段内放行比预定值更多的请求。</li>
+<li>漏桶算法<br>  就是桶底出水的速度恒定，但进水的速度可能不一样。也就是说，准备一个队列来保存暂时处理不了的请求。该算法能保证实现平滑请求。一般使用队列 + 特定的排队时间实现。</li>
+<li>令牌桶算法<br>  令牌桶是一种流量控制算法，其核心是一个以恒定速率生成令牌的容器。当用户发起访问时，若桶中有令牌即可取出并允许访问，否则将触发限流。常用的实现方案之一为 <strong>Guava RateLimiter</strong> 算法。在实际场景中，若请求的峰谷分布不均，每秒生成的令牌可能会有积存。为此，在实践中也可通过记录请求时间并进行动态计算，来代替定时任务生成令牌的方式。</li>
 </ul>
 <h2 id="分布式-id"><a href="#分布式-id" class="headerlink" title="分布式 id"></a>分布式 id</h2><p>在一个服务集群中，服务和数据表可能都不一样，但如何在这种条件下生成全局唯一的 id 呢？</p>
 <h3 id="数据库主键自增"><a href="#数据库主键自增" class="headerlink" title="数据库主键自增"></a>数据库主键自增</h3><p>通过关系型数据库的自增主键产生唯一 id。创建一个事务</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">begin</span>;<br>replace <span class="hljs-keyword">into</span> ...;<br><span class="hljs-keyword">SELECT</span> lest_insert_id();<br><span class="hljs-keyword">commit</span>;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">begin</span>;<br>replace <span class="hljs-keyword">into</span> ...;<br><span class="hljs-keyword">select</span> lest_insert_id();<br><span class="hljs-keyword">commit</span>;<br></code></pre></td></tr></table></figure>
 
 <p>此处使用 <code>replace into</code> 而非 <code>select into</code>，具体步骤是这样的</p>
 <ul>

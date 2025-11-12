@@ -9,7 +9,7 @@ category: web
 
 ### 数据获取
 
-- 可以使用 `@Value(${})` 注入配置文件中的单个属性值，也可以使用 `@ConfigurationProperties(prefix = "")` 读取配置信息并和 Bean 绑定。
+- 可以使用 `@Value(${})` 注入配置文件中的单个属性值，也可以使用 `@ConfigurationProperties(prefix = "")` 读取配置信息并和 Bean 绑定，[二者有一些区别](#外部注入)
 - 使用 `@PropertySource` 注解允许加载自定义配置文件
 - `@PathVariable` 用于在 URL 路径中获取参数
 - `@RequestParam` 用于绑定查询参数
@@ -123,6 +123,14 @@ Bean Validation 是一套定义 JavaBean 参数校验标准的规范，它提供
 - `@ActiveProperties` 一般用于测试类上，用于声明生效的 spring 配置文件
 - `@Test` 是 JUnit 框架下提供的注解，用于标记一个方法是测试方法
 - `@WithMockUser` 是 spring security test 模块下提供的注解，用于在测试期间模拟一个已认证的用户
+
+### 外部注入
+
+这种注解有两个：用于批量绑定的 `@ConfigurationProperties` 和用于单个注入的 `@Value`
+
+`@ConfigurationProperties` 通过 prefix 属性指定特定配置前缀的配置，也可以和[数据校验](#数据校验)注解结合使用，也可以注入 Map、List、自定义对象等复杂结构，常用于绑定如数据库配置、第三方服务配置等一组相关配置。
+
+`@Value` 必须写完整的属性名或表达式，不支持松散绑定，但支持 SpEL 表达式，使用 `#{...}` 进行复杂的表达式计算，适用于注入零散的、独立的配置值。
 
 ## 事务
 

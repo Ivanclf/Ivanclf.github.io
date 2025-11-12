@@ -145,7 +145,7 @@ Java序列化不包含静态变量。这是因为序列化机制只保存对象�
 
 序列化一般有3种方式：对象流序列化、json序列化、protoBuff序列化。一般使用的是json序列化，一般需要Jackson包，将对象转化为byte数组或String字符串。
 
-## Socket套接字
+## Socket套接字 与 RPC
 
 Socket是网络通信的基础，表示两台设备间通信的一个端点，Socket通常用于简历TCP或UDP链接，实现进程间的网络通信。
 使用socket实现一个简单的TCP通信。
@@ -195,6 +195,8 @@ RPC框架是一种协议，允许程序调用位于远程服务器上的方法�
 2. Dubbo：阿里开源的分布式 RPC 框架，适合微服务场景。
 3. Spring Cloud OpenFeign：基于 REST 的轻量级 RPC 框架。
 4. Thrift：Apache 的跨语言 RPC 框架，支持多语言代码生成。
+
+RPC 可以使用多种传输协议，如 TCP、UDP 等，使用 IDL（接口定义语言）进行接口定义，如 `Protocol Buffers`、`Thrift` 等。也支持跨语言通信，可以使用 IDL 生成不同语言的客户端和服务端代码，其响应速度也比单纯的 HTTP 请求快了不少。
 
 {% note success %}
 常用的泛型通配符为 `?` `T` `K`/`V` `E`等。

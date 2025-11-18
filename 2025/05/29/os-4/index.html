@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/05/29/os-4/9-4.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/05/29/os-4/9-8.png">
 <meta property="article:published_time" content="2025-05-29T06:52:34.000Z">
-<meta property="article:modified_time" content="2025-09-28T12:57:37.160Z">
+<meta property="article:modified_time" content="2025-11-14T08:28:50.897Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="日常">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          589 字
+          828 字
         
       </span>
     
@@ -361,7 +361,11 @@
 <p>Problem: put a massive load on the bus or memory, slowing down all other CPUs trying to do their normal work.</p>
 <p>An even better idea is to give each CPU wishing to acquire the mutex its own private lock variable to test.</p>
 <p><img src="8-11.png" srcset="/img/loading.gif" lazyload alt="an instance of spinning lock"></p>
-<h3 id="Multicomputer-Virtualization"><a href="#Multicomputer-Virtualization" class="headerlink" title="Multicomputer Virtualization"></a>Multicomputer Virtualization</h3><ul>
+<h3 id="Multicomputer-Virtualization"><a href="#Multicomputer-Virtualization" class="headerlink" title="Multicomputer Virtualization"></a>Multicomputer Virtualization</h3><div class="note note-success">
+            <p>自旋锁和互斥锁的区别在于</p><table><thead><tr><th>特性</th><th>自旋锁</th><th>互斥锁</th></tr></thead><tbody><tr><td>等待机制</td><td>忙等待：循环检查锁的状态，直到获取成功</td><td>休眠等待：获取失败时，线程进入休眠状态，让出 CPU</td></tr><tr><td>底层实现</td><td>通常依赖 CPU 的原子指令（如 <code>Test-And-Set</code>、<code>Compare-And-Swap</code>）</td><td>通常需要操作系统的内核对象来管理等待队列</td></tr><tr><td>开销</td><td>获取失败时开销小（用户态循环），但浪费 CPU 时间</td><td>获取失败时开销大（需要陷入内核态进行线程切换，但不浪费 CPU</td></tr><tr><td>适用场景</td><td>临界区较短，多核处理器，不希望发生线程切换的开销</td><td>临界区较长，单核处理器，或等待时间可能较长</td></tr><tr><td>性能特点</td><td>避免了线程上下文切换的开销，但空转会消耗 CPU 周期</td><td>节省了 CPU 资源，但引入了线程上下文切换的开销</td></tr></tbody></table>
+          </div>
+
+<ul>
 <li>Type I Hypervisor (监视器)<br>  In reality, it is the operating system, since it is the only program running in kernel mode. Its job is to support multiple copies of the actual hardware, called virtual machines, similar to the processes a normal operating system supports.</li>
 <li>Type II Hypervisor<br>  It is just a user program running on, say, Windows or Linux that “interprets” the machine’s instruction set, which also creates a virtual machine. We put “interprets” in quotes because usually chunks of code are processed in a certain way and then cached and executed directly to improve performance, but in principle, full interpretation would work, albeit (尽管) slowly.</li>
 </ul>

@@ -1,0 +1,1020 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考文献  https:&#x2F;&#x2F;javaguide.cn&#x2F;system-design&#x2F;security&#x2F;basis-of-authority-certification.html https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html https:&#x2F;&#x2F;tech.meituan.com&#x2F;2018&#x2F;10&#x2F;11&#x2F;fe-secur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络应用">
+<meta property="og:url" content="https://ivanclf.github.io/2025/11/17/internet-2/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javaguide.cn&#x2F;system-design&#x2F;security&#x2F;basis-of-authority-certification.html https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html https:&#x2F;&#x2F;tech.meituan.com&#x2F;2018&#x2F;10&#x2F;11&#x2F;fe-secur">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-17T02:14:14.000Z">
+<meta property="article:modified_time" content="2025-11-17T09:08:29.045Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="碎片知识">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>计算机网络应用 - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="计算机网络应用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-17 10:14" pubdate>
+          2025年11月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计算机网络应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>参考文献</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/system-design/security/basis-of-authority-certification.html">https://javaguide.cn/system-design/security/basis-of-authority-certification.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/cs-basics/network/other-network-questions.html">https://javaguide.cn/cs-basics/network/other-network-questions.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2018/10/11/fe-security-csrf.html">https://tech.meituan.com/2018/10/11/fe-security-csrf.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/system-design/security/jwt-intro.html">https://javaguide.cn/system-design/security/jwt-intro.html</a></li>
+</ul>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>打开一个网页，整个过程会用到什么协议？在打开一个网页时，需要经过以下步骤</p>
+<ol>
+<li>在浏览器输入指定网页的 URL</li>
+<li>浏览器通过 <strong>DNS</strong> 协议，获取域名对应的 IP 地址</li>
+<li>浏览器根据 IP 地址和端口号，向目标服务器发起一个 <strong>TCP</strong>链接请求</li>
+<li>浏览器在 TCP 链接上向服务器发送一个 HTTP 请求报文，请求获取网页的内容</li>
+<li>服务器收到 HTTP 请求报文后，处理请求，并返回 HTML 响应报文给浏览器</li>
+<li>浏览器收到 HTTP 响应报文后，解析响应体中的 HTML 代码，渲染网页的结构和样式。同时根据 HTML 中的其他内容的 URL （如 CSS 或 JS 文件），再次发起 HTTP 请求，直到网页完全加载</li>
+<li>浏览器在不需要和服务器通信时，可以主动关闭 TCP 链接</li>
+</ol>
+<h4 id="HTTP-header"><a href="#HTTP-header" class="headerlink" title="HTTP header"></a>HTTP header</h4><h5 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h5><p>请求头。UA 提供了关于访问网站的设备、操作系统和浏览器的详细信息。现在以 <code>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0</code> 为例，说明包含的信息</p>
+<ul>
+<li><code>Windows NT 10.0; Win64; x64</code> 表示操作系统是 Windows 10 或 Windows 11，是 64 位的，处理器架构是 x86-64</li>
+<li><code>AppleWebKit/537.36 (KHTML, like Gecko)</code> WebKit 是一个开源的网页渲染引擎，后面是版本号。这表示浏览器使用的是基于 Chromium 的渲染引擎 （Blink，WebKit 的一个分支）。保持这个名字是为了保持兼容性</li>
+<li><code>Chrome/142.0.0.0</code> <code>Safari/537.36</code> <code>Edg/142.0.0.0</code> 浏览器版本</li>
+</ul>
+<h5 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h5><p>Cookie 是一些数据，用于存储 web 页面的用户信息。当 web 链接关闭后，服务端不会记录用户信息。而 Cookie 可以将相关信息存储在电脑上的文本文件中。</p>
+<p>可以使用 JS 相关方法创建 cookie，并且设置过期时间等属性。cookie 的字符串通常表示简单的键值对信息。</p>
+<div class="note note-info">
+            <p>cookie 和 session 有什么区别呢？简单来说，cookie 只存钥匙，而 session 存储数据。web 服务通常通过 cookie 来查找对应用户的 session。</p><table><thead><tr><th>特性</th><th>cookie</th><th>session</th></tr></thead><tbody><tr><td>存储位置</td><td>客户端，用户的浏览器</td><td>服务端，服务器的内存、文件、数据库等</td></tr><tr><td>存储内容</td><td>通常是简单的键值对字符串</td><td>可以是任何数据结构</td></tr><tr><td>安全性</td><td>较低，容易被查看、篡改过窃取</td><td>较高，客户端只能拿到一个 id</td></tr><tr><td>生命周期</td><td>可以设置长期有效</td><td>通常有效时间较短，如在用户关闭浏览器后失效</td></tr><tr><td>存储容量</td><td>小，每个 cookie 约 4k，每个域名下有限制</td><td>大，受服务器资源限制</td></tr><tr><td>性能影响</td><td>不直接影响，但可能会增加带宽</td><td>占服务器内存</td></tr><tr><td>依赖关系</td><td>可以不依赖 session 独立使用</td><td>通常依赖于 cookie 来传递 session id</td></tr></tbody></table>
+          </div>
+
+<h5 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h5><p>请求头。能够接受的信息</p>
+<ul>
+<li><p>Accept<br>  能够接受的内容（对应响应头显示的内容 <code>Content-Type</code>），按照 MIME 格式</p>
+</li>
+<li><p>Accept-Charset<br>  能够接受的字符集</p>
+</li>
+<li><p>Accept-Encoding<br>  能够接受的编码方式列表</p>
+</li>
+<li><p>Accept-Language<br>  能够接受回应内容的语言列表</p>
+<p>  如 <code>Accept-Language: zh,en-US;q=0.9,en;q=0.8,zh-CN;q=0.7,ja;q=0.6,en-GB;q=0.5</code>，表示接受中文（最高优先级），美式英语次之（0.9），通用英语为 0.8，简体中文为 0.7，日语为 0.6，英式英语为 0.5</p>
+</li>
+</ul>
+<h5 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h5><p>指定这次请求&#x2F;响应链中的所有缓存机制</p>
+<h5 id="If-类"><a href="#If-类" class="headerlink" title="If 类"></a>If 类</h5><p>以下的请求头允许客户端在发起请求时设置前提条件，服务器只有在满足这些条件时才执行预期操作</p>
+<div class="note note-info">
+            <p><strong>ETag</strong> 是 Entity Tag 的缩写，是服务器为特定版本的资源分配的一个唯一字符串，可以理解为该资源在某个时间点的“指纹”或“版本号”，主要用于缓存验证或条件请求。</p>
+          </div>
+
+<ul>
+<li>If-Match<br>  通常用于安全更新或删除资源。匹配成功时执行操作，不匹配则报 412<br>  只有我手里的版本号和服务器上现在的版本号一样时，才允许我覆盖它</li>
+<li>If-None-Match<br>  通常用于缓存验证或安全创建。匹配成功时显示 304 (GET)&#x2F; 412 (其他)，不匹配则执行操作<br>  只有我本地缓存的指纹和服务器上的不一样，或者文件不存在，才把新内容发给我</li>
+<li>If-Modified_since<br>  通常用于条件获取缓存。匹配成功时显示 304，不匹配则执行操作<br>  如果我本地缓存的文件自从这个时间点后就没被修改过，就不用发给我了</li>
+<li>If-Unmodified-Since<br>  通常用于安全更新。匹配成功时执行操作，不匹配时返回 412<br>  只有在我上次下载这个文件后没人动过它，才允许我现在的更新操作</li>
+<li>If-Range<br>  通常用于断点续传。匹配成功时返回 206，不匹配时返回 200，返回整个资源。通常和 <code>Range</code> 头一起用<br>  如果我要下载的文件还是原来那个，就从我上次断掉的地方继续传，否则就把整个新文件传给我</li>
+</ul>
+<h4 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h4><p>HTTPS &#x3D; HTTP + Secure，这层安全保障的核心是 SSL&#x2F;TLS 协议。</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>HTTP</th>
+<th>HTTPS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>安全性</td>
+<td>明文传输，不安全</td>
+<td>加密传输，安全</td>
+</tr>
+<tr>
+<td>协议</td>
+<td>基于 TCP</td>
+<td>基于 TCP + SSL&#x2F;TLS</td>
+</tr>
+<tr>
+<td>端口</td>
+<td>80</td>
+<td>443</td>
+</tr>
+<tr>
+<td>工作方式</td>
+<td>直接传输数据</td>
+<td>先建立安全的 SSL&#x2F;TLS 链接，再传输加密数据</td>
+</tr>
+<tr>
+<td>需要证书</td>
+<td>否</td>
+<td>是，有证书颁发机构签发</td>
+</tr>
+<tr>
+<td>数据完整性</td>
+<td>无法验证数据是否被篡改</td>
+<td>可验证数据在传输过程中是否被篡改</td>
+</tr>
+<tr>
+<td>SEO</td>
+<td>主流浏览器不会直接打开，对 SEO 不利</td>
+<td>可直接打开，是 SEO 排名因素之一</td>
+</tr>
+</tbody></table>
+<p>浏览器链接到服务器的 443 端口，然后服务器选择一种加密算法，并将其 SSL 证书（包含公钥）发送给浏览器。浏览器验证证书是否由可信的证书颁发机构签发，是否过期，是否与正在访问的域名匹配。若均通过，浏览器用服务器的公钥加密一个随机生成的“预主密钥”。此时，双方都有了相同的信息，可以独立计算出同一把对称的会话密钥。这样，握手完成，双方开始使用这把会话密钥对所有传输的 HTTP 数据进行对称加密和解密了。</p>
+<p>为什么最后还是使用对称加密呢？因为公私钥加密计算复杂，速度慢，对称加密速度相对较快，适合加密大量数据。</p>
+<h4 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h4><p>HTTP 协议经历了四个阶段</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>HTTP&#x2F;1.0</th>
+<th>HTTP&#x2F;1.1</th>
+<th>HTTP&#x2F;2.0</th>
+<th>HTTP&#x2F;3.0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>连接方式</td>
+<td>短链接</td>
+<td>长连接</td>
+<td>多路复用</td>
+<td>基于 QUIC 的多路复用</td>
+</tr>
+<tr>
+<td>队头阻塞</td>
+<td>严重</td>
+<td>存在</td>
+<td>在 HTTP 层解决</td>
+<td>在传输层解决</td>
+</tr>
+<tr>
+<td>服务器推送</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持，但实现机制不同</td>
+</tr>
+<tr>
+<td>传输协议</td>
+<td>TCP</td>
+<td>TCP</td>
+<td>TCP</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>安全</td>
+<td>无要求</td>
+<td>无要求</td>
+<td>非强制</td>
+<td>强制</td>
+</tr>
+<tr>
+<td>头部压缩</td>
+<td>无</td>
+<td>无</td>
+<td>HPACK</td>
+<td>QPACK</td>
+</tr>
+<tr>
+<td>建立链接速度</td>
+<td>慢</td>
+<td>较慢</td>
+<td>较慢</td>
+<td>极快</td>
+</tr>
+</tbody></table>
+<p>HTTP&#x2F;1.0 的核心特点即为短链接，每次请求都需要重新建立一次 TCP 链接，收到响应后立即关闭链接。放方式的性能极差，开销巨大，并且会造成<strong>队头阻塞</strong>：上一个请求响应慢了，会阻塞后面所有请求。</p>
+<p>HTTP&#x2F;1.1 解决了 1.0 的核心痛点。其核心特点是长连接，默认保持 TCP 链接打开，可以在一个链接上发送多个请求和响应。该实现方式减少了建立和关闭连接的开销，并且能够实现管道化。但是仍存在队头阻塞和<strong>头部冗余</strong>：每个请求都携带大量重复的头部信息。</p>
+<p>并且 HTTP&#x2F;1.1 也有堆料上的差别。HTTP&#x2F;1.1 中加入了大量的状态码，如 <code>100</code> (请求大资源前的预热请求)、<code>409</code> (请求和当前资源的规定冲突) 等。</p>
+<p>HTTP&#x2F;2 的主要目标是提升性能。HTTP&#x2F;2 使用更紧凑和高效的二进制帧进行数据传输，不同于先前的使用文本格式的报文。并且实现了<strong>多路复用</strong>：在同一个 TCP 上，可以同时交错地发送多个请求&#x2F;响应流，而不会互相阻塞。每个流都有自己的 id。</p>
+<p>这样一来，由于响应可以乱序返回，慢的响应也不会阻塞快的响应了。并且还使用了 HPACK 算法大大减少了头部开销。同时，服务器还可以主动向客户端推送资源，如当客户端请求 HTML 时，服务器也会把对应的 CSS 和 JS 推过去。</p>
+<p>但其底层的 TCP 本身是有序的，如果网络中有一个 TCP 包丢失，整个 TCP 链接都会停下来等待重传，这个阻塞该链接上所有的 HTTP&#x2F;2 流。</p>
+<p>HTTP&#x2F;3 是下一代协议，彻底更换了底层传输协议来解决 HTTP&#x2F;2 的终极协议。其使用基于 UDP 开发的 QUIC 协议。它</p>
+<ul>
+<li>解决了 TCP 层的队头阻塞，在传输层原生实现了多路复用。每个流是独立的，一个流的包丢失只会影响该流，对其他流不受影响</li>
+<li>极快的链接确立，通常只需要 0-RTT 或 1-RTT，而TCP + TLS 需要 1-3 个 RTT。</li>
+<li>链接迁移，当用户切换网络时，TCP 需要中断重连，而 QUIC 链接可以无缝迁移</li>
+<li>强制加密，加密内置于 QUIC 协议中</li>
+</ul>
+<div class="note note-info">
+            <p>HTTP&#x2F;1.0 到 HTTP&#x2F;2 的切换在应用层协商。从 HTTP&#x2F;1.0 升级到 HTTP&#x2F;1.1 通过 <code>Connection: keep-alive</code> 请求头实现（已成为默认行为）。而升级到 HTTP&#x2F;2 主要有两种方式</p><ul><li>客户端在 TLS 握手时通过 ALPN 扩展告诉服务器自己支持 HTTP&#x2F;2</li><li>客户端发送一个 HTTP&#x2F;1.1 的请求，其中包含 <code>Upgrade: h2c</code> 头部，若服务器同意，则返回 <code>101</code> (切换协议) 状态码，之后双方切换为 HTTP&#x2F;2 通信</li></ul>
+          </div>
+
+
+<h3 id="保存用户状态"><a href="#保存用户状态" class="headerlink" title="保存用户状态"></a>保存用户状态</h3><p>HTTP 协议本身是无状态的，这意味着服务器默认情况下无法区分两个请求是否来自同一个用户，因此对于需要记住用户状态的业务，往往有以下几种机制</p>
+<h4 id="Session-配合-Cookie"><a href="#Session-配合-Cookie" class="headerlink" title="Session 配合 Cookie"></a>Session 配合 Cookie</h4><p><a href="#cookie">详见下</a></p>
+<h4 id="URL-重写"><a href="#URL-重写" class="headerlink" title="URL 重写"></a>URL 重写</h4><p>浏览器禁用 Cookie 时，还可以将 SessionID 直接附加到 URL 的末尾，该方法使得 URL 变长，且安全性较低，容易被复制、分享或记录到日志中，还可能对 SEO 不太友好。</p>
+<h4 id="Token-Based-认证"><a href="#Token-Based-认证" class="headerlink" title="Token-Based 认证"></a>Token-Based 认证</h4><p>JWT (JSON Web Tokens) 就是使用这种方法。该方法简化的步骤如下</p>
+<ol>
+<li>用户向服务器发送用户名、密码及验证码用于登录系统</li>
+<li>若校验正确，服务端会返回已签名的 Token，假如为 JWT</li>
+<li>客户端收到 Token 后自己保存到浏览器的 LocalStorage</li>
+<li>用户在此后每次向后端发送请求都在 header 中带上这个 JWT</li>
+<li>服务器检查 JWT 并从中获取用户相关信息</li>
+</ol>
+<h2 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h2><h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><h4 id="和-HTTP-的区别"><a href="#和-HTTP-的区别" class="headerlink" title="和 HTTP 的区别"></a>和 HTTP 的区别</h4><p>WebSocket 是一种双向实时通信协议，而 HTTP 是一种单向通信协议。并且 HTTP 协议下的通信通信只能由客户端发起，服务器无法主动通知客户端。</p>
+<p>WebSocket 使用 <code>ws://</code> 或 <code>wss://</code> (加密版) 作为协议前缀，和 HTTP&#x2F;HTTPS 不同。</p>
+<p>WebSocket 可以支持扩展，用户也可以扩展协议，实现部分自定义的子协议。</p>
+<p>WebSocket 通信数据格式比较轻量，用于协议控制的数据包头部相对较小，网络开销小。</p>
+<h4 id="和短轮询、长轮询的区别"><a href="#和短轮询、长轮询的区别" class="headerlink" title="和短轮询、长轮询的区别"></a>和短轮询、长轮询的区别</h4><p>短轮询指客户端每隔固定时间（如 5 秒）发起一次 HTTP 请求，询问服务器是否有新数据。服务器收到请求后立即响应；长轮询指客户端发起请求后，若服务器赞数无新数据，则会保持链接，直到有新数据或超时才响应。客户端收到响应后立即发起下一次请求，实现“伪实时”。短实时的实时性一般，长实时的服务器资源浪费较大，且由于大部分时候请求收到的都是“无新消息”，极大增加服务器和网络压力。</p>
+<p>WebSocket 可以在服务器和客户端之间建立一条持久的 TCP 链接。之后双方可以随时、主动发送数据，实现真正的全双工、低延迟通信。然而，WebSocket 对连接管理有一定要求，且实现较为麻烦。</p>
+<h4 id="与-SSE-的区别"><a href="#与-SSE-的区别" class="headerlink" title="与 SSE 的区别"></a>与 SSE 的区别</h4><p>SSE (Server-Sent Event) 基于 HTTP，用于实现服务器向浏览器实时推送消息。它本质上是一个“长连接”的 HTTP 请求，服务器保持链接打开并持续发送事件流，只需要 HTTP 基础设施就能用，因此实现较为简单。目前的语言大模型的流式响应的标准技术选择。</p>
+<p>然而 WebSocket 需要独立的协议，器断线重连等功能的实现也更为复杂。</p>
+<h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><p>为了获取客户端真实 IP，通常可以采用以下方法</p>
+<ul>
+<li>应用层：通过 <code>X-Forwarded-For</code> 请求头获取，但这里的 IP 可能不是真实 IP。如果经过代理服务器，该字段可能会有多个值。并且，这种方法只适用于 HTTP 和 SMTP 协议</li>
+<li>传输层：利用 TCP Option 字段承载真实源 IP 信息。这需要通信双方都支持发送这种独特的 TCP 包</li>
+<li>网络层：隧道 + DSR 模式，但实施起来比较麻烦</li>
+</ul>
+<h2 id="认证与授权"><a href="#认证与授权" class="headerlink" title="认证与授权"></a>认证与授权</h2><h3 id="BRAC-模型"><a href="#BRAC-模型" class="headerlink" title="BRAC 模型"></a>BRAC 模型</h3><p>BRAC 即实现基于角色的权限访问控制 (Role-Based Access Control)。这是一种通过角色关联权限，用户同时又关联用户的授权方式。简单地说，一个用户可以拥有多个角色，同一个角色可以被分配若干权限。</p>
+<pre><code class=" mermaid">graph LR
+    user[用户]--&gt;|一个用户可以拥有多个角色|role[角色]--&gt;|一个角色可以拥有多个权限|auth[权限]--&gt;|一个权限可以被多个角色拥有|role--&gt;|一个角色可以授予给多个用户|user
+</code></pre>
+
+<h3 id="SSO"><a href="#SSO" class="headerlink" title="SSO"></a>SSO</h3><p>单点登录 (Single Sign On) 指用户在登录多个子系统中的一个就有权访问与其相关的其他系统，从而使可用性大大提高。</p>
+<h3 id="Cookie-1"><a href="#Cookie-1" class="headerlink" title="Cookie"></a>Cookie</h3><p>这是最经典的机制，基本流程如下</p>
+<ol>
+<li>用户向服务器发送用户名、密码、验证码等信息登录系统</li>
+<li>服务器验证通过，为这个用户创建一个专属的 Session 对象存储起来，并给这个 Session 分配一个唯一的 SessionID</li>
+<li>服务器通过 HTTP 响应头中的 Set-Cookie 命令，把这个 SessionID 发送给用户的浏览器</li>
+<li>浏览器收到 SessionID 后，会将其以 Cookie 的形式保存在本地。当用户保持登录状态时，每次向该服务器发请求，浏览器都会自动带上这个存有 SessionID 的 Cookie</li>
+<li>服务器收到请求后，从 Cookie 中拿出 SessionID，就能找到之前保存的那个 Session 对象，从而知道是哪个用户</li>
+</ol>
+<p>对于简单的业务，可以将 Session 数据储存在服务器内存里；对于较大业务，一般储存在分布式缓存（如 redis）中；数据库也可以存，但不太建议。</p>
+<p>为了保证 SessionID 的安全性，需要在 Cookie 中设置 <code>HttpOnly</code> 标志防止客户端脚本窃取，同时设置 Secure 标志保证 SessionID 只在 HTTPS 链接下传输，增加安全性。</p>
+<p>当服务器拓展成多节点时，Cookie 中的 SessionID 在另一个服务器中就找不到对应的 Session 了。因此可以</p>
+<ol>
+<li>将某个用户的所有请求都通过特性的哈希策略分配给同一个服务器处理。然而在这个服务器宕机后，其保存的 Session 就全部丢失了</li>
+<li>每一个服务器都保存了全量的 Session 信息。这样成本太高</li>
+<li>放 redis 等缓存里，并且避免单点</li>
+<li>Spring Session 是一个用于在多个服务器之间管理会话的项目。它可以和多种后端存储 (Redis, MongoDB) 继承，从而实现分布式会话管理。</li>
+</ol>
+<p>注意，并不是没有 Cookie 后就不能用 Session 了，还可以使用<a href="#url-%E9%87%8D%E5%86%99">重写 URL</a>的方法，但安全性和用户体验降低。</p>
+<p>在 spring boot 项目中<br>设置 Cookie 给客户端</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/change-username&quot;)</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">setCookie</span><span class="hljs-params">(HttpServletResponse response)</span> &#123;<br>    <span class="hljs-comment">// 创建一个 cookie</span><br>    <span class="hljs-type">Cookie</span> <span class="hljs-variable">cookie</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Cookie</span>(<span class="hljs-string">&quot;username&quot;</span>, <span class="hljs-string">&quot;Jovan&quot;</span>);<br>    <span class="hljs-comment">//设置 cookie过期时间</span><br>    cookie.setMaxAge(<span class="hljs-number">7</span> * <span class="hljs-number">24</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span>); <span class="hljs-comment">// expires in 7 days</span><br>    <span class="hljs-comment">//添加到 response 中</span><br>    response.addCookie(cookie);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Username is changed!&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>使用 spring 框架的 <code>@CookieValue</code> 注解获取特定 cookie 的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/&quot;)</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">readCookie</span><span class="hljs-params">(<span class="hljs-meta">@CookieValue(value = &quot;username&quot;, defaultValue = &quot;Atta&quot;)</span> String username)</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hey! My username is &quot;</span> + username;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>读取所有的 cookie 值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/all-cookies&quot;)</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">readAllCookies</span><span class="hljs-params">(HttpServletRequest request)</span> &#123;<br><br>    Cookie[] cookies = request.getCookies();<br>    <span class="hljs-keyword">if</span> (cookies != <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> Arrays.stream(cookies)<br>                .map(c -&gt; c.getName() + <span class="hljs-string">&quot;=&quot;</span> + c.getValue()).collect(Collectors.joining(<span class="hljs-string">&quot;, &quot;</span>));<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;No cookies&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="CSRF-攻击"><a href="#CSRF-攻击" class="headerlink" title="CSRF 攻击"></a>CSRF 攻击</h3><h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><p>跨站请求伪造 (Cross Site Request Forgery) 攻击时，攻击者诱导受害者进入第三方网站，在第三方网站中，向被攻击网站发送跨站请求。利用受害者在被攻击网站已经获取的注册凭证，绕过后台用户的验证，达到冒充的目的。</p>
+<p>一次攻击流程有以下流程</p>
+<ul>
+<li>受害者登录 <code>bank.com</code>，并保留了登陆凭证</li>
+<li>攻击者引诱受害者访问了 <code>evil.com</code></li>
+<li><code>evil.com</code> 中有一个自动向 <code>bank.com</code> 发送请求的代码。浏览器在发送这个请求时，自动携带 <code>bank.com</code> 的 Cookie</li>
+<li><code>bank.com</code> 收到请求后，校验确认是受害者的凭证，误认为是受害者自己发送的请求</li>
+<li><code>bank.com</code> 以受害者的名义执行了该请求</li>
+</ul>
+<p>常见的攻击类型有以下几种</p>
+<ul>
+<li>GET 类型<br>  受害者访问这个某个页面后，浏览器自动向指定的 URL 发送一次 HTTP 请求。网站就会收到包含受害者登录信息的一次跨域请求</li>
+<li>POST 类型<br>  这种类型的 CSRF 利用起来通常是一个自动提交的表单。在访问某页面后，表单会自动提交</li>
+<li>链接类型<br>  链接类型的 CSRF 并不常见，因为这种需要用户点击链接才会触发。这种类型通常是在论坛中发布的图片中嵌入恶意链接</li>
+</ul>
+<p>CSRF 通常是跨域的，因为外域通常更容易被攻击者掌控。浏览器通常规定了<strong>同源策略</strong>：允许跨域发送请求，阻止跨域读取相应。这刚好契合了 CSRF 的需求。</p>
+<h4 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h4><h5 id="CSRF-Token"><a href="#CSRF-Token" class="headerlink" title="CSRF Token"></a>CSRF Token</h5><p>服务器在返回给用户的表单中，嵌入一个随机的，不可预测的字符串，即 CSRF Token。当用户提交表单时，前端必须将这个 Token 一起提交。这个 Token 通常放在一个隐藏字段 <code>_csrf</code> 中，因此恶意网站无法通过任何方式读取嵌入在原始页面中的 Token 值 （受同源策略保护）。</p>
+<h5 id="SameSite-Cookie"><a href="#SameSite-Cookie" class="headerlink" title="SameSite Cookie"></a>SameSite Cookie</h5><p>在设置 Cookie 时，指定其 SameSite 属性</p>
+<ul>
+<li><code>SameSite=Strict</code> 最严格，浏览器在任何跨站请求中都不会发送此 Cookie，这会导致从别的网站链接跳转回来时也会重新登录</li>
+<li><code>SameSite=Lax</code> 宽松模式，在安全的跨站请求 (如 GET 中的导航) 发送 Cookie，但在不安全的跨站 POST 请求或嵌入的请求中不会发送</li>
+<li><code>SameSite=None</code> 关闭此限制</li>
+</ul>
+<h5 id="同源检测"><a href="#同源检测" class="headerlink" title="同源检测"></a>同源检测</h5><p>既然 CSRF 大多来自第三方网站，那么我们就直接禁止外域（或者不受信任的域名）对我们发起请求。在 HTTP 协议中，每一个异步请求都会携带两个 Header，用于标记来源域名：</p>
+<ul>
+<li>Origin Header</li>
+<li>Referer Header</li>
+</ul>
+<p>这两个 Header 在浏览器发起请求时，大多数情况会自动带上，并且不能由前端自定义内容。服务器可以通过解析这两个 Header 中的域名，确定请求的来源域。</p>
+<h5 id="双重提交-Cookie"><a href="#双重提交-Cookie" class="headerlink" title="双重提交 Cookie"></a>双重提交 Cookie</h5><p>这是一种基于无状态 (如 JWT) 的 API 简化方案。用户登录后，服务器会给一个随机的 Cookie，这个 Cookie 对前端 JS 是可读的。前端在发起任何非幂等请求时，必须从 Cookie 中读取这个值，并将其作为自定义请求头或请求体字段再次发送。服务端比较请求头&#x2F;体重的 Token 值是否和 Cookie 的值一致。</p>
+<p>由于恶意网址无法读取目标网址设置的 Cookie，因此无法在伪造请求中设置正确的请求头。</p>
+<p>注意，此方案如果部署的域名存在子域漏洞，则可能会被攻破，因此用的较少。</p>
+<h3 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h3><p>JWT (JSON Web Token) 是目前最流行的跨域认证解决方案，是一种基于 Token 的认证授权机制。</p>
+<p>JWT 由三部分组成</p>
+<ul>
+<li><p>Header 头部，描述 JWT 的元数据，包含签名算法和 Token 类型</p>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;alg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;H256&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;typ&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;JWT&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>  通常由两部分构成</p>
+<ul>
+<li><code>typ</code> 令牌类型，也就是 JWT</li>
+<li><code>alg</code> 签名算法</li>
+</ul>
+</li>
+<li><p>Payload 载荷，存放实际需要传递的数据</p>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;sub&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1234567890&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;John&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;iat&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1145141919</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>  通常有多部分</p>
+<ul>
+<li><code>iss</code> JWT 签发方</li>
+<li><code>iat</code> JWT 签发时间</li>
+<li><code>sub</code> JWT 主题</li>
+<li><code>aud</code> JWT 接收方</li>
+<li><code>exp</code> JWT 过期时间</li>
+<li><code>nbf</code> JWT 生效时间，遭遇该定义的时间的 JWT 不能被处理</li>
+<li><code>jti</code> JWT 唯一标识</li>
+</ul>
+<p>  该部分默认不加密，因此<strong>不要把隐私信息放在里面</strong></p>
+</li>
+<li><p>Signature 签名，确保 JWT 的完整性和真实性，是一串利用指定算法生成的签名</p>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json">HMACSHA256(<br>    base64UrlEncode(header) + <span class="hljs-string">&quot;.&quot;</span> +<br>    base64UrlEncode(payload)<span class="hljs-punctuation">,</span><br>    secret)<br></code></pre></td></tr></table></figure>
+
+<p>  其中的密钥存放在服务端中</p>
+</li>
+</ul>
+<p>这三部分通过 <code>.</code> 切分。</p>
+<p>建议将 JWT 放在 LocalStorage 中，放在 Cookie 中会有 <a href="#csrf-%E6%94%BB%E5%87%BB">CSRF</a> 风险。</p>
+<p>该方案无状态，方便管理，能避免 CSRF 攻击，适合移动端应用，并且能实现 OSS 功能——只要用户的 JWT 存放在电脑上，就能很方便地进行认证。</p>
+<p>然而，JWT 在处理 退出登录&#x2F;修改密码&#x2F;修改权限&#x2F;账户封禁&#x2F;被迫下线&#x2F;强制注销&#x2F;主动注销 的场景比较麻烦。对此可以将 JWT 存入 redis （但违反了 JWT 的无状态原则），或者在 redis 中放一个黑名单，或者修改用户另外的专属密钥，或者经常轮换，等等。</p>
+<p>若 JWT 需要续签，则可以采取客户端检测（不推荐），每次请求都返回新 JWT （不推荐），增加有效期或者设置到半夜（废话），或者返回两个 JWT —— accessJWT 和 refreshJWT。前者过期时间短，用于认证；后者过期时间长，用于刷新前者过期时间。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/%E8%AE%A1%E7%BD%91/" class="category-chain-item">计网</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>计算机网络应用</div>
+      <div>https://ivanclf.github.io/2025/11/17/internet-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../15/networking-3/" title="计算机通信与网络 - 3">
+                        <span class="hidden-mobile">计算机通信与网络 - 3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

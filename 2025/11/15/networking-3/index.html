@@ -19,22 +19,29 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="URLURL(Uniform Resource Locators)是统一资源定位器的简称，Web浏览器通过URL从Web服务器请求页面。其一般格式为： 1protocol :&#x2F;&#x2F; hostname[:port] &#x2F; path &#x2F; [;parameters][?query]#fragment([]中内容可省略)     类型名 说明    protocol (协议) 指定使用的传输协议   host">
+    <meta name="description" content="UDP、TCP传输层向上面的应用层提供通信服务，同时也是用户功能中的最底层。传输层负责进程到进程的传递。传输层需要两种不同的协议，即面向链接的 TCP 和无连接的 UDP。 端口号用于标识计算机应用层中的各进程，是一个 16 bit 的数字。在因特网中不同计算机的相同端口号是没有联系的。              IANA 是互联网号码分配机构，它统一管理和协调全球互联网的一些关键资源数据，如 I">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计网协议杂记">
-<meta property="og:url" content="https://ivanclf.github.io/2024/08/01/internet-1/index.html">
+<meta property="og:title" content="计算机通信与网络 - 3">
+<meta property="og:url" content="https://ivanclf.github.io/2025/11/15/networking-3/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="URLURL(Uniform Resource Locators)是统一资源定位器的简称，Web浏览器通过URL从Web服务器请求页面。其一般格式为： 1protocol :&#x2F;&#x2F; hostname[:port] &#x2F; path &#x2F; [;parameters][?query]#fragment([]中内容可省略)     类型名 说明    protocol (协议) 指定使用的传输协议   host">
+<meta property="og:description" content="UDP、TCP传输层向上面的应用层提供通信服务，同时也是用户功能中的最底层。传输层负责进程到进程的传递。传输层需要两种不同的协议，即面向链接的 TCP 和无连接的 UDP。 端口号用于标识计算机应用层中的各进程，是一个 16 bit 的数字。在因特网中不同计算机的相同端口号是没有联系的。              IANA 是互联网号码分配机构，它统一管理和协调全球互联网的一些关键资源数据，如 I">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-08-01T14:20:04.000Z">
-<meta property="article:modified_time" content="2025-11-17T03:10:36.924Z">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/15/networking-3/udp.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/15/networking-3/tcp.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/15/networking-3/3times.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/15/networking-3/cache.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/11/15/networking-3/slow-start.png">
+<meta property="article:published_time" content="2025-11-15T07:17:21.000Z">
+<meta property="article:modified_time" content="2025-11-17T07:05:38.955Z">
 <meta property="article:author" content="Ivan Chan">
-<meta property="article:tag" content="碎片知识">
+<meta property="article:tag" content="复习">
+<meta property="article:tag" content="日常">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ivanclf.github.io/2025/11/15/networking-3/udp.png">
   
   
   
-  <title>计网协议杂记 - Ivan的博客</title>
+  <title>计算机通信与网络 - 3 - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +219,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="计网协议杂记"></span>
+            <span id="subtitle" data-typed-text="计算机通信与网络 - 3"></span>
           
         </div>
 
@@ -223,8 +230,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-01 22:20" pubdate>
-          2024年8月1日 晚上
+        <time datetime="2025-11-15 15:17" pubdate>
+          2025年11月15日 下午
         </time>
       </span>
     
@@ -235,7 +242,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          3.1k 字
         
       </span>
     
@@ -278,286 +285,203 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">计网协议杂记</h1>
+            <h1 id="seo-header">计算机通信与网络 - 3</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>URL(Uniform Resource Locators)是统一资源定位器的简称，Web浏览器通过URL从Web服务器请求页面。其一般格式为：</p>
-<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs leaf">protocol :// hostname[:port] / path / [;parameters][?query]<span class="hljs-punctuation">#</span><span class="hljs-keyword">fragment</span><span class="hljs-params">([]中内容可省略)</span><br></code></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>类型名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>protocol (协议)</td>
-<td>指定使用的传输协议</td>
-</tr>
-<tr>
-<td>hostname (主机名)</td>
-<td>存放资源的DNS(域名服务器)主机名或IP地址</td>
-</tr>
-<tr>
-<td>port (端口号)</td>
-<td>省略时使用协议的默认端口号</td>
-</tr>
-<tr>
-<td>path (路径)</td>
-<td>表示文件地址或者响应的接口</td>
-</tr>
-<tr>
-<td>;parameters (参数)</td>
-<td>指定特定参数的可选项</td>
-</tr>
-<tr>
-<td>?query (查询)</td>
-<td>给一些动态网页传递多个参数，参数间一般用”&amp;”隔开，参数的名和值用”&#x3D;”隔开</td>
-</tr>
-<tr>
-<td>fragment</td>
-<td>信息片段</td>
-</tr>
-</tbody></table>
-<div class="note note-success">
-            <p>除了 URL，还有 <strong>URI</strong> 的概念，URI (Uniform Resource Identifier) 是统一资源标识符的简称，用于唯一标识一个资源，但 URL 不仅标识一个资源，还指明了如何 locate 这个资源。</p>
+                <h2 id="UDP、TCP"><a href="#UDP、TCP" class="headerlink" title="UDP、TCP"></a>UDP、TCP</h2><p>传输层向上面的应用层提供通信服务，同时也是用户功能中的最底层。传输层负责进程到进程的传递。传输层需要两种不同的协议，即面向链接的 TCP 和无连接的 UDP。</p>
+<p><strong>端口号</strong>用于标识计算机应用层中的各进程，是一个 16 bit 的数字。在因特网中不同计算机的相同端口号是没有联系的。</p>
+<div class="note note-info">
+            <p>IANA 是互联网号码分配机构，它统一管理和协调全球互联网的一些关键资源数据，如 IP 地址空间，顶级域名，或者端口号等。</p><p>对于端口号的分配，0<del>1023 端口由 IANA 统一分配，1024</del>49151 端口 IANA 不分配也不控制，可以在 IANA 注册以防止重复，49152~65535 端口不受控制也不受注册，可作为临时端口。</p>
           </div>
 
-<p>参考文献</p>
+<p>进程到进程的传递需要两个标识符，IP 地址和端口号，这两个结合在一起称为了<strong>套接字</strong>。</p>
+<h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><p><strong>用户数据报协议</strong>称为无连接不可靠的传输层协议。它除了提供进程到进程通信而不是主机到主机的通信外，就没有给 IP 服务添加任何东西。</p>
+<p>USP 协议常用的端口有<br>|端口号|服务&#x2F;协议|用途|<br>|53|DNS|域名解析|<br>|67 68|DHCP|自动为网络中的设备分配 IP 地址|<br>|69|TFTP|简单的文件传输|<br>|123|NTP|同步计算机和网络设备的时间|<br>|161 162|SNMP|网络设备的监控和管理|<br>|500|ISAKMP&#x2F;IKE| IPsec VPN 协商的第一阶段|<br>|514|Syslog|系统日志传输|<br>|1194|OpenVPN|OpenVPN 服务默认使用的端口，也可能是 TCP|<br>|520|RIP|用于路由器间交换路由信息|</p>
+<p><img src="udp.png" srcset="/img/loading.gif" lazyload alt="UDP 的结构"></p>
+<p>UDP数据报的“长度”是指其自身的总长度。计算校验和时，会临时组合一个包含IP信息的“伪首部”与UDP数据报一同运算，此举是为了进行端到端的正确性验证，但伪首部本身不参与传输。</p>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><p>TCP 是一个面向链接的协议。它在两个 TCP 之间建立一个虚拟的链接来发送数据。另外，TCP 在传输层使用流量控制和差错控制机制。</p>
+<p>TCP 协议常见的端口有</p>
+<table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>服务&#x2F;协议</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>80</td>
+<td>HTTP</td>
+<td>网页浏览</td>
+</tr>
+<tr>
+<td>443</td>
+<td>HTTPS</td>
+<td>加密网页浏览</td>
+</tr>
+<tr>
+<td>21</td>
+<td>FTP</td>
+<td>文件传输</td>
+</tr>
+<tr>
+<td>22</td>
+<td>SSH</td>
+<td>加密远程登录</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Telnet</td>
+<td>不加密远程登录</td>
+</tr>
+<tr>
+<td>25</td>
+<td>SMTP</td>
+<td>发送电子邮件</td>
+</tr>
+<tr>
+<td>587</td>
+<td>SMTP Submission</td>
+<td>邮件客户端向邮件服务器提交邮件以进行中继</td>
+</tr>
+<tr>
+<td>110</td>
+<td>POP3</td>
+<td>从服务器下载邮件到本地客户端</td>
+</tr>
+<tr>
+<td>143</td>
+<td>IMAP</td>
+<td>在服务器上管理邮件</td>
+</tr>
+<tr>
+<td>3306</td>
+<td>MySQL</td>
+<td>MySQL 服务</td>
+</tr>
+<tr>
+<td>5432</td>
+<td>PostgreSQL</td>
+<td>PostgreSQL 服务</td>
+</tr>
+<tr>
+<td>1433</td>
+<td>Microsoft SQL Server</td>
+<td>SQL Server 服务</td>
+</tr>
+<tr>
+<td>6379</td>
+<td>redis</td>
+<td>redis 服务</td>
+</tr>
+<tr>
+<td>3389</td>
+<td>RDP</td>
+<td>远程桌面协议</td>
+</tr>
+<tr>
+<td>111</td>
+<td>RPC</td>
+<td>RPC 远程调用方法</td>
+</tr>
+</tbody></table>
+<p>TCP 的链接和建立都是采用客户端和服务器的方式。主动发起链接建立的进程都叫<strong>客户</strong>，被动等待链接建立的应用进程叫<strong>服务器</strong>。</p>
+<h3 id="报文结构"><a href="#报文结构" class="headerlink" title="报文结构"></a>报文结构</h3><p><img src="tcp.png" srcset="/img/loading.gif" lazyload alt="TCP 报文结构"></p>
+<p>其中的控制字段分以下几种</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://javaguide.cn/system-design/basis/RESTfulAPI.html">https://javaguide.cn/system-design/basis/RESTfulAPI.html</a></li>
+<li>URG 紧急指示符字段</li>
+<li>ACK 确认字段</li>
+<li>PSH 将数据推向前</li>
+<li>RST 链接复位</li>
+<li>SYN 在链接时对序列号进行同步</li>
+<li>FIN 终止链接</li>
 </ul>
-<h2 id="MIME简述"><a href="#MIME简述" class="headerlink" title="MIME简述"></a>MIME简述</h2><p>媒体类型（也通常称为多用途互联网邮件扩展或 MIME 类型）是一种标准，用来表示文档、文件或一组数据的性质和格式。浏览器通常通过MIME类型而非文件扩展名来决定如何处理URL。<br>其格式为：<code>type/subtype</code> ，即一个类型和一个子类型。类型分为独立类型和多部粉类型，多部份类型可分成不同部分的独立文件。以下是一些常用的类型。</p>
-<h3 id="application"><a href="#application" class="headerlink" title="application"></a>application</h3><p>不明确类型</p>
-<table>
-<thead>
-<tr>
-<th>类型名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>application/octet-stream</code></td>
-<td>二进制文件的默认值，浏览器一般不会自动执行</td>
-</tr>
-<tr>
-<td><code>application/pks8</code></td>
-<td>密钥</td>
-</tr>
-<tr>
-<td><code>application/pdf</code></td>
-<td>略</td>
-</tr>
-<tr>
-<td><code>application/zip</code></td>
-<td>略</td>
-</tr>
-</tbody></table>
-<h3 id="text"><a href="#text" class="headerlink" title="text"></a>text</h3><p>纯文本数据</p>
-<table>
-<thead>
-<tr>
-<th>类型名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>text/plain</code></td>
-<td>文本文件的默认值</td>
-</tr>
-<tr>
-<td><code>text/css</code></td>
-<td>略</td>
-</tr>
-<tr>
-<td><code>text/html</code></td>
-<td>略</td>
-</tr>
-<tr>
-<td><code>text/javascript</code></td>
-<td>略</td>
-</tr>
-</tbody></table>
-<h3 id="image"><a href="#image" class="headerlink" title="image"></a>image</h3><p>图像数据</p>
-<table>
-<thead>
-<tr>
-<th>类型名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>image/apng</code></td>
-<td>略</td>
-</tr>
-<tr>
-<td><code>image/gif</code></td>
-<td>略</td>
-</tr>
-<tr>
-<td><code>image/svg+xml</code></td>
-<td>矢量图</td>
-</tr>
-<tr>
-<td><code>image/...</code></td>
-<td>…</td>
-</tr>
-</tbody></table>
-<h3 id="audio-video"><a href="#audio-video" class="headerlink" title="audio &#x2F; video"></a>audio &#x2F; video</h3><p>音视频数据</p>
-<table>
-<thead>
-<tr>
-<th>类型名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>audio/wave</code><br><code>audio/wav</code><br><code>audio/x-wav</code><br><code>audio/x-pn-wav</code></td>
-<td>使用WAVE容器的音频文件</td>
-</tr>
-<tr>
-<td><code>audio/webm</code><br><code>video/webm</code></td>
-<td>使用WebM容器的音视频文件</td>
-</tr>
-<tr>
-<td><code>audio/ogg</code><br><code>video/ogg</code><br><code>application/ogg</code></td>
-<td>使用OGG容器的音视频文件</td>
-</tr>
-</tbody></table>
-<h3 id="mutipart"><a href="#mutipart" class="headerlink" title="mutipart"></a>mutipart</h3><p>由多个部件组成的数据</p>
-<table>
-<thead>
-<tr>
-<th>类型名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>mutipart/form-data</code></td>
-<td>通过HTML表单从浏览器发送信息给服务器</td>
-</tr>
-<tr>
-<td><code>mutipart/byteranges</code></td>
-<td>把部分响应报文发送回浏览器</td>
-</tr>
-</tbody></table>
-<h2 id="RestFul-API"><a href="#RestFul-API" class="headerlink" title="RestFul API"></a>RestFul API</h2><p>RestFul API 也叫 REST API，REST 是 <code>REpresentational State Transfer</code> 的缩写，或者简单点，是 <strong>Resource Representational State Transfer</strong> 的缩写</p>
+<h3 id="建立链接"><a href="#建立链接" class="headerlink" title="建立链接"></a>建立链接</h3><p>在发送任何应用数据前，TCP 必须先在客户端和服务器间建立可靠的链接。建立链接需要分三步</p>
+<ol>
+<li>SYN<br> 发送方向接收方发送特殊的报文，并随机生成一个初始序列号，说明“我想和你建立连接，我的初始号码是 <code>X</code>”</li>
+<li>SYN-ACK<br> 接收方收到请求后，会回复一个报文。这个报文同时设置了 SYN 和 ACK 标志位。它确认了客户端的序列号 (ACK &#x3D; X + 1)，同时也告知己方的初始序列号，说明“我听到了，我同意链接，我的初始号码是 <code>Y</code>”</li>
+<li>ACK<br> 发送方再发送一个确认报文，ACK 标志位设为1，确认号为 ACK &#x3D; Y + 1，说明“收到你的确认了，我们可以开始了”</li>
+</ol>
+<p><img src="3times.png" srcset="/img/loading.gif" lazyload alt="三次握手流程"></p>
+<h3 id="数据传输和可靠性验证"><a href="#数据传输和可靠性验证" class="headerlink" title="数据传输和可靠性验证"></a>数据传输和可靠性验证</h3><p>TCP 会将应用层传来的数据流分割成大小合适的<strong>数据段</strong>。</p>
+<p>每个数据段都会被赋予一个唯一的序列号，接收方在成功收到后，会回复一个确认报文，包含它所期望收到的下一个序列号。发送方在发出一个数据段后会启动计时器，诸如此类。同时接收方通过滑动窗口机制来告诉发送方自己还能接收多少数据。</p>
+<div class="note note-info">
+            <p>TCP 发送的双方都有一个缓冲区。操作系统内核为每个 TCP 内核都预留了一块内存区域，用于临时存放待发送或已接收的数据。这里的缓冲区可以实现重传机制，以及将无序的数据重新组装等功能。</p><p><img src="cache.png" srcset="/img/loading.gif" lazyload alt="缓冲区图示"></p>
+          </div>
+
+<h3 id="断开链接"><a href="#断开链接" class="headerlink" title="断开链接"></a>断开链接</h3><p>数据发送完毕后，需要进行断开操作。该操作分四步</p>
+<ol>
+<li>FIN 主动关闭方发送 FIN 标志位为 1 的报文，标识“我的数据发完了，想断开链接”</li>
+<li>ACK 被动关闭方收到 FIN 后，回复一个 ACK 进行确认，表示“我知道你要关闭了”。此时主动关闭方已不能发送数据，但被动关闭方可能还有数据要发送</li>
+<li>被动关闭方也准备好关闭后，会发送自己的 FIN</li>
+<li>主动关闭方收到 FIN 后，回复最终的 ACK 确认。最后双方链接完全关闭</li>
+</ol>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>每一个 TCP 链接需要有以下两个状态变量</p>
 <ul>
-<li>Resource 一个资源可以是一个集合，也可以是单个个体，每一种资源都有特定的 URI 与之对应</li>
-<li>Representational 资源是一种信息实体，其具体呈现出来的形式，如 <code>json</code>、<code>xml</code>、<code>image</code>、<code>txt</code> 等等称为其“表现形式”</li>
-<li>State Transfer 通过 REST 中的状态转移（如 crud）来描述服务器资源端的状态和相关操作</li>
+<li>接收端窗口 rwnd<br>  接收端根据其目前的接收缓存大小所许诺的最新窗口值，是来自接收端的流量控制。接收端将此窗口值放在 TCP 报文首部中的窗口字段，传送给发送端</li>
+<li>拥塞窗口 cwnd<br>  发送端根据自己估计的网络拥塞程度而设置的窗口值，是来自发送端的流量控制。</li>
 </ul>
-<h3 id="HTTP-方法"><a href="#HTTP-方法" class="headerlink" title="HTTP 方法"></a>HTTP 方法</h3><p>REST API 定义了一组请求方法，以表明要对给定资源执行的操作。指示针对给定资源要执行的期望动作。</p>
-<table>
-<thead>
-<tr>
-<th>方法名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>GET</code></td>
-<td>获取特定资源，常用于向服务器查询信息</td>
-</tr>
-<tr>
-<td><code>POST</code></td>
-<td>传输实体文本，在服务器上创建一个新的资源</td>
-</tr>
-<tr>
-<td><code>HEAD</code></td>
-<td>获得报文首部。获取和<code>GET</code>请求相同的响应，但没有响应体</td>
-</tr>
-<tr>
-<td><code>PUT</code></td>
-<td>传输文件，更新服务器上的资源</td>
-</tr>
-<tr>
-<td><code>DELETE</code></td>
-<td>删除资源</td>
-</tr>
-<tr>
-<td><code>OPTION</code></td>
-<td>询问支持的方法</td>
-</tr>
-<tr>
-<td><code>TRACE</code></td>
-<td>追踪路径</td>
-</tr>
-<tr>
-<td><code>CONNECT</code></td>
-<td>使用隧道协议进行TCP通信</td>
-</tr>
-<tr>
-<td><code>PATCH</code></td>
-<td>更新服务器上的资源</td>
-</tr>
-</tbody></table>
-<h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><table>
-<thead>
-<tr>
-<th>2xx 成功</th>
-<th>3xx 重定向</th>
-<th>4xx 客户端错误</th>
-<th>5xx 服务器错误</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>200 <strong>OK</strong></td>
-<td>301 <strong>永久移动</strong>到新 URL</td>
-<td>400 <strong>不良请求</strong></td>
-<td>500 <strong>服务器错误</strong></td>
-</tr>
-<tr>
-<td>201 已<strong>创建</strong>资源</td>
-<td>302 <strong>找到</strong></td>
-<td>401 <strong>未授权</strong></td>
-<td>502 <strong>网关错误</strong></td>
-</tr>
-<tr>
-<td>202 <strong>已接受</strong>，但未完成创建资源</td>
-<td>303 <em>见其他</em>，发送对资源的引用但不强制客户端下载状态</td>
-<td>403 <strong>禁止</strong>访问</td>
-<td>504 <strong>网关超时</strong></td>
-</tr>
-<tr>
-<td>204 <strong>无内容</strong></td>
-<td>304 资源<strong>未修改</strong>，与 204 类似</td>
-<td>404 <strong>未找到</strong></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>307 <em>临时重定向</em>，不会处理客户端的请求</td>
-<td>405 <strong>方法不允许</strong></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>406 响应<em>不可接受</em></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>412 <em>前提条件失败</em>，这里的前提条件通常是客户端要求的</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>415 <em>不支持的媒体类型</em></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><ul>
-<li>网址和接口中不能有动词，只能有名词，API 中的名词也应该用复数</li>
-<li>不用大写字母，建议用 <code>-</code> 而不是 <code>_</code></li>
-<li>善用版本化 API</li>
+<p>发送端的发送窗口的上限值为 <code>Min[rwnd, cwnd]</code>。</p>
+<p>但是在一开始的时候，双方的窗口数据均未知，又怎么设置一个合适的数值呢？这需要<strong>慢开始算法</strong>。</p>
+<ol>
+<li>初始阶段<br> TCP 链接刚建立或检测到超时（认为发生了网络拥塞）时，发送方会将窗口设置为一个很小的值（1个报文段的大小）</li>
+<li>每一次成功后，就会将拥塞窗口增加一个 MSS。由于 TCP 采用累计确认的机制，在一个传输轮次中，拥塞窗口的实际增长是指数性的。</li>
+<li>发送方还有个变量叫慢开始阈值。当拥塞窗口增长到慢开始阈值时，慢开始阶段结束，短发将进入<strong>拥塞避免</strong>阶段。在拥塞避免阶段，窗口的增长方式由指数增长变为线性增长。当发生超时这种严重的拥塞信号时，慢开始阈值将设置为当前拥塞窗口的一半。若窗口被重置为1，则重新开始慢开始过程。</li>
+</ol>
+<p><img src="slow-start.png" srcset="/img/loading.gif" lazyload alt="慢开始示意图"></p>
+<p><strong>快重传算法</strong>是指，当发送端连续收到三个或三个以上重复的ACK时，即可判定某个报文段已经丢失。此时，发送端会立即重传对方所要求的那个报文段，而无需等待重传计时器超时。这是一种基于反馈的主动修复机制，能够有效减少数据等待重传的时延。</p>
+<p><strong>快恢复算法</strong>与快重传协同工作。当发送端因收到三个重复ACK而触发快重传时，会随即执行快恢复：首先，将慢开始门限（ssthresh） 设置为当前拥塞窗口（cwnd） 值的一半。然后，与慢开始算法不同，它并不将 cwnd 重置为1，而是将 cwnd 设置为新的 ssthresh 值（有些实现会在此基础上加3，以补偿已离开网络的报文段）。在此之后，发送端直接进入拥塞避免阶段，开始线性地增大 cwnd。</p>
+<h3 id="TCP-的重传机制"><a href="#TCP-的重传机制" class="headerlink" title="TCP 的重传机制"></a>TCP 的重传机制</h3><p>由于 IP 数据报选择的路由变化很大，因而运输层的往返时延的方差也会很大。</p>
+<p>记录每一个报文段发出的时间，以及收到响应的确认报文段时间。这两个时间之差就是报文段的<strong>往返时延</strong>，平均往返时延可以使用<strong>自适应算法</strong> (RTT) 解决。</p>
+<p>$$<br>\overline{\text{RTT}}&#x3D;\alpha \times \text{RTT}_{旧}+(1-\alpha)\times 新的时延样本<br>$$</p>
+<p>其中有 $0\leq \alpha \leq 1$，表示加权。选择的 $\alpha$ 越接近 0，则表示加权极端的平均往返时延受新的时延样本的影响较大。一般取 $\alpha &#x3D; \frac{7}{8}$。</p>
+<p>计时器的<strong>超时重传时间</strong> (RTO) 应略大于上面得到的 RTT，即</p>
+<p>$$<br>\text{RTO}&#x3D;\beta \times \text{RTT}<br>$$</p>
+<p>其中 $\beta &gt;1$。若 $\beta$ 接近1，则表示发送端可及时重传丢失的报文段，效率提高，但可能会加重网络负担。一般设置为2。</p>
+<p>利用 <strong>Karn 算法</strong>，报文段每重传一次，就将重传时间增大一些</p>
+<p>$$<br>新的重传时间&#x3D;\gamma \times 旧的重传时间<br>$$</p>
+<div class="note note-primary">
+            <p>在实时性、速度和速率优先的场景下，通常选择 UDP；在数据准确性和完整性比较重要时，通常选择 TCP</p>
+          </div>
+
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>DNS (Domain Name System) 是将人类易于记忆的域名转换为计算机易于通信的 IP 地址。</p>
+<h3 id="域名空间"><a href="#域名空间" class="headerlink" title="域名空间"></a>域名空间</h3><p>为了实现无二义性，分配给机器的名字必须从<strong>名字空间</strong>中仔细选择。该名字空间完全控制对名字和 IP 地址的绑定。为了获取层次结构的名字空间，设计了<strong>域名空间</strong>。</p>
+<p>域名空间是一个层次化的树状结构，就像一棵倒过来的树</p>
+<ul>
+<li>根域名：最顶端，用 <code>.</code> 表示</li>
+<li>顶级域名：根域名的下一级，表示 <code>.com</code> <code>.org</code> <code>.cn</code> 等</li>
+<li>二级域名：TLD 下，通常由自己注册</li>
+<li>子域名：自己创建</li>
 </ul>
+<div class="note note-info">
+            <p>域名空间可以分为通用域、国家域和反向域三部分。</p>
+          </div>
+
+<p>权威服务器上，域名通过不同类型的记录来定义其功能</p>
+<ul>
+<li>A 记录：域名指向 IPv4 地址</li>
+<li>AAAA 记录：域名指向 IPv6 地址</li>
+<li>CNAME 记录：将一个域名指向另一个域名</li>
+<li>MX 记录：邮件交换记录</li>
+<li>TXT 记录：文本记录，用于验证域名所有权、发送方策略框架等</li>
+<li>NS 记录：域名服务器记录</li>
+</ul>
+<div class="note note-success">
+            <p>DNS 劫持是一种网络攻击，它通过修改 DNS 的解析结果，使用户访问的域名指向错误的 IP 地址，从而导致用户无法访问正常的网站。</p>
+          </div>
+
+<h2 id="应用层协议"><a href="#应用层协议" class="headerlink" title="应用层协议"></a>应用层协议</h2><p>教学大纲基本不涉及应用层，而且涉及到的都是千禧年代的产物，因此补充的内容特别多，放另几篇上了。</p>
+<h3 id="TELNET"><a href="#TELNET" class="headerlink" title="TELNET"></a>TELNET</h3><p>用户使用 TELNET 就可以在其所在通道上通过 TCP 链接注册到远地的另一个主机上。然而目前更常用的是加密的 SSH。</p>
+<h3 id="SMTP-与-MIME"><a href="#SMTP-与-MIME" class="headerlink" title="SMTP 与 MIME"></a>SMTP 与 MIME</h3><p>基于 TCP 协议的发送电子邮箱的协议。注意：SMTP 只负责邮件的发送，而不是接收。要从邮件服务器接收邮件，需要使用 POP3 或 IMAP 协议。</p>
+<p>MIME 则是在继续目前的格式的基础上，增加了邮件主体的结构，并定义了传送非 ASCII 码的编码规则。</p>
+<div class="note note-info">
+            <p>这里的定义老旧得被气笑了。MIME 更广泛的用法<a href="https://ivanclf.github.io/2024/08/01/internet-1/#MIME%E7%AE%80%E8%BF%B0">在以前的文章</a>。它定义的 <code>Content-Type</code> 标准（即“媒体类型”）实在是太有用了，因此被直接采纳并应用于 WWW 或其他互联网协议中。</p>
+          </div>
+
+<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p>HTTP (Hypertext Transfer Protocol) 超文本传输协议，基于 TCP 协议，用于传输超文本和多媒体内容的协议，主要用于 web 浏览器和服务器的设计中。</p>
+<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><p>WebSocket 是一种基于 TCP 链接的全双工通信协议，即客户端和服务器可以同时发送和接收数据。几乎所有主流较新版本的浏览器都支持该协议，用于弥补 HTTP 协议在持久通信能力上的不足。常用于视频弹幕、实时消息推送、多用户协同编辑。</p>
 
                 
               </div>
@@ -591,7 +515,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="../../../../tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
+        <a href="../../../../tags/%E5%A4%8D%E4%B9%A0/" class="print-no-link">#复习</a>
+      
+        <a href="../../../../tags/%E6%97%A5%E5%B8%B8/" class="print-no-link">#日常</a>
       
     </div>
   
@@ -603,8 +529,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>计网协议杂记</div>
-      <div>https://ivanclf.github.io/2024/08/01/internet-1/</div>
+      <div>计算机通信与网络 - 3</div>
+      <div>https://ivanclf.github.io/2025/11/15/networking-3/</div>
     </div>
     <div class="license-meta">
       
@@ -616,7 +542,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月1日</div>
+          <div>2025年11月15日</div>
         </div>
       
       
@@ -648,9 +574,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="../../../11/16/order-set/" title="指令集和 Linux 杂记">
+                      <a href="../../17/internet-2/" title="计算机网络应用">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">指令集和 Linux 杂记</span>
+                        <span class="hidden-mobile">计算机网络应用</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -658,8 +584,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="../../../05/15/maven/" title="maven的下载">
-                        <span class="hidden-mobile">maven的下载</span>
+                      <a href="../../13/networking-2/" title="计算机通信与网络 - 2">
+                        <span class="hidden-mobile">计算机通信与网络 - 2</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -99,6 +99,19 @@ An even better idea is to give each CPU wishing to acquire the mutex its own pri
 
 ### Multicomputer Virtualization
 
+{% note success %}
+自旋锁和互斥锁的区别在于
+
+|特性|自旋锁|互斥锁|
+|-|-|-|
+|等待机制|忙等待：循环检查锁的状态，直到获取成功|休眠等待：获取失败时，线程进入休眠状态，让出 CPU|
+|底层实现|通常依赖 CPU 的原子指令（如 `Test-And-Set`、`Compare-And-Swap`）|通常需要操作系统的内核对象来管理等待队列|
+|开销|获取失败时开销小（用户态循环），但浪费 CPU 时间|获取失败时开销大（需要陷入内核态进行线程切换，但不浪费 CPU|
+|适用场景|临界区较短，多核处理器，不希望发生线程切换的开销|临界区较长，单核处理器，或等待时间可能较长|
+|性能特点|避免了线程上下文切换的开销，但空转会消耗 CPU 周期|节省了 CPU 资源，但引入了线程上下文切换的开销|
+
+{% endnote %}
+
 - Type I Hypervisor (监视器)
     In reality, it is the operating system, since it is the only program running in kernel mode. Its job is to support multiple copies of the actual hardware, called virtual machines, similar to the processes a normal operating system supports.
 - Type II Hypervisor

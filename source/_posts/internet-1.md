@@ -2,7 +2,7 @@
 title: 计网协议杂记
 date: 2024-08-01 22:20:04
 tags: [碎片知识]
-category: web
+category: 计网
 ---
 
 ## URL
@@ -23,13 +23,8 @@ protocol :// hostname[:port] / path / [;parameters][?query]#fragment([]中内容
 |?query (查询)|给一些动态网页传递多个参数，参数间一般用”&”隔开，参数的名和值用”=”隔开|
 |fragment|信息片段|
 
-{% note info %}
-常用的传输协议有
-
-- `file`本地计算机文件
-- `http`超文本传输协议，不加密的普通网页
-- `https`在SSL证书的加持下的安全网页
-- `ftp`文件传输协议
+{% note success %}
+除了 URL，还有 **URI** 的概念，URI (Uniform Resource Identifier) 是统一资源标识符的简称，用于唯一标识一个资源，但 URL 不仅标识一个资源，还指明了如何 locate 这个资源。
 {% endnote %}
 
 参考文献
@@ -103,7 +98,7 @@ RestFul API 也叫 REST API，REST 是 `REpresentational State Transfer` 的缩�
 
 ### HTTP 方法
 
-HTTP 定义了一组请求方法，以表明要对给定资源执行的操作。指示针对给定资源要执行的期望动作。
+REST API 定义了一组请求方法，以表明要对给定资源执行的操作。指示针对给定资源要执行的期望动作。
 
 |方法名|说明|
 |-|-|

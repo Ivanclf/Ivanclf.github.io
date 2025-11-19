@@ -27,7 +27,7 @@
 <meta property="og:description" content="Java如前面所述，Java中一个对象的创建语句为 1A a &#x3D; new A();  在该行定义中，A a声明了一个对象的引用a，后面new了一个对象的实例，并将该实例的地址赋值给a，让a指向该对象的实例。 而在执行new A()的过程如下：  当程序首次主动使用一个类（如创建对象、访问类的静态变量等），jvm会加载这个类。当这个类有父类时，父类先于子类被加载。               由于除">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-26T11:46:44.000Z">
-<meta property="article:modified_time" content="2025-10-05T17:16:04.214Z">
+<meta property="article:modified_time" content="2025-11-19T06:29:29.630Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="面向对象">
@@ -237,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          685 字
+          692 字
         
       </span>
     
@@ -302,6 +302,7 @@
 <li><p>从父类开始，执行构造方法，给静态变量进行赋值，执行构造器相关操作。其中，子类初始化时为子类分配内存时也包含从父类继承的实例变量和子类自己的实例变量（子类中也包含有一份父类）。</p>
 </li>
 </ol>
+<p>详见<a href="https://ivanclf.github.io/2025/10/06/jvm/#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">后面的文章</a>。</p>
 <h2 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h2><p>当创建一个派生类的对象时，g++也会先调用基类的构造函数，再调用派生类的构造函数。然而，与C语言类似，静态成员在程序启动时就就已经创建好静态成员变量了。若基类和派生类都定义了同名的静态成员变量，那么在派生类的范围内，会隐藏基类的静态成员变量。</p>
 
                 
@@ -310,6 +311,27 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="category-chain-item">面向对象</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
     <div class="post-meta">

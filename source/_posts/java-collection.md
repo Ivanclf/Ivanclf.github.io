@@ -1,11 +1,11 @@
 ---
-title: Java的集合类
+title: Java 的集合类
 date: 2025-09-28 20:52:13
 tags: [java]
 category: web
 ---
-
-[参考文献](https://javabetter.cn/sidebar/sanfene/collection.html)
+参考文献
+- [https://javabetter.cn/sidebar/sanfene/collection.html](https://javabetter.cn/sidebar/sanfene/collection.html)
 
 在集合框架下，有两大种类
 

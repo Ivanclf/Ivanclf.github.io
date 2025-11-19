@@ -6,8 +6,8 @@ categories: web
 ---
 
 参考文献
-
-[https://javabetter.cn/sidebar/sanfene/shejimoshi.html](https://javabetter.cn/sidebar/sanfene/shejimoshi.html)
+- [https://javabetter.cn/sidebar/sanfene/shejimoshi.html](https://javabetter.cn/sidebar/sanfene/shejimoshi.html)
+- [https://javaguide.cn/java/basis/java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi](https://javaguide.cn/java/basis/java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi)
 
 {% note success %}
 **开闭原则**：对扩展开放，对修改关闭
@@ -156,3 +156,13 @@ web 过滤器链（如网关，安全相关等）、审批流程、游戏开发�
 ## SOA
 
 SOA (**Service-Oriented Architecture** 面向服务架构) 是一种软件架构设计原则。它强调将应用程序拆分成相互独立的服务，通过标准化的接口进行通信。SOA 关注于服务的重用性和组合性，但并没有具体规定服务的大小。微服务则是 SOA 思想的一种具体实践方式。
+
+## SPI
+
+我们一般用到的都是 API，即他人已经实现好的功能。而 SPI 是服务提供者的接口。SPI 是用来扩展的，别人提供的接口是让自己来实现功能的。
+
+常见的 SPI 有 JDBC 的 `java.sql.Driver`、 SLF4J 的 Binding 等。
+
+## 装饰器模式
+
+通过组合替代继承来扩展原始类的功能。适合处理继承关系比较复杂的场景，如 IO 流等。

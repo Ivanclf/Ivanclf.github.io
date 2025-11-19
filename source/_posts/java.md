@@ -5,12 +5,30 @@ tags: [java]
 category: web
 ---
 
-[参考文献](https://javabetter.cn/sidebar/sanfene/javase.html)
+参考文献
+- [https://javabetter.cn/sidebar/sanfene/javase.html](https://javabetter.cn/sidebar/sanfene/javase.html)
+- [https://javaguide.cn/java/basis/java-basic-questions-01.html](https://javaguide.cn/java/basis/java-basic-questions-01.html)
+
+{% note info %}
+`>>` 为带符号右移，符号位为1时高位补1，反之补0；`>>>` 为无符号右移，空位都以1补齐。
+{% endnote %}
 
 {% note success %}
-- JVM: Java Virtual Machine
-- JRE: Java Runtime Environment
-- JDK: Java Development Kit
+- JVM: Java Virtual Machine，详见[另一篇](https://ivanclf.github.io/2025/10/06/jvm/)。
+- JRE: Java Runtime Environment，Java 基础环境和类库。在 JDK 9 后，就不需要区分 JDK 和 JRE 的关系了/
+- JDK: Java Development Kit，是一个功能齐全的 Java 开发工具包，用于创建和编译 Java 程序。
+
+{% endnote %}
+
+源码运行时，首先 `javac` 会将 `.java` 文件编译成 `.class` 文件，然后解释器或 JIT 再将 `.class` 文件转换成机器可理解的代码。
+
+{% note info %}
+`javac` 作为前端的编译器，任务是将 Java 类代码编译成 JVM 可理解的、平台中立的 `.class` 文件。两种文件其实差别不太大，因此主要进行以下操作
+- 语法糖解糖，如将 `foreach` 转换为传统的 `for` 循环
+- 常量折叠，如将 `int a = 1 + 2` 转换为 `int a = 3`
+- 进行简单的语法检查
+
+后端的 JIT 编译器详见 [JVM 的文章](https://ivanclf.github.io/2025/10/06/jvm/)
 
 {% endnote %}
 
@@ -20,11 +38,11 @@ category: web
 
 {% note info %}
 以下是几个面向对象的设计原则：
-里氏代换原则：父类能出现的地方子类也一定能出现
-单一职责原则：一个类只负责一项职责
-开闭原则：软件实体就扩展开放，对修改关闭（添加新功能时应该增加代码而非修改原有代码）
-接口隔离原则：客户端不应该依赖它不需要的接口
-依赖倒置原则：高层模块不应该依赖于底层模块，二者都应该依赖于抽象；抽象不应该依赖于细节，细节应该依赖于抽象
+**里氏代换**原则：父类能出现的地方子类也一定能出现
+**单一职责**原则：一个类只负责一项职责
+**开闭原则**：软件实体就扩展开放，对修改关闭（添加新功能时应该增加代码而非修改原有代码）
+**接口隔离**原则：客户端不应该依赖它不需要的接口
+**依赖倒置**原则：高层模块不应该依赖于底层模块，二者都应该依赖于抽象；抽象不应该依赖于细节，细节应该依赖于抽象
 {% endnote %}
 
 ## equals和hashCode
@@ -33,17 +51,29 @@ category: web
 
 ## String，StringBuilder和StringBuffer
 
-`String`对象本身是不可变的，每次对`String`对象进行修改操作时（比如加号操作），实质上都会先生成一个`StringBuilder`对象执行`.append()`操作，再使用`.toString()`方法换上去。这可能会导致不必要的内存和性能开销。因此在需要操作大量字符串的情况下，可以采用`StringBuilder`类实现。`StringBuilder`提供了一系列方法进行字符串的增删改查操作，这些操作都是在字符串原有的字符数组上实现的，不会产生新的`String`对象。`StringBuffer`是`StringBuilder`的线程安全版，方法前面都加有`synchronized`关键字。但真有人在并发状态下编辑字符串吗？
+`String` 对象本身是不可变的，每次对 `String` 对象进行修改操作时（比如加号操作），实质上都会先生成一个 `StringBuilder` 对象执行 `.append()` 操作，再使用 `.toString()` 方法换上去。这可能会导致不必要的内存和性能开销。因此在需要操作大量字符串的情况下，可以采用 `StringBuilder` 类实现。`StringBuilder` 提供了一系列方法进行字符串的增删改查操作，这些操作都是在字符串原有的字符数组上实现的，不会产生新的 `String` 对象。`StringBuffer` 是 `StringBuilder` 的线程安全版，方法前面都加有 `synchronized` 关键字。但真有人在并发状态下编辑字符串吗？
 
-使用`String s = "abc"`（字面量方式）创建新的`String`对象时，jvm会首先检查字符串常量池中是否会存在`"abc"`，若存在则直接返回常量池中的引用，否则则在常量池中创建`"abc"`对象，然后返回其引用。
-而使用`String s = new String("abc")`（`new`关键字方式）创建新的`String`对象时，除了在常量池进行类似操作外，还会在堆内存中创建一个新的`String`对象，并且往后都会指向堆内存中的新对象。
-因此一般推荐使用字面量方式来初始化字符串。如果想使用`new`关键字方式实现类似字面量方式的效果，需要加`.intern()`方法，即`String s = new String("abc").intern()`。
+使用 `String s = "abc"`（字面量方式）创建新的 `String` 对象时，JVM 会首先检查字符串常量池中是否会存在 `"abc"`，若存在则直接返回常量池中的引用，否则则在常量池中创建 `"abc"` 对象，然后返回其引用。
+而使用 `String s = new String("abc")`（`new` 关键字方式）创建新的 `String` 对象时，除了在常量池进行类似操作外，还会在堆内存中创建一个新的 `String` 对象，并且往后都会指向堆内存中的新对象。
+因此一般推荐使用字面量方式来初始化字符串。如果想使用 `new` 关键字方式实现类似字面量方式的效果，需要加 `.intern()` 方法，即 `String s = new String("abc").intern()`。
 
-`String`的不可变性使得`String`对象在使用时更加安全，更容易缓存和重用，并且能作为某些集合类的键。为了保证其不可变性，该类有`final`声明，防止被继承；字符数组成员定义为`private final char value[]`；每一次调用方法实际上都返回一个新的对象；每次构造时都会传递一份拷贝而非参数本身。
+`String` 的不可变性使得 `String` 对象在使用时更加安全，更容易缓存和重用，并且能作为某些集合类的键。为了保证其不可变性，该类有 `final` 声明，防止被继承；字符数组成员定义为 `private final char value[]`；每一次调用方法实际上都返回一个新的对象；每次构造时都会传递一份拷贝而非参数本身。
 
-将`String`转换为`Integer`有两种方法，一种是`Integer.parseInt(String s)`，一种是`Integer.valueOf(String s)`，但两种最终都会调用`Integer.perseInt(String s, int radix)`方法，其中是简单的字符串遍历算法。
+将 `String` 转换为 `Integer` 有两种方法，一种是 `Integer.parseInt(String s)`，一种是 `Integer.valueOf(String s)`，但两种最终都会调用 `Integer.perseInt(String s, int radix)` 方法，其中是简单的字符串遍历算法。
 
-## 包装类缓存机制
+`String` 不可变有两点原因
+1. 保存字符串的数组被 `final` 修饰且为私有的，并且 `String` 类没有提供/暴露修改这个字符串的方法
+2. `String` 类被 `final` 修饰导致其不能被继承，进而避免了子类破坏 `String` 不可变
+
+在 Java 9 后， `String` 的底层实现由 `char[]` 改成了 `byte[]`，因为新版的 String 支持两个编码方案：Latin 1 和 UTF 16。若字符串中包含的汉字没有超过范围内的字符，就会使用 Latin 1 作为编码方案，因为 Latin 1 (8 bit) 比 UTF 16 (16 bit)，更节省内存空间。
+
+由于字符串相加底层是通过 `StringBuilder` 的 `.append()` 方法且这个对象不会复用，因此在循环相加时会导致大量的对象开销。而在 JDK 9 中，字符串相加改用动态方法 `makeConcatWithConstants()` 实现，通过提前分配对象从而减少了部分临时对象的创建。
+
+## 包装类
+
+对于基本数据类型，都有对应的**包装类**。包装类属于对象类型。
+- 基本数据类型的存放在 Java 虚拟机栈的局部变量表或 Java 虚拟机的堆中，包装类型存放在堆中。
+- 成员变量包装类型若不赋值就是 null，而基本类型有默认值，且基本不是 null。因此需要特别注意包装类拆包时可能产生的 null 值问题。
 
 对基本类型的包装类，Java提供了缓存机制
 
@@ -57,7 +87,9 @@ category: web
 |`Boolean`|`true` `false`|都缓存|
 
 {% note info %}
-可以在运行时添加 `-Djava.lang.Integer.IntegerCache.high = 10000`来调整缓存的最大值为10000。
+可以在运行时添加 `-Djava.lang.Integer.IntegerCache.high = 10000`来调整缓存的最大值为10000。但不能修改下限 -128。
+
+两种浮点数类型的包装类 `Float` `Double` 并没有实现缓存机制。
 {% endnote %}
 
 因此对于如下语句
@@ -68,7 +100,7 @@ Integer b = 127;
 return a == b;
 ```
 
-会返回true，因为在缓存区内，对象引用都是缓存区里的对象。而对于如下语句
+会返回 true，因为在缓存区内，对象引用都是缓存区里的对象。而对于如下语句
 
 ```java
 Integer a = 128;
@@ -76,9 +108,13 @@ Integer b = 128;
 return a == b;
 ```
 
-会返回false，因此不再缓存区内，这是两个不同的对象。若需要判断值是否相等，则最好调用`.equals()`方法。
+会返回 false，因此不在缓存区内，这是两个不同的对象。若需要判断值是否相等，则最好调用`.equals()`方法。
 
 总之，基本类型的包装类会部分或全部先缓存好，在新建包装类时若基本类的值在缓存内，jvm直接返回其缓存中的地址。
+
+**装箱**即将基本类型用对应的包装类包装起来的过程，**拆箱**就是上述的逆过程。其实，装箱就是调用了包装类的 `valueOf()` 方法，拆箱就是调用了 `xxxValue()` 方法。
+
+因此 `Integer i = 10` 等价于 `Integer i = Integer.valueOf(10)`，而 `int n = i` 等价于 `int n = i.intValue()`。
 
 ## Object类中的基本方法
 
@@ -102,8 +138,28 @@ Object类是所有类的父类，其中定义了所有对象都能用的方法�
 - `finalize()`
     垃圾回收，若需在回收时自定义则调用次方法，但在Java 9已弃用。
 
-{% note success %}
-对于异常的处理机制，此处不单开一章了。
+## 异常
+
+Java 中的 Exception 和 Error 都有一个共同的祖先：`java.lang` 包中的 `Throwable` 类。区别在于
+- Exception 指程序本身能处理的异常，能通过 `catch` 捕获。其中的 Exception 又能分为 Checked Exception (受检异常，必须处理) 和 Unchecked Exception (未受检异常，不必处理)。前者若发现则没办法通过编译，而 `RuntimeException` 及其子类都是不受检异常，常见的有
+    - `NullPointerException` 空指针错误
+    - `IllegalArgumentException` 参数错误
+    - `NumberFormatException` 字符串转换为数字格式错误
+    - `ArrayIndexOutOfBoundException` 数组越界错误
+    - `ClassCastException` 类型转换错误
+    - `ArithmeticException` 算术错误
+    - `SecurityException` 安全错误，如权限不够
+    - `UnsupportedOperationException` 不支持的操作错误
+- Error 指程序本身无法处理的错误，比如 Java 虚拟机运行错误或 OOM、`NoClassFoundError` 等。这些异常发生时，Java 虚拟机一般会选择线程终止
+
+Throwable 常用的方法有
+|方法|描述|
+|-|-|
+|`String getMessage()`|返回异常发生时的详细信息|
+|`String toString()`|返回异常发生时的简要描述|
+|`String getLocalizedMessage()`|返回异常对象的本地化信息|
+|`void printStackTrace()`|在控制台上打印 `Throwable` 对象封装的异常信息|
+
 若在`try`块中`return`，`finally`块会先执行再返回。若`finally`也有`return`，则返回`finally`中的结果。而在这一块代码中
 
 ```java
@@ -119,7 +175,23 @@ public static int test() {
 ```
 
 会返回2而不是3。在`try`块开始`return`时，不是立即返回，而是先算出需要`return`的值，然后将该值进行缓存，然后跳转到`finally`块。此时的`finally`改变的仅是局部变量的值而非缓存里的值，因此无法改变其缓存。
-{% endnote %}
+
+finally中的代码在 finally 前虚拟机被终止运行、程序所在线程死亡、关闭 CPU 这3种情况，finally 中的代码不会被执行。
+
+面对必须要关闭的资源，我们应该优先使用 `try-with-resource` 而非 `try-finally`。Java 7 后提供了该语法糖以改造代码。
+
+```java
+try (BufferedInputStream bin = new BufferedInputStream(new FileInputStream(new File("test.txt")));
+     BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(new File("out.txt")))) {
+    int b;
+    while ((b = bin.read()) != -1) {
+        bout.write(b);
+    }
+}
+catch (IOException e) {
+    e.printStackTrace();
+}
+```
 
 ## IO流
 
@@ -127,7 +199,7 @@ public static int test() {
 
 ![流的分类](stream.png)
 
-当生产消费速度不匹配，数据写入速度大于读取/处理速度时（比如客户端发送数据过快，文件写入速度过快，控制台输入数据过多等），可能会导致缓冲区无法容纳更多数据而出现异常或数据丢失的问题。为了避免此类问题，可以合理设置缓冲区大小，或者控制写入的数据量，进行流量控制，或者使用NIO的非阻塞IO。
+当生产消费速度不匹配，数据写入速度大于读取/处理速度时（比如客户端发送数据过快，文件写入速度过快，控制台输入数据过多等），可能会导致缓冲区无法容纳更多数据而出现异常或数据丢失的问题。为了避免此类问题，可以合理设置缓冲区大小，或者控制写入的数据量，进行流量控制，或者使用 NIO 的非阻塞 IO。
 
 字节流是由jvm将字节转换得到的，该过程比较耗时且容易出现乱码问题，因此IO流也提供了直接操作字符的字符流。在大文本中查找某个字符串时更推荐使用字符流，对视频文件通常使用字节流，并且尽量使用缓冲流来提高读写速度。
 
@@ -136,18 +208,21 @@ Java常见的IO模型有3种：BIO、NIO、AIO。
 - **NIO**(Non-Blocking IO)同步非阻塞IO，使用多路复用器，轮询多个通道，只有就绪的通道才进行IO操作，线程在等待期间可以做其他事，通过轮询检查状态。使用于高并发场景，是目前的主流。
 - **AIO**(Asynchronous IO)异步非阻塞IO，使用回调函数或`Future`，操作完成后IO主动通知。线程发起请求后立即返回，完全不等。适用于连接数多且连接时间长（如大型文件读写，数据库连接池等）的场景。
 
-普通的对象要想转换成流，需要先进行**序列化**。序列化是指将对象转换为字节流的过程，而反序列化是将字节流转换回对象的过程。若希望将某个对象序列化，需要使用`Serializable`接口进行标记。
-`serialVersionUID`是Java序列化机制种用于标识类版本的唯一标识符，该标识符要求在序列化和反序列化中保持一致，用于在序列化和反序列化的过程中，类的版本是兼容的。该标识符可以自己设定，可以由IDEA自动生成，也可以交由Java自动生成。
-Java序列化不包含静态变量。这是因为序列化机制只保存对象的状态，而静态变量属于类的状态。
-可以用`transient`关键字修饰不像想被序列化的变量。
+普通的对象要想转换成流，需要先进行**序列化**。序列化是指将对象转换为字节流的过程，而反序列化是将字节流转换回对象的过程。若希望将某个对象序列化，需要使用 `Serializable` 接口进行标记。
 
-序列化一般包括以下3个过程：先实现`Serializable`接口，然后使用`ObjectOutputStream`来将对象写入，最后调用其中的`writeObject()`方法，将对象序列化后写入输出流中。
+`serialVersionUID` 是Java序列化机制种用于标识类版本的唯一标识符，该标识符要求在序列化和反序列化中保持一致，用于在序列化和反序列化的过程中，类的版本是兼容的。该标识符可以自己设定，可以由 IDEA 自动生成，也可以交由 Java 自动生成。
 
-序列化一般有3种方式：对象流序列化、json序列化、protoBuff序列化。一般使用的是json序列化，一般需要Jackson包，将对象转化为byte数组或String字符串。
+Java 序列化不包含静态变量。这是因为序列化机制只保存对象的状态，而静态变量属于类的状态。
+
+可以用 `transient` 关键字修饰不像想被序列化的变量。
+
+序列化一般包括以下3个过程：先实现 `Serializable` 接口，然后使用 `ObjectOutputStream` 来将对象写入，最后调用其中的 `writeObject()` 方法，将对象序列化后写入输出流中。
+
+序列化一般有3种方式：对象流序列化、json 序列化、protoBuff 序列化。一般使用的是 json 序列化，一般需要 Jackson 包，将对象转化为 byte 数组或 String 字符串。
 
 ## Socket套接字 与 RPC
 
-Socket是网络通信的基础，表示两台设备间通信的一个端点，Socket通常用于简历TCP或UDP链接，实现进程间的网络通信。
+Socket是网络通信的基础，表示两台设备间通信的一个端点，Socket通常用于建立TCP或UDP链接，实现进程间的网络通信。
 使用socket实现一个简单的TCP通信。
 
 TCP客户端
@@ -213,7 +288,8 @@ Java的泛型是伪泛型，这是因为Java在编译期间，所有的类型信
 
 ## 反射
 
-反射允许Java在运行时检查和操作类的方法和字段。多用于Spring框架的加载和管理Bean和动态代理等。
+反射允许Java在运行时检查和操作类的方法和字段。多用于Spring框架的加载和管理Bean和动态代理，例如 IoC，注解处理、AOP等。
+
 Java程序的执行分为编译和运行两步。编译后会生成字节码文件，jvm进行类加载的时候，会加载这个字节码文件，将类型相关的所有信息加载进方法区，反射就是去获取这些信息。
 
 可以通过该方法加载并实例化类

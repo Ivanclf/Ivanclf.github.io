@@ -5,23 +5,54 @@ tags: [java]
 category: web
 ---
 
-{% note primary %}
 参考文献：
 - [https://javabetter.cn/sidebar/sanfene/jvm.html](https://javabetter.cn/sidebar/sanfene/jvm.html)
-[https://javaguide.cn/java/jvm/jvm-garbage-collection.html](https://javaguide.cn/java/jvm/jvm-garbage-collection.html)
-{% endnote %}
+- [https://javaguide.cn/java/jvm/jvm-garbage-collection.html](https://javaguide.cn/java/jvm/jvm-garbage-collection.html)
+- [https://javaguide.cn/java/basis/java-basic-questions-01.html](https://javaguide.cn/java/basis/java-basic-questions-01.html)
+- [https://tech.meituan.com/2020/10/22/java-jit-practice-in-meituan.html](https://tech.meituan.com/2020/10/22/java-jit-practice-in-meituan.html)
+- [https://mp.weixin.qq.com/s/4haTyXUmh8m-dBQaEzwDJw](https://mp.weixin.qq.com/s/4haTyXUmh8m-dBQaEzwDJw)
 
-JVM是Java实现跨平台的基石。Java源代码经编译后变成字节码文件，最后在运行时JVM会将字节码文件逐行解释，翻译成机器码指令，由此实现一次编译，处处运行的特性。并且，JVM还能实现自动管理内存和使用即时编译器JIT进行热点代码缓存的功能。
+
+JVM是Java实现跨平台的基石。Java源代码（或者 Groovy、Kotlin 等等）经编译后变成字节码文件，最后在运行时JVM会将字节码文件逐行解释，翻译成机器码指令，由此实现一次编译，处处运行的特性。并且，JVM还能实现自动管理内存和使用即时编译器JIT进行热点代码缓存的功能。
+
+JVM 并非只有一种，不过平时接触到的都是 HotSpot VM。
 
 ![JVM对源代码的处理过程](compile.png)
 
-而JVM本身可以分成3部分：类加载器、运行时数据区和执行引擎
+而JVM本身可以分成3部分：类加载器、运行时数据区和执行引擎。
 
 ![JVM结构示例图](structure.png)
 
 - 类加载器。负责从其他来源加载`.class`文件，将`.class`文件中的二进制数据读入到内存当中。
 - 运行时数据区。JVM在运行Java程序时，需要从内存中分配空间来处理各种数据。
 - 执行引擎。负责执行字节码，包括一个虚拟处理器、即时编译器JIT和垃圾回收器。
+
+## 编译器
+
+### JIT 编译器
+
+JVM 中集成了两种编译器：Client Compiler (C1) 和 Server Compiler (C2)。JVM 最初会以**解释器**的方式逐条执行字节码，当它发现某些代码被频繁执行时，JIT 编译器就会介入，将这部分字节码动态编译成高度优化的本地代码，供 JVM 直接执行。
+
+C1 编译器的启动速度快，但是性能相比 C2 来说会差一点。C1 会做3件事
+- 局部简单可靠的优化，如在字节码上进行的一些基础优化、方法内敛、常量传播等
+- 将字节码构造成高级中间显示 (High-level Intermediate Representation **HIR**)，HIR 和平台无关，通常采用图结构，更适合 JVM 对程序进行优化
+- 再将 HIR 转换成低级中间显示 (Low-level Intermediate Representation **LIR**)，LIR 再经过转换，最终生成机器码
+
+在 HotSpot VM 中默认的 Server Compiler 是 C2 编译器。其在进行编译优化时，会使用控制流和数据流结合的图的数据结构，成为 Ideal Graph。该图表示当前程序的数据流向和指令之间的关系。依靠这种图结构，某些优化步骤就能简化了。
+
+C2 编译耗时更长，进行更激进的优化，比如[锁的分级](https://ivanclf.github.io/2025/09/30/concurrent-2/#%E9%94%81%E5%8D%87%E7%BA%A7)、[逃逸分析](#逃逸分析)等。
+
+从 JDK 9 开始，HotSpot VM 中集成了新的 Server Compiler，Graal 编译器。该编辑器具有以下几种关键特性
+- Graal 相比 C2 更青睐分支预测（根据程序不同分支的运行概率，选择性地编译一些概率较大的分支）优化，因此其峰值性能通常比 C2 好
+- 支持虚函数内联、部分逃逸分析等
+
+### AOT
+
+JDK 9 引入了新的编译模式 AOT (Ahead of Time Complication)。与 JIT 不同，AOT 会在程序被执行前就将其编译成机器码，属于静态编译（像 C 或者 C++ 那样）。AOT 避免了 JIT 预热等各方面的开销，可以提高 Java 程序的启动速度，避免预热时间过长，特别适合云原生场景。
+
+通过静态编译，程序会被编译成一个和运行时环境强相关的 `native image` 文件，最后直接执行该文件即可启动程序进行执行，**不经过 JVM**。
+
+GraalVM 是目前主流的 Java 静态编译实现方案，它不仅是一个多语言运行时平台（包含了上文提到的一个 JIT 编译器），其内置的 GraalVM 静态编译器更支持将 Java 程序直接编译为本地可执行文件。此过程的核心是 Substrate VM，它通过上下文不敏感的指向分析技术在程序运行前进行静态分析，从而构建出所有可达函数的列表，并以此作为编译基础。然而，这种静态分析方式存在固有局限，无法有效处理 Java 的反射、动态代理和 JNI 调用等动态特性，这导致许多严重依赖这些特性的主流 Java 框架难以直接通过 Substrate VM 完成编译。为解决这一难题，社区推动了相关工具的发展，例如 Spring 框架便专门提供了 AOT（Ahead-Of-Time）引擎，其作用正是在编译阶段对项目中的反射、动态代理等行为进行精确分析并生成必要的元数据，从而确保 Spring 应用能够顺利适配 GraalVM 的静态编译流程。
 
 ## 内存管理
 

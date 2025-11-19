@@ -1,16 +1,13 @@
 ---
-title: JVM调优
+title: JDK 工具和 JVM 调优
 date: 2025-10-10 09:27:24
 tags: [java]
 category: web
 ---
 
-{% note primary %}
 参考文献
 - [https://javabetter.cn/sidebar/sanfene/jvm.html](https://javabetter.cn/sidebar/sanfene/jvm.html#_39-jvm-%E7%9A%84%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B)
 - [https://javaguide.cn/java/jvm/jvm-parameters-intro.html](https://javaguide.cn/java/jvm/jvm-parameters-intro.html)
-
-{% endnote %}
 
 ## 命令行工具
 JDK命令行工具有
@@ -64,6 +61,13 @@ jinfo相关命令
 |`-flag [+/-]<name> <vmid>`|开启或关闭对应名称的参数|
 
 ## JVM参数
+
+JIT 编译器相关参数
+|参数|描述|说明|
+|-|-|-|
+|`-XX:+UnlockExperimentalVMOptions -XX:+UseJVMCICompiler`|JDK 9 后，启用实验性项目，启用 Graal 编译器|替换掉 HotSpot 中的 C2 编译器，并响应原本由 C2 负责的编译请求|
+|`-client`|启用 C1 编译器|/|
+|`-server`|启用 C2 编译器|/|
 
 内存相关参数
 |参数|描述|说明|

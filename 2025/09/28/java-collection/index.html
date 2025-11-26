@@ -19,20 +19,20 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;collection.html  在集合框架下，有两大种类  只存一种种类的Collection，是最基本的集合框架形式，下分3个分支  List：一个可包含重复元素的有序集合。实现类包括 ArrayList、LinkedList 等 Set：一个不包含重复元素的集合。实现类包括 HashSet 等 Queue">
+    <meta name="description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;collection.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;collection&#x2F;java-collection-questions-01.html  在集合框架下，有两大种类  只存一种种类的Collection，是最基本的集合框架形式，下分3个分支  List：一个可包含重复元素的有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 的集合类">
 <meta property="og:url" content="https://ivanclf.github.io/2025/09/28/java-collection/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;collection.html  在集合框架下，有两大种类  只存一种种类的Collection，是最基本的集合框架形式，下分3个分支  List：一个可包含重复元素的有序集合。实现类包括 ArrayList、LinkedList 等 Set：一个不包含重复元素的集合。实现类包括 HashSet 等 Queue">
+<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;collection.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;collection&#x2F;java-collection-questions-01.html  在集合框架下，有两大种类  只存一种种类的Collection，是最基本的集合框架形式，下分3个分支  List：一个可包含重复元素的有">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/hashmap1.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/hashmap2.jpg">
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/hashmap3.png">
-<meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/concurrenthashmap1.png">
-<meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/concurrenthashmap2.jpg">
+<meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/concurrentHashMap1.png">
+<meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/concurrentHashMap2.jpg">
 <meta property="article:published_time" content="2025-09-28T12:52:13.000Z">
-<meta property="article:modified_time" content="2025-11-19T06:34:38.784Z">
+<meta property="article:modified_time" content="2025-11-26T08:51:28.585Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -241,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.3k 字
+          6.5k 字
         
       </span>
     
@@ -292,6 +292,7 @@
                 <p>参考文献</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/collection.html">https://javabetter.cn/sidebar/sanfene/collection.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/java/collection/java-collection-questions-01.html">https://javaguide.cn/java/collection/java-collection-questions-01.html</a></li>
 </ul>
 <p>在集合框架下，有两大种类</p>
 <ul>
@@ -302,7 +303,7 @@
 <li><code>Queue</code>：一个用于保持元素队列的集合。实现类包括 <code>PriorityQueue</code>、<code>ArrayDeque</code> 等</li>
 </ul>
 </li>
-<li><p>存键值对的Map，实现类包括<code>HashMao</code>、<code>TreeMap</code>等</p>
+<li><p>存键值对的Map，实现类包括<code>HashMap</code>、<code>TreeMap</code>等</p>
 </li>
 </ul>
 <p>Java在util包了还提供了一些常用的工具类</p>
@@ -312,24 +313,52 @@
 </ul>
 <p><code>Collection</code>继承了<code>Iterable</code>接口，这意味着所有实现了<code>Collection</code>接口的类都必须实现<code>iterator()</code>方法。因此可以使用增强型<code>for</code>来遍历集合中的元素。</p>
 <div class="note note-success">
-            <p>Iterator中的并发修改处理策略：</p><ul><li><p><strong>快速失败</strong>机制会在检测到集合在迭代过程中被修改时，立刻抛出<code>ConcurrentModificationException</code>异常。其实现的原理与乐观锁非常类似。在集合内部维护一个修改计数器<code>modCount</code>。在创建迭代器时，迭代器会记录当前的计数器，每次调用迭代器相关方法时，迭代器都会检测这个计数器的值有没有发生改变。若有改变则抛异常。</p></li><li><p><strong>安全失败</strong>机制在迭代时不会抛异常，原理即在迭代器被创建时会基于原集合创建一个副本，然后在这个副本中迭代。原集合的修改不会影响正在进行的迭代。但该方法的一致性不强。可见于<code>CopyOnWriteArrayList</code>和<code>ConcurrentHashMap</code>。其中，<code>CopyOnWriteArrayList</code>在写时会将原数组复制一份，加锁写，然后将原容器的引用引向新容器。</p></li></ul>
+            <p>Iterator中的并发修改处理策略：</p><ul><li><p><strong>快速失败</strong>机制会在检测到集合在迭代过程中被修改时，立刻抛出<code>ConcurrentModificationException</code>异常。其实现的原理与乐观锁非常类似。在集合内部维护一个修改计数器<code>modCount</code>。在创建迭代器时，迭代器会记录当前的计数器，每次调用迭代器相关方法时，迭代器都会检测这个计数器的值有没有发生改变。若有改变则抛异常。</p></li><li><p><strong>安全失败</strong>机制在迭代时不会抛异常，即使在面对意外情况也能继续运行。最典型的原理即在迭代器被创建时会基于原集合创建一个副本，然后在这个副本中迭代。原集合的修改不会影响正在进行的迭代。但该方法的一致性不强。可见于<code>CopyOnWriteArrayList</code>和<code>ConcurrentHashMap</code>。其中，<code>CopyOnWriteArrayList</code>在写时会将原数组复制一份，加锁写，然后将原容器的引用引向新容器。</p></li></ul>
           </div>
-<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><p>可以将其看作是一个动态数组，在需要扩容时，会扩容数组容量，新数组的空间是原来的1.5倍，然后把原数组的值拷贝到新数组中。</p>
-<p>为了不将数组中的空白元素也序列化，该集合类中的<code>writeObject()</code>方法被重写了，只序列化有效数据。</p>
-<p>该集合类本身线程不安全，可以使用<code>Collections.synchronizedList()</code>方法返回一个线程安全的<code>List</code>，即<code>SynchroSynchronizedList</code>。或者直接使用<code>CopyOnWriteArrayList</code>。</p>
-<p><code>Vector</code>是远古时期的非同步动态数组，在所有的方法前都使用<code>synchronized</code>关键字进行同步，因此效率较低。</p>
-<h3 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h3><p>该集合类继承了<code>AbstractSequentialList</code>并实现了<code>Deque</code>，可以拿来当双端队列。但其本质还是一个双向链表。</p>
-<h3 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h3><p><code>CopyOnWriteArrayList</code>是<code>ArrayList</code>的线程安全版本。其内部使用<code>volatile</code>关键字修饰数组<code>array</code>，确保读操作的内存的可见性。</p>
+
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><p>可以将其看作是一个动态数组，在需要扩容时，会扩容数组容量，新数组的容量是原来的1.5倍，然后把原数组的值拷贝到新数组中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">newCapacity</span> <span class="hljs-operator">=</span> oldCapacity + (oldCapacity &gt;&gt; <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+
+<p>ArrayList 在无参构造时，实际上初始化的是一个空数组。当真正对数组进行添加元素操作时，数组容量才开始扩大为10。</p>
+<p>和 HashMap 不同，ArrayList 可以存储 null 值，但一般不建议这么做。</p>
+<p>为了不将数组中的空白元素也序列化，该集合类中的 <code>writeObject()</code> 方法被重写了，只序列化有效数据。</p>
+<p>其头部插入、头部删除的时间复杂度为 $O(n)$，尾部插入、尾部删除的时间复杂度为 $O(1)$。但是，当其通量到达极限，需要扩容时，需要执行一次 $O(n)$ 操作将原数组赋值到新的更大数组中，然后再插入。其指定位置插入、指定位置删除由于需要将其后的元素都向后&#x2F;前移动一个位置，因此时间复杂度为 $O(n)$。</p>
+<p>该集合类本身线程不安全，可以使用 <code>Collections.synchronizedList()</code> 方法返回一个线程安全的 <code>List</code>，即 <code>SynchronizedList</code> 。或者直接使用 <code>CopyOnWriteArrayList</code>。</p>
+<p><code>Vector</code> 是远古时期的非同步动态数组，在所有的方法前都使用 <code>synchronized</code> 关键字进行同步，因此效率较低。</p>
+<h3 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h3><p>该集合类继承了 <code>AbstractSequentialList</code> 并实现了 <code>Deque</code>，可以拿来当双端队列。但其本质还是一个双向链表。</p>
+<p>它和 ArrayList 都是线程不安全的。它在 JDK 1.6 前为循环链表，JDK 1.7 取消了循环，变成了双向链表。</p>
+<h3 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h3><p><code>CopyOnWriteArrayList</code> 是 <code>ArrayList</code> 的线程安全版本。其内部使用 <code>volatile</code> 关键字修饰数组 <code>array</code>，确保读操作的内存的可见性。</p>
 <p>其缺点是写操作的时候会复制一份数组，开销较大，因此适合读多写少的场景。</p>
-<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><p><code>HashSet</code>是由<code>HashMap</code>实现的，只不过值由一个固定的<code>Object</code>对象填充，而键用于相关操作。该集合主要用于去重。</p>
+<p>该集合使用写时复制技术，在进行修改操作时，不会直接修改原数据，而是先创建底层数组的副本，对副本数组进行修改。修改完了再将修改后的数组赋值回去。</p>
+<p>在进行写操作时，其内部使用了 ReentrantLock 加锁，保证了同步，避免了多线程写时复制出多个副本出来。</p>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><div class="note note-info">
+            <p><code>Comparable</code> 和 <code>Comparator</code> 这两个接口都是 Java 中用于排序的接口，多用于自定义排序</p><ul><li>Comparable 接口出自 <code>java.lang</code> 包，内置 <code>compareTo(Object obj)</code> 方法用来排序</li><li>Comparator 接口出自 <code>java.util</code> 包，内置 <code>compare(Object obj1, Object obj2)</code> 方法用来排序</li></ul>
+          </div>
+
+<h3 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h3><p><code>HashSet</code>是由<code>HashMap</code>实现的，只不过值由一个固定的<code>Object</code>对象填充，而键用于相关操作。该集合主要用于去重。</p>
+<p><code>HashSet</code> 使用成员对象来计算 <code>hashCode</code> 值。</p>
+<p><code>HashSet</code> 的 <code>add()</code> 方法只是简单调用了 <code>HashMap</code> 中的 <code>put()</code> 方法，并且判断一下返回值以确保是否有重复元素。在 JDK 8 中，实际上无论 <code>HashSet</code> 中是否存在了某元素，<code>HashSet</code> 都会直接插入，只是在 <code>add()</code> 方法中返回是否会存在相同的元素。</p>
 <h2 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h2><div class="note note-info">
             <table><thead><tr><th>队列操作</th><th>抛异常方法</th><th>不抛异常方法</th></tr></thead><tbody><tr><td>插入</td><td><code>add</code></td><td><code>offer</code></td></tr><tr><td>删除</td><td><code>remove()</code></td><td><code>poll()</code></td></tr><tr><td>元素检查</td><td><code>element()</code></td><td><code>peek()</code></td></tr></tbody></table>
           </div>
 
-<h3 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h3><p>优先队列中的元素按照自然顺序或<code>Comparator</code>排序，出队顺序按优先级。其底层是基于堆实现的，默认是最小堆。其内部使用动态数组进行存储。</p>
-<p>完全二叉数除去最后一层外，其他层节点都是满的，最后一层的节点都靠左排列。对于索引为<code>i</code>的节点，其父节点索引为<code>(i - 1) / 2</code>，左子节点索引为<code>2 * i + 1</code>，右子节点索引为<code>2 * i + 2</code>。在最小堆中，每个节点的值都小于等于其子节点的值。使用完全二叉树构建的堆，在插入元素时会将元素插入到末尾，删除时会删去堆顶元素并将最后一个元素替换堆顶。然后调整堆至正常状态。</p>
-<p>优先队列非线程安全，不允许<code>null</code>元素，迭代的顺序也并不稳定，当元素数量达到数组容量时，会自动扩容（一般是增长50%）。</p>
-<h3 id="BlockingQueue"><a href="#BlockingQueue" class="headerlink" title="BlockingQueue"></a>BlockingQueue</h3><p><code>BlockingQueue</code>是JUC包下的一个线程安全队列，支持阻塞式的“生产者-消费者”模型。其实现类有很多</p>
+<h3 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h3><p>优先队列中的元素按照自然顺序或 <code>Comparator</code> 排序，出队顺序按优先级。</p>
+<ul>
+<li>其底层是基于堆实现的，默认是最小堆。其内部使用动态数组进行存储</li>
+<li>通过堆元素的上浮或下沉，实现在 $O(\log n)$ 的时间复杂度下插入元素或删除堆顶元素</li>
+<li>优先队列非线程安全，不允许 <code>null</code> 元素，迭代的顺序也并不稳定，当元素数量达到数组容量时，会自动扩容（容量小于64时翻倍，大于等于64时增长50%）</li>
+</ul>
+<div class="note note-info">
+            <p>完全二叉数除去最后一层外，其他层节点都是满的，最后一层的节点都靠左排列。对于索引为 <code>i</code> 的节点，其父节点索引为 <code>(i - 1) / 2</code>，左子节点索引为 <code>2 * i + 1</code>，右子节点索引为 <code>2 * i + 2</code>。在最小堆中，每个节点的值都小于等于其子节点的值。使用完全二叉树构建的堆，在插入元素时会将元素插入到末尾，删除时会删去堆顶元素并将最后一个元素替换堆顶。然后调整堆至正常状态。</p>
+          </div>
+
+<h3 id="BlockingQueue"><a href="#BlockingQueue" class="headerlink" title="BlockingQueue"></a>BlockingQueue</h3><p><code>BlockingQueue</code> （阻塞队列）是 JUC 包下的一个线程安全队列，支持阻塞式的“生产者-消费者”模型。该队列和实现</p>
+<ol>
+<li>阻塞队列数据为空时，所有的消费者线程被阻塞</li>
+<li>生产队列往队列中填充数据后，队列就会通知消息队列非空，消费者此时就可以进来消费</li>
+<li>当阻塞队列因为队列满而放不了新元素时，生产者就被阻塞</li>
+</ol>
+<p>其实现类有很多</p>
 <table>
 <thead>
 <tr>
@@ -349,19 +378,19 @@
 <td><code>LinkedBlockingQueue</code></td>
 <td>链表</td>
 <td>可选有界</td>
-<td>先进先出，基于链表，默认容量为<code>Integer.MAX_VALUE</code></td>
+<td>先进先出，基于链表，默认容量为 <code>Integer.MAX_VALUE</code></td>
 </tr>
 <tr>
 <td><code>PriorityBlockingQueue</code></td>
 <td>堆（优先队列）</td>
 <td>无界</td>
-<td>基于优先级队列，元素按优先级排序</td>
+<td>基于优先级排序，线程安全的 <code>PriorityQueue</code></td>
 </tr>
 <tr>
 <td><code>DelayQueue</code></td>
 <td>堆（优先队列）</td>
 <td>无界</td>
-<td>基于优先级队列，元素按延迟时间排序，只有延迟时间到的元素才能出队</td>
+<td>基于优先级队列，元素按延迟时间排序，元素必须实现<code>Delayed</code> 接口</td>
 </tr>
 <tr>
 <td><code>SynchronousQueue</code></td>
@@ -373,30 +402,41 @@
 <td><code>LinkedTransferQueue</code></td>
 <td>链表</td>
 <td>无界</td>
-<td>基于链表，支持直接传输元素<code>tryTransfer()</code></td>
+<td>基于链表，支持直接传输元素 <code>tryTransfer()</code></td>
 </tr>
 </tbody></table>
 <div class="note note-info">
-            <p>阻塞队列使用<code>ReentrantLock</code>和<code>Condition</code>来实现线程安全和阻塞操作。其内部维护两个锁，一个用于控制入队操作，另一个用于控制出队操作。这样可以提高并发性能，因为入队和出队操作可以同时进行。</p>
+            <p><strong>阻塞队列的同步机制</strong></p><p>阻塞队列通常使用 ReentrantLock 和 Condition 来实现线程安全和阻塞操作。不同的实现类采用不同的锁策略：</p><ul><li><code>ArrayBlockingQueue</code>：使用单个 ReentrantLock 和两个 Condition（notEmpty、notFull）</li><li><code>LinkedBlockingQueue</code>：使用两个分离的 ReentrantLock（putLock、takeLock）和对应的 Condition，实现入队和出队操作的完全并发</li></ul>
           </div>
 
-<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>基于哈希表的键值对集合。JDK8中该集合类的数据结构为数组 + 链表 + 红黑树。数组用来存储键值对，每个键值对可以通过索引直接拿到，索引通常是对键的哈希值进一步哈希拿到的。相同索引的键值对通过链表存储起来。链表过长时（链表的长度大于8且数组长度大于64），链表就会转换成红黑树。</p>
+<h4 id="ArrayBlockingQueue"><a href="#ArrayBlockingQueue" class="headerlink" title="ArrayBlockingQueue"></a>ArrayBlockingQueue</h4><p>该容器中，阻塞存取的方法为 <code>put</code> <code>take</code> 两种。非阻塞的存取方法为 <code>offer</code> <code>poll</code> 两种（不抛异常）和 <code>add</code> <code>remove</code> 两种（抛异常）。若需要将队列中的结果全部存到列表中，进行批量操作，则使用 <code>drainTo</code> 方法。</p>
+<p><code>offer</code> 和 <code>poll</code> 方法可以在参数中增加等待时间，用于在指定的超时时间内阻塞式添加和获取元素。</p>
+<p>默认使用非公平锁，但也可在构造时指定为公平锁。当队列已满时，生产者线程调用 <code>notFull.await()</code> 等待；当队列为空时，消费者线程调用 <code>notEmpty.await()</code> 等待；当新元素入队时，调用 <code>notEmpty.signal()</code> 唤醒消费者线程；当元素出队时，调用 <code>notFull.signal()</code> 唤醒生产者线程。</p>
+<h4 id="LinkedBlockingQueue"><a href="#LinkedBlockingQueue" class="headerlink" title="LinkedBlockingQueue"></a>LinkedBlockingQueue</h4><p>该容器中的队列基于链表实现，且不像 ArrayBlockingQueue 中的锁只有一把，此处的的锁是分离的，即生产用的是 <code>putLock</code>，消费是 <code>takeLock</code>，以防生产者和消费者线程之间的锁争夺。</p>
+<p><strong><code>ConcurrentLinkedQueue</code></strong> 是非阻塞的无界队列，使用 CAS 操作实现，与 <code>LinkedBlockingQueue</code> 的阻塞机制不同。</p>
+<h4 id="DelayQueue"><a href="#DelayQueue" class="headerlink" title="DelayQueue"></a>DelayQueue</h4><p>该队列适用于基于时间的调度和缓存过期删除的场景。</p>
+<ul>
+<li>元素必须实现 <code>Delayed</code> 接口，包含 <code>getDelay()</code> 方法</li>
+<li>只有延迟时间到期（<code>getDelay() &lt;= 0</code>）的元素才能被取出</li>
+<li>典型应用：缓存过期删除、定时任务调度、会话超时管理等</li>
+</ul>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><h4 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h4><p>基于哈希表的键值对集合。JDK 8 中该集合类的数据结构为数组 + 链表 + 红黑树。数组作为链表或红黑树的头节点，可以通过索引快速定位到数组的某个位置（常被称为 Bucket）。发生哈希冲突时，键值对会使用链表的形式存储。当链表的长度大于8<strong>且</strong>数组的总长度大于64（若小于64则先扩容）时，则转换为红黑树。在删除操作时，当树中的节点小于等于6时，红黑树会退化成链表。</p>
+<p><code>HashMap</code> 的初始容量为16，扩容的阈值为 <code>capacity * loadFactor</code>，其中的 <code>loadFactor</code> 是负载因子，默认为0.75。扩容后的数组大小为原来的2倍，然后把原来的元素重新计算哈希值，放到新的数组中。</p>
 <p><img src="hashmap1.png" srcset="/img/loading.gif" lazyload alt="示意图"></p>
 <div class="note note-info">
-            <p>红黑树是一种自平衡的二叉树，用于防止树退化为链表。</p><ol><li>每个节点要么是红色，要么是黑色</li><li>根节点永远是黑色</li><li>根节点下的<code>null</code>节点永远是黑色</li><li>红色节点的子节点一定是黑色的</li><li>从任意节点到其每个叶子节点的所有简单路基那个都包含相同数目的黑色节点</li></ol><p>红黑树通过左旋和右旋来调整树的结构，避免某一侧过深。通过染色，保证树的高度不会失衡。</p>
+            <p>红黑树是一种自平衡的二叉树，用于防止树退化为链表。</p><ol><li>每个节点要么是红色，要么是黑色</li><li>根节点永远是黑色</li><li>根节点下的 <code>null</code> 节点永远是黑色</li><li>红色节点的子节点一定是黑色的</li><li>从任意节点到其每个叶子节点的所有简单路基那个都包含相同数目的黑色节点</li></ol><p>红黑树通过左旋和右旋来调整树的结构，避免某一侧过深。通过染色，保证树的高度不会失衡。</p>
           </div>
 
-<p><code>HashMap</code>的初始容量为16，扩容的阈值为<code>capacity * loadFactor</code>，其中的<code>loadFactor</code>是负载因子，默认为0.75。扩容后的数组大小为原来的2倍，然后把原来的元素重新计算哈希值，放到新的数组中。</p>
-<p>其put操作较为复杂</p>
+<h4 id="put-操作"><a href="#put-操作" class="headerlink" title="put 操作"></a>put 操作</h4><p>其put操作较为复杂</p>
 <p><img src="hashmap2.jpg" srcset="/img/loading.gif" lazyload alt="示意图"></p>
 <ol>
-<li>调用<code>hash(key)</code>方法计算键的哈希<br> 将key的<code>hashCode</code>的高16位和低16位进行异或运算。在容量不高的情况下，其高位都是0。由于与运算的特性，哈希的高位也相当于截取低位了。因此需要通过高低位异或让高位也参与运算之中，添加哈希值的随机性，从而减少哈希冲突。</li>
-<li>利用这个哈希值计算桶索引并检查是否为空。<br> 计算方法为<code>(n - 1) &amp; hash</code>，由于<code>n</code>总是2的幂，这相当于<code>hash &amp; n</code>。<code>n</code>是数组的容量。将容量设置为2的幂次方，是为了快速定位元素在底层数组中的下标。由于<code>(n - 1)</code>恰好让容量低一位的二进制数据全是1，这样进行与运算才有意义。</li>
-<li>若目标桶为空，则直接创建新节点放入；否则判断当前位置的第一个节点是否与新节点的key相同，相同则直接覆盖value，不同则发生了哈希冲突</li>
-<li>如果是链表，则将新节点添加到链表底部，若链表长度大于等于8，就将链表转换为红黑树</li>
+<li>调用 <code>hash(key)</code> 方法计算键的哈希。<br> 将key的 <code>hashCode</code> 的高16位和低16位进行异或运算。这是因为，在 <code>n</code> （数组容量） 较小的情况下，其高位都是0。由于与运算的特性，哈希的高位也相当于截取低位了。因此需要通过高低位异或让高位也参与运算之中，添加哈希值的随机性，从而减少哈希冲突。</li>
+<li>利用这个哈希值计算桶索引并检查是否为空。<br> 计算方法为 <code>(n - 1) &amp; hash</code>，由于 <code>n</code> 总是2的幂，因此这相当于与一串 1。</li>
+<li>若目标桶为空，则直接创建新节点放入；否则判断当前位置的第一个节点是否与新节点的key相同，相同则直接覆盖 value，不同则发生了哈希冲突。</li>
+<li>如果是链表，则将新节点添加到链表底部，若触发条件，就将链表转换为红黑树。</li>
 <li>每次插入新元素后都需要检查是否需要扩容，并且重新计算每个节点的索引，进行数组重新分布。</li>
 </ol>
-<p>get操作则相对简单</p>
+<h4 id="get-操作"><a href="#get-操作" class="headerlink" title="get 操作"></a>get 操作</h4><p>get操作则相对简单</p>
 <p><img src="hashmap3.png" srcset="/img/loading.gif" lazyload alt="示意图"></p>
 <ol>
 <li>通过哈希值定位索引</li>
@@ -405,34 +445,216 @@
 <li>若不匹配，则遍历链表或红黑树查找</li>
 <li>返回结果</li>
 </ol>
-<p><code>hashMap</code>默认初始容量为16.在进行初始化时，若指定的容量不是2的幂，那么<code>hashMap</code>会进行向上取2次幂。<br>提前指定一个较大的初始容量有利于减少因扩容导致的重哈希操作，但也有可能造成不必要的内存花销。</p>
-<p><code>hashMap</code>在扩容时，遍历哈希表中的元素，将其重新分配到新的哈希表中。若当前桶中只有一个元素，那么重新计算确定新的索引位置；若当前桶是链表，那么会通过旧键的哈希值与旧的数组大小取模，条件为真则留在原索引位置，斗则元素移动到原索引+旧数组大小的位置；若当前桶是红黑树，那么会调用<code>split()</code>方法分裂树节点，保证树的平衡。<br>由于旧容量与新容量之间都是2的幂，那么新位置就只有原位置还有原位置+原数组大小两种可能，可以通过该原理简化操作。并且由于扩容的时候很多节点都不需要动位置，所以其性能开销并没有想象中恐怖。</p>
-<p>JDK 7中扩容使用头插法，这可能会导致链表无法导致原有顺序，还可能会导致在并发状态下死循环。于是在JDK 8中改用了尾插法。</p>
-<p>要实现一个<code>hashMap</code>，整体思路为</p>
+<h4 id="容量与扩容"><a href="#容量与扩容" class="headerlink" title="容量与扩容"></a>容量与扩容</h4><p><code>HashMap</code> 默认初始容量为16。在进行初始化时，若指定的容量不是2的幂，那么 <code>HashMap</code> 会进行向上取2次幂。</p>
+<p>提前指定一个较大的初始容量有利于减少因扩容导致的重哈希操作，但也有可能造成不必要的内存花销。</p>
+<div class="note note-info">
+            <p>为什么数组的长度必须是2的幂？</p><ol><li>高效计算数组下标，通过位运算 <code>(n - 1) &amp; hash</code> 替代取模运算 <code>hash % n</code>。当数组长度为2的幂时，<code>n - 1</code> 的二进制表示为一串连续的1（例如16-1&#x3D;15，二进制为1111），这使得 <code>&amp;</code> 操作能够均匀地覆盖 <code>[0, n-1]</code> 的所有索引，且计算效率远高于取模运算。</li><li>扩容时，每个元素的新位置要么是旧索引，要么是旧索引 + 旧容量，极大简化扩容操作。</li></ol>
+          </div>
+
+<p><code>HashMap</code> 在扩容时，遍历哈希表中的元素，将其重新分配到新的哈希表中。</p>
+<ul>
+<li>若只有一个元素，则直接通过 <code>(e.hash &amp; (newCap - 1))</code> 计算</li>
+<li>若当前桶是链表，则会进行 <code>(e.hash &amp; oldCap) == 0</code> 判断是在旧索引还是旧索引 + 旧容量</li>
+<li>若当前桶是共给叔，就会调用 <code>split()</code> 方法，同样进行上述的链表拆分逻辑</li>
+</ul>
+<p>要实现一个 <code>HashMap</code>，整体思路为</p>
 <ol>
-<li>实现一个hash函数，对键的hashMap进行扰动</li>
+<li>实现一个hash函数，对键的HashMap进行扰动</li>
 <li>实现拉链法解决哈希冲突</li>
-<li>扩容后，重新计算哈希值，将元素放到新数组中。</li>
+<li>扩容后，重新计算哈希值，将元素放到新数组中</li>
 </ol>
-<p><code>hashMap</code>不是线程安全的，早期的JDK版本中可以使用<code>Hashtable</code>保证线程安全。也可以使用<code>Collections.synchronizedMap</code>方法返回一个线程安全的Map。使用CAS + synchronized关键字的<code>ConcurrentHashMap</code>更优雅。</p>
-<div class="note note-success">
-            <p><code>LinkedHashMap</code>在<code>HashMap</code>的基础上增加了一个双向链表来保持键值对的插入顺序。</p><p><code>TreeMap</code>通过key比较器决定元素的排序，若没有指定比较器，那么key必须实现<code>Comparable</code>接口。其底层是红黑树。<br>其与<code>HashMap</code>区别在于，<code>TreeMap</code>一开始就是通过红黑树实现的，不像<code>HashMap</code>那样按需选择。<code>TreeMap</code>在进行<code>put</code>操作的时候，会先判断根节点是否为空，如果为空，则直接插入到根节点。若不为空，则通过key的比较器判断元素应该插入到左子树还是右子树。</p>
-          </div>
+<h4 id="JDK-7-和-JDK-8-的区别"><a href="#JDK-7-和-JDK-8-的区别" class="headerlink" title="JDK 7 和 JDK 8 的区别"></a>JDK 7 和 JDK 8 的区别</h4><p>JDK 8 中对 HashMap 的实现进行了重大优化。</p>
+<p><strong>数据结构</strong></p>
+<p>JDK 7 在发生哈希冲突时，HashMap 会将所有冲突的键值对连接成一个单向链表。在极端情况下，如果大量 key 都哈希到同一个桶中，其查询性能会退化到 $O(n)$，效率极低。因此在 JDK 8 中，引入了<a href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">红黑树</a>以解决上述问题。</p>
+<p><strong>插入方式</strong></p>
+<p>JDK 7 中使用头插法，因为“后插入的条目被访问的可能性更大”。然而，在多线程环境下进行扩容时，头插法会改变链表中元素的顺序，可能导致两个线程在操作链表时形成循环链表。后续有线程在对该桶进行查询时，就会陷入死循环。在 JDK 8 中，新插入的节点会放在链表的尾部，因此在扩容时，元素的相对顺序在链表上不会改变，这从根本上避免了多线程扩容时出现的死循环问题。</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1n541177Ea">具体可以看这个</a></p>
+<p><strong>扩容机制</strong></p>
+<p>JDK 7 中对每个节点使用 <code>e.hash &amp; (newCap - 1)</code> 重新计算其在新数组中的下标。而在 JDK 8 中，由于扩容总是翻倍，因此新数组的 <code>newCap</code> 总是旧数组 <code>oldCap</code> 的两倍，算法简化为检查 <code>(e.hash &amp; oldCap) == 0</code>，若等于0则原位置不变，否则位置变为 <code>index + oldCap</code>。</p>
+<p><strong>hash 计算</strong></p>
+<p>在 JDK 7 中计算方式为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">h ^= (h &gt;&gt;&gt; <span class="hljs-number">20</span>) ^ (h &gt;&gt;&gt; <span class="hljs-number">12</span>);<br><span class="hljs-keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="hljs-number">7</span>) ^ (h &gt;&gt;&gt; <span class="hljs-number">4</span>);<br></code></pre></td></tr></table></figure>
 
-<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p><code>ConcurrentHashMap</code>是<code>HashMap</code>的线程安全版本。</p>
-<p>在JDK 7中采用的是分段锁，整个<code>Map</code>会被分为若干段，每个段可以独立加锁。不同的线程可以同时操作不同段。</p>
-<div class="note note-info">
-            <p>在分段锁结构中，整个<code>Map</code>会被分为若干段，每个段可以独立加锁，每个段类似一个<code>Hashtable</code>。默认情况下，<code>ConcurrentHashMap</code>有16个段，每个段的初始容量为4，负载因子为0.75。</p><p>每个段维护一个键值对数组<code>HashEntry&lt;K, V&gt;[] table</code>，一个单向链表；以及一个<code>ReentrantLock</code>锁对象，因此每个段都是一个可重入锁。每个段的<code>put</code>和<code>get</code>操作都是线程安全的。</p><p>此时的<code>put</code>流程与<code>HashMap</code>类似，只不过是先定位段，再通过<code>ReentrantLock</code>加锁，然后在段内进行<code>put</code>操作。<br>get操作则不需要加锁，直接定位段，然后在段内进行<code>get</code>操作。因为value是<code>volatile</code>的，所以可以保证可见性。</p><p><img src="concurrenthashmap1.png" srcset="/img/loading.gif" lazyload alt="JDK7中的put流程"></p>
-          </div>
+<p>而在 JDK 8 中简化了计算</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">return</span> (key == <span class="hljs-literal">null</span>) ? <span class="hljs-number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="hljs-number">16</span>);<br></code></pre></td></tr></table></figure>
 
-<p>为了减少锁的竞争，在JDK 8中，<code>ConcurrentHashMap</code>摒弃了分段锁，改为使用<code>CAS</code>和<code>synchronized</code>关键字来保证线程安全，或者叫做“桶锁”。其底层数据结构与<code>HashMap</code>类似，也是数组 + 链表 + 红黑树。</p>
-<div class="note note-info">
-            <p>其<code>put</code>操作流程如下</p><p><img src="concurrenthashmap2.jpg" srcset="/img/loading.gif" lazyload alt="JDK8中的put流程"></p><p>与<code>HashMap</code>相比</p><ul><li>将链表转换为红黑树的阈值没有变化，仍然是8</li><li>在插入新元素时，若发现桶为空，则使用<code>CAS</code>操作插入新节点，而不是直接插入</li><li>若桶为空，且数组未初始化，则使用<code>CAS</code>操作初始化数组；若<code>CAS</code>操作失败，会退化为<code>synchronized</code>加锁初始化</li></ul><p>其<code>get</code>操作也是通过<code>key</code>中的<code>hash</code>定位，若桶为空则返回<code>null</code>，若第一个节点匹配则返回，若不匹配则遍历链表或红黑树查找。</p>
-          </div>
+<p>扰动次数更少了。</p>
+<h4 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h4><p>HashMap 不是线程安全的。除了可能的环形链表问题，还有覆盖 <code>put</code> 问题</p>
+<ul>
+<li>两个线程同时进行 put 操作，且发生了哈希冲突。线程1在哈希冲突判断后挂起</li>
+<li>线程2再 put，完成操作</li>
+<li>那么线程1由于已经执行过 hash 判断，因此会直接插入，导致线程2插入的数据被线程1覆盖了</li>
+</ul>
+<p>还有一种情况是同时 put 操作导致的 size 值不正确，即两个线程同时执行了 put 操作，但 size 的值却只增加了1。</p>
+<h3 id="Hashtable"><a href="#Hashtable" class="headerlink" title="Hashtable"></a>Hashtable</h3><p><code>HashMap</code> 不是线程安全的，早期的 JDK 版本中可以使用 <code>Hashtable</code> 保证线程安全。也可以使用 <code>Collections.synchronizedMap</code> 方法返回一个线程安全的 Map。</p>
+<p><code>HashMap</code> 可以存储一个 null 键和多个 null 值。而 <code>Hashtable</code> 不允许有 null 的键或值，否则抛异常。</p>
+<p>创建时若不指定容量初始值，<code>Hashtable</code> 的默认初始大小为11，然后每次扩充的容量为原来的 $2n+1$；而 <code>HashMap</code> 默认的初始化大小为16，此后每次扩充的容量大小为原来的2倍。</p>
+<p>创建时若指定了容量初始值，<code>Hashtable</code> 会直接使用指定的大小，而 <code>HashMap</code> 会将其扩充为2的幂次方大小。</p>
+<p><code>Hashtable</code> 没有动态转换（链表转化为红黑树）的机制，也没有将哈希值进行高低位混合扰动处理以减少冲突的机制。</p>
+<h3 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h3><p><code>LinkedHashMap</code> 在 <code>HashMap</code> 的基础上增加了一个双向链表来保持键值对的插入顺序。</p>
+<p>因此，在对它进行遍历时，其顺序是一开始插入时候的顺序。并且它还可以定义排序模式 <code>accessOrder</code>，为 true 时则为访问顺序，访问到的元素将会移动到链表末端。</p>
+<p>通常可以使用该结构，并配合 <code>accessOrder</code> 为 true，重写 <code>removeEldestEntry</code> 方法告知是否需要移除链表首元素，实现一个简单的 LRU。</p>
+<p>在 HashMap 中，其迭代器在迭代键值对时会使用 <code>nextNode</code> 方法，该方法会返回 next 指向的下一个元素，并会从 next 开始遍历 bucket 找到下一个 bucket 中不为空的元素 Node。相比之下 LinkedHashMap 中的迭代器直接使用通过 <code>after</code> 指针快速定位到当前节点的后继节点，简洁高效许多。</p>
+<h3 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h3><p><code>TreeMap</code> 通过key比较器决定元素的排序，若没有指定比较器，那么key必须实现 <code>Comparable</code> 接口。其底层是红黑树。因此相比 <code>HashMap</code>，<code>TreeMap</code> 主要多了对集合中元素根据键排序的能力，以及对集合内元素搜索的能力。</p>
+<p>其与 <code>HashMap</code> 区别在于，<code>TreeMap</code> 一开始就是通过红黑树实现的，不像 <code>HashMap</code> 那样按需选择。 <code>TreeMap</code> 在进行 <code>put</code> 操作的时候，会先判断根节点是否为空，如果为空，则直接插入到根节点。若不为空，则通过key的比较器判断元素应该插入到左子树还是右子树。</p>
+<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p><code>ConcurrentHashMap</code> 是 <code>HashMap</code> 的线程安全版本，并且是目前常用的版本。</p>
+<h4 id="JDK-7"><a href="#JDK-7" class="headerlink" title="JDK 7"></a>JDK 7</h4><p>在 JDK 7 中，<code>ConcurrentHashMap</code> 采用的是分段锁，整个 Map 会被分为若干段，每个段可以独立加锁。不同的线程可以同时操作不同段。</p>
+<p>在分段锁结构中，整个 Map 会被分为若干段，每个段可以独立加锁，每个段都是一个独立的哈希表，称为 <code>HashEntry</code>。默认情况下，<code>ConcurrentHashMap</code> 有16个段，每个段的初始容量为2，负载因子为0.75。</p>
+<p>注意，整个 Map 的 Segment 数组在创建后就是固定大小的，无法扩容。扩容指的是单个 Segment 内部的 <code>HashEntry</code> 进行扩容。</p>
+<p>每个 Segment 还维护了一个 <code>ReentrantLock</code> 锁对象，或者说，由于 Segment 继承了 ReentrantLock，其 Segment 本身就是一个可重入锁。</p>
+<p>此时的 <code>put</code> 流程与 <code>HashMap</code> 类似，只不过是先定位段，再通过 <code>ReentrantLock</code> 加锁，然后在段内进行<code>put</code> 操作。<br>get 操作则不需要加锁，直接定位段，然后在段内进行 <code>get</code> 操作。因为 value 字段和 next 指针都是 <code>volatile</code> 的，所以可以保证可见性。</p>
+<p><img src="concurrentHashMap1.png" srcset="/img/loading.gif" lazyload alt="JDK7中的put流程"></p>
+<h4 id="JDK-8"><a href="#JDK-8" class="headerlink" title="JDK 8"></a>JDK 8</h4><p>为了减少锁的竞争，在JDK 8中，<code>ConcurrentHashMap</code> 摒弃了分段锁，其底层结构和 <code>HashMap</code> 类似，改为使用 <code>CAS</code> 和 <code>synchronized</code> 关键字来保证线程安全，或者叫做“桶锁”。</p>
+<p>其 <code>put</code> 操作流程如下</p>
+<p><img src="concurrentHashMap2.jpg" srcset="/img/loading.gif" lazyload alt="JDK 8 中的 put 流程"></p>
+<p>与 <code>HashMap</code> 相比</p>
+<ul>
+<li>将链表转换为红黑树的阈值没有变化，仍然是8</li>
+<li>在插入新元素时，若发现桶为空，则使用 <code>CAS</code> 操作插入新节点，而不是直接插入</li>
+<li>若桶为空，且数组未初始化，则使用 <code>CAS</code> 操作初始化数组；若 <code>CAS</code> 操作失败，则让出 CPU 并自选等待</li>
+<li>若桶不为空，则使用 <code>synchronized</code> 锁住桶的头节点，然后在桶内进行更新</li>
+<li>在<code>hash</code>的计算方式上，<code>ConcurrentHashMap</code> 的 <code>spread</code>方法会将<code>hashCode</code>的高16位与低16位进行异或运算，然后再与一个质数<code>0x7fffffff</code>进行与运算，确保哈希值为非负数</li>
+<li><code>ConcurrentHashMap</code>在修改节点时，使用<code>volatile</code>关键字修饰节点的<code>value</code>字段与<code>next</code>指针，确保其他线程能看到最新的值</li>
+</ul>
+<p>其 <code>get</code> 操作也是通过 <code>key</code> 中的 <code>hash</code> 定位，若桶为空则返回 <code>null</code>，若第一个节点匹配则返回，若不匹配则遍历链表或红黑树查找。</p>
+<p>相比 <code>Hashtable</code>，<code>ConcurrentHashMap</code> 效率更高，因为 <code>Hashtable</code> 在每个方法上都使用 <code>synchronized</code> 关键字进行同步，导致线程竞争激烈时性能较差。而 <code>ConcurrentHashMap</code> 通过分段锁或桶锁的方式，允许多个线程同时访问不同的段或桶，从而提高了并发性能。</p>
+<p><code>ConcurrentHashMap</code> 可以保证多个线程同时进行读写操作时不会出现数据不一致的情况，但这不意味着它可以保证所有的复合操作（多个如 <code>put</code> <code>get</code> <code>containsKey</code> 等基本操作组成的操作）都是原子性的。若需要保证复合操作的原子性，则需要使用其提供的方法（如 <code>putIfAbsent</code> <code>computeIfAbsent</code> 等）。</p>
+<h2 id="Stream流"><a href="#Stream流" class="headerlink" title="Stream流"></a>Stream流</h2><p>该特性可以对包含一个或多个元素的集合做各种操作，这些操作可能是中间操作或终端操作。中间操作能执行多次，而终端操作只能执行一次。</p>
+<p>Stream的创建有多种方式。可以从集合创建，也可以从数组创建。<br>还可以使用<code>Stream.of()</code>方法显式声明。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Stream&lt;String&gt; stream = Stream.of(<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>);<br></code></pre></td></tr></table></figure>
 
-<p>在<code>hash</code>的计算方式上，<code>ConcurrentHashMap</code>与<code>HashMap</code>略有不同。该集合类的<code>spread</code>方法会将<code>hashCode</code>的高16位与低16位进行异或运算，然后再与一个质数<code>0x7fffffff</code>进行与运算，确保哈希值为非负数。</p>
-<p>为了保证可见性，<code>ConcurrentHashMap</code>在插入新节点时，使用<code>volatile</code>关键字修饰节点的<code>value</code>字段与<code>next</code>指针，确保其他线程能看到最新的值。</p>
-<p>相比<code>Hashtable</code>，<code>ConcurrentHashMap</code>效率更高，因为<code>Hashtable</code>在每个方法上都使用<code>synchronized</code>关键字进行同步，导致线程竞争激烈时性能较差。而<code>ConcurrentHashMap</code>通过分段锁或桶锁的方式，允许多个线程同时访问不同的段或桶，从而提高了并发性能。</p>
+<p>还可以使用lambda函数显式声明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">Stream&lt;Integer&gt; infiniteStream = Stream.iterate(<span class="hljs-number">0</span>, n -&gt; n + <span class="hljs-number">2</span>); <span class="hljs-comment">// 无限偶数流</span><br>Stream&lt;Double&gt; randomStream = Stream.generate(Math::random); <span class="hljs-comment">// 无限随机数流</span><br></code></pre></td></tr></table></figure>
+
+<p>常用中间操作如下</p>
+<table>
+    <thead>
+        <tr>
+            <th>中间操作类别</th>
+            <th>方法</th>
+            <th>说明</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="4">过滤操作</td>
+            <td>filter()</td>
+            <td>进行过滤，参数放匿名函数</td>
+        </tr>
+        <tr>
+            <td>distinct()</td>
+            <td>去重，不放参数</td>
+        </tr>
+        <tr>
+            <td>limited()</td>
+            <td>限制元素数量，参数放整数</td>
+        </tr>
+        <tr>
+            <td>skip()</td>
+            <td>跳过前n个元素，参数放整数</td>
+        </tr>
+        <tr>
+            <td rowspan="2">映射操作</td>
+            <td>map()</td>
+            <td>一对一映射，将每个元素转换为另一个元素，然后将这些流合并为另一个流，参数是一个匿名函数</td>
+        </tr>
+        <tr>
+            <td>flatMap()</td>
+            <td>一对多映射，将所有生成的流片扁平化为一个流，参数是一个匿名函数</td>
+        </tr>
+        <tr>
+            <td rowspan="2">排序操作</td>
+            <td>sorted()</td>
+            <td>自然排序</td>
+        </tr>
+        <tr>
+            <td>sorted(Comparator.reverseOrder())</td>
+            <td>自定义排序，这里是逆序</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>常用终端操作如下</p>
+<table>
+    <thead>
+        <tr>
+            <td>终端操作类别</td>
+            <td>方法</td>
+            <td>说明</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="3">匹配操作<br>返回Boolean</td>
+            <td>allMatch()</td>
+            <td>是否全部匹配，参数为匿名函数</td>
+        </tr>
+        <tr>
+            <td>anyMatch()</td>
+            <td>是否有匹配的，参数为匿名函数</td>
+        </tr>
+        <tr>
+            <td>noneMatch()</td>
+            <td>是否没有匹配的，参数为匿名函数</td>
+        </tr>
+        <tr>
+            <td rowspan="2">查找操作</td>
+            <td>findFirst</td>
+            <td>返回第一个元素（如果有），没有参数</td>
+        </tr>
+        <tr>
+            <td>findAny()</td>
+            <td>在顺序流中返回第一个元素，在并行流中返回任意一个元素，没有参数</td>
+        </tr>
+        <tr>
+            <td rowspan="3">规约操作</td>
+            <td>reduce(0, Integer::sum)</td>
+            <td>求和操作，实例中为给装Integer的集合求和，第一个参数为求和前的初始值<br>第二个参数为一个匿名函数，放置一个累加器</td>
+        </tr>
+        <tr>
+            <td>count()</td>
+            <td>计数，没有参数</td>
+        </tr>
+        <tr>
+            <td>max()/min()</td>
+            <td>最大最小值， 参数为匿名函数。Integer中为Integer::compareTo</td>
+        </tr>
+        <tr>
+            <td rowspan="4">收集操作</td>
+            <td>collect(Collection.toList())</td>
+            <td>收集为某一集合类，实例中为转化为List</td>
+        </tr>
+        <tr>
+            <td>collect(Collectors.joining(", "))</td>
+            <td>按照特定的规则链接字符串，示例中为字符串间添加", "</td>
+        </tr>
+        <tr>
+            <td>collect(Collectors.groupingBy())</td>
+            <td>按照特定的规则分组，参数为匿名函数，返回一个值为List的Map</td>
+        </tr>
+        <tr>
+            <td>collect(Collectors.partitioningBy())</td>
+            <td>进行分区，将符合与不符合的元素分成两组，参数为匿名函数，返回值为值为List的Map</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li><p>集合内部的判空使用 <code>isEmpty()</code> 方法，而非 <code>size() == 0</code><br>  绝大部分集合的 <code>size()</code> 和 <code>isEmpty()</code> 方法复杂度都是 $O(1)$，但 JUC 包下的某些集合的 <code>size()</code> 和 <code>isEmpty()</code> 都是 $O(n)$ 操作，因为它们都需要遍历链表，防止有的节点 item 为 null。其中 <code>isEmpty()</code> 会调用 <code>first()</code> 方法，返回队列中的第一个非 null 节点。</p>
+<p>  有的为 null 的原因是在并发环境下采用的标记删除机制：当节点被移除时，并不是立即物理删除，而是先将 item 置为 null 作为逻辑删除标记，后续由其他线程在适当时候完成实际的链表结构调整。</p>
+<p>  此外，在 <code>ConcurrentHashMap</code> 1.7 中，<code>size()</code> 方法需要统计每个 Segment 的数量，而 <code>isEmpty()</code> 只需要找到第一个不为空的 Segment 即可，因此后者时间复杂度更低。</p>
+</li>
+<li><p>使用 <code>toMap()</code> 方法转为 Map 集合时，要注意当 value 为 null 时的 NullPointException<br>  <code>toMap()</code> 方法内部调用了 Map 接口的 <code>merge()</code> 方法，而 <code>merge()</code> 方法会先调用 <code>Objects.requireNonNull</code> 方法判断 value 是否为空。</p>
+</li>
+<li><p>不要在 foreach 循环中进行元素的 <code>remove/add</code> 操作。需要 remove 元素时，使用 Iterator 方式。并发操作下需要对 Iterator 加锁<br>  因为 foreach 语法底层其实还是依赖 Iterator，但 <code>remove/add</code> 操作直接调用的是集合的方法而非 Iterator 的，这就导致 Iterator 莫名其妙发现自己有元素被 <code>remove/add</code>，然后就会抛异常。除了直接使用 Iterator 进行遍历外，还可以使用普通的 for 循环，或使用 JUC 包下安全失败的集合类。</p>
+</li>
+<li><p>可以使用 Set 来进行去重，避免使用 List 的 contains() 进行遍历去重</p>
+</li>
+<li><p>集合转数组必须使用集合的 <code>toArray(T[] array)</code>，传入的是类型完全一致、长度为0的空数组<br>  如 <code>Collection.toArray(new String[0])</code>，其中的 <code>new String[0]</code> 就是起一个模板的作用。</p>
+</li>
+<li><p>使用工具类 <code>Arrays.asList()</code> 把数组转换成集合时，不能使用其修改集合相关方法，它的 <code>add/remove/clear</code> 方法会抛出 UnsupportedOperationException 异常<br>  传入一个原生数据类型的数组时，该方法真正得到的参数就不是数组中的元素，而是数组对象本身，此时 <code>List</code> 的唯一元素就是这个数组。</p>
+</li>
+</ul>
 
                 
               </div>

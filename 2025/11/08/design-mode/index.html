@@ -19,19 +19,20 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;shejimoshi.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;basis&#x2F;java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi               开闭原则：对扩展开放，对修改关闭             责任链模式这是一种行为设计模">
+    <meta name="description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;shejimoshi.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;basis&#x2F;java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;basis&#x2F;spi.html  责任链模式这是一种行为设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式">
 <meta property="og:url" content="https://ivanclf.github.io/2025/11/08/design-mode/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;shejimoshi.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;basis&#x2F;java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi               开闭原则：对扩展开放，对修改关闭             责任链模式这是一种行为设计模">
+<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;shejimoshi.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;basis&#x2F;java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;basis&#x2F;spi.html  责任链模式这是一种行为设计模式">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-11-07T16:04:07.000Z">
-<meta property="article:modified_time" content="2025-11-19T08:16:16.731Z">
+<meta property="article:modified_time" content="2025-11-26T08:55:02.272Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="spring">
 <meta property="article:tag" content="spring-boot">
+<meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -237,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          2.3k 字
         
       </span>
     
@@ -289,11 +290,8 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/shejimoshi.html">https://javabetter.cn/sidebar/sanfene/shejimoshi.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi">https://javaguide.cn/java/basis/java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi</a></li>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/spi.html">https://javaguide.cn/java/basis/spi.html</a></li>
 </ul>
-<div class="note note-success">
-            <p><strong>开闭原则</strong>：对扩展开放，对修改关闭</p>
-          </div>
-
 <h2 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h2><p>这是一种行为设计模式，允许你将请求沿着处理器链进行传递。收到请求后，每个处理器均可以对请求进行处理，或将其传递给链上的下一个处理者。</p>
 <h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><ol>
 <li>客户端 client 发送一个请求到处理链的第一个节点，请求包含要处理的数据和上下文信息</li>
@@ -406,7 +404,27 @@
 <li>spring 中的 JdbcTemplate、StringRedisTemplate、RestTemplate 等等</li>
 </ul>
 <h2 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h2><p>SOA (<strong>Service-Oriented Architecture</strong> 面向服务架构) 是一种软件架构设计原则。它强调将应用程序拆分成相互独立的服务，通过标准化的接口进行通信。SOA 关注于服务的重用性和组合性，但并没有具体规定服务的大小。微服务则是 SOA 思想的一种具体实践方式。</p>
-<h2 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a>SPI</h2><p>我们一般用到的都是 API，即他人已经实现好的功能。而 SPI 是服务提供者的接口。SPI 是用来扩展的，别人提供的接口是让自己来实现功能的。</p>
+<h2 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a>SPI</h2><p>我们一般用到的都是 API（Application Programming Interface），即他人已经实现好的功能。而 SPI（Service Provider Interface）是服务提供者接口，主要用于框架扩展。SPI 的核心思想是面向接口编程 + 策略模式 + 配置文件，框架定义接口，由第三方服务提供者来实现这些接口，从而实现框架的扩展性。</p>
+<p>一般 SPI 需要实现以下要素</p>
+<p><strong>服务接口</strong>：由框架或调用方去定义。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MessageService</span> &#123;<br>    String <span class="hljs-title function_">getMessage</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>服务实现类</strong>：由第三方或插件方提供，必须提供无参构造</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MessageService</span> &#123;<br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getMessage</span><span class="hljs-params">()</span> &#123; <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello SPI&quot;</span>; &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HiService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MessageService</span> &#123;<br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getMessage</span><span class="hljs-params">()</span> &#123; <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hi SPI&quot;</span>; &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>配置文件</strong>：在 <code>META-INF/services/</code> 目录下创建以服务接口全限定名命名的文件，每行写一个实现类全限定名</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">com.example.spi.impl.HelloService<br>com.example.spi.impl.HiService<br></code></pre></td></tr></table></figure>
+
+<p><strong><code>ServiceLoader</code></strong>：JDK 提供的加载器，运行时解析配置并反射实例化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">ServiceLoader&lt;MessageService&gt; loader = ServiceLoader.load(MessageService.class);<br><span class="hljs-keyword">for</span> (MessageService service : loader) &#123;   <span class="hljs-comment">// 懒加载，迭代到才实例化</span><br>    System.out.println(service.getMessage());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其实现过程如下</p>
+<ol>
+<li>发现阶段，ServiceLoader 根据服务接口的全限定名，在类路径的 <code>META-INF/services/</code> 目录下查找对应的文件，并读取其中的实现类全限定名列表。</li>
+<li>加载阶段，使用指定的类加载器或按双亲委派模型去加载每个实现类（通过 <code>Class.forName(className, false, loader)</code>），如果类加载失败（如类未找到或不是接口的实现，会抛出异常）。</li>
+<li>实例化和缓存阶段，通过反射调用无参构造函数实例化每个实现类，并将实例缓存到 <code>LinkedHashMap</code> 中，确保每个实力类只实例化一次。</li>
+<li>迭代使用阶段，通过 <code>ServiceLoader.iterator()</code> 获取迭代器，按需懒加载下一个实现类实例，并基于缓存机制避免重复返回同一实现类。</li>
+</ol>
 <p>常见的 SPI 有 JDBC 的 <code>java.sql.Driver</code>、 SLF4J 的 Binding 等。</p>
 <h2 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h2><p>通过组合替代继承来扩展原始类的功能。适合处理继承关系比较复杂的场景，如 IO 流等。</p>
 
@@ -447,6 +465,8 @@
         <a href="../../../../tags/spring/" class="print-no-link">#spring</a>
       
         <a href="../../../../tags/spring-boot/" class="print-no-link">#spring-boot</a>
+      
+        <a href="../../../../tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="print-no-link">#设计模式</a>
       
     </div>
   

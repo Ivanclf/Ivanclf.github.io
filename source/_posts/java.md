@@ -9,6 +9,8 @@ category: web
 - [https://javabetter.cn/sidebar/sanfene/javase.html](https://javabetter.cn/sidebar/sanfene/javase.html)
 - [https://javaguide.cn/java/basis/java-basic-questions-01.html](https://javaguide.cn/java/basis/java-basic-questions-01.html)
 
+## 基本知识
+
 {% note info %}
 `>>` 为带符号右移，符号位为1时高位补1，反之补0；`>>>` 为无符号右移，空位都以1补齐。
 {% endnote %}
@@ -30,6 +32,10 @@ category: web
 
 后端的 JIT 编译器详见 [JVM 的文章](https://ivanclf.github.io/2025/10/06/jvm/)
 
+{% endnote %}
+
+{% note success %}
+程序将实参传递给方法的方式有两种：值传递和引用传递。前者接收实参值的拷贝，后者传递实参的地址。在 Java 中，严格来说只有值传递，因为对象名中存储的是示例的地址，而传递参数的时候也只是传递地址这个值。而这个值也是传递了一个副本，也就是指针的副本。
 {% endnote %}
 
 ## 面向对象，多态
@@ -208,17 +214,31 @@ Java常见的IO模型有3种：BIO、NIO、AIO。
 - **NIO**(Non-Blocking IO)同步非阻塞IO，使用多路复用器，轮询多个通道，只有就绪的通道才进行IO操作，线程在等待期间可以做其他事，通过轮询检查状态。使用于高并发场景，是目前的主流。
 - **AIO**(Asynchronous IO)异步非阻塞IO，使用回调函数或`Future`，操作完成后IO主动通知。线程发起请求后立即返回，完全不等。适用于连接数多且连接时间长（如大型文件读写，数据库连接池等）的场景。
 
+### 序列化和反序列化
+
 普通的对象要想转换成流，需要先进行**序列化**。序列化是指将对象转换为字节流的过程，而反序列化是将字节流转换回对象的过程。若希望将某个对象序列化，需要使用 `Serializable` 接口进行标记。
 
-`serialVersionUID` 是Java序列化机制种用于标识类版本的唯一标识符，该标识符要求在序列化和反序列化中保持一致，用于在序列化和反序列化的过程中，类的版本是兼容的。该标识符可以自己设定，可以由 IDEA 自动生成，也可以交由 Java 自动生成。
+序列化是 Java 对象脱离 Java 运行环境的一种手段。序列化协议属于 [TCP/IP 协议](https://ivanclf.github.io/2025/11/13/networking/#TCP-IP-%E5%8D%8F%E8%AE%AE%E7%B0%87)中的应用层，因为这是应用程序特有的数据表示方式，不属于底层通信协议。
 
-Java 序列化不包含静态变量。这是因为序列化机制只保存对象的状态，而静态变量属于类的状态。
+`serialVersionUID` 是Java序列化机制种用于标识类版本的唯一标识符，该标识符要求在序列化和反序列化中保持一致，用于在序列化和反序列化的过程中，类的版本是兼容的。该标识符可以自己设定，可以由 IDEA 自动生成，也可以交由 Java 自动生成。反序列化时会检查这个 UID 是否和当前类的 UID 一致，不一致则会抛异常 `InvalidClassException`。
 
-可以用 `transient` 关键字修饰不像想被序列化的变量。
+Java 序列化不包含静态变量。这是因为序列化机制只保存对象的状态，而静态变量属于类的状态。也可以用 `transient` 关键字修饰不像想被序列化的变量。
 
-序列化一般包括以下3个过程：先实现 `Serializable` 接口，然后使用 `ObjectOutputStream` 来将对象写入，最后调用其中的 `writeObject()` 方法，将对象序列化后写入输出流中。
+{% note info %}
+但 UID 不是已经被 static 变量修饰了吗？为什么还会被序列化？通常情况下，static 是属于类的，不属于任何一个对象单例，与序列化已保存对象的目的不同，因此不会被序列化。但这个 UID 的序列化做了特殊处理。关键在于，UID 不是作为对象状态的一部分被序列化的，而是被序列化本身用作一个特殊的“指纹”或“版本号”。
+{% endnote %}
 
-序列化一般有3种方式：对象流序列化、json 序列化、protoBuff 序列化。一般使用的是 json 序列化，一般需要 Jackson 包，将对象转化为 byte 数组或 String 字符串。
+序列化一般包括以下3个过程：先实现 `Serializable` 接口，然后使用 `ObjectOutputStream` 来将对象写入，最后调用其中的 `writeObject()` 方法，将对象序列化后写入输出流中。序列化的数据一般以魔数和版本号 *`SerializableUID`* 开头。
+
+序列化一般有3种方式：对象流序列化、json 序列化、protoBuff 序列化。一般使用的是 json 序列化，将对象转化为 byte 数组或 String 字符串。
+
+JDK 自带的序列化，只需要实现 `java.io.Serializable` 接口即可。
+
+{% note info %}
+一般不会用 JDK 自带的序列化方式，一来自带的序列化方式其他语言可能不支持，二来是自带的序列化器性能更差，三来是存在安全问题，若输入的反序列化的数据可被用户控制，那么攻击者计科构造恶意输入，让反序列化产生非预期的对象。
+{% endnote %}
+
+可用的序列化包为 Kryo、Protobuf、ProtoStuff、Hessian 等。
 
 ## Socket套接字 与 RPC
 
@@ -273,18 +293,24 @@ RPC框架是一种协议，允许程序调用位于远程服务器上的方法�
 
 RPC 可以使用多种传输协议，如 TCP、UDP 等，使用 IDL（接口定义语言）进行接口定义，如 `Protocol Buffers`、`Thrift` 等。也支持跨语言通信，可以使用 IDL 生成不同语言的客户端和服务端代码，其响应速度也比单纯的 HTTP 请求快了不少。
 
-{% note success %}
+## 泛型
+
 常用的泛型通配符为 `?` `T` `K`/`V` `E`等。
 
-Java的泛型是伪泛型，这是因为Java在编译期间，所有的类型信息都会被擦掉，也就是说，在运行的时候是没有泛型的。该特性主要是为了向下兼容，因为jdk5之前是没有泛型的。
-{% endnote %}
+Java的泛型是伪泛型，这是因为Java在编译期间，所有的类型信息都会被擦掉，也就是说，在运行的时候是没有泛型的。该特性主要是为了向下兼容，因为 jdk 5 之前是没有泛型的。
 
-{% note success %}
+类似 `public static <E> void fun (E input)` 的结构一般被称为静态泛型方法。Java 中泛型只是一个占位符，必须在传递类型后才能使用，而类在实例化时才能真正的传递类型参数，由于静态方法的加载先于类的实例化，也就是说类中泛型还没有传递真正的类型参数，静态方法的加载就已经完成了，所以静态泛型方法是没有办法使用类上声明的泛型的，只能使用自己声明的 `<E>`。
+
+## 注解
+
+注解和注释不同，注解是一种特殊的注释，主要用于修饰类、方法或者变量，提供某些信息共程序在编译或者运行时使用。声明注解时，需要继承 `Annotation` 接口。
+
 注解的生命周期有三大类，分别是：
 - `RetentionPolicy.SOURCE`: 源码级别，给编译器用的，不会写入`class`文件。如`@Override`，Lombok的`@Getter`会在`class`文件中写入对应的`getter`，但注解本身不会保留。
 - `RetentionPolicy.CLASS`: 会写入`class`文件，在类加载阶段丢弃。这是定义注解时的默认配置。如一些AOP框架或字节码增强库。
 - `RetentionPolicy.RUNTIME`: 写入`class`文件，永久保存，并可以通过反射获取注解信息。如Spring框架中的`@Controller`等。
-{% endnote %}
+
+注解的解析方式有编译期直接扫描和运行期通过反射处理两种。
 
 ## 反射
 
@@ -292,13 +318,22 @@ Java的泛型是伪泛型，这是因为Java在编译期间，所有的类型信
 
 Java程序的执行分为编译和运行两步。编译后会生成字节码文件，jvm进行类加载的时候，会加载这个字节码文件，将类型相关的所有信息加载进方法区，反射就是去获取这些信息。
 
-可以通过该方法加载并实例化类
+{% note info %}
+比如，基于反射分析类，然后拿到类/方法/参数上的注解。收到注解后再做进一步处理。
+{% endnote %}
+
+Class 类对象将一个类的方法、变量等信息告诉运行的程序。Java 提供了四种方式获取 Class 对象。
 
 ```java
-// 根据传入的完整类名的字符串，动态地加载这个类到jvm中。返回一个Class对象
-Class<?> cls = Class.forName("java.util.Date");
-// 按照上一步获取的CLass对象，新建该类的一个实例。
-Object obj = cls.newInstance();
+// 知道具体类的情况下
+Class class = TargetObject.class;
+// 遍历包下面的类，通过 Class.forName() 传入类的全路径获取
+Class class = Class.forName("com.example.TargetObject");
+// 通过对象实例获取
+Target o = new TargetObject();
+Class class = o.getClass();
+// 通过类加载器获取。该方法获取的 Class 不会初始化，静态代码块和静态对象也不会执行
+ClassLoader.getSystemClassLoader.loadClass("com.example/TargetObject");
 ```
 
 获取并调用方法
@@ -329,135 +364,64 @@ Lambda 表达式主要用于提供一种简洁的方式来表示匿名方法，�
 `Optional`是用于防范`NullPointerException`的工具。可以将`Optional`看作是一种包装对象的容器，当某方法的返回值可能是空的时候可以使用该容器包装。
 {% endnote %}
 
-## Stream流
+## 代理
 
-该特性可以对包含一个或多个元素的集合做各种操作，这些操作可能是中间操作或终端操作。中间操作能执行多次，而终端操作只能执行一次。
+一种设计模式，即用代理对象来代替对真实对象的访问。
 
-Stream的创建有多种方式。可以从集合创建，也可以从数组创建。
-还可以使用`Stream.of()`方法显式声明。
+### 静态代理
+
+静态代理中，我们对目标对象的每个方法的增强都是手动完成的，在编译时已确定代理关系，需要手动编写代理类，代理类和目标类要实现相同的接口，一个代理类只能代理一个接口。
+
+实现步骤为
+1. 定义一个接口及其实现类
+2. 创建一个代理类，同样实现这个接口
+3. 将目标对象注入代理类，然后在代理类的对应方法中调用目标类中的对应方法。这样的话，我们就可以通过代理类屏蔽对目标对象的访问，并且可以在目标方法执行前后做一些自己想做的事情。
 
 ```java
-Stream<String> stream = Stream.of("a", "b", "c");
+// 接口定义
+interface UserService {
+    void save();
+}
+
+// 实现类，也是目标类
+class UserServiceImpl implements UserService {
+    public void save() {
+        System.out.println("保存用户");
+    }
+}
+
+// 静态代理类
+class UserServiceProxy implements UserService {
+    private UserService target;
+    
+    public UserServiceProxy(UserService target) {
+        this.target = target;
+    }
+    
+    public void save() {
+        System.out.println("前置处理");
+        target.save();  // 调用目标方法
+        System.out.println("后置处理");
+    }
+}
+
+// 使用
+UserService proxy = new UserServiceProxy(new UserServiceImpl());
+proxy.save();
 ```
 
-还可以使用lambda函数显式声明
+### 动态代理
 
-```java
-Stream<Integer> infiniteStream = Stream.iterate(0, n -> n + 2); // 无限偶数流
-Stream<Double> randomStream = Stream.generate(Math::random); // 无限随机数流
-```
+动态代理相比静态代理更加灵活，我们不需要针对每个目标类都单独创建一个代理类，也不需要我们必须实现接口。从 JVM 的角度来说，动态代理是在运行时动态生成字节码，并加载到 JVM 中的。
 
-常用中间操作如下
+具体应用有 JDK 代理和 CGLib 代理两种，[主要应用于 AOP 中](https://ivanclf.github.io/2025/10/29/spring/#AOP)
 
-<table>
-    <thead>
-        <tr>
-            <th>中间操作类别</th>
-            <th>方法</th>
-            <th>说明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td rowspan="4">过滤操作</td>
-            <td>filter()</td>
-            <td>进行过滤，参数放匿名函数</td>
-        </tr>
-        <tr>
-            <td>distinct()</td>
-            <td>去重，不放参数</td>
-        </tr>
-        <tr>
-            <td>limited()</td>
-            <td>限制元素数量，参数放整数</td>
-        </tr>
-        <tr>
-            <td>skip()</td>
-            <td>跳过前n个元素，参数放整数</td>
-        </tr>
-        <tr>
-            <td rowspan="2">映射操作</td>
-            <td>map()</td>
-            <td>一对一映射，将每个元素转换为另一个元素，然后将这些流合并为另一个流，参数是一个匿名函数</td>
-        </tr>
-        <tr>
-            <td>flatMap()</td>
-            <td>一对多映射，将所有生成的流片扁平化为一个流，参数是一个匿名函数</td>
-        </tr>
-        <tr>
-            <td rowspan="2">排序操作</td>
-            <td>sorted()</td>
-            <td>自然排序</td>
-        </tr>
-        <tr>
-            <td>sorted(Comparator.reverseOrder())</td>
-            <td>自定义排序，这里是逆序</td>
-        </tr>
-    </tbody>
-</table>
+## Unsafe
 
-常用终端操作如下
+Unsafe 是位于 sun.misc 包下的一个类，主要提供一些执行低级别、不安全操作的方法，入直接访问内存、自主管理内存资源等，以提升 Java 运行效率。
 
-<table>
-    <thead>
-        <tr>
-            <td>终端操作类别</td>
-            <td>方法</td>
-            <td>说明</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td rowspan="3">匹配操作<br>返回Boolean</td>
-            <td>allMatch()</td>
-            <td>是否全部匹配，参数为匿名函数</td>
-        </tr>
-        <tr>
-            <td>anyMatch()</td>
-            <td>是否有匹配的，参数为匿名函数</td>
-        </tr>
-        <tr>
-            <td>noneMatch()</td>
-            <td>是否没有匹配的，参数为匿名函数</td>
-        </tr>
-        <tr>
-            <td rowspan="2">查找操作</td>
-            <td>findFirst</td>
-            <td>返回第一个元素（如果有），没有参数</td>
-        </tr>
-        <tr>
-            <td>findAny()</td>
-            <td>在顺序流中返回第一个元素，在并行流中返回任意一个元素，没有参数</td>
-        </tr>
-        <tr>
-            <td rowspan="3">规约操作</td>
-            <td>reduce(0, Integer::sum)</td>
-            <td>求和操作，实例中为给装Integer的集合求和，第一个参数为求和前的初始值<br>第二个参数为一个匿名函数，放置一个累加器</td>
-        </tr>
-        <tr>
-            <td>count()</td>
-            <td>计数，没有参数</td>
-        </tr>
-        <tr>
-            <td>max()/min()</td>
-            <td>最大最小值， 参数为匿名函数。Integer中为Integer::compareTo</td>
-        </tr>
-        <tr>
-            <td rowspan="4">收集操作</td>
-            <td>collect(Collection.toList())</td>
-            <td>收集为某一集合类，实例中为转化为List</td>
-        </tr>
-        <tr>
-            <td>collect(Collectors.joining(", "))</td>
-            <td>按照特定的规则链接字符串，示例中为字符串间添加", "</td>
-        </tr>
-        <tr>
-            <td>collect(Collectors.groupingBy())</td>
-            <td>按照特定的规则分组，参数为匿名函数，返回一个值为List的Map</td>
-        </tr>
-        <tr>
-            <td>collect(Collectors.partitioningBy())</td>
-            <td>进行分区，将符合与不符合的元素分成两组，参数为匿名函数，返回值为值为List的Map</td>
-        </tr>
-    </tbody>
-</table>
+Unsafe 提供的功能实现需要依赖本地方法。
+
+Unsafe 中的方法是实现整个 JUC (Java.util.concurrent) 的基石。然而业务代码无法直接使用。普通代码想拿到它只能通过反射拿到单例字段。
+
+在 JDK 9 后，模块系统开始强封禁，反射访问会警告。在 JDK 17+ 后默认进制打开，启动需要添加 `--add-opens` 参数。

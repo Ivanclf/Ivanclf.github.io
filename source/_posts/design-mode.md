@@ -1,17 +1,14 @@
 ---
 title: 设计模式
 date: 2025-11-08 00:04:07
-tags: [java, spring, spring-boot]
+tags: [java, spring, spring-boot, 设计模式]
 categories: web
 ---
 
 参考文献
 - [https://javabetter.cn/sidebar/sanfene/shejimoshi.html](https://javabetter.cn/sidebar/sanfene/shejimoshi.html)
 - [https://javaguide.cn/java/basis/java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi](https://javaguide.cn/java/basis/java-basic-questions-03.html#%E2%AD%90%EF%B8%8Fspi)
-
-{% note success %}
-**开闭原则**：对扩展开放，对修改关闭
-{% endnote %}
+- [https://javaguide.cn/java/basis/spi.html](https://javaguide.cn/java/basis/spi.html)
 
 ## 责任链模式
 
@@ -159,7 +156,51 @@ SOA (**Service-Oriented Architecture** 面向服务架构) 是一种软件架构
 
 ## SPI
 
-我们一般用到的都是 API，即他人已经实现好的功能。而 SPI 是服务提供者的接口。SPI 是用来扩展的，别人提供的接口是让自己来实现功能的。
+我们一般用到的都是 API（Application Programming Interface），即他人已经实现好的功能。而 SPI（Service Provider Interface）是服务提供者接口，主要用于框架扩展。SPI 的核心思想是面向接口编程 + 策略模式 + 配置文件，框架定义接口，由第三方服务提供者来实现这些接口，从而实现框架的扩展性。
+
+一般 SPI 需要实现以下要素
+
+**服务接口**：由框架或调用方去定义。
+
+```java
+public interface MessageService {
+    String getMessage();
+}
+```
+
+**服务实现类**：由第三方或插件方提供，必须提供无参构造
+
+```java
+public class HelloService implements MessageService {
+    public String getMessage() { return "Hello SPI"; }
+}
+
+public class HiService implements MessageService {
+    public String getMessage() { return "Hi SPI"; }
+}
+```
+
+**配置文件**：在 `META-INF/services/` 目录下创建以服务接口全限定名命名的文件，每行写一个实现类全限定名
+
+```text
+com.example.spi.impl.HelloService
+com.example.spi.impl.HiService
+```
+
+**`ServiceLoader`**：JDK 提供的加载器，运行时解析配置并反射实例化
+
+```java
+ServiceLoader<MessageService> loader = ServiceLoader.load(MessageService.class);
+for (MessageService service : loader) {   // 懒加载，迭代到才实例化
+    System.out.println(service.getMessage());
+}
+```
+
+其实现过程如下
+1. 发现阶段，ServiceLoader 根据服务接口的全限定名，在类路径的 `META-INF/services/` 目录下查找对应的文件，并读取其中的实现类全限定名列表。
+2. 加载阶段，使用指定的类加载器或按双亲委派模型去加载每个实现类（通过 `Class.forName(className, false, loader)`），如果类加载失败（如类未找到或不是接口的实现，会抛出异常）。
+3. 实例化和缓存阶段，通过反射调用无参构造函数实例化每个实现类，并将实例缓存到 `LinkedHashMap` 中，确保每个实力类只实例化一次。
+4. 迭代使用阶段，通过 `ServiceLoader.iterator()` 获取迭代器，按需懒加载下一个实现类实例，并基于缓存机制避免重复返回同一实现类。
 
 常见的 SPI 有 JDBC 的 `java.sql.Driver`、 SLF4J 的 Binding 等。
 

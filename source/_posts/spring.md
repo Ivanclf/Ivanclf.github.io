@@ -371,7 +371,8 @@ spring AOP 基于动态代理。如果要代理的对象实现了某个接口，
 
 ![两种代理对象的区别](230ae587a322d6e4d09510161987d346.jpeg)
 
-{% note info %}
+### JDK 代理
+
 JDK 代理要求目标类至少实现一个接口，因为它是基于接口来实现代理的。而 Cglib 代理不需要目标类实现接口，它是通过继承目标类来创建代理的，这是两者最根本的区别。
 
 从实现原理来说，JDK 代理是 Java 原生支持的。当我们调用代理对象的方法时，会被转发到 `InvocationHandler` 的 `invoke` 方法中，我们可以在这个方法里插入切面逻辑，然后再通过反射调用目标对象的真实方法。而 Cglib 是第三方的字节码生成库，它通过 ASM 字节码框架动态生成目标类的子类，然后重写父类的方法来插入切面逻辑。
@@ -380,135 +381,86 @@ JDK 代理要求目标类至少实现一个接口，因为它是基于接口来�
 
 在 spring boot 2.0 后。spring AOP 默认使用 Cglib 代理。毕竟 spring boot 作为“约定优于配置”的框架，选择 Cglib 可以简化操作。
 
-对于以下场景
-
-```java
-// 1. 接口（JDK 代理需要）
-public interface UserService {
-    void addUser(String username);
-    void deleteUser(String username);
-}
-
-// 2. 实现类（目标对象）
-public class UserServiceImpl implements UserService {
-    @Override
-    public void addUser(String username) {
-        System.out.println("添加用户: " + username);
-        // 模拟业务逻辑
-    }
-    
-    @Override
-    public void deleteUser(String username) {
-        System.out.println("删除用户: " + username);
-        // 模拟业务逻辑
-    }
-}
-```
-
 使用 JDK 动态代理时，使用方法如下
 
 ```java
-public class LogInvocationHandler implements InvocationHandler {
-    
-    private final Object target; // 目标对象
+// 代理处理器
+class LogInvocationHandler implements InvocationHandler {
+    private Object target;
     
     public LogInvocationHandler(Object target) {
         this.target = target;
     }
     
-    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        // 前置增强
-        System.out.println("[JDK代理] 开始执行: " + method.getName());
-        
-        // 调用目标方法
+        System.out.println("方法调用前: " + method.getName());
         Object result = method.invoke(target, args);
-        
-        // 后置增强
-        System.out.println("[JDK代理] 执行完成: " + method.getName());
+        System.out.println("方法调用后: " + method.getName());
         return result;
-    }
-    
-    // 创建代理对象的便捷方法
-    public static <T> T createProxy(T target, Class<T> interfaceClass) {
-        return (T) Proxy.newProxyInstance(
-            target.getClass().getClassLoader(),
-            new Class<?>[]{interfaceClass},
-            new LogInvocationHandler(target)
-        );
     }
 }
 
-// 测试类
-public class JdkProxyTest {
-    public static void main(String[] args) {
-        // 创建目标对象
-        UserService target = new UserServiceImpl();
-        
-        // 创建代理对象
-        UserService proxy = LogInvocationHandler.createProxy(target, UserService.class);
-        
-        // 通过代理对象调用方法
-        proxy.addUser("张三");
-        System.out.println("---");
-        proxy.deleteUser("李四");
-        
-        // 验证代理类型
-        System.out.println("代理对象类型: " + proxy.getClass());
-        System.out.println("是否是JDK代理: " + Proxy.isProxyClass(proxy.getClass()));
-    }
-}
+// 使用
+UserService target = new UserServiceImpl();
+UserService proxy = (UserService) Proxy.newProxyInstance(
+    target.getClass().getClassLoader(),
+    target.getClass().getInterfaces(),
+    new LogInvocationHandler(target)
+);
+proxy.save();
 ```
+
+该代理机制中 `InvocationHandler` 接口和 `Proxy` 类是核心。而 `Proxy` 类中使用频率最高的方法是 `newProxyInstance()`，这个方法主要用于生成一个代理对象。该方法有三个参数
+- loader 类加载器，加载代理对象
+- interfaces 被代理类实现的一些接口
+- h 实现了 InvocationHandler 接口的对象
+    这个逻辑当中，这个方法的调用就会被转发到实现 `InvocationHandler` 接口类的 `invoke` 方法调用。该方法有下面三个参数
+    - proxy 动态生成的代理类
+    - method 与代理类对象调用的方法相对应
+    - args 调用 method 方法时的参数
+
+### CGLIB 代理
 
 而 Cglib 的实现方式如下
 
 ```java
-public class LogMethodInterceptor implements MethodInterceptor {
-    
-    @Override
+// 方法拦截器
+class LogMethodInterceptor implements MethodInterceptor {
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        // 前置增强
-        System.out.println("[CGLIB代理] 开始执行: " + method.getName());
-        
-        // 调用目标方法 - 注意这里使用proxy.invokeSuper，而不是method.invoke
+        System.out.println("方法调用前: " + method.getName());
         Object result = proxy.invokeSuper(obj, args);
-        
-        // 后置增强
-        System.out.println("[CGLIB代理] 执行完成: " + method.getName());
+        System.out.println("方法调用后: " + method.getName());
         return result;
-    }
-    
-    // 创建代理对象的便捷方法
-    public static <T> T createProxy(Class<T> targetClass) {
-        Enhancer enhancer = new Enhancer();
-        // 设置父类（目标类）
-        enhancer.setSuperclass(targetClass);
-        // 设置回调
-        enhancer.setCallback(new LogMethodInterceptor());
-        // 创建代理对象
-        return (T) enhancer.create();
     }
 }
 
-// 测试类 - 注意：这里的目标类不需要实现接口
-public class CglibProxyTest {
-    public static void main(String[] args) {
-        // 创建代理对象 - 直接基于实现类
-        UserService proxy = LogMethodInterceptor.createProxy(UserServiceImpl.class);
-        
-        // 通过代理对象调用方法
-        proxy.addUser("王五");
-        System.out.println("---");
-        proxy.deleteUser("赵六");
-        
-        // 验证代理类型
-        System.out.println("代理对象类型: " + proxy.getClass());
-        System.out.println("父类: " + proxy.getClass().getSuperclass());
-    }
+// 使用
+Enhancer enhancer = new Enhancer();
+enhancer.setSuperclass(UserServiceImpl.class);
+enhancer.setCallback(new LogMethodInterceptor());
+UserService proxy = (UserService) enhancer.create();
+proxy.save();
+```
+
+CGLIB (Code Generation Library) 是一个基于 ASM 的字节码生成库，它允许我们在运行时对字节码进行修改和动态生成。在该代理机制中， `MethodInterceptor` 接口和类 `Enhancer` 类是核心。需要自定义 `MethodInterceptor` 并重写 `intercept` 方法，该方法用于拦截增强被代理类的方法。
+
+```java
+public interface MethodInterceptor
+extends Callback{
+    // 拦截被代理类中的方法
+    public Object intercept(Object obj, java.lang.reflect.Method method, Object[] args,MethodProxy proxy) throws Throwable;
 }
 ```
 
-{% endnote %}
+参数有
+- obj 被代理的对象
+- method 被拦截的方法
+- args 方法入参
+- proxy 用于调用原始方法
+
+首先，CGLIB 需要定义一个类。然后，自定义 `MethodInterceptor` 并重写 `intercept` 方法。最后通过 `Enhancer` 类的 `create()` 方法创建代理类。
+
+### 相关术语
 
 AOP 切面编程涉及到的相关术语（或者说概念）有
 

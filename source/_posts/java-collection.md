@@ -323,7 +323,7 @@ HashMap 不是线程安全的。除了可能的环形链表问题，还有覆盖
 此时的 `put` 流程与 `HashMap` 类似，只不过是先定位段，再通过 `ReentrantLock` 加锁，然后在段内进行`put` 操作。
 get 操作则不需要加锁，直接定位段，然后在段内进行 `get` 操作。因为 value 字段和 next 指针都是 `volatile` 的，所以可以保证可见性。
 
-![JDK7中的put流程](concurrentHashMap1.png)
+![JDK7中的put流程](concurrenthashmap1.png)
 
 #### JDK 8
 
@@ -331,7 +331,7 @@ get 操作则不需要加锁，直接定位段，然后在段内进行 `get` 操
 
 其 `put` 操作流程如下
 
-![JDK 8 中的 put 流程](concurrentHashMap2.jpg)
+![JDK 8 中的 put 流程](concurrenthashmap2.jpg)
 
 与 `HashMap` 相比
 - 将链表转换为红黑树的阈值没有变化，仍然是8

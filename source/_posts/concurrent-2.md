@@ -7,11 +7,11 @@ category: web
 
 ## Java内存模型
 
-Java内存模型（JMM）是一套规范，它定义了在多线程环境下，Java程序中变量的访问规则。
+Java内存模型（**JMM**）是一套规范，它定义了在多线程环境下，Java程序中变量的访问规则。
 
 ![Java内存模型](jmm1.jpg)
 
-共享变量存储在主内存中，每个线程都有一个私有的本地内存，存储了共享变量的副本。
+**共享变量存储在主内存中，每个线程都有一个私有的本地内存，存储了共享变量的副本。**
 
 - 当一个线程更改了本地内存中共享变量的副本，它需要JVM刷新在主内存中的值。
 - 当一个线程需要读取一个共享变量时，如果本地内存中的副本是**过期**的，它必须从主内存中获取最新的值，并将其存储在本地内存中。
@@ -27,25 +27,27 @@ JMM主要关注以下几个方面：
 3. **有序性**
     保证程序执行的顺序符合代码的书写顺序。一般情况下，CPU或编译器会对指令进行重排序优化。从Java源代码到最终的指令序列，会经历3种重排序：编译器重排序、指令并行重排序、内存系统重排序。指令重排可能会导致双重检查锁失效。
 
+JVM 的内存结构和 Java 虚拟机的运行时区域相关，定义了 JVM 在运行时如何分区存储程序数据；而 Java 内存模型和 Java 并发编程相关，抽象了线程和主内存之间的关系。
+
 ### Happens-Before原则
 
-JMM规定了`Happens-Before`原则，用于定义操作之间的可见性关系。常见的`Happens-Before`规则包括：
+JMM 规定了`Happens-Before`原则，用于定义操作之间的可见性关系。常见的 `Happens-Before` 规则包括：
 
 - 程序顺序规则：一个线程内，按代码顺序执行，前面的操作先于后面的操作。
 - 监视器锁规则：一个解锁操作先于后续对同一锁的加锁操作。
     `unlock() happens-before lock()`
-- `volatile`变量规则：对一个`volatile`变量的写操作先于后续对该变量的读操作。
+- `volatile` 变量规则：对一个`volatile`变量的写操作先于后续对该变量的读操作。
     `write to v happens-before read of v`
 - 传递性：如果操作A先于操作B，操作B先于操作C，那么操作A先于操作C。
     `A happens-before B` and `B happens-before C` implies `A happens-before C`
-- 线程启动规则：`Thread.start()`方法先于被启动线程的任何操作。
+- 线程启动规则：`Thread.start()` 方法先于被启动线程的任何操作。
     `Thread.start() happens-before any action in the started thread`
-- 线程终止规则：线程的所有操作先于其他线程检测到该线程终止的动作（如`Thread.join()`返回）。
+- 线程终止规则：线程的所有操作先于其他线程检测到该线程终止的动作（如 `Thread.join()` 返回）。
     `All actions in a thread happen-before any other thread detects that thread has terminated`
 
 ### as-if-serial语义
 
-JMM允许编译器和处理器对代码进行优化和重排序，但必须保证单线程程序的执行结果与未优化的程序一致。这种优化称为`as-if-serial`语义。
+JMM 允许编译器和处理器对代码进行优化和重排序，但必须保证单线程程序的执行结果与未优化的程序一致。这种优化称为`as-if-serial`语义。
 
 比如在这行语句下
 
@@ -65,96 +67,92 @@ graph TD
 
 因此`C`必须在`A`和`B`之后执行，但`A`和`B`之间没有依赖关系，可以交换顺序执行。
 
-`Happens-Before` 规则保证了多线程环境下的有序性，防止指令重排导致的并发问题。`As-If-Serial` 规则保证了单线程代码不会因优化而执行错误。
+`Happens-Before` 约束多线程间的操作顺序，保障跨线程的内存可见性。`As-If-Serial` 保障单线程内的执行结果不变。二者是 JMM 为并发编程提供的并行安全保障（`Happens-Before`）与单线程性能优化（`As-If-Serial`）的统一体现。
 
 ## `volatile`关键字
 
-在加了这个关键字后，可以保证该变量的可见性，线程修改该变量后，其他线程能够立即看到最新值；同时，防止指令重排，其写操作不会被重排到它以前的代码。
+在加了这个关键字后，可以保证该变量的可见性，线程修改该变量后，其他线程能够立即看到最新值；每次使用它都到主存中读取；同时，防止指令重排，其写操作不会被重排到它以前的代码。
 
-为了保证可见性，线程对`volatile`变量进行写操作时，会在该变量写入后插入一个写屏障（**StoreStore + StoreLoad**屏障）指令，该指令会强制将本地内存中的变量值刷新到主内存中。在`x86`中，通常会使用带`lock`前缀的指令实现
+该关键字能保障数据的可见性，但不能保证数据的原子性。而 `synchronized` 关键字能同时保证两者。
 
-```assembly
+为了保证可见性，线程对 `volatile` 变量进行写操作时，会在该变量写入后插入一个写屏障（**StoreStore + StoreLoad**屏障）指令，该指令会强制将本地内存中的变量值刷新到主内存中。在 `x86` 中，通常会使用带 `lock` 前缀的指令实现
+
+```asm
 mov [a], 2
 lock add [a], 0
 ```
 
-进行读操作时，JVM会插入一个读屏障（**LoadLoad + LoadStore**屏障）指令，强制从主内存中读取最新值到本地内存
+进行读操作时，JVM会插入一个读屏障指令，强制从主内存中读取最新值到本地内存
 
 总之，该关键字变量在读写前后插入内存屏障，以约束CPU和编译器的优化行为
 
-- `StoreStore`屏障：保证该屏障前的写操作必须在该屏障后的写操作之前完成
-- `StoreLoad`屏障：保证该屏障前的写操作必须在该屏障后的读操作之前完成
-- `LoadLoad`屏障：保证该屏障前的读操作必须在该屏障后的读操作之前完成
-- `LoadStore`屏障：保证该屏障前的读操作必须在该屏障后的写操作之前完成
+`volatile` 关键字用于基本数据类型时，能确保变量的读写操作是直接从主内存中读写的，用于引用类型时，能确保引用本身的可见性，即确保引用指向的对象地址是最新的，但不能保证引用对象的内部状态的可见性。若需要保证引用对象的内部状态的可见性，需对该对象的字段也使用 `volatile` 关键字，或者使用其他同步机制（如 `synchronized` 块或 `ReentrantLock`）来确保线程安全。
 
-`volatile`关键字用于基本数据类型时，能确保变量的读写操作是直接从主内存中读写的，用于引用类型时，能确保引用本身的可见性，即确保引用指向的对象地址是最新的，但不能保证引用对象的内部状态的可见性。若需要保证引用对象的内部状态的可见性，需对该对象的字段也使用`volatile`关键字，或者使用其他同步机制（如`synchronized`块或`ReentrantLock`）来确保线程安全。
+## `synchronized` 关键字与 `ReentrantLock`
 
-## `synchronized`关键字与`ReentrantLock`
+`synchronized` 关键字用于方法或代码块，确保同一时刻只有一个线程可以执行该代码，从而保证线程安全。它通过**对象的监视器锁**（Monitor Lock）实现。
 
-`synchronized`关键字用于方法或代码块，确保同一时刻只有一个线程可以执行该代码，从而保证线程安全。它通过对象的监视器锁（Monitor Lock）实现。
+`synchronized` 修饰实例方法时，锁定的是当前对象实例（`this`）；而修饰静态方法或指定 `synchronized(class)` 代码块时，锁定的则是对应的 Class 对象。
 
-在对代码块进行加锁时，JVM会在进入代码块前调用`monitorenter`指令获取锁，执行完代码块后调用`monitorexit`指令释放锁。如果一个线程尝试获取一个已经被其他线程持有的锁，它将被阻塞，直到锁被释放。
+线程在进入 `synchronized` 代码块前，必须成功获取对应对象的监视器锁，否则将被阻塞，直到锁被释放。
 
-`Monitor`是JVM内置的同步机制，每个对象在内存中都有一个对象头——Mark Word，用于存储锁的状态，以及`Monitor`对象的指针。
+尽量不要给字符串加锁，因为字符串常量池有缓存功能。也不能给构造方法修饰 `synchronized`，只能在构造方法内部使用。
+
+在同步代码块的实现上，JVM 通过 `monitorenter` 和 `monitorexit` 指令来管理锁的获取与释放。每个对象的对象头中都包含一个 Mark Word，用于存储锁状态和指向 `Monitor` 的指针。`synchronized` 基于 Mark Word 实现了锁状态的动态管理，支持从无锁、偏向锁、轻量级锁到重量级锁的升级。锁只能升级不能降级。当升级为重量级锁后，其同步机制将依赖于操作系统的互斥量（`mutex`）。
 
 ![Java对象头](monitor.png)
 
-`synchronized` 依赖对象头的 Mark Word 进行状态管理，支持无锁、偏向锁、轻量级锁，以及重量级锁。
+`synchronized` 关键字能够保证可见性与有序性：在释放锁时，会将线程本地内存中的变量刷新到主内存；在获取锁时，会从主内存中重新读取变量最新值。同时，通过 `monitorenter` 与 `monitorexit` 指令，可以确保同步块内的指令不会与块外指令发生重排序。
 
-`synchronized` 升级为重量级锁时，依赖于操作系统的互斥量——`mutex` 来实现。
+该关键字还支持可重入性：一个线程可以多次获取自己已经持有的锁，每次获取对应锁计数递增，释放时计数递减，直至归零后锁才被彻底释放，从而避免线程自我阻塞。
 
-为了保证可见性，`synchronized`块在释放锁时会将本地内存中的变量值刷新到主内存中，在获取锁时会从主内存中读取最新值到本地内存。
-
-为了保证有序性，该关键字通过 JVM 指令 `monitorenter` 和 `monitorexit`，来确保加锁代码块内的指令不会被重排。
-
-可重入意味着一个线程可以多次获取同一把锁，而不会导致死锁。
 {% note info %}
-`synchronized` 之所以支持可重入，是因为 Java 的对象头包含了一个 Mark Word，用于存储对象的状态，包括锁信息。
-
-当一个线程获取对象锁时，JVM 会将该线程的 ID 写入 Mark Word，并将锁计数器设为 1。
-
-如果一个线程尝试再次获取已经持有的锁，JVM 会检查 Mark Word 中的线程 ID。如果 ID 匹配，表示的是同一个线程，锁计数器递增。
-
-当线程退出同步块时，锁计数器递减。如果计数器值为零，JVM 将锁标记为未持有状态，并清除线程 ID 信息。
+`synchronized` 的可重入性是通过对象头 Mark Word 中记录的持有锁的线程 ID 及锁计数器实现的。当线程首次获取锁时，JVM 将线程 ID 记录到 Mark Word，并将计数器置为 1。同一线程再次获取锁时，计数器递增；退出同步代码块时计数器递减。当计数器归零时，锁被释放，Mark Word 中线程 ID 被清空。
 {% endnote %}
 
 Java中多线程的锁都是基于对象的，Java中的每一个对象都可以作为一个锁。更精确地说，`synchronized`锁定的是对象的监视器（Monitor），而不是对象本身。
 
-{% note info %}
-- 在同步实例方法时，锁的是当前实例对象`this`
-- 在同步静态方法时，锁的是类的`Class`对象
-- 在同步代码块时，锁的是括号中指定的对象
-
-无论哪种方式，线程在进入`synchronized`块之前，都必须先成功获取指定休想的监视器锁，否则线程将被阻塞，直到锁可用为止。
-{% endnote %}
-
 ### 锁升级
 
-在JDK 1.6 之前，`synchronized`使用的是重量级锁，性能较差。JDK 1.6 引入了锁升级机制，包括**偏向锁**、**轻量级锁**和**重量级锁**，以提高性能。这几种锁会随着竞争情况逐渐升级。锁的升级很简单，但发生的条件就很苛刻了。
-
-在没有线程竞争时，就使用低开销的“偏向锁”，此时没有额外的CAS操作。当有轻微竞争时，升级为“轻量级锁”，采用CAS自旋。当竞争激烈时，升级为“重量级锁”，需要进行线程阻塞。
+在JDK 1.6 之前，`synchronized` 使用的是重量级锁，性能较差。JDK 1.6 引入了锁升级机制，包括**偏向锁**、**轻量级锁**和**重量级锁**，以提高性能。这几种锁会随着竞争情况逐渐升级。
 
 锁有四种状态。
 
 - 无锁状态（Unlocked）：对象处于无锁状态，Mark Word 存储对象的哈希码等信息。
-- 偏向锁状态（Biased Locking）：当一个线程访问同步块时，JVM 会将该线程的 ID 写入 Mark Word，并将锁标记为偏向锁状态。后续该线程再次访问该同步块时，无需进行任何同步操作，直接进入同步块，避免了不必要的锁操作开销。
-- 轻量级锁状态（Lightweight Locking）：当另一个线程尝试获取已经被偏向锁持有的锁时，JVM 会将偏向锁升级为轻量级锁。JVM 会创建一个锁记录（Lock Record）并将其压入当前线程的栈帧中，同时使用CAS操作将对象的Mark Word替换为指向锁记录的指针。线程在进入同步块时，会尝试通过自旋来获取锁。当自选了一定次数后，仍然没有获取锁，说明竞争比较激烈，JVM 会将轻量级锁升级为重量级锁。
-- 重量级锁状态（Heavyweight Locking）：当多个线程竞争同一把锁时，轻量级锁会升级为重量级锁。JVM 会创建一个互斥量（Mutex）对象，并将对象的Mark Word替换为指向该互斥量的指针。线程在获取锁时，如果锁已被其他线程持有，它将被阻塞，直到锁可用为止。
+- 偏向锁状态（Biased Locking）：适用于没有线程竞争的场景。当第一个线程访问同步块时，JVM 将其线程 ID 记录到 Mark Word 中，并置为偏向模式。此后该线程再次进入时无需执行任何同步操作，消除了加锁开销。注意：偏向锁自 JDK 15 起默认禁用，并在 JDK 18 后被废弃。
+- 轻量级锁状态（Lightweight Locking）：当存在轻微竞争（即第二个线程尝试获取锁）时，偏向锁升级为轻量级锁。JVM 会在当前线程的栈帧中创建锁记录（Lock Record），并通过 CAS 操作将对象 Mark Word 替换为指向该锁记录的指针。若线程通过有限次数的自旋仍未能获取锁，表明竞争加剧，轻量级锁将升级为重量级锁。
+- 重量级锁状态（Heavyweight Locking）：在竞争激烈的情况下，轻量级锁会升级为重量级锁。此时 JVM 会借助操作系统的互斥量（Mutex）进行线程同步，未获得锁的线程将被挂起并进入阻塞状态，等待系统调度唤醒，因此开销最大。
+
+{% note info %}
+乐观锁在[redis 使用的相关篇章](https://ivanclf.github.io/2025/09/24/redis-2/#%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98%E4%B8%8E%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95)中介绍得比较详细了。在 Java 中，CAS 通过 Unsafe 类的 native 方法实现，这些方法调用底层的硬件指令来完成原子操作。Java 提供了 `AtomicReference` 类来将多个变量封装在一个对象中，以实现 CAS 操作。
+{% endnote %}
 
 ![自旋和阻塞的区别](multilevel1.png)
 
-### 与`ReentrantLock`对比
+### `ReentrantLock`
 
-两句话回答：`synchronized`由JVM内部的`Monitor`实现，`ReentrantLock`基于AQS实现。
+这二者都是可重入锁。然而 `synchronized` 由JVM内部的 `Monitor` 实现，`ReentrantLock` 基于AQS (AbstractQueuedSynchronized) 实现。因此前者可以由 JVM 自动加锁和解锁，而后者需要手动加锁和解锁。
 
-因此前者可以自动加锁和解锁，而后者需要手动加锁和解锁。
+`ReentrantLock` 相比 `synchronized` 增加了等待可中断，可实现公平锁，可实现选择性通知，支持超时这些机制。
+- 通过 `lock.lockInterruptibly()` 实现中断等待锁的线程的机制。当前线程在等待获取锁的过程中，如果其他线程中断当前线程，当前线程就会抛异常，可以通过捕捉异常并进行相应处理，而不是要等到获取锁后才能进行其他逻辑的处理。
+- 其实两者都可以实现，而 `ReentrantLock` 通过借助 `Condition` 接口下的 `newCondition` 方法实现
+- 通过 `tryLock(timeout)` 方法指定获取锁的最大等待时间。
+
+`ReentrantLock` 内部使用 AQS 的 `state` 字段作为重入计数器。当线程调用 `lock()` 时，若 `state` 为 0，则通过 CAS 操作将其设为 1 并获取锁；若当前线程已持有锁，则 `state` 累加 1。每次调用 `unlock()` 会使 `state` 减 1，直至为 0 时完全释放锁，并唤醒等待队列中的线程。
+
+`ReentrantLock` 默认为非公平锁，若在构造函数传入 `true`，则为公平锁。
 
 {% note info %}
-什么是AQS？它是一个抽象类，维护了一个`volatile`类型的`int`变量`state`（保证多线程之间的可见性），表示锁的状态。AQS通过一个FIFO双向队列来管理获取锁失败的线程。
+公平锁严格按照先进先得原则，严格按照线程请求锁的顺序来分配锁；非公平锁允许插队，谁先抢到就是谁的。
+{% endnote %}
+
+### AQS
+
+AQS（`AbstractQueuedSynchronizer`）是一个抽象同步框架，其核心通过一个 `volatile int state` 变量表示同步状态，确保多线程间的可见性，并通过一个 FIFO 双向队列来管理获取锁失败的线程。
 
 AQS支持两种同步模式：
-- 独占模式（Exclusive Mode）：一次只有一个线程可以获取锁，其他线程必须等待。`ReentrantLock`就是基于AQS的独占模式实现的。
-- 共享模式（Shared Mode）：允许多个线程同时获取锁。`Semaphore`和`CountDownLatch`是基于AQS的共享模式实现的。
+- **独占模式**（Exclusive Mode）：一次只有一个线程可以获取锁，其他线程必须等待。（如 `ReentrantLock`）
+- **共享模式**（Shared Mode）：允许多个线程同时获取锁。（如 `Semaphore` 和 `CountDownLatch`）
 
 核心方法包括
 - `acquire(int arg)`：尝试获取锁，如果失败则将当前线程加入等待队列并阻塞。
@@ -162,22 +160,7 @@ AQS支持两种同步模式：
 - `acquireShared(int arg)`：尝试以共享模式获取锁。
 - `releaseShared(int arg)`：以共享模式释放锁。
 
-维护的队列称为CLH队列。在CLH中，当一个线程尝试获取锁失败后，会被添加到队尾并自旋，等待前驱节点释放锁。
-{% endnote %}
-
-### `ReentrantLock`的实现原理
-
-`ReentrantLock`内部通过一个计数器 `state` 来跟踪锁的状态和持有次数。当线程调用 `lock()` 方法获取锁时，`ReentrantLock` 会检查 `state` 的值，如果为 0，通过CAS修改为 1，表示成功加锁。否则根据当前线程的公平性策略，加入到等待队列中。
-
-线程首次获取锁时，`state` 值设为 1；如果同一个线程再次获取锁时，`state` 加 1；每释放一次锁，`state` 减 1。
-
-当线程调用 `unlock()` 方法时，`ReentrantLock` 会将持有锁的 `state` 减 1，如果 `state = 0`，则释放锁，并唤醒等待队列中的线程来竞争锁。
-
-`ReentrantLock`默认为非公平锁，若在创建的时候传入`true`，则为公平锁。
-
-{% note info %}
-公平锁严格按照先进先得原则，严格按照线程请求锁的顺序来分配锁；非公平锁允许插队，谁先抢到就是谁的。
-{% endnote %}
+AQS 的核心机制是：当共享资源空闲时，将当前请求线程设为工作线程，并标记资源为锁定状态；若资源被占用，则通过线程阻塞-唤醒机制来管理等待线程。该机制基于 CLH 锁进行改进：将原本单向、自旋的 CLH 队列优化为双向结构，并引入“自旋 + 阻塞”策略，使用 `state` 字段统一表示同步状态。
 
 ## 原子操作类
 
@@ -212,13 +195,13 @@ AQS支持两种同步模式：
 
 可以使用`synchronized`关键字或者`lock`接口的实现类，如`ReentrantLock`，来给资源加锁。
 
-## 并发工具类
+## 其他并发工具类
 
 ### `CountDownLatch`
 
-`CountDownLatch` 是 JUC 中的一个同步工具类，用于协调多个线程之间的同步，确保主线程在多个子线程完成任务后继续执行。它的核心思想是通过一个倒计时计数器来控制多个线程的执行顺序。
+`CountDownLatch` 是 JUC 包中的同步工具，其核心是一个倒计时计数器，主要用于让一个或多个线程等待其他一组线程完成操作。
 
-假如要查10万多条数据，用线程池分成20个线程去执行，怎么做到等所有线程都查找完后，才输出结果？这就是`CountDownLatch`的典型应用场景。
+假如要查10万多条数据，用线程池分成20个线程去执行，怎么做到等所有线程都查找完后，才输出结果？这就是`CountDownLatch` 的典型应用场景。
 
 1. 创建 `CountDownLatch` 对象，初始值设定为 20，表示 20 个线程需要完成任务。
 2. 创建线程池，每个线程执行查询操作，查询完毕后调用 `countDown()` 方法，计数器减 1。
@@ -269,7 +252,13 @@ class DataQueryExample {
 
 ### `CyclicBarrier`
 
-`CyclicBarrier` 的字面意思是可循环使用的屏障，用于多个线程相互等待，直到所有线程都到达屏障后再同时执行。在使用的时候，我们需要先初始化一个 `CyclicBarrier` 对象，指定一个屏障值 N，表示需要等待的线程数量。然后每个线程执行 `await()` 方法，表示自己已经到达屏障，等待其他线程，此时屏障值会减 1。当所有线程都到达屏障后，也就是屏障值为 0 时，所有线程会继续执行。
+`CyclicBarrier` 意为“循环屏障”，它让一组线程相互等待，直到所有线程都到达屏障点后，再一起继续执行。该屏障在释放等待线程后可以重置复用。
+
+**核心机制**
+- 初始化时设定需要等待的线程数 N。
+- 每个线程执行 `await()` 方法后会被阻塞，此时屏障计数减1。
+- 当第 N 个线程调用 `await()` 后，计数归零，所有被阻塞的线程将被同时释放。
+- 此外，在所有线程到达屏障时，可以触发一个预定义的 `Runnable` 动作（`barrierAction`）。
 
 `CyclicBarrier`和`CountDownLatch`的区别如下表
 
@@ -277,298 +266,69 @@ class DataQueryExample {
 |-|-|-|
 |用途|让主线程等待所有子线程执行完|多个线程相互等待，直到所有线程都到达屏障|
 |可重用性|不可重用，计数器只能减到0|可重用，屏障值可以重新设置|
-|是否可执行回调|不可以|可以，所有线程到达屏障后可执行`barrierAction`|
+|是否可执行回调|不可以|可以，所有线程到达屏障后可执行 `barrierAction`|
 |线程等待情况|主线程等待子线程|所有线程相互等待|
-|适用场景|主线程等待子线程完成|线程相互依赖|
-|示例场景|等待多个服务启动完成|多线程计算，最后汇总结果|
+|典型场景|等待多个服务启动完成|多线程计算，最后汇总结果|
 
-## 线程池
+## Fork/Join
 
-[推荐阅读](https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html)
+该框架主要用于分治算法的并行执行，可以将一个大任务拆分成多个小任务并行处理。其底层结构是个特殊的线程池—— `ForkJoinPool`，且使用了工作窃取算法（一个线程执行完自己的任务后，可以窃取其他线程的任务，避免线程闲置）。
 
-### 基本信息
+## 虚拟线程
 
-线程池是用来管理和复用线程的工具，可以提高系统的性能和资源利用率。Java 中线程池的核心实现为`ThreadPoolExecutor`，并提供了 `Executor` 框架来简化线程池的创建和管理。
+虚拟线程于 JDK 21 引入。
 
-在创建线程时可以显式指定线程组
-```java
-public Thread(ThreadGroup group, Runnable target);
-public Thread(ThreadGroup group, String name);
-public Thread(ThreadGroup group, Runnable target, String name);
-```
+虚拟线程是 JDK 而非 OS 实现的轻量级线程，由 JVM 调度。许多虚拟线程共享同一个操作系统线程。虚拟线程的数量可以远大于操作系统线程的数量。
 
-其工作流程如下
+### 平台线程
 
-1. 线程池通过`submit()`或`execute()`方法接收任务。
-2. 线程池首先检查核心线程数是否已满，若未满则创建新线程执行任务。
-3. 若核心线程数已满，则将任务放入任务队列中。
-4. 若任务队列已满且线程数未达最大值，则创建新线程执行任务。
-5. 若任务队列已满且线程数已达最大值，则根据拒绝策略处理任务。
-6. 线程执行完任务后，若线程数超过核心线程数且空闲时间超过`keepAliveTime`，则终止该线程
+在引入虚拟线程之前， `Thread` 包下已经支持所谓的**平台线程**。JVM 调度程序通过平台线程来管理虚拟线程，一个平台线程可以在不同的事件执行不同的虚拟线程，当虚拟线程阻塞或等待时，平台线程可以切换到执行另一线程。
 
-```mermaid
-graph TD
-    A[execute或submit] --> B{核心线程数未满?}
-    
-    B -->|是| C[创建新线程执行任务]
-    B -->|否| D{任务队列未满?}
-    
-    D -->|是| E[将任务放入任务队列]
-    D -->|否| F{最大线程数未满?}
-    
-    F -->|是| G[创建新线程执行任务]
-    F -->|否| H[执行拒绝策略]
-```
+![线程模型展示](virtual-threads-platform-threads-kernel-threads-relationship.png)
 
-线程池的主要参数如下
-- `corePoolSize`：核心线程数，线程池中始终保持的线程数量。
-- `maximumPoolSize`：最大线程数，线程池中允许的最大线程数量
-- `keepAliveTime`：线程空闲时间，超过该时间的非核心线程将被终止。
-- `unit`：时间单位，`keepAliveTime`的时间单位。
-- `workQueue`：任务队列，用于存储等待执行的任务。
-- `threadFactory`：线程工厂，用于创建新线程。
-- `handler`：拒绝策略，当任务无法执行时的处理方式。
+**优点**
+- 虚拟线程非常轻量级，因此可以在单个线程中创建成百上千个虚拟线程而不会导致过多的线程创建和上下文切换
+- 简化了异步编程
+- 减少了资源开销，因为整个虚拟线程是由 JVM 实现的，而虚拟线程的切换比平台线程更轻量
 
-线程池的提交有两种方式：`execute()`和`submit()`。前者用于提交不需要返回值的任务，后者用于提交需要返回值的任务，返回一个`Future`对象。
+**缺点**
+- 由于密集计算任务始终需要 CPU 资源支持，因此虚拟线程不适用于计算密集型任务
+- 和某些第三方库不兼容
 
-其拒绝策略有4种
-- `AbortPolicy`：默认策略，抛出`RejectedExecutionException`异常。
-- `CallerRunsPolicy`：调用者运行策略，任务由调用者线程执行。
-- `DiscardPolicy`：丢弃策略，直接丢弃任务，不抛出异常。
-- `DiscardOldestPolicy`：丢弃最旧任务策略，丢弃任务队列中最旧的任务，然后尝试执行当前任务。
+在密集 IO 的场景下，虚拟线程可以大幅提高线程的执行效率，减少线程资源的创建和上下文切换。
 
-线程池的关闭有两种方式，分别是`shutdown()`和`shutdownNow()`。前者会等待所有任务执行完毕后关闭线程池，后者会立即关闭线程池，并尝试停止所有正在执行的任务，停止的方式包括停止接收外部提交的任务、忽略任务队列中未执行的任务、尝试给正在跑的任务大宋`interrupt()`中断信号。
+有三种启动方式
 
-{% note info %}
-线程数安排多少个比较合适呢？一般需要分析线程池执行的任务类型是CPU密集型还是IO密集型。
-- 对于CPU密集型任务，线程数一般设置为CPU核心数加1。
-    我们的目标是尽量减少线程的上下文切换，以优化CPU使用率，而+1是以备不时之需。若某线程因等待系统资源而阻塞，其他线程可以继续执行。
-- 对于IO密集型任务，线程数可以设置为CPU核心数的2到3倍，甚至更多。
-![由上面的推荐阅读中获取的常见线程池参数配置方案](threadpool1.png)
-
-而其他参数则按照业务具体需求来。
-
-若CPU使用率较低，可能是线程数过少；若CPU使用率较高但吞吐量不高，可能是线程数过多。
-{% endnote %}
-
-### 常见的线程池
-
-常见的线程池有4种
-
-- `FixedThreadPool`：固定大小线程池，适用于任务量较大且任务执行时间较长的场景。如IO密集型任务、数据库连接池等。
-    其线程池大小是固定的，默认使用`LinkedBlockingQueue`作为任务队列，拒绝策略为`AbortPolicy`。其缺点是任务队列默认无界，可能会导致内存溢出（或者说会导致`OOM`，`OutOfMemoryError`）。
-- `CachedThreadPool`：可缓存线程池，适用于任务量较大且任务执行时间较短的场景。如短时间内大量的文件处理或网络请求等。
-    其线程池大小不固定。空闲线程超过60秒会被终止，默认使用`SynchronousQueue`作为任务队列，拒绝策略为`AbortPolicy`。其优点是线程池可以根据任务量动态调整大小，缺点是线程数没有上限，可能会创建大量线程，导致系统资源耗尽。
-- `SingleThreadExecutor`：单线程线程池，适用于需要顺序执行任务的场景。如日志处理、定时任务等。
-    线程池只有一个线程，保证任务按顺序执行，默认使用`LinkedBlockingQueue`作为任务队列，拒绝策略为`AbortPolicy`。其缺点是单线程可能成为性能瓶颈。
-- `ScheduledThreadPool`：定时任务线程池，适用于需要定时或周期性执行任务的场景。如定时数据备份、定时清理缓存等。
-    线程池大小可配置，支持定时或周期性任务执行。默认使用`DelayedWorkQueue`作为任务队列，拒绝策略为`AbortPolicy`。其优点是支持定时和周期性任务，缺点是线程数没有上限，可能会创建大量线程，导致系统资源耗尽。
-### 状态管理
-
-线程池的异常处理常见有四种方式
-
-1. 最简单的，`try-catch`处理。
-2. 使用`Future`对象的`get()`方法获取异常。
-    建议使用`submit()`的项目使用这种方式。
-3. 自定义线程池，重写`afterExecute()`方法处理异常。
-    建议想要全局处理异常的项目使用这种方式。
-4. 使用`UncaughtExceptionHandler`处理未捕获异常。
-    建议使用`execute()`的项目使用这种方式。
-
-线程池有5种状态，并且它们之间严格按照状态流转规则流转。
-```mermaid
-graph TD
-    A[RUNNING] --> |shutdown|B[SHUTDOWN]
-    A-->|shutdownNow|C[STOP]
-    B --> |队列为空且工作线程数为0|D[TIDYING]
-    C --> |工作线程数为0|D
-    D --> |terminated|E[TERMINATED]
-```
-
-`RUNNING` 状态的线程池可以接收新任务，并处理阻塞队列中的任务；`SHUTDOWN` 状态的线程池不会接收新任务，但会处理阻塞队列中的任务；`STOP` 状态的线程池不会接收新任务，也不会处理阻塞队列中的任务，并且会尝试中断正在执行的任务；`TIDYING` 状态表示所有任务已经终止；`TERMINATED` 状态表示线程池完全关闭，所有线程销毁。
-
-使用线程池提供的`setter()`方法就可以修改线程池的参数。
-
-需要注意的是，调用 `setCorePoolSize()` 时如果新的核心线程数比原来的大，线程池会创建新的线程；如果更小，线程池不会立即销毁多余的线程，除非有空闲线程超过 `keepAliveTime`。
-当然了，还可以利用 `Nacos` 配置中心，或者实现自定义的线程池，监听参数变化去动态调整参数。
-
-### 应用
-
-实现线程池调优：
-- 根据任务类型设置核心线程数参数，比如 IO 密集型任务会设置为 CPU 核心数*2 的经验值。
-- 结合线程池动态调整的能力，在流量波动时通过 `setCorePoolSize` 平滑扩容，或者直接使用 `DynamicTp` 实现线程池参数的自动化调整。
-- 通过内置的监控指标建立容量预警机制。比如通过 JMX 监控线程池的运行状态，设置阈值，当线程池的任务队列长度超过阈值时，触发告警。
-
-线程池是在内存里运行的，断电后相关信息也会丢失。为了防止丢失，可以将线程池的状态信息持久化到数据库或文件中，定期备份。或者配置一个恢复流程。
-
-下面是一个手搓的线程池
+直接启动
 
 ```java
-import java.util.concurrent.*;
-
-public class SimpleThreadPool {
-    private final BlockingQueue<Runnable> taskQueue;
-    private final Thread[] workers;
-    private volatile boolean isShutdown;
-
-    public SimpleThreadPool(int poolSize) {
-        this.taskQueue = new LinkedBlockingQueue<>();
-        this.workers = new Thread[poolSize];
-        this.isShutdown = false;
-        
-        // 初始化工作线程
-        for (int i = 0; i < poolSize; i++) {
-            workers[i] = new Worker("Worker-" + i);
-            workers[i].start();
-        }
-    }
-
-    public void execute(Runnable task) {
-        if (isShutdown) {
-            throw new IllegalStateException("ThreadPool is shutdown");
-        }
-        taskQueue.offer(task);
-    }
-
-    public void shutdown() {
-        isShutdown = true;
-        for (Thread worker : workers) {
-            worker.interrupt(); // 中断等待中的线程
-        }
-    }
-
-    private class Worker extends Thread {
-        public Worker(String name) {
-            super(name);
-        }
-
-        @Override
-        public void run() {
-            while (!isShutdown || !taskQueue.isEmpty()) {
-                try {
-                    Runnable task = taskQueue.take(); // 阻塞获取任务
-                    task.run();
-                } catch (InterruptedException e) {
-                    // 响应中断，重新检查关闭状态
-                }
-            }
-        }
-    }
-
-    // 使用示例
-    public static void main(String[] args) {
-        SimpleThreadPool pool = new SimpleThreadPool(3);
-        
-        // 提交10个任务
-        for (int i = 0; i < 10; i++) {
-            int taskId = i;
-            pool.execute(() -> {
-                System.out.println(Thread.currentThread().getName() 
-                    + " executing task " + taskId);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            });
-        }
-        
-        // 关闭线程池
-        try {
-            Thread.sleep(3000);
-            pool.shutdown();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-}
+Thread.startVirtualThread(() -> {
+    // ...
+});
 ```
 
-以下是一个数据库链接池
+使用 `Thread.ofVirtual()` 方法
 
 ```java
-class SimpleConnectionPool {
-    // 配置
-    private String jdbcUrl;
-    private String username;
-    private String password;
-    private int maxConnections;
-    private BlockingQueue<Connection> connectionPool;
+Thread virtualThread = Thread.ofVirtual()
+    .name("my-virtual-thread")
+    .start(() -> {
+        // ...
+    });
 
-    // 构造方法
-    public SimpleConnectionPool(String jdbcUrl, String username, String password, int maxConnections) throws SQLException {
-        this.jdbcUrl = jdbcUrl;
-        this.username = username;
-        this.password = password;
-        this.maxConnections = maxConnections;
-        this.connectionPool = new LinkedBlockingQueue<>(maxConnections);
-
-        // 初始化连接池
-        for (int i = 0; i < maxConnections; i++) {
-            connectionPool.add(createNewConnection());
-        }
-    }
-
-    // 创建新连接
-    private Connection createNewConnection() throws SQLException {
-        return DriverManager.getConnection(jdbcUrl, username, password);
-    }
-
-    // 获取连接
-    public Connection getConnection(long timeout, TimeUnit unit) throws InterruptedException, SQLException {
-        Connection connection = connectionPool.poll(timeout, unit); // 等待指定时间获取连接
-        if (connection == null) {
-            throw new SQLException("Timeout: Unable to acquire a connection.");
-        }
-        return connection;
-    }
-
-    // 归还连接
-    public void releaseConnection(Connection connection) throws SQLException {
-        if (connection != null) {
-            if (connection.isClosed()) {
-                // 如果连接已关闭，创建一个新连接补充到池中
-                connectionPool.add(createNewConnection());
-            } else {
-                // 将连接归还到池中
-                connectionPool.offer(connection);
-            }
-        }
-    }
-
-    // 关闭所有连接
-    public void closeAllConnections() throws SQLException {
-        for (Connection connection : connectionPool) {
-            if (!connection.isClosed()) {
-                connection.close();
-            }
-        }
-    }
-
-    // 测试用例
-    public static void main(String[] args) {
-        try {
-            SimpleConnectionPool pool = new SimpleConnectionPool(
-                "jdbc:mysql://localhost:3306/pai_coding", "root", "", 5
-            );
-
-            // 获取连接
-            Connection conn = pool.getConnection(5, TimeUnit.SECONDS);
-
-            // 使用连接（示例查询）
-            System.out.println("Connection acquired: " + conn);
-            Thread.sleep(2000); // 模拟查询
-
-            // 归还连接
-            pool.releaseConnection(conn);
-            System.out.println("Connection returned.");
-
-            // 关闭所有连接
-            pool.closeAllConnections();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
+virtualThread.join();
 ```
 
+使用 `Executor`
+
+```java
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    // 提交多个任务
+    for (int i = 0; i < 10; i++) {
+        int taskId = i;
+        executor.submit(() -> {
+            System.out.println("Task " + taskId + " executed by: " + Thread.currentThread());
+        });
+    }
+} // executor 自动关闭
+```

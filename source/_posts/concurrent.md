@@ -455,7 +455,7 @@ bothCompleted.thenRunAsync(() -> System.out.println("T3 is executing after T1 an
 ThreadUtil.sleep(3000);
 ```
 
-使用该类时，可以使用 `whenComplete` 方法在任务完成时触发回调函数，比你高正确处理异常；使用 `exceptionally` 处理异常并重新抛出；使用 `handle` 方法处理正常的结果和异常，并返回一个新结果。
+使用该类时，可以使用 `whenComplete` 方法在任务完成时触发回调函数，以正确处理异常；使用 `exceptionally` 处理异常并重新抛出；使用 `handle` 方法处理正常的结果和异常，并返回一个新结果。
 
 `CompletableFuture` 默认使用 ForkJoinPool 作为线程池。
 

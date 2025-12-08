@@ -4,6 +4,10 @@ date: 2024-11-16 19:51:38
 tags: 速查
 ---
 
+## Git 的常见用法
+
+[见此处](https://ivanclf.github.io/2024/05/15/git-use/)
+
 ## latex的碎片化使用
 
 ### 希腊字母
@@ -143,6 +147,8 @@ $$\begin{vmatrix} 1 & 5 \\\\ 4 & 6 \end{vmatrix}$$
 
 ### 基础操作
 
+即使不清楚命令，也可以使用 `man` 指令查看操作。此处仅了解有这个命令和对应的参数即可。
+
 |命令|说明|
 |-|-|
 |`ls`|显示该目录下的所有文件<br>`-a` 所有文件，包括隐藏文件<br>`-h` 人类可读的文件大小<br>`-t` 按时间排序|
@@ -215,3 +221,29 @@ Linux 中打包文件一般是以 `.tar` 结尾的，压缩的命令一般是以
 系统的日志文件存在 `/var/log/syslog` `/var/log/messages` 中。
 
 使用 `useradd` 命令建立的常昊存在 `/etc/passwd` 文件中。对用户组的增删改查就是在 `/etc/group` 文件的更新。
+
+## Docker
+
+|命令|描述|
+|-|-|
+|`docker build`|按照 Dockerfile 构建镜像|
+|`docker pull`|从服务器拉取镜像|
+|`docker push`|推送镜像到服务器|
+|`docker save`|保存镜像到一个安装包|
+|`docker load`|加载压缩包为镜像|
+|`docker images`|查看镜像|
+|`docker rmi`|删除镜像|
+|`docker run`|由指定的镜像创建一个容器并运行|
+|`docker ps`|查看容器|
+|`docker pause`|容器暂停运行|
+|`docker unpause`|暂停的容器继续运行|
+|`docker stop`|容器停止运行|
+|`docker start`|停止的容器开始运行|
+|`docker exec`|进入容器执行命令|
+|`docker logs`|查看容器运行日志|
+|`docker rm`|删除指定容器|
+|`docker volume create`|创建一个数据卷|
+|`docker volume inspect`|显示一个或多个数据卷的信息|
+|`docker volume ls`|列出所有的数据卷|
+|`docker volume prune`|删除未使用的数据卷|
+|`docker volume rm`|删除指定的数据卷|

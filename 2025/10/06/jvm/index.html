@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/06/jvm/structure.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/06/jvm/cms.png">
 <meta property="article:published_time" content="2025-10-05T16:39:06.000Z">
-<meta property="article:modified_time" content="2025-11-19T03:48:52.025Z">
+<meta property="article:modified_time" content="2025-12-06T07:03:03.586Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -347,7 +347,7 @@
           </div>
 
 <div class="note note-success">
-            <p>JDK 1.6中使用永久代来实现方法区；JDK1.7中将字符串常量池、静态变量存放到了堆上；JDK1.8后直接在内存里划出一块叫做元空间的区域，并将运行时常量池、类常量池都放到了元空间。</p><p>这种改变带来了一些好处</p><ul><li>永久代是JVM的一部分，受JVM进程本身的内存限制，容易内存溢出。</li><li>永久代是堆的一部分，但其回收规则和普通的类不一样，导致GC算法变得复杂。换成元空间后，由元空间虚拟机管理。</li></ul><p>主观原因则是，Oracle在收购Sun之后，致力于将自家的JRockit VM（一款高性能JVM）与HotSpot VM的优势进行融合。JRockit VM的设计中就没有“永久代”的概念。移除永久代，统一使用元空间，是实现JVM技术栈统一的重要一步。</p>
+            <p>JDK 1.6中使用永久代来实现方法区；JDK1.7中将字符串常量池、静态变量存放到了堆上；JDK1.8后直接在内存里划出一块叫做元空间的区域，并将运行时常量池、类常量池都放到了元空间。</p><p>这种改变带来了一些好处</p><ul><li>永久代是JVM的一部分，受JVM进程本身的内存限制，容易内存溢出。</li><li>永久代是堆的一部分，但其回收规则和普通的类不一样，导致GC算法变得复杂。换成元空间后，由元空间虚拟机管理。</li></ul>
           </div>
 
 <h3 id="对象的生命周期"><a href="#对象的生命周期" class="headerlink" title="对象的生命周期"></a>对象的生命周期</h3><h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><pre><code class=" mermaid">graph LR
@@ -372,7 +372,7 @@ B--&gt;|否|C--&gt;D
 <li><strong>空闲列表</strong>，在堆内存不规整的情况下，JVM维护一个记录那些内存块是可用的列表。在分配时，从列表中找出一块足够大的空间划分给对象，并更新列表记录。</li>
 </ol>
  <div class="note note-info">
-            <p>这不就是<a href="https://ivanclf.github.io/2025/05/22/os-2/#Managing-Free-Memory">这篇文章</a>里的<strong>first fit</strong>嘛</p>
+            <p>这不就是<a href="https://ivanclf.github.io/2025/05/22/os-2/#Managing-Free-Memory">操作系统里的</a>里的<strong>first fit</strong>嘛</p>
           </div>
 
 <p> 其线程安全问题主要通过CAS机制和分配缓冲区的方法解决。</p>

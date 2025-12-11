@@ -8,8 +8,8 @@
 <head>
   <meta charset="UTF-8">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="../img/image.jpg">
-  <link rel="icon" href="../img/image.jpg">
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
@@ -19,21 +19,22 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="该网站主要是个人技术类文章以及各种笔记。具体的部署工作则交给我的.com网站了。当然，既然该网站不受监管，那我可能也会发点其他东西😋 若发现我的博客中有表述不准确或知识性错误，请发至邮箱 1121846957@qq.com 。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="https://ivanclf.github.io/about/index.html">
+    <meta name="description" content="在 Ollama 下，deepseek 常用参数有以下几项    参数名 描述 推荐值范围 适用场景    temperature 控制输出的随机性与创造力，值越高随机性越高 0.3~0.7 代码任务控制在 0.10.3写作任务控制在 0.60.8   top-p 核采样，控制候选词的范围，值越高词汇越多样 0.85~0.95 与 temperature 搭配，平衡生成质量   num_ctx 上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="deepseek 调参">
+<meta property="og:url" content="https://ivanclf.github.io/2025/12/09/deepseek-param/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="该网站主要是个人技术类文章以及各种笔记。具体的部署工作则交给我的.com网站了。当然，既然该网站不受监管，那我可能也会发点其他东西😋 若发现我的博客中有表述不准确或知识性错误，请发至邮箱 1121846957@qq.com 。">
+<meta property="og:description" content="在 Ollama 下，deepseek 常用参数有以下几项    参数名 描述 推荐值范围 适用场景    temperature 控制输出的随机性与创造力，值越高随机性越高 0.3~0.7 代码任务控制在 0.10.3写作任务控制在 0.60.8   top-p 核采样，控制候选词的范围，值越高词汇越多样 0.85~0.95 与 temperature 搭配，平衡生成质量   num_ctx 上">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-07-12T08:01:17.000Z">
-<meta property="article:modified_time" content="2025-11-27T06:46:04.492Z">
+<meta property="article:published_time" content="2025-12-09T14:29:30.000Z">
+<meta property="article:modified_time" content="2025-12-09T15:09:37.477Z">
 <meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="碎片知识">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>关于 - Ivan的博客</title>
+  <title>deepseek 调参 - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -57,12 +58,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
 
 
-<link  rel="stylesheet" href="../css/main.css" />
+<link  rel="stylesheet" href="../../../../css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="../css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="../css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
   
 
 
@@ -78,8 +79,8 @@
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="../js/utils.js" ></script>
-  <script  src="../js/color-schema.js" ></script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
   
 
 
@@ -93,10 +94,10 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 80vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../../../index.html">
       <strong>Ivan的博客</strong>
     </a>
 
@@ -115,7 +116,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../index.html" target="_self">
+              <a class="nav-link" href="../../../../index.html" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -127,7 +128,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../archives/" target="_self">
+              <a class="nav-link" href="../../../../archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -139,7 +140,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../categories/" target="_self">
+              <a class="nav-link" href="../../../../categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -151,7 +152,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../tags/" target="_self">
+              <a class="nav-link" href="../../../../tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -163,7 +164,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../about/" target="_self">
+              <a class="nav-link" href="../../../../about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -175,7 +176,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../links/" target="_self">
+              <a class="nav-link" href="../../../../links/" target="_self">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -205,19 +206,54 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('../img/banner-link.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="关于"></span>
+            <span id="subtitle" data-typed-text="deepseek 调参"></span>
           
         </div>
 
         
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-09 22:29" pubdate>
+          2025年12月9日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          416 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
       </div>
 
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
       
     </div>
   </div>
@@ -229,50 +265,206 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-            <div class="about-avatar">
-              <img src="../img/image.jpg" srcset="/img/loading.gif" lazyload class="img-fluid" alt="avatar">
-            </div>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center">
-  <div class="about-info">
-    <div class="about-name">Ivan</div>
-    <div class="about-intro">一个托管在GitHub上的博客网站</div>
-    <div class="about-icons">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-        
-        
-        
-        <a href=https://github.com/Ivanclf/Ivanclf.github.io class="
-           hint--bottom hint--rounded"
-           aria-label="GitHub"
-           target="_blank"
-        >
-          <i class="iconfont icon-github-fill" aria-hidden="true"></i>
-          
-        </a>
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">deepseek 调参</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在 Ollama 下，deepseek 常用参数有以下几项</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>描述</th>
+<th>推荐值范围</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>temperature</code></td>
+<td>控制输出的随机性与创造力，值越高随机性越高</td>
+<td>0.3~0.7</td>
+<td>代码任务控制在 0.1<del>0.3<br>写作任务控制在 0.6</del>0.8</td>
+</tr>
+<tr>
+<td><code>top-p</code></td>
+<td>核采样，控制候选词的范围，值越高词汇越多样</td>
+<td>0.85~0.95</td>
+<td>与 <code>temperature</code> 搭配，平衡生成质量</td>
+</tr>
+<tr>
+<td><code>num_ctx</code></td>
+<td>上下文窗口大小，单位为 token，ai能看到的会话历史量</td>
+<td>2048~8192</td>
+<td>长文档分析则需要调高</td>
+</tr>
+<tr>
+<td><code>repeat_penalty</code></td>
+<td>重复惩罚，值越高模型越倾向于不重复生成内容</td>
+<td>1.1~1.3</td>
+<td>1.0 时不惩罚<br>大于 1.5 时可能会把常用词也一起干掉</td>
+</tr>
+</tbody></table>
+<p>还有一些其他参数</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>描述</th>
+<th>推荐值范围</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>top_k</code></td>
+<td>固定保留概率最高的 k 个词，再重新归一化采样</td>
+<td>1~100</td>
+<td>现在用 <code>top_p</code> 多一点</td>
+</tr>
+<tr>
+<td><code>num_predict</code></td>
+<td>本次生成最多输出的 token 数</td>
+<td>200~2048</td>
+<td>摘要为 200<del>300<br>写文章时为 1024</del>2048<br>写代码时为 512~1500</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td>数组，碰到任意一个字符串就立刻刹车</td>
+<td><code>[&quot;\n&quot;, &quot;User:&quot;, &quot;问题：&quot;, &quot;```&quot;]</code></td>
+<td>放置模型“自问自答”或者把提示模板也写出来</td>
+</tr>
+</tbody></table>
+<p>要创建自定义模型，需要西安创建一个文本文件（如 ModelFile 或 ModelFile.deepseek），然后写入相关参数</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text"># 基于官方模型<br>FROM deepseek-r1:8b<br><br># 设置系统提示词，定义模型角色<br>SYSTEM &quot;&quot;&quot;你是一个有帮助且严谨的AI助手。回答应准确、简洁。&quot;&quot;&quot;<br><br># 设置参数<br>PARAMETER temperature 0.3<br>PARAMETER top_p 0.9<br>PARAMETER num_ctx 4096<br>PARAMETER repeat_penalty 1.2<br></code></pre></td></tr></table></figure>
+
+<p>然后构建并运行该自定义模型</p>
+<div class="note note-info">
+            <p>浓浓的 <a href="https://ivanclf.github.io/2024/11/16/order-set/#Docker">Docker</a> 味。</p>
+          </div>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ollama create my-deepseek-8b -f ./Modelfile<br>ollama run my-deepseek-8b<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
       
+        <a href="../../../../tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>deepseek 调参</div>
+      <div>https://ivanclf.github.io/2025/12/09/deepseek-param/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../../11/19/mq/" title="MQ 的使用">
+                        <span class="hidden-mobile">MQ 的使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
     </div>
   </div>
 </div>
-
-<article class="about-content page-content mt-5">
-  <div class="markdown-body">
-    <p>该网站主要是个人技术类文章以及各种笔记。具体的部署工作则交给我的.com网站了。当然，既然该网站不受监管，那我可能也会发点其他东西😋</p>
-<p>若发现我的博客中有表述不准确或知识性错误，请发至邮箱 <a href="mailto:&#49;&#x31;&#50;&#49;&#56;&#52;&#x36;&#57;&#x35;&#x37;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;">1121846957@qq.com</a> 。</p>
-
-  </div>
-
-  
-</article>
 
 
 
@@ -321,11 +513,8 @@
 
 
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
     
 
     
@@ -390,8 +579,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="../js/events.js" ></script>
-<script  src="../js/plugins.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -413,10 +602,50 @@
 
 
   
-    <script  src="../js/img-lazyload.js" ></script>
+    <script  src="../../../../js/img-lazyload.js" ></script>
   
 
 
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
 
 
   <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
@@ -515,7 +744,7 @@
 
   <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
-  <script  src="../js/local-search.js" ></script>
+  <script  src="../../../../js/local-search.js" ></script>
 
 
 
@@ -523,7 +752,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="../js/boot.js" ></script>
+<script  src="../../../../js/boot.js" ></script>
 
 
   

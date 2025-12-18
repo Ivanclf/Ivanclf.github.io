@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/29/spring/spring-20250706065436.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/29/spring/230ae587a322d6e4d09510161987d346.jpeg">
 <meta property="article:published_time" content="2025-10-29T14:57:43.000Z">
-<meta property="article:modified_time" content="2025-11-25T07:22:33.953Z">
+<meta property="article:modified_time" content="2025-12-14T15:00:08.924Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="spring">
@@ -355,9 +355,17 @@
 </ul>
 <h4 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h4><p>注入 Bean 的方式有以下几种</p>
 <ul>
-<li>构造函数注入  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> UserRepository userRepository;<br><span class="hljs-keyword">public</span> <span class="hljs-title function_">UserService</span><span class="hljs-params">(UserRepository userRepository)</span> &#123;<br>    <span class="hljs-built_in">this</span>.userRepository = userRepository;<br>&#125;<br><span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
-<li>Setter 注入  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-keyword">private</span> UserRepository userRepository;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setUserRepository</span><span class="hljs-params">(UserRepository userRepository)</span> &#123;<br>        <span class="hljs-built_in">this</span>.userRepository = userRepository;<br>    &#125;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
-<li>Field 注入  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserRepository userRepository;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>构造函数注入</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> UserRepository userRepository;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UserService</span><span class="hljs-params">(UserRepository userRepository)</span> &#123;<br>        <span class="hljs-built_in">this</span>.userRepository = userRepository;<br>    &#125;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+  <div class="note note-info">
+            <p>使用lomlok相关注释可以实现类似的效果。</p>
+          </div>
+</li>
+<li><p>Setter 注入</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-keyword">private</span> UserRepository userRepository;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setUserRepository</span><span class="hljs-params">(UserRepository userRepository)</span> &#123;<br>        <span class="hljs-built_in">this</span>.userRepository = userRepository;<br>    &#125;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>Field 注入</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserRepository userRepository;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ul>
 <p>相比 setter 注入，spring 官方推荐构造注入。构造注入有以下优势</p>
 <ul>
@@ -378,10 +386,63 @@
             <p><code>@Autowired</code> 注入在 Bean 生命周期的属性填充阶段执行。首先，spring 会扫描 Bean 类，找出所有 <code>@Autowired</code> 注解的字段和方法。然后，spring 根据字段&#x2F;参数类型在容器中查找匹配的 Bean。最后，通过<strong>反射</strong>设置字段值，将找到的 Bean 注入到目标字段。对于字段注入，会调用 <code>Field.set()</code> 方法，对于 setter 注入，会调用 <code>Method.invoke()</code> 方法。</p>
           </div>
 
-<div class="note note-success">
-            <p>对于 Field 或 Setter 注入时可能产生的循环依赖问题，spring 通过三级缓存机制，巧妙解决了单例 Bean 场景下的循环依赖问题。</p><p>在 spring 的 <code>DefaultSingletonBeanRegistry</code> 类中，维护了三个重要的 Map，也就是我们常说的三级缓存：</p><ol><li>一级缓存 <code>singletonObjects</code> ：存放已完成实例化、注入、初始化的 Bean。我们平时从 spring 容器中获取到的就是这里的 Bean</li><li>二级缓存 <code>earlySingletonObjects</code> ：存放已实例化，但未注入、初始化的 Bean。用于解决循环依赖</li><li>三级缓存 <code>singletonFactories</code> ：存放一个 <code>ObjectFactory</code> （对象工厂）。这个工厂可以返回一个目标 Bean 的早期引用（通过动态代理等技术），以便后面有机会创建代理对象</li></ol><p>以 A 依赖 B，B 依赖 A 为例，</p><ol><li>开始创建 A<ul><li>在 <code>getBean(&quot;a&quot;)</code> 时，spring 还没意识到 A 还没被创建，正常创建</li><li>调用 A 的构造器，实例化 A 对象。此时 A 还是个半成品，属性 b 为 null</li><li>spring 将构建好的 A 对象包装成一个 <code>ObjectFactory</code>，并放入<strong>三级缓存</strong>，同时从<strong>二级缓存</strong>移除 A （若存在）。</li></ul></li><li>为 A 进行属性填充<ul><li>spring 发现 A 依赖 B，于是执行 <code>getBean(&quot;b&quot;)</code> 获取 B</li></ul></li><li>开始创建 B<ul><li>和创建 A 的过程一样，实例化 B 对象，放入<strong>三级缓存</strong></li></ul></li><li>为 B 进行属性填充<ul><li>spring 发现 B 依赖 A，于是执行 <code>getBean(&quot;a&quot;)</code> 获取 A</li></ul></li><li><strong>关键步骤</strong> 获取早期引用<ul><li>这次的 <code>getBean(&quot;a&quot;)</code> 不会从头开始创建 A，因为在第一级、第二级没找到，但在第三级找到了 A 的 <code>ObjectFactory</code></li><li>spring 通过 <code>ObjectFactory.getObject()</code> 方法，获取到 A 对象的早期引用（这个引用可能是一个代理对象，也可能就是原始对象）</li><li>然后 spring 将这个早期引用放入<strong>二级缓存</strong>，并从<strong>三级缓存</strong>中移除 A 的工厂</li><li>最后，将这个早期引用返回给 B。至此，B成功完成了属性注入，属性 a 指向了 A 的早期引用</li></ul></li><li>B 完成初始化<ul><li>B 在注入 A 的早期引用后，继续执行后续步骤。最后变成一个完全初始化的 Bean</li><li>spring 将初始化好的 B 对象放入第一级缓存，并清除二级和三级缓存中关于 B 的记录</li></ul></li><li>A 完成初始化<ul><li>B 创建完成后，步骤 2 中的 <code>getBean(&quot;b&quot;)</code> 的调用成功返回了完整实例</li><li>A 成功注入 B 并完成初始化</li></ul></li></ol><p><img src="spring-20250706065436.png" srcset="/img/loading.gif" lazyload alt="简图"></p><p><strong>那为什么需要三级缓存呢？</strong></p><p>主要是为了解决 <a href="#aop">AOP</a> 的问题。关键在于三级缓存存储的是一个工厂，而不是直接的对象。这个工厂的核心作用是调用 <code>getEarlyBeanReference</code> 方法。这个方法在 Bean 存在 AOP 时至关重要。</p><p>如果缺少了三级缓存，在 B 注入 A 时，我们只能从二级缓存拿到 A 的原始对象。但如果 A 最终需要被 AOP 代理，那么 B 注入就是一个原始对象，而不是代理对象，这会导致问题（同一个 Bean 居然会产生两个实例）。有了三级缓存，B 注入 A 时会通过三级缓存中的<code>ObjectFactory</code> 来获取 A 的调用。若 A 需要被代理，那么 <code>getEarlyBeanReference</code> 方法会在这里提前生成并返回代理对象，如果不需要，则返回原始对象。这样就保证了 B 注入的 A 和最终放入一级缓存的 A 是同一个对象，保证了行为一致性。</p><p>如果缺少了二级缓存，那么在三个及以上（假设为 A、B、C）的 Bean 构成间接依赖时，每次 B 或 C 需要获取 A 时，都需要调用 A 中的 <code>ObjectFactory.getObject()</code> 方法。这意味着如果 A 需要被代理的话，代理对象可能会重复创建多次。</p><p>以下情况的循环依赖 spring 无法被创建出来：</p><ul><li>若使用构造器注入的循环依赖，构造时对象还没创建出来，无法放入三级缓存，spring 会直接抛出 <code>BeanCurrentlyInCreationException</code></li><li>原型 Bean 循环依赖，由于 spring 不缓存 Prototype Bean，所以无法暴露其早期引用</li><li><code>@Async</code> 方法导致的循环依赖，因为 <code>@Async</code> 的大力创建时机交完，在三级缓存机制后，可能导致注入的不是最终的代理对象</li></ul>
-          </div>
-
+<h4 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h4><p>对于 Field 或 Setter 注入时可能产生的循环依赖问题，spring 通过三级缓存机制，巧妙解决了单例 Bean 场景下的循环依赖问题。</p>
+<p>在 spring 的 <code>DefaultSingletonBeanRegistry</code> 类中，维护了三个重要的 Map，也就是我们常说的三级缓存：</p>
+<ol>
+<li>一级缓存 <code>singletonObjects</code> ：存放已完成实例化、注入、初始化的 Bean。我们平时从 spring 容器中获取到的就是这里的 Bean</li>
+<li>二级缓存 <code>earlySingletonObjects</code> ：存放已实例化，但未注入、初始化的 Bean。用于解决循环依赖</li>
+<li>三级缓存 <code>singletonFactories</code> ：存放一个 <code>ObjectFactory</code> （对象工厂）。这个工厂可以返回一个目标 Bean 的早期引用（通过动态代理等技术），以便后面有机会创建代理对象</li>
+</ol>
+<p>以 A 依赖 B，B 依赖 A 为例，</p>
+<ol>
+<li>开始创建 A<ul>
+<li>在 <code>getBean(&quot;a&quot;)</code> 时，spring 还没意识到 A 还没被创建，正常创建</li>
+<li>调用 A 的构造器，实例化 A 对象。此时 A 还是个半成品，属性 b 为 null</li>
+<li>spring 将构建好的 A 对象包装成一个 <code>ObjectFactory</code>，并放入<strong>三级缓存</strong>，同时从<strong>二级缓存</strong>移除 A （若存在）。</li>
+</ul>
+</li>
+<li>为 A 进行属性填充<ul>
+<li>spring 发现 A 依赖 B，于是执行 <code>getBean(&quot;b&quot;)</code> 获取 B</li>
+</ul>
+</li>
+<li>开始创建 B<ul>
+<li>和创建 A 的过程一样，实例化 B 对象，放入<strong>三级缓存</strong></li>
+</ul>
+</li>
+<li>为 B 进行属性填充<ul>
+<li>spring 发现 B 依赖 A，于是执行 <code>getBean(&quot;a&quot;)</code> 获取 A</li>
+</ul>
+</li>
+<li><strong>关键步骤</strong> 获取早期引用<ul>
+<li>这次的 <code>getBean(&quot;a&quot;)</code> 不会从头开始创建 A，因为在第一级、第二级没找到，但在第三级找到了 A 的 <code>ObjectFactory</code></li>
+<li>spring 通过 <code>ObjectFactory.getObject()</code> 方法，获取到 A 对象的早期引用（这个引用可能是一个代理对象，也可能就是原始对象）</li>
+<li>然后 spring 将这个早期引用放入<strong>二级缓存</strong>，并从<strong>三级缓存</strong>中移除 A 的工厂</li>
+<li>最后，将这个早期引用返回给 B。至此，B成功完成了属性注入，属性 a 指向了 A 的早期引用</li>
+</ul>
+</li>
+<li>B 完成初始化<ul>
+<li>B 在注入 A 的早期引用后，继续执行后续步骤。最后变成一个完全初始化的 Bean</li>
+<li>spring 将初始化好的 B 对象放入第一级缓存，并清除二级和三级缓存中关于 B 的记录</li>
+</ul>
+</li>
+<li>A 完成初始化<ul>
+<li>B 创建完成后，步骤 2 中的 <code>getBean(&quot;b&quot;)</code> 的调用成功返回了完整实例</li>
+<li>A 成功注入 B 并完成初始化</li>
+</ul>
+</li>
+</ol>
+<p><img src="spring-20250706065436.png" srcset="/img/loading.gif" lazyload alt="简图"></p>
+<p><strong>那为什么需要三级缓存呢？</strong></p>
+<p>主要是为了解决 <a href="#aop">AOP</a> 的问题。关键在于三级缓存存储的是一个工厂，而不是直接的对象。这个工厂的核心作用是调用 <code>getEarlyBeanReference</code> 方法。这个方法在 Bean 存在 AOP 时至关重要。</p>
+<p>如果缺少了三级缓存，在 B 注入 A 时，我们只能从二级缓存拿到 A 的原始对象。但如果 A 最终需要被 AOP 代理，那么 B 注入就是一个原始对象，而不是代理对象，这会导致问题（同一个 Bean 居然会产生两个实例）。有了三级缓存，B 注入 A 时会通过三级缓存中的<code>ObjectFactory</code> 来获取 A 的调用。若 A 需要被代理，那么 <code>getEarlyBeanReference</code> 方法会在这里提前生成并返回代理对象，如果不需要，则返回原始对象。这样就保证了 B 注入的 A 和最终放入一级缓存的 A 是同一个对象，保证了行为一致性。</p>
+<p>如果缺少了二级缓存，那么在三个及以上（假设为 A、B、C）的 Bean 构成间接依赖时，每次 B 或 C 需要获取 A 时，都需要调用 A 中的 <code>ObjectFactory.getObject()</code> 方法。这意味着如果 A 需要被代理的话，代理对象可能会重复创建多次。</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1HwkvYmEXv">可以看这里的视频</a></p>
+<p>以下情况的循环依赖 spring 无法被创建出来：</p>
+<ul>
+<li>若使用构造器注入的循环依赖，构造时对象还没创建出来，无法放入三级缓存，spring 会直接抛出 <code>BeanCurrentlyInCreationException</code></li>
+<li>原型 Bean 循环依赖，由于 spring 不缓存 Prototype Bean，所以无法暴露其早期引用</li>
+<li><code>@Async</code> 方法导致的循环依赖，因为 <code>@Async</code> 的大力创建时机交完，在三级缓存机制后，可能导致注入的不是最终的代理对象</li>
+</ul>
 <h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><p>spring 中 Bean 的作用域可以通过注释 <code>@Scope()</code> 指定，通常有以下几种</p>
 <ul>
 <li><code>singleton</code> 单例<br>  默认作用域。在整个 spring IoC 容器中，只存在一个该 Bean 的共享实例，该实例在容器启动或第一次请求时创建，容器关闭时销毁</li>

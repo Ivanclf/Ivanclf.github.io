@@ -100,13 +100,18 @@ IoC (`Inversion of Control`) 机制带来的好处是显而易见的，它使得
     ```java
     @Service
     public class UserService {
-    private final UserRepository userRepository;
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    //...
+        private final UserRepository userRepository;
+        public UserService(UserRepository userRepository) {
+            this.userRepository = userRepository;
+        }
+        //...
     }
     ```
+
+    {% note info %}
+    使用lomlok相关注释可以实现类似的效果。
+    {% endnote %}
+
 - Setter 注入
     ```java
     @Service
@@ -159,7 +164,8 @@ IoC (`Inversion of Control`) 机制带来的好处是显而易见的，它使得
 `@Autowired` 注入在 Bean 生命周期的属性填充阶段执行。首先，spring 会扫描 Bean 类，找出所有 `@Autowired` 注解的字段和方法。然后，spring 根据字段/参数类型在容器中查找匹配的 Bean。最后，通过**反射**设置字段值，将找到的 Bean 注入到目标字段。对于字段注入，会调用 `Field.set()` 方法，对于 setter 注入，会调用 `Method.invoke()` 方法。
 {% endnote %}
 
-{% note success %}
+#### 循环依赖
+
 对于 Field 或 Setter 注入时可能产生的循环依赖问题，spring 通过三级缓存机制，巧妙解决了单例 Bean 场景下的循环依赖问题。
 
 在 spring 的 `DefaultSingletonBeanRegistry` 类中，维护了三个重要的 Map，也就是我们常说的三级缓存：
@@ -201,12 +207,12 @@ IoC (`Inversion of Control`) 机制带来的好处是显而易见的，它使得
 
 如果缺少了二级缓存，那么在三个及以上（假设为 A、B、C）的 Bean 构成间接依赖时，每次 B 或 C 需要获取 A 时，都需要调用 A 中的 `ObjectFactory.getObject()` 方法。这意味着如果 A 需要被代理的话，代理对象可能会重复创建多次。
 
+[可以看这里的视频](https://www.bilibili.com/video/BV1HwkvYmEXv)
+
 以下情况的循环依赖 spring 无法被创建出来：
 - 若使用构造器注入的循环依赖，构造时对象还没创建出来，无法放入三级缓存，spring 会直接抛出 `BeanCurrentlyInCreationException`
 - 原型 Bean 循环依赖，由于 spring 不缓存 Prototype Bean，所以无法暴露其早期引用
 - `@Async` 方法导致的循环依赖，因为 `@Async` 的大力创建时机交完，在三级缓存机制后，可能导致注入的不是最终的代理对象
-
-{% endnote %}
 
 #### 作用域
 

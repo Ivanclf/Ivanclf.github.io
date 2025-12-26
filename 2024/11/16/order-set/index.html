@@ -21,7 +21,7 @@
   
     <meta name="description" content="Git 的常见用法见此处 latex的碎片化使用希腊字母需要大写的希腊字母时，首字母大写即可    显示 命令 显示 命令 显示 命令    $\alpha$ \alpha $\beta$ \beta $\gamma$ \gamma   $\delta$ \delta $\epsilon$ \epsilon $\zeta$ \zeta   $\eta$ \eta $\theta$ \theta $">
 <meta property="og:type" content="article">
-<meta property="og:title" content="指令集和 Linux 杂记">
+<meta property="og:title" content="指令集">
 <meta property="og:url" content="https://ivanclf.github.io/2024/11/16/order-set/index.html">
 <meta property="og:site_name" content="Ivan的博客">
 <meta property="og:description" content="Git 的常见用法见此处 latex的碎片化使用希腊字母需要大写的希腊字母时，首字母大写即可    显示 命令 显示 命令 显示 命令    $\alpha$ \alpha $\beta$ \beta $\gamma$ \gamma   $\delta$ \delta $\epsilon$ \epsilon $\zeta$ \zeta   $\eta$ \eta $\theta$ \theta $">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2024/11/16/order-set/vi-vim-cheat-sheet-sch.gif">
 <meta property="og:image" content="https://ivanclf.github.io/2024/11/16/order-set/Linux%E6%9D%83%E9%99%90%E8%A7%A3%E8%AF%BB-BGnXOuG0.png">
 <meta property="article:published_time" content="2024-11-16T11:51:38.000Z">
-<meta property="article:modified_time" content="2025-11-30T06:45:18.486Z">
+<meta property="article:modified_time" content="2025-12-26T10:11:11.484Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="速查">
 <meta name="twitter:card" content="summary_large_image">
@@ -37,7 +37,7 @@
   
   
   
-  <title>指令集和 Linux 杂记 - Ivan的博客</title>
+  <title>指令集 - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="指令集和 Linux 杂记"></span>
+            <span id="subtitle" data-typed-text="指令集"></span>
           
         </div>
 
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.9k 字
         
       </span>
     
@@ -281,7 +281,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">指令集和 Linux 杂记</h1>
+            <h1 id="seo-header">指令集</h1>
             
             
               <div class="markdown-body">
@@ -997,6 +997,245 @@
 <td>删除指定的数据卷</td>
 </tr>
 </tbody></table>
+<h2 id="FFmpeg"><a href="#FFmpeg" class="headerlink" title="FFmpeg"></a>FFmpeg</h2><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000042391748">https://segmentfault.com/a/1190000042391748</a></p>
+<h3 id="ffplay"><a href="#ffplay" class="headerlink" title="ffplay"></a>ffplay</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/renhui/p/8458802.html">https://www.cnblogs.com/renhui/p/8458802.html</a></p>
+<p>通用格式为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ffplay [option] &lt;file&gt;<br></code></pre></td></tr></table></figure>
+
+<p>选项有</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-x width</code></td>
+<td>强制以 “width” 宽度显示</td>
+</tr>
+<tr>
+<td><code>-y height</code></td>
+<td>强制以 “height” 高度显示</td>
+</tr>
+<tr>
+<td><code>-an</code></td>
+<td>禁止音频</td>
+</tr>
+<tr>
+<td><code>-vn</code></td>
+<td>禁止视频</td>
+</tr>
+<tr>
+<td><code>-ss pos</code></td>
+<td>跳转到指定的位置（秒）</td>
+</tr>
+<tr>
+<td><code>-t duration</code></td>
+<td>播放 “duration” 秒音&#x2F;视频</td>
+</tr>
+<tr>
+<td><code>-bytes</code></td>
+<td>按字节跳转</td>
+</tr>
+<tr>
+<td><code>-nodisp</code></td>
+<td>禁止图像显示（只输出音频）</td>
+</tr>
+<tr>
+<td><code>-f fmt</code></td>
+<td>强制使用 “fmt” 格式</td>
+</tr>
+<tr>
+<td><code>-window_title title</code></td>
+<td>设置窗口标题（默认为输入文件名）</td>
+</tr>
+<tr>
+<td><code>-loop number</code></td>
+<td>循环播放 “number” 次（0 将一直循环）</td>
+</tr>
+<tr>
+<td><code>-showmode mode</code></td>
+<td>设置显示模式，可选 mode：<br><code>0, video</code> 显示视频<br><code>1, waves</code> 显示音频波形<br><code>2, rdft</code> 显示音频频带<br>默认值为 ‘video’，播放时可按 “w” 键切换</td>
+</tr>
+<tr>
+<td><code>-i input_file</code></td>
+<td>指定输入文件</td>
+</tr>
+<tr>
+<td><code>-autoexit</code></td>
+<td>播放完成后自动退出</td>
+</tr>
+</tbody></table>
+<p>某些快捷键为</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>q</code>, <code>ESC</code></td>
+<td>退出</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td>全屏</td>
+</tr>
+<tr>
+<td><code>p</code>, <code>SPC</code></td>
+<td>暂停</td>
+</tr>
+<tr>
+<td><code>w</code></td>
+<td>切换显示模式（视频&#x2F;音频波形&#x2F;音频频带）</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td>步进到下一帧</td>
+</tr>
+<tr>
+<td><code>left</code>&#x2F;<code>right</code></td>
+<td>快退&#x2F;快进 10 秒</td>
+</tr>
+<tr>
+<td><code>down</code>&#x2F;<code>up</code></td>
+<td>快退&#x2F;快进 1 分钟</td>
+</tr>
+<tr>
+<td><code>page down</code>&#x2F;<code>page up</code></td>
+<td>跳转到前一章&#x2F;下一章（若无章节，快退&#x2F;快进 10 分钟）</td>
+</tr>
+<tr>
+<td><code>mouse click</code></td>
+<td>跳转到鼠标点击的位置（根据点击位置计算百分比）</td>
+</tr>
+</tbody></table>
+<h3 id="配置查看"><a href="#配置查看" class="headerlink" title="配置查看"></a>配置查看</h3><p>使用 <code>ffmpeg configure</code> 查看相关配置，后跟参数为</p>
+<ul>
+<li><code>-encoders</code> 编码器</li>
+<li><code>-decoders</code> 解码器</li>
+<li><code>- protocols</code> 通信协议</li>
+<li><code>--help</code> 音视频编码格式、文件封装格式与流媒体传输协议</li>
+</ul>
+<h3 id="通用"><a href="#通用" class="headerlink" title="通用"></a>通用</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-i</code></td>
+<td>指定输入的文件</td>
+</tr>
+<tr>
+<td><code>-aspect 16:9</code></td>
+<td>告诉播放器应该展示的比例是多少，而不改变其本身结构</td>
+</tr>
+<tr>
+<td><code>-thread 4</code></td>
+<td>指定使用的线程数</td>
+</tr>
+<tr>
+<td><code>-vn</code></td>
+<td>去除视频流</td>
+</tr>
+<tr>
+<td><code>-an</code></td>
+<td>去除音频流</td>
+</tr>
+<tr>
+<td><code>-y</code></td>
+<td>输出时覆盖同名文件</td>
+</tr>
+</tbody></table>
+<h3 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-vcodec h264</code> <code>-c:v h264</code></td>
+<td>指定视频编码器为某一种</td>
+</tr>
+<tr>
+<td><code>-vf</code> <code>-filter:v</code></td>
+<td>让 ffmpeg 在解码后，编码前对单个视频的帧进行处理</td>
+</tr>
+<tr>
+<td><code>-filter-complex</code></td>
+<td>复合滤镜，处理多个输入文件，后接字符串</td>
+</tr>
+</tbody></table>
+<p>过滤器的参数如下，参数间用逗号分隔。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>scale=1280:720</code></td>
+<td>设置分辨率，此处重排了像素</td>
+</tr>
+<tr>
+<td><code>transpose=1</code></td>
+<td>反转，0-3 对应 90&#x2F;270&#x2F;450&#x2F;630 度</td>
+</tr>
+<tr>
+<td><code>fps=25</code></td>
+<td>强制输出帧率</td>
+</tr>
+<tr>
+<td><code>setpts=0.5*PTS</code></td>
+<td>倍速，此处为0.5倍速</td>
+</tr>
+<tr>
+<td><code>format=yuv420p</code></td>
+<td>强制像素格式</td>
+</tr>
+<tr>
+<td><code>subtitles=name.ass</code></td>
+<td>直接把 <code>.ass</code> 字幕文件放进画面里</td>
+</tr>
+<tr>
+<td><code>overlay=10:10</code></td>
+<td>把另一路视频&#x2F;PNG叠上去</td>
+</tr>
+</tbody></table>
+<p>在复合滤镜下，需要给每一个文件的视频和音频指定响应的滤镜。不同的视频、音频之间指定为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[0:0][0:1] [1:0][1:1] [2:0][2:1]<br><span class="hljs-comment"># 分别表示第1个输入文件的视频、音频，第2个输入文件的视频、音频，第3个输入文件的视频、音频</span><br></code></pre></td></tr></table></figure>
+
+<p>对应参数如下</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>concat=n=3:v=1:a=1</code></td>
+<td>表示有3个输入文件。输出1条视频流，1条音频流</td>
+</tr>
+</tbody></table>
+<h3 id="音频"><a href="#音频" class="headerlink" title="音频"></a>音频</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-c:a</code></td>
+<td>指定音频编码器</td>
+</tr>
+</tbody></table>
 
                 
               </div>
@@ -1021,7 +1260,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>指令集和 Linux 杂记</div>
+      <div>指令集</div>
       <div>https://ivanclf.github.io/2024/11/16/order-set/</div>
     </div>
     <div class="license-meta">

@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/15/networking-3/cache.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/15/networking-3/slow-start.png">
 <meta property="article:published_time" content="2025-11-15T07:17:21.000Z">
-<meta property="article:modified_time" content="2025-11-18T02:24:43.110Z">
+<meta property="article:modified_time" content="2025-12-27T16:03:19.443Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="日常">
@@ -242,7 +242,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.1k 字
+          3.2k 字
         
       </span>
     
@@ -298,7 +298,61 @@
 
 <p>进程到进程的传递需要两个标识符，IP 地址和端口号，这两个结合在一起称为了<strong>套接字</strong>。</p>
 <h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><p><strong>用户数据报协议</strong>称为无连接不可靠的传输层协议。它除了提供进程到进程通信而不是主机到主机的通信外，就没有给 IP 服务添加任何东西。</p>
-<p>USP 协议常用的端口有<br>|端口号|服务&#x2F;协议|用途|<br>|53|DNS|域名解析|<br>|67 68|DHCP|自动为网络中的设备分配 IP 地址|<br>|69|TFTP|简单的文件传输|<br>|123|NTP|同步计算机和网络设备的时间|<br>|161 162|SNMP|网络设备的监控和管理|<br>|500|ISAKMP&#x2F;IKE| IPsec VPN 协商的第一阶段|<br>|514|Syslog|系统日志传输|<br>|1194|OpenVPN|OpenVPN 服务默认使用的端口，也可能是 TCP|<br>|520|RIP|用于路由器间交换路由信息|</p>
+<p>USP 协议常用的端口有</p>
+<table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>服务&#x2F;协议</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>53</td>
+<td>DNS</td>
+<td>域名解析</td>
+</tr>
+<tr>
+<td>67 68</td>
+<td>DHCP</td>
+<td>自动为网络中的设备分配 IP 地址</td>
+</tr>
+<tr>
+<td>69</td>
+<td>TFTP</td>
+<td>简单的文件传输</td>
+</tr>
+<tr>
+<td>123</td>
+<td>NTP</td>
+<td>同步计算机和网络设备的时间</td>
+</tr>
+<tr>
+<td>161 162</td>
+<td>SNMP</td>
+<td>网络设备的监控和管理</td>
+</tr>
+<tr>
+<td>500</td>
+<td>ISAKMP&#x2F;IKE</td>
+<td>IPsec VPN 协商的第一阶段</td>
+</tr>
+<tr>
+<td>514</td>
+<td>Syslog</td>
+<td>系统日志传输</td>
+</tr>
+<tr>
+<td>1194</td>
+<td>OpenVPN</td>
+<td>OpenVPN 服务默认使用的端口，也可能是 TCP</td>
+</tr>
+<tr>
+<td>520</td>
+<td>RIP</td>
+<td>用于路由器间交换路由信息</td>
+</tr>
+</tbody></table>
 <p><img src="udp.png" srcset="/img/loading.gif" lazyload alt="UDP 的结构"></p>
 <p>UDP数据报的“长度”是指其自身的总长度。计算校验和时，会临时组合一个包含IP信息的“伪首部”与UDP数据报一同运算，此举是为了进行端到端的正确性验证，但伪首部本身不参与传输。</p>
 <h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><p>TCP 是一个面向链接的协议。它在两个 TCP 之间建立一个虚拟的链接来发送数据。另外，TCP 在传输层使用流量控制和差错控制机制。</p>
@@ -388,7 +442,7 @@
 </tr>
 </tbody></table>
 <p>TCP 的链接和建立都是采用客户端和服务器的方式。主动发起链接建立的进程都叫<strong>客户</strong>，被动等待链接建立的应用进程叫<strong>服务器</strong>。</p>
-<h3 id="报文结构"><a href="#报文结构" class="headerlink" title="报文结构"></a>报文结构</h3><p><img src="tcp.png" srcset="/img/loading.gif" lazyload alt="TCP 报文结构"></p>
+<h4 id="报文结构"><a href="#报文结构" class="headerlink" title="报文结构"></a>报文结构</h4><p><img src="tcp.png" srcset="/img/loading.gif" lazyload alt="TCP 报文结构"></p>
 <p>其中的控制字段分以下几种</p>
 <ul>
 <li>URG 紧急指示符字段</li>
@@ -398,27 +452,27 @@
 <li>SYN 在链接时对序列号进行同步</li>
 <li>FIN 终止链接</li>
 </ul>
-<h3 id="建立链接"><a href="#建立链接" class="headerlink" title="建立链接"></a>建立链接</h3><p>在发送任何应用数据前，TCP 必须先在客户端和服务器间建立可靠的链接。建立链接需要分三步</p>
+<h4 id="建立链接"><a href="#建立链接" class="headerlink" title="建立链接"></a>建立链接</h4><p>在发送任何应用数据前，TCP 必须先在客户端和服务器间建立可靠的链接。建立链接需要分三步</p>
 <ol>
 <li>SYN<br> 发送方向接收方发送特殊的报文，并随机生成一个初始序列号，说明“我想和你建立连接，我的初始号码是 <code>X</code>”</li>
 <li>SYN-ACK<br> 接收方收到请求后，会回复一个报文。这个报文同时设置了 SYN 和 ACK 标志位。它确认了客户端的序列号 (ACK &#x3D; X + 1)，同时也告知己方的初始序列号，说明“我听到了，我同意链接，我的初始号码是 <code>Y</code>”</li>
 <li>ACK<br> 发送方再发送一个确认报文，ACK 标志位设为1，确认号为 ACK &#x3D; Y + 1，说明“收到你的确认了，我们可以开始了”</li>
 </ol>
 <p><img src="3times.png" srcset="/img/loading.gif" lazyload alt="三次握手流程"></p>
-<h3 id="数据传输和可靠性验证"><a href="#数据传输和可靠性验证" class="headerlink" title="数据传输和可靠性验证"></a>数据传输和可靠性验证</h3><p>TCP 会将应用层传来的数据流分割成大小合适的<strong>数据段</strong>。</p>
+<h4 id="数据传输和可靠性验证"><a href="#数据传输和可靠性验证" class="headerlink" title="数据传输和可靠性验证"></a>数据传输和可靠性验证</h4><p>TCP 会将应用层传来的数据流分割成大小合适的<strong>数据段</strong>。</p>
 <p>每个数据段都会被赋予一个唯一的序列号，接收方在成功收到后，会回复一个确认报文，包含它所期望收到的下一个序列号。发送方在发出一个数据段后会启动计时器，诸如此类。同时接收方通过滑动窗口机制来告诉发送方自己还能接收多少数据。</p>
 <div class="note note-info">
             <p>TCP 发送的双方都有一个缓冲区。操作系统内核为每个 TCP 内核都预留了一块内存区域，用于临时存放待发送或已接收的数据。这里的缓冲区可以实现重传机制，以及将无序的数据重新组装等功能。</p><p><img src="cache.png" srcset="/img/loading.gif" lazyload alt="缓冲区图示"></p>
           </div>
 
-<h3 id="断开链接"><a href="#断开链接" class="headerlink" title="断开链接"></a>断开链接</h3><p>数据发送完毕后，需要进行断开操作。该操作分四步</p>
+<h4 id="断开链接"><a href="#断开链接" class="headerlink" title="断开链接"></a>断开链接</h4><p>数据发送完毕后，需要进行断开操作。该操作分四步</p>
 <ol>
 <li>FIN 主动关闭方发送 FIN 标志位为 1 的报文，标识“我的数据发完了，想断开链接”</li>
 <li>ACK 被动关闭方收到 FIN 后，回复一个 ACK 进行确认，表示“我知道你要关闭了”。此时主动关闭方已不能发送数据，但被动关闭方可能还有数据要发送</li>
 <li>被动关闭方也准备好关闭后，会发送自己的 FIN</li>
 <li>主动关闭方收到 FIN 后，回复最终的 ACK 确认。最后双方链接完全关闭</li>
 </ol>
-<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>每一个 TCP 链接需要有以下两个状态变量</p>
+<h4 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h4><p>每一个 TCP 链接需要有以下两个状态变量</p>
 <ul>
 <li>接收端窗口 rwnd<br>  接收端根据其目前的接收缓存大小所许诺的最新窗口值，是来自接收端的流量控制。接收端将此窗口值放在 TCP 报文首部中的窗口字段，传送给发送端</li>
 <li>拥塞窗口 cwnd<br>  发送端根据自己估计的网络拥塞程度而设置的窗口值，是来自发送端的流量控制。</li>
@@ -433,7 +487,7 @@
 <p><img src="slow-start.png" srcset="/img/loading.gif" lazyload alt="慢开始示意图"></p>
 <p><strong>快重传算法</strong>是指，当发送端连续收到三个或三个以上重复的ACK时，即可判定某个报文段已经丢失。此时，发送端会立即重传对方所要求的那个报文段，而无需等待重传计时器超时。这是一种基于反馈的主动修复机制，能够有效减少数据等待重传的时延。</p>
 <p><strong>快恢复算法</strong>与快重传协同工作。当发送端因收到三个重复ACK而触发快重传时，会随即执行快恢复：首先，将慢开始门限（ssthresh） 设置为当前拥塞窗口（cwnd） 值的一半。然后，与慢开始算法不同，它并不将 cwnd 重置为1，而是将 cwnd 设置为新的 ssthresh 值（有些实现会在此基础上加3，以补偿已离开网络的报文段）。在此之后，发送端直接进入拥塞避免阶段，开始线性地增大 cwnd。</p>
-<h3 id="TCP-的重传机制"><a href="#TCP-的重传机制" class="headerlink" title="TCP 的重传机制"></a>TCP 的重传机制</h3><p>由于 IP 数据报选择的路由变化很大，因而运输层的往返时延的方差也会很大。</p>
+<h4 id="TCP-的重传机制"><a href="#TCP-的重传机制" class="headerlink" title="TCP 的重传机制"></a>TCP 的重传机制</h4><p>由于 IP 数据报选择的路由变化很大，因而运输层的往返时延的方差也会很大。</p>
 <p>记录每一个报文段发出的时间，以及收到响应的确认报文段时间。这两个时间之差就是报文段的<strong>往返时延</strong>，平均往返时延可以使用<strong>自适应算法</strong> (RTT) 解决。</p>
 <p>$$<br>\overline{\text{RTT}}&#x3D;\alpha \times \text{RTT}_{旧}+(1-\alpha)\times 新的时延样本<br>$$</p>
 <p>其中有 $0\leq \alpha \leq 1$，表示加权。选择的 $\alpha$ 越接近 0，则表示加权极端的平均往返时延受新的时延样本的影响较大。一般取 $\alpha &#x3D; \frac{7}{8}$。</p>
@@ -474,8 +528,8 @@
 
 <h2 id="应用层协议"><a href="#应用层协议" class="headerlink" title="应用层协议"></a>应用层协议</h2><p>教学大纲基本不涉及应用层，而且涉及到的都是千禧年代的产物，因此补充的内容特别多，放另几篇上了。</p>
 <h3 id="TELNET"><a href="#TELNET" class="headerlink" title="TELNET"></a>TELNET</h3><p>用户使用 TELNET 就可以在其所在通道上通过 TCP 链接注册到远地的另一个主机上。然而目前更常用的是加密的 SSH。</p>
-<h3 id="SMTP-与-MIME"><a href="#SMTP-与-MIME" class="headerlink" title="SMTP 与 MIME"></a>SMTP 与 MIME</h3><p>基于 TCP 协议的发送电子邮箱的协议。注意：SMTP 只负责邮件的发送，而不是接收。要从邮件服务器接收邮件，需要使用 POP3 或 IMAP 协议。</p>
-<p>MIME 则是在继续目前的格式的基础上，增加了邮件主体的结构，并定义了传送非 ASCII 码的编码规则。</p>
+<h3 id="SMTP-与-MIME"><a href="#SMTP-与-MIME" class="headerlink" title="SMTP 与 MIME"></a>SMTP 与 MIME</h3><p>基于 TCP 协议的发送电子邮箱的协议。注意：SMTP 只负责邮件的发送，而不是接收。要从邮件服务器接收邮件，需要使用 POP3 或 IMAP 协议。二者的区别在于，POP3 协议会将邮件下载到本地，然后通常在服务器上删除，适合单设备管理邮件；而 IMAP 将邮件保留到服务器上，客户端进行的所有操作都会和服务器同步。</p>
+<p>MIME 是多用途互联网邮件扩展协议。它不是传输协议，而是一个内容格式标准。它通过在邮件头中添加一系列字段，使SMTP协议能够传输非ASCII字符（如中文）、富文本（HTML）以及二进制文件（如图片、音频、文档等附件）。</p>
 <div class="note note-info">
             <p>这里的定义老旧得被气笑了。MIME 更广泛的用法<a href="https://ivanclf.github.io/2024/08/01/internet-1/#MIME%E7%AE%80%E8%BF%B0">在以前的文章</a>。它定义的 <code>Content-Type</code> 标准（即“媒体类型”）实在是太有用了，因此被直接采纳并应用于 WWW 或其他互联网协议中。</p>
           </div>

@@ -27,7 +27,7 @@
 <meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javaguide.cn&#x2F;system-design&#x2F;security&#x2F;basis-of-authority-certification.html https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html https:&#x2F;&#x2F;tech.meituan.com&#x2F;2018&#x2F;10&#x2F;11&#x2F;fe-secur">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-11-17T02:14:14.000Z">
-<meta property="article:modified_time" content="2025-11-18T02:24:42.496Z">
+<meta property="article:modified_time" content="2025-12-27T16:15:43.998Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="碎片知识">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.7k 字
+          6k 字
         
       </span>
     
@@ -591,7 +591,14 @@
 <p>该方案无状态，方便管理，能避免 CSRF 攻击，适合移动端应用，并且能实现 OSS 功能——只要用户的 JWT 存放在电脑上，就能很方便地进行认证。</p>
 <p>然而，JWT 在处理 退出登录&#x2F;修改密码&#x2F;修改权限&#x2F;账户封禁&#x2F;被迫下线&#x2F;强制注销&#x2F;主动注销 的场景比较麻烦。对此可以将 JWT 存入 redis （但违反了 JWT 的无状态原则），或者在 redis 中放一个黑名单，或者修改用户另外的专属密钥，或者经常轮换，等等。</p>
 <p>若 JWT 需要续签，则可以采取客户端检测（不推荐），每次请求都返回新 JWT （不推荐），增加有效期或者设置到半夜（废话），或者返回两个 JWT —— accessJWT 和 refreshJWT。前者过期时间短，用于认证；后者过期时间长，用于刷新前者过期时间。</p>
+<h2 id="XSS-攻击"><a href="#XSS-攻击" class="headerlink" title="XSS 攻击"></a>XSS 攻击</h2><p>攻击者在网页中注入恶意脚本。当其他用户浏览该网页时，脚本会在其浏览器中执行，从而执行窃取数据等操作。</p>
+<p>一般情况下，恶意脚本可能会通过 URL 参数传递信息，或者被永久存储在服务器里，或者通过修改页面的 DOM 结构来实现（该方法无需经过服务器）。</p>
+<p>该攻击的本质在于让浏览器执行本不应该信任的代码，因此不应该信任任何用户的输入，并对输出内容进行严格处理。</p>
+<p>比如，假设一个网站的搜索功能能显示用户的输入内容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>您搜索的关键词为: &lt;%= user_input %&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
+<p>若用户输入 <code>&lt;script&gt;alert(&#39;XSS&#39;)&lt;/script&gt;</code>，则脚本将被执行。而防御方法是对输出进行转义，如</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>您搜索的关键词：&lt;%= escape(user_input) %&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
                 
               </div>
             

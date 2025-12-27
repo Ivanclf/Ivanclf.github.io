@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/13/networking/4d-pam5.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/13/networking/mlt3.png">
 <meta property="article:published_time" content="2025-11-13T02:25:16.000Z">
-<meta property="article:modified_time" content="2025-11-18T02:24:43.119Z">
+<meta property="article:modified_time" content="2025-12-27T14:17:27.837Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="日常">
@@ -246,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.2k 字
+          4.3k 字
         
       </span>
     
@@ -519,10 +519,15 @@
 <p>对于 $\frac{1}{r}&#x3D;1$ （对于 NRZ 或双击信号），$c&#x3D;\frac{1}{2}$ （平均情况）</p>
 <p>$$<br>B_{\text{min}}&#x3D;n_b\times B_{\text{ana log}}<br>$$</p>
 <p>这表示数字信号的最小带宽是模拟信号带宽的 $n_b$ 倍。</p>
-<h2 id="检错和纠错"><a href="#检错和纠错" class="headerlink" title="检错和纠错"></a>检错和纠错</h2><p>检错码是为了某些类型的差错设计的，因此只能检测这些类型的差错，其他类型的差错就无法检测到。以下主要介绍快编码的情况。</p>
-<h3 id="汉明码"><a href="#汉明码" class="headerlink" title="汉明码"></a>汉明码</h3><p>两个字的<strong>汉明距离</strong>是对应位不同的数量，一般使用异或运算，而<strong>最小汉明距离</strong>是一组字（一组编码方案）中所有可能对的最小汉明距离。</p>
+<h2 id="检错和纠错"><a href="#检错和纠错" class="headerlink" title="检错和纠错"></a>检错和纠错</h2><p>检错码是为了某些类型的差错设计的，因此只能检测这些类型的差错，其他类型的差错就无法检测到。以下主要介绍块编码的情况。</p>
+<h3 id="汉明码"><a href="#汉明码" class="headerlink" title="汉明码"></a>汉明码</h3><p>两个字的<strong>汉明距离</strong>是对应位不同的数量，一般使用异或运算。</p>
+<div class="note note-info">
+            <p>假设 $A:\ 1011101\quad B:\ 1001001$，则二者异或后的结果为 $0010100$，有两个1，则二者的汉明距离为2。</p>
+          </div>
+
+<p>而<strong>最小汉明距离</strong>是一组字（一组编码方案）中所有可能对的最小汉明距离。即所有可能的汉明距离中最小的。</p>
 <p>为了保证检测出最多 $s$ 个错误，块编码中最小汉明距离一定是 $d_{\text{min}}&#x3D;s+1$。<br>为了保证能纠正最多 $t$ 个错误，块编码中最小汉明距离一定是 $d_{\text{min}}&#x3D;2t+1$</p>
-<h3 id="CRC"><a href="#CRC" class="headerlink" title="CRC"></a>CRC</h3><h4 id="数学原理"><a href="#数学原理" class="headerlink" title="数学原理"></a>数学原理</h4><p>CRC 的所有运算都是模 2 运算。即等价于异或运算（加法不进位，减法不借位）。任何二进制数据流都可以表示为一个多项式，其中的每一项系数都是0或1，指数对应比特的位置。在操作前，先约定一个双方约定好的，阶数为 $r$ 的<strong>生成多项式</strong>。如 CRC-16 $x^{16}+x^{15}+x^2+1$，等等。这个生成多项式其他什么都行，但必须至少有两项，且 $x_0$ 项的系数必须是1。</p>
+<h3 id="CRC"><a href="#CRC" class="headerlink" title="CRC"></a>CRC</h3><h4 id="数学原理"><a href="#数学原理" class="headerlink" title="数学原理"></a>数学原理</h4><p>CRC 的所有运算都是模 2 运算。即等价于异或运算（加法不进位，减法不借位）。任何二进制数据流都可以表示为一个多项式，其中的每一项系数都是0或1，指数对应比特的位置。在操作前，先约定一个双方约定好的，阶数为 $r$ 的<strong>生成多项式</strong>。如 CRC-16 ($x^{16}+x^{15}+x^2+1$)，等等。这个生成多项式其他什么都行，但必须至少有两项，且 $x_0$ 项的系数必须是1。</p>
 <p>编码时</p>
 <ul>
 <li>发送端将原始数据 $M(x)$ 左移 $r$ 位，得到 $x^r\cdot M(x)$</li>

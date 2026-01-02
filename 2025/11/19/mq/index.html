@@ -19,16 +19,16 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考文献  https:&#x2F;&#x2F;rabbitmq.org.cn&#x2F;tutorials https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;rocketmq.html  消息队列是一种用于在应用程序之间传递消息的通信机制。它可以异步地将消息从一个应用程序发送到另一个应用程序，以实现解耦、异步处理和削峰填谷等功能。 目前常用的 MQ 有三种    特性维度 Rabbit MQ Roc">
+    <meta name="description" content="参考文献  https:&#x2F;&#x2F;rabbitmq.org.cn&#x2F;tutorials https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;rocketmq.html https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1h94y1Q7Xg  消息队列是一种用于在应用程序之间传递消息的通信机制。它可以异步地将消息从一个应用程序发送到另一个应用程序，以实现解耦、异步处理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MQ 的使用">
 <meta property="og:url" content="https://ivanclf.github.io/2025/11/19/mq/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;rabbitmq.org.cn&#x2F;tutorials https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;rocketmq.html  消息队列是一种用于在应用程序之间传递消息的通信机制。它可以异步地将消息从一个应用程序发送到另一个应用程序，以实现解耦、异步处理和削峰填谷等功能。 目前常用的 MQ 有三种    特性维度 Rabbit MQ Roc">
+<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;rabbitmq.org.cn&#x2F;tutorials https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;rocketmq.html https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1h94y1Q7Xg  消息队列是一种用于在应用程序之间传递消息的通信机制。它可以异步地将消息从一个应用程序发送到另一个应用程序，以实现解耦、异步处理">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/19/mq/rocketmq-20240726163831.png">
 <meta property="article:published_time" content="2025-11-19T10:52:22.000Z">
-<meta property="article:modified_time" content="2025-11-22T06:47:32.308Z">
+<meta property="article:modified_time" content="2026-01-02T13:29:56.325Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="spring">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.4k 字
+          6.1k 字
         
       </span>
     
@@ -291,6 +291,7 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://rabbitmq.org.cn/tutorials">https://rabbitmq.org.cn/tutorials</a></li>
 <li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/rocketmq.html">https://javabetter.cn/sidebar/sanfene/rocketmq.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1h94y1Q7Xg">https://www.bilibili.com/video/BV1h94y1Q7Xg</a></li>
 </ul>
 <p>消息队列是一种用于在应用程序之间传递消息的通信机制。它可以异步地将消息从一个应用程序发送到另一个应用程序，以实现<strong>解耦</strong>、<strong>异步处理</strong>和<strong>削峰填谷</strong>等功能。</p>
 <p>目前常用的 MQ 有三种</p>
@@ -477,6 +478,23 @@
             <p>可以发现，目前的路由都是通过不同的种类的 Exchange 实现。Rabbit MQ 提供了多种 Exchange 类型，每种都有不同的路由机制和适应场景</p><table><thead><tr><th>Exchange 类型</th><th>路由机制</th><th>绑定方式</th><th>性能</th><th>适用场景</th></tr></thead><tbody><tr><td>Direct</td><td>精确匹配</td><td>队列绑定指定路由键</td><td>高</td><td>点对点的任务分发</td></tr><tr><td>Fanout</td><td>广播到所有队列</td><td>不需要路由键</td><td>高</td><td>发布订阅，广播通知</td></tr><tr><td>Topic</td><td>模式匹配路由键</td><td>支持通配符</td><td>中</td><td>灵活路由、消息分类</td></tr><tr><td>Headers</td><td>消息头匹配</td><td>基于 header 属性</td><td>低</td><td>复杂条件路由</td></tr></tbody></table>
           </div>
 
+<h2 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h2><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>在 Kafka 中，同一个消息通常存在同一个 <strong>topic</strong> 下，而一个 topic 下分有多个 <strong>partition</strong> (分区)。每一个分区是一个线性增长的不可变的提交日志。消息存储到分区后即不可变更。Kafka 回味每一个消息提供一个偏移量，以记录每条消息的位置。</p>
+<p>每一条消息都是一个键值对，若键为空，则 Kafka 会以轮询的方式放到每一个分区中；若键不为空，则 Kafka 会将消息放到符合条件的分区中。</p>
+<p>可以通过设置 <code>replication-factor</code> 的数量，来指定一个分区中的队列数量。这样，一旦主分区宕机，备份也可以立刻顶上，以实现高可用。</p>
+<h3 id="消费模型"><a href="#消费模型" class="headerlink" title="消费模型"></a>消费模型</h3><p>一个分区中的数据不能被一个消费者组中的多个消费者消费。通过合理分配消费者和消费者组，可以实现发布订阅模式和点对点模式。</p>
+<p>同一个生产者发送到同一分区的消息，先发送的 offset 肯定比后发送的 offset 小。同一个生产者发送到不同分区内的消息，其消息顺序无法保证。同理，对于消费者，Kafka 也只能保证分区内的消息顺序。</p>
+<h3 id="消息传递语义"><a href="#消息传递语义" class="headerlink" title="消息传递语义"></a>消息传递语义</h3><p>Kafka 提供了三种消息传递语义</p>
+<ul>
+<li>最多一次：消息可能会丢失，永远不重复发送</li>
+<li>最少一次：消息不会丢失，但可能会重复</li>
+<li>精确一次：保证消息被传递到服务端且在服务端不重复</li>
+</ul>
+<p>在最多一次的情况下，消费者先读取消费位置，再读取消息，即使读取失败，下次读取的偏移量也不一样了；在最少一次的情况下，消费者先读取消息，再提交消费位置，若读取或提交失败，则再次读取一样的数据。</p>
+<h3 id="发送与消费流程"><a href="#发送与消费流程" class="headerlink" title="发送与消费流程"></a>发送与消费流程</h3><p>在通过 <code>send()</code> 方法异步发送时，生产者处会为每一个分区建立一个缓存，用于存放消息。若消息已发送到缓存区则返回结果。而后台的线程则将缓冲区的消息发送给服务端。若需要实现同步发送，则需要接收 send 方法返回 <code>Future&lt;RecordMetadata&gt;</code> 数据。</p>
+<p>设置 <code>linger.ms</code> (发送间隔时间，单位为毫秒)，<code>Batch.size</code> (发送单批的数量) 来实现批量发送。当二者满足任一条件时则会发送。</p>
+<p>设置 <code>acks</code> 为 1  <code>all</code> 则说明每一条消息都需要手动确认，为 0 则说明不需要确定，为 -1 则需要落盘后确认。</p>
+<p>要实现精确一次语义，需要设置 <code>enable.idempotence</code> 参数值为 true，且 <code>acks</code> 为 <code>all</code>。</p>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>Kafka 默认的 <code>isolation-level</code>，即隔离级别为读未提交。这可能会导致事务风险。需要自己设置隔离级别。</p>
 <h2 id="Rocket-MQ"><a href="#Rocket-MQ" class="headerlink" title="Rocket MQ"></a>Rocket MQ</h2><h3 id="消息可用性保证"><a href="#消息可用性保证" class="headerlink" title="消息可用性保证"></a>消息可用性保证</h3><p>消息可能会在生产阶段、存储阶段、消费阶段发生丢失。</p>
 <p>生产阶段的丢失主要通过请求确认机制来保证消息的可靠传递。在同步发送的时候，要注意处理响应结果和异常。如果返回 OK，则表示成功发送到了 broker，如果响应失败或发生了其他异常，那么都应该重发。</p>
 <p>存储阶段的丢失往往由机子宕机造成。因此对可靠性优先的场景都应该使用同步。broker 通过同步刷盘或异步刷盘，将消息持久化到 CommitLog 日志文件中。即使 broker 宕机，未消费的消息也能重新恢复再消费。同步刷盘会在 producer 发送消息后等数据持久化到磁盘后再返回响应给 producer。</p>

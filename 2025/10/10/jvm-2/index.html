@@ -19,15 +19,15 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-parameters-intro.html  命令行工具JDK命令行工具有  jmap 生成堆存储快照 jps 类似UNIX的ps，查看所有Java进程的相关信息 jstat 收集HotSpot虚拟机各方面的运行数据 jinf">
+    <meta name="description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-parameters-intro.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-in-action.html https:&#x2F;&#x2F;www.mczfw.com&#x2F;blog&#x2F;12440.html  命令行">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JDK 工具和 JVM 调优">
 <meta property="og:url" content="https://ivanclf.github.io/2025/10/10/jvm-2/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-parameters-intro.html  命令行工具JDK命令行工具有  jmap 生成堆存储快照 jps 类似UNIX的ps，查看所有Java进程的相关信息 jstat 收集HotSpot虚拟机各方面的运行数据 jinf">
+<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-parameters-intro.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-in-action.html https:&#x2F;&#x2F;www.mczfw.com&#x2F;blog&#x2F;12440.html  命令行">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-10T01:27:24.000Z">
-<meta property="article:modified_time" content="2025-11-19T03:26:38.211Z">
+<meta property="article:modified_time" content="2026-01-03T07:49:51.372Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          2k 字
         
       </span>
     
@@ -287,6 +287,8 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/jvm.html#_39-jvm-%E7%9A%84%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B">https://javabetter.cn/sidebar/sanfene/jvm.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://javaguide.cn/java/jvm/jvm-parameters-intro.html">https://javaguide.cn/java/jvm/jvm-parameters-intro.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://javaguide.cn/java/jvm/jvm-in-action.html">https://javaguide.cn/java/jvm/jvm-in-action.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.mczfw.com/blog/12440.html">https://www.mczfw.com/blog/12440.html</a></li>
 </ul>
 <h2 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h2><p>JDK命令行工具有</p>
 <ul>
@@ -592,8 +594,7 @@
 <p>一个JVM参数配置示例</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">java -server \<br>     -Xms4g -Xmx4g -Xmn2g \                    <span class="hljs-comment"># 堆内存固定4G，年轻代2G</span><br>     -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m \ <span class="hljs-comment"># 元空间固定256M</span><br>     -XX:+UseG1GC \                            <span class="hljs-comment"># 使用G1收集器</span><br>     -XX:MaxGCPauseMillis=200 \                <span class="hljs-comment"># 目标停顿200ms</span><br>     -XX:InitiatingHeapOccupancyPercent=45 \   <span class="hljs-comment"># IHOP阈值45%</span><br>     -Xloggc:/app/logs/gc.log \                <span class="hljs-comment"># GC日志路径</span><br>     -XX:+PrintGCDetails -XX:+PrintGCDateStamps \ <span class="hljs-comment"># 打印详细GC信息和日期</span><br>     -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=10M \ <span class="hljs-comment"># 日志滚动</span><br>     -XX:+HeapDumpOnOutOfMemoryError \         <span class="hljs-comment"># OOM时生成Dump</span><br>     -XX:HeapDumpPath=/app/logs \              <span class="hljs-comment"># Dump文件路径</span><br>     -Dfile.encoding=UTF-8 \                   <span class="hljs-comment"># 系统属性：文件编码</span><br>     -Dspring.profiles.active=prod \           <span class="hljs-comment"># 系统属性：Spring环境</span><br>     -jar my-application.jar<br></code></pre></td></tr></table></figure>
 
-<h2 id="调优案例"><a href="#调优案例" class="headerlink" title="调优案例"></a>调优案例</h2><p><a target="_blank" rel="noopener" href="https://javaguide.cn/java/jvm/jvm-in-action.html">资料</a></p>
-<h3 id="内存溢出和内存泄漏"><a href="#内存溢出和内存泄漏" class="headerlink" title="内存溢出和内存泄漏"></a>内存溢出和内存泄漏</h3><p>在出现以下问题时则很可能发生了内存泄漏</p>
+<h2 id="调优案例"><a href="#调优案例" class="headerlink" title="调优案例"></a>调优案例</h2><h3 id="内存溢出和内存泄漏"><a href="#内存溢出和内存泄漏" class="headerlink" title="内存溢出和内存泄漏"></a>内存溢出和内存泄漏</h3><p>在出现以下问题时则很可能发生了内存泄漏</p>
 <ul>
 <li>应用响应越来越慢，频繁进行 <code>Full GC</code>。</li>
 <li>通过监控系统（如 Prometheus + Grafana）发现 Java 堆内存使用率持续上升，且即使经过 <code>Full GC</code> 也无法回落到正常水平，呈现“锯齿状但整体向上”的趋势。</li>
@@ -603,6 +604,14 @@
 <div class="note note-info">
             <p>首先使用以下的监控工具进行监视</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看GC概况，1s打印一次，共打印10次</span><br>jstat -gcutil &lt;pid&gt; 1s 10<br></code></pre></td></tr></table></figure><p>重点关注<code>OU</code>（老年代使用率）和<code>FU</code>（元空间使用率）。若发生了老年代内存泄漏，那么<code>OU</code>会持续增长，即使<code>Full GC</code>后也不下去。</p><p>然后获取内存快照(Heap Dump)。当确认存在内存泄漏嫌疑后，需要在内存占用量高的时候，生成堆转储文件，即一个时刻的Java堆内存快照。<br>生成Heap Dump有两种方法：</p><ol><li>一般使用命令行工具<code>jmap</code>。命令中，<code>live</code> 选项会触发一次 <code>Full GC</code>，只转储存活的对象。这能使快照更小，分析焦点更集中。如果不想要触发 GC，可以去掉 <code>live</code>。</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 在当前目录生成一个 heap.hprof 文件</span><br>jmap -dump:live,format=b,file=heap.hprof &lt;pid&gt;<br></code></pre></td></tr></table></figure><ol start="2"><li>也可以加JVM启动参数。当JVM发生OOM时，会自动生成Heap Dump。</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/dump.hprof<br></code></pre></td></tr></table></figure><p>接着分析这个巨大的二进制文件。一般可以使用<code>Eclipse Memory Analyzer Tool</code> (<code>MAT</code>)或<code>JVisualVM</code>分析。</p>
           </div>
+
+<h3 id="MC-服务器"><a href="#MC-服务器" class="headerlink" title="MC 服务器"></a>MC 服务器</h3><p>MC 服务端的对象很多寿命极短，但瞬时分配量极大，而有些对象生存周期又极长。再加上对延时要求极高，因此需要做出以下改进</p>
+<ol>
+<li>减少超时时间，即 <code>-XX:MaxGCPauseMillis=100</code>，由默认的 200ms 压缩至 100ms 甚至 50ms，减少因根区域扫描或其他原因的 STW 造成的卡顿问题。</li>
+<li>增大新生代面积，也增大 Eden 区的面积，让短命对象直接在 Eden 区。同时，同时缩短进入老年代的年龄门槛，以避免重复的 Survivor 区复制。因为很多对象要么 1 Tick 死，要么长期存在。<br>  回收参数为 <code>-XX:G1NewSizePercent=35</code>、<code>-XX:G1MaxNewSizePercent=40</code>、<code>-XX:SurvivorRatio=32</code>、<code>-XX:MaxTenuringThreshold=2</code>。</li>
+<li>G1 提前标记，以减少回收次数。同时预留一部分空 Region，避免在分区不够时直接触发 Full GC。<br>  参数为 <code>-XX:InitiatingHeapOccupancyPercent=15</code> （默认为45%），<code>-XX:G1ReservePercent=20</code>。</li>
+</ol>
+
                 
               </div>
             

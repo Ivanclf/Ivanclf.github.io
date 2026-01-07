@@ -27,7 +27,7 @@
 <meta property="og:description" content="在 Ollama 下，deepseek 常用参数有以下几项    参数名 描述 推荐值范围 适用场景    temperature 控制输出的随机性与创造力，值越高随机性越高 0.3~0.7 代码任务控制在 0.10.3写作任务控制在 0.60.8   top-p 核采样，控制候选词的范围，值越高词汇越多样 0.85~0.95 与 temperature 搭配，平衡生成质量   num_ctx 上">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-12-09T14:29:30.000Z">
-<meta property="article:modified_time" content="2025-12-09T15:09:37.477Z">
+<meta property="article:modified_time" content="2026-01-05T07:49:38.674Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="碎片知识">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          416 字
+          415 字
         
       </span>
     
@@ -347,7 +347,7 @@
 <td>放置模型“自问自答”或者把提示模板也写出来</td>
 </tr>
 </tbody></table>
-<p>要创建自定义模型，需要西安创建一个文本文件（如 ModelFile 或 ModelFile.deepseek），然后写入相关参数</p>
+<p>要创建自定义模型，需要先创建一个文本文件（如 ModelFile 或 ModelFile.deepseek），然后写入相关参数</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text"># 基于官方模型<br>FROM deepseek-r1:8b<br><br># 设置系统提示词，定义模型角色<br>SYSTEM &quot;&quot;&quot;你是一个有帮助且严谨的AI助手。回答应准确、简洁。&quot;&quot;&quot;<br><br># 设置参数<br>PARAMETER temperature 0.3<br>PARAMETER top_p 0.9<br>PARAMETER num_ctx 4096<br>PARAMETER repeat_penalty 1.2<br></code></pre></td></tr></table></figure>
 
 <p>然后构建并运行该自定义模型</p>

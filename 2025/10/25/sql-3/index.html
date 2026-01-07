@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/25/sql-3/mysql-20240415094939.png">
 <meta property="article:published_time" content="2025-10-25T04:50:33.000Z">
-<meta property="article:modified_time" content="2025-12-26T07:07:37.209Z">
+<meta property="article:modified_time" content="2026-01-07T07:21:09.016Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="SQL">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.5k 字
+          3.6k 字
         
       </span>
     
@@ -429,6 +429,10 @@
 <li>在可重复读的事务级别下，给事务操作的这张表添加<code>Next-key Lock（Record Lock+Gap Lock）</code></li>
 </ul>
 <p>InnoDB通过MVCC机制可以在一定程度上避免幻读。</p>
+<div class="note note-info">
+            <p>在可串行化调度中，多个事务的并发执行结果为这些事务按某种次序串行化执行的结果。要实现这个效果，就必须满足<strong>两段锁协议</strong> (2PL)</p><ol><li>获得封锁，在对任何数据进行读写操作前，事务首先要获得对该数据的封锁。</li><li>释放封锁，在释放一个封锁后，事务不再申请和获得任何其他封锁。</li></ol>
+          </div>
+
 <h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>MVCC机制全称为 <code>Multi-Version Concurrency Control</code> (多版本并发控制)。它是通过在每个数据行上维护多个版本的数据来实现的。</p>
 <p>当一个事务执行读操作时，它会使用快照读取，读取该事务开始前的数据快照，这样，读操作就不会被写操作阻塞，反之亦然。</p>
 <div class="note note-info">

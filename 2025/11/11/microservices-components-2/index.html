@@ -28,12 +28,15 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/11/microservices-components-2/up-35e102c633bbe8e0dea1e075ea3fee5dcfb.png">
 <meta property="article:published_time" content="2025-11-11T06:51:08.000Z">
-<meta property="article:modified_time" content="2025-12-17T14:06:40.990Z">
+<meta property="article:modified_time" content="2026-01-07T07:25:03.868Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="spring">
 <meta property="article:tag" content="分布式">
 <meta property="article:tag" content="spring-cloud">
+<meta property="article:tag" content="服务网关">
+<meta property="article:tag" content="链路追踪">
+<meta property="article:tag" content="Elasticsearch">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://ivanclf.github.io/2025/11/11/microservices-components-2/up-35e102c633bbe8e0dea1e075ea3fee5dcfb.png">
   
@@ -240,7 +243,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.8k 字
+          3.9k 字
         
       </span>
     
@@ -297,6 +300,10 @@
 </ul>
 <h2 id="服务网关"><a href="#服务网关" class="headerlink" title="服务网关"></a>服务网关</h2><p>API 网关是一种中间层服务器，用于集中管理、保护和路由对后端服务的访问。其功能主要包括请求转发+请求过滤，但小型要求不少，包括 请求转发、负载均衡、安全认证（对客户端请求进行身份验证并仅允许可新用户访问 api，并且还能够使用类似 RBAC 等方式来授权）、参数校验（支持参数映射和校验逻辑）、日志记录、监控告警、流量控制、熔断降级、响应缓存、响应聚合、灰度发布、异常处理、API 文档、协议转换、协议转换、证书管理，等等。</p>
 <p><img src="up-35e102c633bbe8e0dea1e075ea3fee5dcfb.png" srcset="/img/loading.gif" lazyload alt="参考链路层"></p>
+<div class="note note-primary">
+            <p>需要注意的是，网关中的校验不能当作安全性的唯一保证，需要有其他手段保证外来用户不能绕过网关。</p>
+          </div>
+
 <h3 id="Netflix-Zuul"><a href="#Netflix-Zuul" class="headerlink" title="Netflix Zuul"></a>Netflix Zuul</h3><p>Zuul 是 Netflix 开发的一款提供动态路由、监控、弹性、安全的网关服务，可以和 Eureka、Ribbon、Hystrix 等组件组合使用。Zuul 主要通过过滤器来过滤请求，从而实现网关的各种功能。</p>
 <p>Zuul 1.x 基于同步 IO，性能较差，而 Zuul 基于 Netty 实现了异步 IO，性能得到了大幅改进。</p>
 <h3 id="Spring-Could-Gateway"><a href="#Spring-Could-Gateway" class="headerlink" title="Spring Could Gateway"></a>Spring Could Gateway</h3><p>这是属于 Spring Cloud 系统中的网关，基于 Spring WebFlux。Spring WebFlux 使用 Reactor 库实现响应式编程，底层是基于 Netty 实现的同步非阻塞 IO。</p>
@@ -495,6 +502,12 @@
         <a href="../../../../tags/%E5%88%86%E5%B8%83%E5%BC%8F/" class="print-no-link">#分布式</a>
       
         <a href="../../../../tags/spring-cloud/" class="print-no-link">#spring-cloud</a>
+      
+        <a href="../../../../tags/%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" class="print-no-link">#服务网关</a>
+      
+        <a href="../../../../tags/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA/" class="print-no-link">#链路追踪</a>
+      
+        <a href="../../../../tags/Elasticsearch/" class="print-no-link">#Elasticsearch</a>
       
     </div>
   

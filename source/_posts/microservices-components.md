@@ -1,7 +1,7 @@
 ---
 title: 微服务系统组件 - 1
 date: 2025-11-10 15:46:42
-tags: [java, spring, 分布式, spring-cloud]
+tags: [java, spring, 分布式, spring-cloud, 服务注册, 服务配置, 远程调用, 负载均衡, 服务容灾]
 categories: web
 ---
 

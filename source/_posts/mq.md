@@ -8,6 +8,7 @@ category: web
 参考文献
 - [https://rabbitmq.org.cn/tutorials](https://rabbitmq.org.cn/tutorials)
 - [https://javabetter.cn/sidebar/sanfene/rocketmq.html](https://javabetter.cn/sidebar/sanfene/rocketmq.html)
+- [https://www.bilibili.com/video/BV1h94y1Q7Xg](https://www.bilibili.com/video/BV1h94y1Q7Xg)
 
 消息队列是一种用于在应用程序之间传递消息的通信机制。它可以异步地将消息从一个应用程序发送到另一个应用程序，以实现**解耦**、**异步处理**和**削峰填谷**等功能。
 
@@ -361,6 +362,45 @@ public Binding bindingWarnToQueue2(DirectExchange directExchange, Queue queue2) 
 |Headers|消息头匹配|基于 header 属性|低|复杂条件路由|
 
 {% endnote %}
+
+## Kafka
+
+### 结构
+
+在 Kafka 中，同一个消息通常存在同一个 **topic** 下，而一个 topic 下分有多个 **partition** (分区)。每一个分区是一个线性增长的不可变的提交日志。消息存储到分区后即不可变更。Kafka 回味每一个消息提供一个偏移量，以记录每条消息的位置。
+
+每一条消息都是一个键值对，若键为空，则 Kafka 会以轮询的方式放到每一个分区中；若键不为空，则 Kafka 会将消息放到符合条件的分区中。
+
+可以通过设置 `replication-factor` 的数量，来指定一个分区中的队列数量。这样，一旦主分区宕机，备份也可以立刻顶上，以实现高可用。
+
+### 消费模型
+
+一个分区中的数据不能被一个消费者组中的多个消费者消费。通过合理分配消费者和消费者组，可以实现发布订阅模式和点对点模式。
+
+同一个生产者发送到同一分区的消息，先发送的 offset 肯定比后发送的 offset 小。同一个生产者发送到不同分区内的消息，其消息顺序无法保证。同理，对于消费者，Kafka 也只能保证分区内的消息顺序。
+
+### 消息传递语义
+
+Kafka 提供了三种消息传递语义
+- 最多一次：消息可能会丢失，永远不重复发送
+- 最少一次：消息不会丢失，但可能会重复
+- 精确一次：保证消息被传递到服务端且在服务端不重复
+
+在最多一次的情况下，消费者先读取消费位置，再读取消息，即使读取失败，下次读取的偏移量也不一样了；在最少一次的情况下，消费者先读取消息，再提交消费位置，若读取或提交失败，则再次读取一样的数据。
+
+### 发送与消费流程
+
+在通过 `send()` 方法异步发送时，生产者处会为每一个分区建立一个缓存，用于存放消息。若消息已发送到缓存区则返回结果。而后台的线程则将缓冲区的消息发送给服务端。若需要实现同步发送，则需要接收 send 方法返回 `Future<RecordMetadata>` 数据。
+
+设置 `linger.ms` (发送间隔时间，单位为毫秒)，`Batch.size` (发送单批的数量) 来实现批量发送。当二者满足任一条件时则会发送。
+
+设置 `acks` 为 1  `all` 则说明每一条消息都需要手动确认，为 0 则说明不需要确定，为 -1 则需要落盘后确认。
+
+要实现精确一次语义，需要设置 `enable.idempotence` 参数值为 true，且 `acks` 为 `all`。
+
+### 事务
+
+Kafka 默认的 `isolation-level`，即隔离级别为读未提交。这可能会导致事务风险。需要自己设置隔离级别。
 
 ## Rocket MQ
 

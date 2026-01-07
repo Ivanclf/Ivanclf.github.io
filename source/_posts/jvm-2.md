@@ -8,6 +8,8 @@ category: web
 参考文献
 - [https://javabetter.cn/sidebar/sanfene/jvm.html](https://javabetter.cn/sidebar/sanfene/jvm.html#_39-jvm-%E7%9A%84%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B)
 - [https://javaguide.cn/java/jvm/jvm-parameters-intro.html](https://javaguide.cn/java/jvm/jvm-parameters-intro.html)
+- [https://javaguide.cn/java/jvm/jvm-in-action.html](https://javaguide.cn/java/jvm/jvm-in-action.html)
+- [https://www.mczfw.com/blog/12440.html](https://www.mczfw.com/blog/12440.html)
 
 ## 命令行工具
 JDK命令行工具有
@@ -124,8 +126,6 @@ java -server \
 
 ## 调优案例
 
-[资料](https://javaguide.cn/java/jvm/jvm-in-action.html)
-
 ### 内存溢出和内存泄漏
 
 在出现以下问题时则很可能发生了内存泄漏
@@ -161,3 +161,12 @@ jmap -dump:live,format=b,file=heap.hprof <pid>
 
 接着分析这个巨大的二进制文件。一般可以使用`Eclipse Memory Analyzer Tool` (`MAT`)或`JVisualVM`分析。
 {% endnote %}
+
+### MC 服务器
+
+MC 服务端的对象很多寿命极短，但瞬时分配量极大，而有些对象生存周期又极长。再加上对延时要求极高，因此需要做出以下改进
+1. 减少超时时间，即 `-XX:MaxGCPauseMillis=100`，由默认的 200ms 压缩至 100ms 甚至 50ms，减少因根区域扫描或其他原因的 STW 造成的卡顿问题。
+2. 增大新生代面积，也增大 Eden 区的面积，让短命对象直接在 Eden 区。同时，同时缩短进入老年代的年龄门槛，以避免重复的 Survivor 区复制。因为很多对象要么 1 Tick 死，要么长期存在。
+     回收参数为 `-XX:G1NewSizePercent=35`、`-XX:G1MaxNewSizePercent=40`、`-XX:SurvivorRatio=32`、`-XX:MaxTenuringThreshold=2`。
+3. G1 提前标记，以减少回收次数。同时预留一部分空 Region，避免在分区不够时直接触发 Full GC。
+     参数为 `-XX:InitiatingHeapOccupancyPercent=15` （默认为45%），`-XX:G1ReservePercent=20`。

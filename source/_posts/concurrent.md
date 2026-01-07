@@ -11,6 +11,7 @@ category: web
 - [https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html
 ](https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html
 )
+- [https://www.zhihu.com/question/341005993/answer/128919891202](https://www.zhihu.com/question/341005993/answer/128919891202)
 
 {% note success %}
 并行与并发的区别在于，并行是同时执行多个任务的能力，并发是程序交替执行多个任务的能力。
@@ -178,7 +179,7 @@ Runnable 在 Java 1.0 以来一直存在，但 Callable 在 Java 1.5 后才引�
 上文中提到的`wait()`和`notify()`之间的互动就是一种线程通信方式。除此之外，还有许多种通信方式。
 
 - 阻塞队列
-    这是最常用的通信方式（毕竟用上消息队列就得上redis或者rabbit MQ了）。可以简单实现生产者消费者模式，也不用死记那两个锁的作用了。
+    这是最常用的通信方式（毕竟用上消息队列就得上 redis 或者各种 MQ 了）。可以简单实现生产者消费者模式，也不用死记那两个锁的作用了。
     常用的示例有`ArrayBlockingQueue`、`LinkedBlockingQueue`、`PriorityBlockingQueue`等。
     ```java
     BlockingQueue<String> queue = new ArrayBlockingQueue<>(10);
@@ -223,7 +224,7 @@ Runnable 在 Java 1.0 以来一直存在，但 Callable 在 Java 1.5 后才引�
     }
     ```
 
-    `Semaphore` 可以用于流量控制，比如数据库连接池、网络连接池等。假如有这样一个需求，要读取几万个文件的数据，因为都是 IO 密集型任务，我们可以启动几十个线程并发地读取。但是在读到内存后，需要存储到数据库，而数据库连接数是有限的，比如说只有 10 个，那我们就必须控制线程的数量，保证同时只有 10 个线程在使用数据库连接。这个时候，就可以使用 `Semaphore` 来做流量控制。
+    `Semaphore` 可以用于流量控制，比如数据库连接池、网络连接池等。常用于线程池。
 
 - Exchanger 交换器
     两个线程在同步点交换数据。一个线程调用`exchange()`方法时会阻塞，直到另一个线程也调用`exchange()`方法，然后两个线程交换数据后继续执行。
@@ -311,7 +312,7 @@ Java中提供了许多方法来保证线程安全。
 
 spring 中的 bean 注入需要实现[单例](https://ivanclf.github.io/2025/10/29/spring/#%E4%BD%9C%E7%94%A8%E5%9F%9F)
 
-如果多个线程同时尝试创建实例，单例类必须确保只创建一个，并提供一个全局访问点。在多种实现单例类的方式中，饿汉式是一种比较直接的实现方式。
+如果多个线程同时尝试创建实例，单例类必须确保只创建一个，并提供一个全局访问点。
 
 ```java
 public class Singleton {
@@ -325,7 +326,7 @@ public class Singleton {
 }
 ```
 
-饿汉式单例则在第一次使用时初始化单例对象，这种方式需要使用双重检查锁定来确保线程安全。
+另一种方式则在第一次使用时初始化单例对象，这种方式需要使用双重检查锁定来确保线程安全。
 
 ```java
 public class Singleton {
@@ -361,11 +362,23 @@ public class Singleton {
 - 在 Web 应用中，存储用户的会话信息（即 Session）。
 - 在数据库操作中，管理连接对象，确保每个线程使用独立的链接，避免冲突。
 
-每个线程内部维护一个 `ThreadLocalMap`（`ThreadLocal` 的静态内部类），它以 `ThreadLocal` 对象为键、变量副本为值进行存储。该结构支持跨方法、跨类传递数据，无需显式参数传递。
+每个线程内部维护一个 `ThreadLocalMap`，用于存储私有变量。而 ThreadLocal 本身只是一个工具，用于操作 `Thread` 对象内部的 `ThreadLocalMap`。
 
-`ThreadLocalMap` 是 `ThreadLocal` 类的一个内部类，它是一个哈希表，用于存储每个线程的 `ThreadLocal` 变量及其对应的值。`ThreadLocalMap` 的键是 `ThreadLocal` 对象，值是对应的变量值。键为[弱引用](https://ivanclf.github.io/2025/10/06/jvm/#%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8)，用于防止 `ThreadLocal` 对象本身的内存泄漏。
+当我们调用 `threadLocal.set(value)` 时，实际发生了以下事情
+1. 获取当前线程 `Thread` 对象。
+2. 获取当前 `Thread` 对象内部的 `ThreadLocalMap`，若没有则创建一个。
+3. 以 `threadLocal` 对象本身作为 Key，要存储的 `value` 作为 Value，存放到当前线程的 `ThreadLocalMap` 中。而这个 key 实际上是 `ThreadLocal` 对象的弱引用，但 `value` 作为真正 set 进去的值，是强引用。
 
-`ThreadLocalMap` 的键（即 `ThreadLocal` 对象）为弱引用，值则为强引用。若不手动调用 `remove()` 方法，会导致键被回收后值仍滞留，引发内存泄漏。因此，使用后应及时清理。ThreadLocalMap 在执行 `set()/get()` 时会清理键为 null 的条目，但主动调用 `remove()` 是最可靠的预防手段。当 `ThreadLocal` 不再被强引用，并且由于线程持续存活从而导致 `ThreadLocalMap` 持续存在时，会发生内存泄漏。
+当我们调用 `threadLocal.get()` 方法时，实际发生了以下事情
+1. 获取当前线程的 `Thread` 对象。
+2. 获取当前线程 `Thread` 对象内部的 `ThreadLocalMap`。
+3. 以 `threadLocal` 对象本身作为 Key，从 `ThreadLocalMap` 中取出对应的 Value 并返回。
+
+当 `ThreadLocal` 对象被回收后，键值对中的 key 就变成了 `null`，但 value 的值作为强引用，仍然被键值对引用，仍然存在，且无法被清理，最终造成内存泄漏。
+
+因此在登出等操作后，一定要手动 `remove()` 掉 `ThreadLocalMap` 中的键值对。
+
+设置成弱引用的原因也比较简单。假设 ThreadLocalMap 中对 ThreadLocal 的引用的强引用。若 ThreadLocal 在外部已经没有被任何地方引用了，即应该被回收了，但是由于 ThreadLocalMap 中的键值对仍然强引用着这个 ThreadLocal 对象，导致该对象永远无法被回收，就会导致这个对象本身的内存泄漏。
 
 **其他**
 - `ThreadLocalMap` 使用数组结构，通过线性探测法解决哈希冲突。

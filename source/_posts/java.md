@@ -8,6 +8,7 @@ category: web
 参考文献
 - [https://javabetter.cn/sidebar/sanfene/javase.html](https://javabetter.cn/sidebar/sanfene/javase.html)
 - [https://javaguide.cn/java/basis/java-basic-questions-01.html](https://javaguide.cn/java/basis/java-basic-questions-01.html)
+- [https://javaguide.cn/java/io/nio-basis.html](https://javaguide.cn/java/io/nio-basis.html)
 
 ## 基本知识
 
@@ -210,9 +211,21 @@ catch (IOException e) {
 字节流是由jvm将字节转换得到的，该过程比较耗时且容易出现乱码问题，因此IO流也提供了直接操作字符的字符流。在大文本中查找某个字符串时更推荐使用字符流，对视频文件通常使用字节流，并且尽量使用缓冲流来提高读写速度。
 
 Java常见的IO模型有3种：BIO、NIO、AIO。
-- **BIO**(Blocking IO)阻塞式IO，使用字节流或字符流，线程在执行IO操作时被阻塞，无法执行其他任务。适用于连接数较少且固定的架构，如传统HTTP服务器。
-- **NIO**(Non-Blocking IO)同步非阻塞IO，使用多路复用器，轮询多个通道，只有就绪的通道才进行IO操作，线程在等待期间可以做其他事，通过轮询检查状态。使用于高并发场景，是目前的主流。
-- **AIO**(Asynchronous IO)异步非阻塞IO，使用回调函数或`Future`，操作完成后IO主动通知。线程发起请求后立即返回，完全不等。适用于连接数多且连接时间长（如大型文件读写，数据库连接池等）的场景。
+- **BIO** (Blocking IO)阻塞式 IO，使用字节流或字符流，线程在执行IO操作时被阻塞，无法执行其他任务。适用于连接数较少且固定的架构，如传统HTTP服务器。
+- **NIO** (New IO 或 Non-Blocking IO)同步非阻塞 IO，使用多路复用器，轮询多个通道，只有就绪的通道才进行IO操作，线程在等待期间可以做其他事，通过轮询检查状态。使用于高并发场景，是目前的主流。
+- **AIO** (Asynchronous IO)异步非阻塞 IO，使用回调函数或`Future`，操作完成后IO主动通知。线程发起请求后立即返回，完全不等。适用于连接数多且连接时间长（如大型文件读写，数据库连接池等）的场景。
+
+### NIO
+
+NIO 主要包括 Buffer、Cannel、Selector 3个部件
+
+![示意图](channel-buffer-selector.png)
+
+在 Java 1.4 的 NIO 库中，NIO 的读数据和写数据都在缓冲区进行操作。该 `buffer` 对象不能通过 `new` 调用构造方法创建对象，只能通过静态方法实例化。
+
+Channel 是一个通道，建立了与数据源（如文件、网络套接字）之间的链接，可以利用它来读写数据。Channel 是全双工的。在读数据时，将 Channel 中的数据填充到 Buffer 中，而写操作时将 Buffer 数据写入到 Channel 中。
+
+Selector，即选择器，是 NIO 中的一个关键组件，用于轮询注册在其上的 Channel，并在链接时轮询到就绪的 Channel 进行对应的 IO 操作。
 
 ### 序列化和反序列化
 

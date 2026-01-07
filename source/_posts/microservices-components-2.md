@@ -1,7 +1,7 @@
 ---
 title: 微服务系统组件 - 2
 date: 2025-11-11 14:51:08
-tags: [java, spring, 分布式, spring-cloud]
+tags: [java, spring, 分布式, spring-cloud, 服务网关, 链路追踪, Elasticsearch]
 categories: web
 ---
 
@@ -17,6 +17,10 @@ categories: web
 API 网关是一种中间层服务器，用于集中管理、保护和路由对后端服务的访问。其功能主要包括请求转发+请求过滤，但小型要求不少，包括 请求转发、负载均衡、安全认证（对客户端请求进行身份验证并仅允许可新用户访问 api，并且还能够使用类似 RBAC 等方式来授权）、参数校验（支持参数映射和校验逻辑）、日志记录、监控告警、流量控制、熔断降级、响应缓存、响应聚合、灰度发布、异常处理、API 文档、协议转换、协议转换、证书管理，等等。
 
 ![参考链路层](up-35e102c633bbe8e0dea1e075ea3fee5dcfb.png)
+
+{% note primary %}
+需要注意的是，网关中的校验不能当作安全性的唯一保证，需要有其他手段保证外来用户不能绕过网关。
+{% endnote %}
 
 ### Netflix Zuul
 

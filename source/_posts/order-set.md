@@ -220,7 +220,7 @@ Linux 中打包文件一般是以 `.tar` 结尾的，压缩的命令一般是以
 
 系统的日志文件存在 `/var/log/syslog` `/var/log/messages` 中。
 
-使用 `useradd` 命令建立的常昊存在 `/etc/passwd` 文件中。对用户组的增删改查就是在 `/etc/group` 文件的更新。
+使用 `useradd` 命令建立的账号存在 `/etc/passwd` 文件中。对用户组的增删改查就是在 `/etc/group` 文件的更新。
 
 ## Docker
 

@@ -170,3 +170,7 @@ MC 服务端的对象很多寿命极短，但瞬时分配量极大，而有些�
      回收参数为 `-XX:G1NewSizePercent=35`、`-XX:G1MaxNewSizePercent=40`、`-XX:SurvivorRatio=32`、`-XX:MaxTenuringThreshold=2`。
 3. G1 提前标记，以减少回收次数。同时预留一部分空 Region，避免在分区不够时直接触发 Full GC。
      参数为 `-XX:InitiatingHeapOccupancyPercent=15` （默认为45%），`-XX:G1ReservePercent=20`。
+
+{% note info %}
+更新，自 26.1 snapshot 2 版本后，垃圾回收器由 G1 变成了 ZGC。
+{% endnote %}

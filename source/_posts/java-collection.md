@@ -102,9 +102,28 @@ ArrayList 在无参构造时，实际上初始化的是一个空数组。当真�
 ### PriorityQueue
 
 优先队列中的元素按照自然顺序或 `Comparator` 排序，出队顺序按优先级。
-- 其底层是基于堆实现的，默认是最小堆。其内部使用动态数组进行存储
-- 通过堆元素的上浮或下沉，实现在 $O(\log n)$ 的时间复杂度下插入元素或删除堆顶元素
-- 优先队列非线程安全，不允许 `null` 元素，迭代的顺序也并不稳定，当元素数量达到数组容量时，会自动扩容（容量小于64时翻倍，大于等于64时增长50%）
+- 其底层是基于堆实现的，默认是最小堆。其内部使用动态数组进行存储。
+- 通过堆元素的上浮或下沉，实现在 $O(\log n)$ 的时间复杂度下插入元素或删除堆顶元素。
+- 优先队列非线程安全，不允许 `null` 元素，迭代的顺序也并不稳定，当元素数量达到数组容量时，会自动扩容（容量小于64时翻倍，大于等于64时增长50%）。
+
+{% note info %}
+
+以下为一个示例
+
+```java
+class Request {
+    String request_id;
+    int timestamp;
+}
+
+Queue<Request> tempQueue = new PriorityQueue<>((r1, r2) -> {
+    return r1.timestamp - r2.timestamp;
+});
+```
+
+如果不想在优先队列处定义，则需要 `Request` 类中继承接口。
+
+{% endnote %}
 
 {% note info %}
 完全二叉数除去最后一层外，其他层节点都是满的，最后一层的节点都靠左排列。对于索引为 `i` 的节点，其父节点索引为 `(i - 1) / 2`，左子节点索引为 `2 * i + 1`，右子节点索引为 `2 * i + 2`。在最小堆中，每个节点的值都小于等于其子节点的值。使用完全二叉树构建的堆，在插入元素时会将元素插入到末尾，删除时会删去堆顶元素并将最后一个元素替换堆顶。然后调整堆至正常状态。
@@ -132,8 +151,8 @@ ArrayList 在无参构造时，实际上初始化的是一个空数组。当真�
 **阻塞队列的同步机制**
 
 阻塞队列通常使用 ReentrantLock 和 Condition 来实现线程安全和阻塞操作。不同的实现类采用不同的锁策略：
-- `ArrayBlockingQueue`：使用单个 ReentrantLock 和两个 Condition（notEmpty、notFull）
-- `LinkedBlockingQueue`：使用两个分离的 ReentrantLock（putLock、takeLock）和对应的 Condition，实现入队和出队操作的完全并发
+- `ArrayBlockingQueue`：使用单个 ReentrantLock 和两个 Condition（notEmpty、notFull）。
+- `LinkedBlockingQueue`：使用两个分离的 ReentrantLock（putLock、takeLock）和对应的 Condition，实现入队和出队操作的完全并发。
 
 {% endnote %}
 

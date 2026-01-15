@@ -27,7 +27,7 @@
 <meta property="og:description" content="参考文献  https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;jvm.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-parameters-intro.html https:&#x2F;&#x2F;javaguide.cn&#x2F;java&#x2F;jvm&#x2F;jvm-in-action.html https:&#x2F;&#x2F;www.mczfw.com&#x2F;blog&#x2F;12440.html  命令行">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-10T01:27:24.000Z">
-<meta property="article:modified_time" content="2026-01-03T07:49:51.372Z">
+<meta property="article:modified_time" content="2026-01-09T02:34:10.269Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -611,7 +611,9 @@
 <li>增大新生代面积，也增大 Eden 区的面积，让短命对象直接在 Eden 区。同时，同时缩短进入老年代的年龄门槛，以避免重复的 Survivor 区复制。因为很多对象要么 1 Tick 死，要么长期存在。<br>  回收参数为 <code>-XX:G1NewSizePercent=35</code>、<code>-XX:G1MaxNewSizePercent=40</code>、<code>-XX:SurvivorRatio=32</code>、<code>-XX:MaxTenuringThreshold=2</code>。</li>
 <li>G1 提前标记，以减少回收次数。同时预留一部分空 Region，避免在分区不够时直接触发 Full GC。<br>  参数为 <code>-XX:InitiatingHeapOccupancyPercent=15</code> （默认为45%），<code>-XX:G1ReservePercent=20</code>。</li>
 </ol>
-
+<div class="note note-info">
+            <p>更新，自 26.1 snapshot 2 版本后，垃圾回收器由 G1 变成了 ZGC。</p>
+          </div>
                 
               </div>
             

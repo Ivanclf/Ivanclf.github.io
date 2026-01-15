@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/concurrenthashmap1.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/28/java-collection/concurrenthashmap2.jpg">
 <meta property="article:published_time" content="2025-09-28T12:52:13.000Z">
-<meta property="article:modified_time" content="2025-11-26T09:00:38.147Z">
+<meta property="article:modified_time" content="2026-01-08T12:50:56.929Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -241,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.5k 字
+          6.6k 字
         
       </span>
     
@@ -344,10 +344,14 @@
 
 <h3 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h3><p>优先队列中的元素按照自然顺序或 <code>Comparator</code> 排序，出队顺序按优先级。</p>
 <ul>
-<li>其底层是基于堆实现的，默认是最小堆。其内部使用动态数组进行存储</li>
-<li>通过堆元素的上浮或下沉，实现在 $O(\log n)$ 的时间复杂度下插入元素或删除堆顶元素</li>
-<li>优先队列非线程安全，不允许 <code>null</code> 元素，迭代的顺序也并不稳定，当元素数量达到数组容量时，会自动扩容（容量小于64时翻倍，大于等于64时增长50%）</li>
+<li>其底层是基于堆实现的，默认是最小堆。其内部使用动态数组进行存储。</li>
+<li>通过堆元素的上浮或下沉，实现在 $O(\log n)$ 的时间复杂度下插入元素或删除堆顶元素。</li>
+<li>优先队列非线程安全，不允许 <code>null</code> 元素，迭代的顺序也并不稳定，当元素数量达到数组容量时，会自动扩容（容量小于64时翻倍，大于等于64时增长50%）。</li>
 </ul>
+<div class="note note-info">
+            <p>以下为一个示例</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Request</span> &#123;<br>    String request_id;<br>    <span class="hljs-type">int</span> timestamp;<br>&#125;<br><br>Queue&lt;Request&gt; tempQueue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;&gt;((r1, r2) -&gt; &#123;<br>    <span class="hljs-keyword">return</span> r1.timestamp - r2.timestamp;<br>&#125;);<br></code></pre></td></tr></table></figure><p>如果不想在优先队列处定义，则需要 <code>Request</code> 类中继承接口。</p>
+          </div>
+
 <div class="note note-info">
             <p>完全二叉数除去最后一层外，其他层节点都是满的，最后一层的节点都靠左排列。对于索引为 <code>i</code> 的节点，其父节点索引为 <code>(i - 1) / 2</code>，左子节点索引为 <code>2 * i + 1</code>，右子节点索引为 <code>2 * i + 2</code>。在最小堆中，每个节点的值都小于等于其子节点的值。使用完全二叉树构建的堆，在插入元素时会将元素插入到末尾，删除时会删去堆顶元素并将最后一个元素替换堆顶。然后调整堆至正常状态。</p>
           </div>
@@ -406,7 +410,7 @@
 </tr>
 </tbody></table>
 <div class="note note-info">
-            <p><strong>阻塞队列的同步机制</strong></p><p>阻塞队列通常使用 ReentrantLock 和 Condition 来实现线程安全和阻塞操作。不同的实现类采用不同的锁策略：</p><ul><li><code>ArrayBlockingQueue</code>：使用单个 ReentrantLock 和两个 Condition（notEmpty、notFull）</li><li><code>LinkedBlockingQueue</code>：使用两个分离的 ReentrantLock（putLock、takeLock）和对应的 Condition，实现入队和出队操作的完全并发</li></ul>
+            <p><strong>阻塞队列的同步机制</strong></p><p>阻塞队列通常使用 ReentrantLock 和 Condition 来实现线程安全和阻塞操作。不同的实现类采用不同的锁策略：</p><ul><li><code>ArrayBlockingQueue</code>：使用单个 ReentrantLock 和两个 Condition（notEmpty、notFull）。</li><li><code>LinkedBlockingQueue</code>：使用两个分离的 ReentrantLock（putLock、takeLock）和对应的 Condition，实现入队和出队操作的完全并发。</li></ul>
           </div>
 
 <h4 id="ArrayBlockingQueue"><a href="#ArrayBlockingQueue" class="headerlink" title="ArrayBlockingQueue"></a>ArrayBlockingQueue</h4><p>该容器中，阻塞存取的方法为 <code>put</code> <code>take</code> 两种。非阻塞的存取方法为 <code>offer</code> <code>poll</code> 两种（不抛异常）和 <code>add</code> <code>remove</code> 两种（抛异常）。若需要将队列中的结果全部存到列表中，进行批量操作，则使用 <code>drainTo</code> 方法。</p>

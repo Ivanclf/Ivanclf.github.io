@@ -19,12 +19,12 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="数据链路层链路是一条无源的点到点的物理线路段。数据链路则是在链路上加上实现通信协议以控制数据传输的软件或硬件。 成帧数据链路层需要将一组比特位组成帧，以便帧和帧之间是可以识别的。 面向字符协议该协议将帧看作是由特定字符集组成的字符串。使用特殊的“控制字符来界定帧的开始和结束，并管理通信过程。 一个典型的帧结构如下：               SYN         SYN         SOH">
+    <meta name="description" content="数据链路层链路是一条无源的点到点的物理线路段。数据链路则是在链路上加上实现通信协议以控制数据传输的软件或硬件。 成帧数据链路层需要将一组比特位组成帧，以便帧和帧之间是可以识别的。 面向字符协议该协议将帧看作是由特定字符集组成的字符串。使用特殊的控制字符来界定帧的开始和结束，并管理通信过程。 面向字符协议采用了字节填充方式，添加 SYN、STX、ETX 等 8bit 控制字符。 一个典型的帧结构如下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机通信与网络 - 2">
 <meta property="og:url" content="https://ivanclf.github.io/2025/11/13/networking-2/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="数据链路层链路是一条无源的点到点的物理线路段。数据链路则是在链路上加上实现通信协议以控制数据传输的软件或硬件。 成帧数据链路层需要将一组比特位组成帧，以便帧和帧之间是可以识别的。 面向字符协议该协议将帧看作是由特定字符集组成的字符串。使用特殊的“控制字符来界定帧的开始和结束，并管理通信过程。 一个典型的帧结构如下：               SYN         SYN         SOH">
+<meta property="og:description" content="数据链路层链路是一条无源的点到点的物理线路段。数据链路则是在链路上加上实现通信协议以控制数据传输的软件或硬件。 成帧数据链路层需要将一组比特位组成帧，以便帧和帧之间是可以识别的。 面向字符协议该协议将帧看作是由特定字符集组成的字符串。使用特殊的控制字符来界定帧的开始和结束，并管理通信过程。 面向字符协议采用了字节填充方式，添加 SYN、STX、ETX 等 8bit 控制字符。 一个典型的帧结构如下">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/13/networking-2/CSMA_CD.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/13/networking-2/connect.png">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/13/networking-2/proposal-IPv6.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/13/networking-2/icmp.png">
 <meta property="article:published_time" content="2025-11-13T14:22:08.000Z">
-<meta property="article:modified_time" content="2025-12-27T15:20:03.016Z">
+<meta property="article:modified_time" content="2026-01-15T13:55:59.031Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="日常">
@@ -248,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.1k 字
+          7.3k 字
         
       </span>
     
@@ -298,7 +298,8 @@
                 
                 <h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><p><strong>链路</strong>是一条无源的点到点的物理线路段。<strong>数据链路</strong>则是在链路上加上实现通信协议以控制数据传输的软件或硬件。</p>
 <h3 id="成帧"><a href="#成帧" class="headerlink" title="成帧"></a>成帧</h3><p>数据链路层需要将一组比特位组成帧，以便帧和帧之间是可以识别的。</p>
-<h4 id="面向字符协议"><a href="#面向字符协议" class="headerlink" title="面向字符协议"></a>面向字符协议</h4><p>该协议将帧看作是由特定字符集组成的字符串。使用特殊的“控制字符来界定帧的开始和结束，并管理通信过程。</p>
+<h4 id="面向字符协议"><a href="#面向字符协议" class="headerlink" title="面向字符协议"></a>面向字符协议</h4><p>该协议将帧看作是由特定字符集组成的字符串。使用特殊的控制字符来界定帧的开始和结束，并管理通信过程。</p>
+<p>面向字符协议采用了<strong>字节填充</strong>方式，添加 SYN、STX、ETX 等 8bit 控制字符。</p>
 <p>一个典型的帧结构如下：</p>
 <table>
     <tbody>
@@ -339,7 +340,8 @@
 </table>
 
 <p>其中，标志字段为固定的比特序列 <code>01111110</code> (<code>0x7E</code>)，用于表示帧的开始和结束。为了防止在数据字段中不会出现和 <code>01111110</code> 相同的比特模式，每当在其他地方出现连续5个 1 后，就自动插入一个 0。接收方在发现有5个 1 后，检查下一位，若为 0 则删除这个 0，若为 1 则检查下一位，为 0 则是帧结束表示，为 1 则可能是错误或中止信号。</p>
-<h3 id="数据链路控制"><a href="#数据链路控制" class="headerlink" title="数据链路控制"></a>数据链路控制</h3><p>数据链路控制分为流量控制和差错控制。<strong>流量控制</strong>就是通过一系列过程，用来限制发送方在等到确认前发送的数据数量。数据链路层的<strong>差错控制</strong>基于自动重复请求，即重传数据。</p>
+<h3 id="数据链路控制"><a href="#数据链路控制" class="headerlink" title="数据链路控制"></a>数据链路控制</h3><p>链路可以分为<strong>无噪声信道</strong>和<strong>有噪声信道</strong>两种，前者只需要担心速度不匹配的问题，但后者还需要担心传错的问题。<br>因此在无噪声信道中只有流量控制而没有差错控制，只有停等流量控制，但有噪声信道的停等协议则进化为停等 ARQ。</p>
+<p>数据链路控制分为流量控制和差错控制。<strong>流量控制</strong>就是通过一系列过程，用来限制发送方在等到确认前发送的数据数量。数据链路层的<strong>差错控制</strong>基于自动重复请求，即重传数据。</p>
 <p><strong>由收方控制发方是数据流</strong>，是计算机网络中流量控制的一个基本方法。</p>
 <p>在接收结点中，收到发送节点发来的数据帧后，将其放入数据链路层的接收缓存。将接收缓存中的数据帧上交主机，同时向发送节点发送信息 <strong><code>ACK</code></strong> ，表示数据帧已经上交给主机，若上交失败则发送信息 <strong><code>NAK</code></strong>。而发送节点发送完一个数据帧时，就启动一个超时计时器，若到了超时计时器所设置的重传时间 $t_{\text{out}}$ 而仍然收不到接收方的任何确认帧时，则发送方就会重传前面发送的这一数据帧。</p>
 <p>重传的方式则和<strong>自动重传协议</strong> (<strong>ARQ</strong>) 的不同有关。常用的 ARQ 有三种。</p>
@@ -355,19 +357,26 @@
 </li>
 </ul>
 <div class="note note-info">
-            <p>发送窗口是一个抽象概念，和滑动窗口类似。通过三个变量 $S_f$、$S_n$ 和 $S_{size}$ 来定义其大小。当 ACK 消息到达时，发送窗口滑动一个或多个帧时隙。其中的 $S_{size}&lt;2^m$，一般取 $2^m-1$。</p>
+            <p>返回 N 帧 ARQ 中，发送窗口和接收窗口的大小都是 1。<br>选择重传 ARQ 中，发送窗口的大小是 $2^{m-1}$。</p>
           </div>
 
-<h3 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h3><h4 id="高级数据链路控制协议"><a href="#高级数据链路控制协议" class="headerlink" title="高级数据链路控制协议"></a>高级数据链路控制协议</h4><p><strong>HDLC</strong> (High-level Data Link Control) 是一个实际应用的面向比特的数据链路协议。其帧样式参考<a href="#%E9%9D%A2%E5%90%91%E4%BD%8D%E5%8D%8F%E8%AE%AE">上面的例子</a>。</p>
+<h3 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h3><h4 id="高级数据链路控制协议"><a href="#高级数据链路控制协议" class="headerlink" title="高级数据链路控制协议"></a>高级数据链路控制协议</h4><p><strong>HDLC</strong> (High-level Data Link Control) 是一个实际应用的<strong>面向比特</strong>的数据链路协议。其帧样式参考<a href="#%E9%9D%A2%E5%90%91%E4%BD%8D%E5%8D%8F%E8%AE%AE">上面的例子</a>。</p>
 <p>HDLC 中的帧可以分为三种</p>
 <ul>
 <li>信息帧，数据中存放用户信息</li>
 <li>管理帧，数据中传输控制信息</li>
 <li>无符号帧，系统管理，管理链路自身</li>
 </ul>
-<h4 id="PPP-协议"><a href="#PPP-协议" class="headerlink" title="PPP 协议"></a>PPP 协议</h4><p>用户拿电话线接入因特网时，一般都是使用 PPP 协议。</p>
+<p>其传输方式也可以分为以下三种，其核心是“谁掌握时钟，谁发数据”</p>
+<ul>
+<li>正常响应方式 NRM，主站完全控制链路，从站只有在被主站“点名”后才能发帧。</li>
+<li>异步相应方式 ARM，从站可主动发帧，但仍由主站统一初始化和差错恢复，时钟由主站提供。</li>
+<li>异步平衡方式 ABM，任何一方都能发帧，都能发命令或响应。</li>
+</ul>
+<h4 id="PPP-协议"><a href="#PPP-协议" class="headerlink" title="PPP 协议"></a>PPP 协议</h4><p>用户拿电话线接入因特网时，一般都是使用 PPP 协议。PPP 协议<strong>面向字节</strong>。</p>
 <p>该协议相比<a href="#%E9%9D%A2%E5%90%91%E4%BD%8D%E5%8D%8F%E8%AE%AE">HDLC 协议的帧</a>，在 C 和 Info 中多了2字节的协议部分，而前面的 F、A、C 部分均为1字节。</p>
-<h2 id="多路访问"><a href="#多路访问" class="headerlink" title="多路访问"></a>多路访问</h2><h3 id="随机访问协议"><a href="#随机访问协议" class="headerlink" title="随机访问协议"></a>随机访问协议</h3><p>没有一个站点是优于其他站点的，也不能控制其他站点。站点之间的发送是随机的。</p>
+<h2 id="多路访问"><a href="#多路访问" class="headerlink" title="多路访问"></a>多路访问</h2><p>从介质访问控制方法的角度来对局域网进行分类，应该将局域网分为<strong>共享式局域网</strong>和<strong>交换式局域网</strong>两类。共享式将所有站点挂载同一个总线&#x2F;环上，在碰撞后重传；交换式局域网的帧直接由交换机&#x2F;网桥根据 MAC 地址转发，各端口并行收发而不冲突。</p>
+<h3 id="随机访问协议"><a href="#随机访问协议" class="headerlink" title="随机访问协议"></a>随机访问协议</h3><p>没有一个站点是优于其他站点的，也不能控制其他站点。站点之间的发送是随机的。</p>
 <h4 id="纯-ALOHA"><a href="#纯-ALOHA" class="headerlink" title="纯 ALOHA"></a>纯 ALOHA</h4><p>这是最早的一种形式。即想发就发。任何站点有数据帧需要发送时，可以立即发送。该协议的效率非常低。</p>
 <p>纯 ALOHA 的吞吐量是 $S&#x3D;G\times e^{-2G}$，其中 $G$ 是一个帧传输时间内系统产生的帧平均数量，当 $G&#x3D;\frac{1}{2}$ 时，最大吞吐量为 $S_{max}&#x3D;0.184$。</p>
 <h4 id="时隙-ALOHA"><a href="#时隙-ALOHA" class="headerlink" title="时隙 ALOHA"></a>时隙 ALOHA</h4><p>纯 ALOHA 的改进版，在约定的时间点中想发就发。将时间划分为等长的时隙，站点在每个时隙的开始时才能发送帧。但是，如果一个时隙内有两个以上的帧要发送，他们就会完全重叠，导致冲突。</p>
@@ -378,6 +387,7 @@
 <li>非坚持 CSMA：等待一个随机时间后重新侦听，减少冲突但增加了延迟</li>
 <li>P-坚持 CSMA：侦听到空闲时以概率 P 发送，是前两者的折中</li>
 </ol>
+<p>CSMA 只适用于于总线拓补结构。</p>
 <div class="note note-info">
             <p>其实就是类似互斥锁的操作，但原子性不太强。</p>
           </div>
@@ -386,15 +396,26 @@
 <p>发送时，站点持续侦听<strong>信道</strong>（总线）。发送前先侦听。发送过程中通过比较发送的信号和接收到的信号，检测是否发生了冲突。一旦检测到冲突，立即停止发送当前帧，并发送一个干扰信号，以确保所有站点都知道发生了冲突。等待一个随机时间后，重新尝试发送。</p>
 <p>使用该协议的以太网不能进行全双工通信而只能进行半双工通信。</p>
 <p><img src="CSMA_CD.png" srcset="/img/loading.gif" lazyload alt="示意图"></p>
+<div class="note note-info">
+            <p>在数据发送完整前，冲突信号必须能往返于“最远两端”之间，因此有线网站点的最大距离首先于此。</p>
+          </div>
+
 <h4 id="CSMA-CA"><a href="#CSMA-CA" class="headerlink" title="CSMA&#x2F;CA"></a>CSMA&#x2F;CA</h4><p>为无线局域网设计的协议。由于无线局域网中干扰信号不可能全部都发送到。</p>
 <p>发送前先侦听。然后使用 RTS&#x2F;CTS （请求发送&#x2F;清除发送）帧。发送方先向接收方发送一个很小的 RTS 帧，接收方若准备号接收，就广播一个 CTS 帧。这个 CTS 会告知发送方和发送方周围的所有站点，从而达到预约信道的功能。即使侦听到信号空闲，站点也必须等待一个特定的<strong>帧间间隔</strong> IFS (DIFS 或 SIFS) 后才能行动。优先级高的帧（如 ACK）等待时间短，数据帧等待时间长。</p>
 <h3 id="受控访问协议"><a href="#受控访问协议" class="headerlink" title="受控访问协议"></a>受控访问协议</h3><p>站点不能随意发送数据，必须受到一个中心控制器或一个特定规则的约束，才能获得发送权限。</p>
 <h4 id="预约协议"><a href="#预约协议" class="headerlink" title="预约协议"></a>预约协议</h4><p>将信道时间划分为一个个清晰的周期，每个周期分为预约阶段和数据传输阶段。站点在发送数据前需要预约，即在数据帧前发送一个预约帧。适用于流量稳定、连续的应用（如语音、视频流）。</p>
 <h4 id="轮询协议"><a href="#轮询协议" class="headerlink" title="轮询协议"></a>轮询协议</h4><p>网络中有一个主站，它按照一个特定顺序逐个询问所有从站是否有数据要发送。该方法实现简单，但开销很大。</p>
 <h4 id="令牌传递协议"><a href="#令牌传递协议" class="headerlink" title="令牌传递协议"></a>令牌传递协议</h4><p>令牌在网络中从一个站点到下一个站点顺序传递，拿到令牌的站点发送一个数据帧。数据帧和令牌一起在环上传输，被所有站点看到，但只有目的站点会复制它。该方法无冲突，高效率，但令牌维护开销大。</p>
-<h2 id="链接局域网、主干网和虚拟局域网"><a href="#链接局域网、主干网和虚拟局域网" class="headerlink" title="链接局域网、主干网和虚拟局域网"></a>链接局域网、主干网和虚拟局域网</h2><h3 id="局域网间的链接"><a href="#局域网间的链接" class="headerlink" title="局域网间的链接"></a>局域网间的链接</h3><p><strong>LAN</strong> 即局域网，链接局域网的设备有许多种。</p>
+<h2 id="链接局域网、主干网和虚拟局域网"><a href="#链接局域网、主干网和虚拟局域网" class="headerlink" title="链接局域网、主干网和虚拟局域网"></a>链接局域网、主干网和虚拟局域网</h2><h3 id="MAC-地址"><a href="#MAC-地址" class="headerlink" title="MAC 地址"></a>MAC 地址</h3><p>MAC 是数据链路层使用的 48 位硬件标识符，唯一标识一个网卡。</p>
+<h3 id="局域网间的链接"><a href="#局域网间的链接" class="headerlink" title="局域网间的链接"></a>局域网间的链接</h3><p><strong>LAN</strong> 即局域网，链接局域网的设备有许多种。</p>
 <p>根据连接设备在网络中的工作层次，可以将连接设备分为五类：无源集线器 <code>Passive Hubs</code>、有源集线器 <code>Active Hubs</code> 或中继器 <code>Repeater</code>、网桥 <code>Bridges</code>  或二层交换机 <code>Two-Layer Switches</code>、路由器 <code>Routers</code> 或三层交换机 <code>Three Layer Switches</code>、网关 <code>Gateways</code>。</p>
 <p><img src="connect.png" srcset="/img/loading.gif" lazyload alt="分类"></p>
+<ul>
+<li>物理层：中继器、无源集线器</li>
+<li>数据链路层：交换机、网桥</li>
+<li>网络层：路由器</li>
+<li>传输层：网关</li>
+</ul>
 <p>中继器作用于物理层，用于信号放大和再生。中继器转发每一帧，但没有过滤能力。</p>
 <p><img src="repeater.png" srcset="/img/loading.gif" lazyload alt="中继器的功能"></p>
 <p>无源集线器也作用于物理层，可以看作一个“多端口中继器”，它从一个端口收到电信号后，不做任何处理，直接向所有其他端口广播这个信号。在现代网络中已经被交换机完全取代。</p>
@@ -403,6 +424,7 @@
 <p>当收到一个数据帧时，网桥会直接查看目标 MAC 地址。若目标设备在同一端口，则不转发，直接丢弃；若目标设备在另一个端口，则只将该帧转发到那个特定的端口；若不知道目标设备在哪里，则进行<strong>泛洪</strong> （向所有其他端口广播）。</p>
 <p>网桥不改变帧中的 MAC 地址。</p>
 <p>而<strong>交换机</strong> (Switch) 则是集线器和网桥的升级版。他继承了网桥基于 MAC 地址转发，隔离冲突域的特点，并且每个端口都是一个独立的冲突域，这意味着连接在交换机上的每台设备都可以独享带宽，实现全双工通信。相当于一个邮局分拣中心。</p>
+<p>每个交换机端口都可以视为一个<strong>冲突域</strong>。</p>
 <p>而网关则是传输层到应用层的操作，用于协议转换。</p>
 <h3 id="主干网"><a href="#主干网" class="headerlink" title="主干网"></a>主干网</h3><p>还可以利用主干网还链接多个局域网。</p>
 <p><img src="batch.png" srcset="/img/loading.gif" lazyload alt="总线型主干网的拓补结构"></p>
@@ -412,6 +434,7 @@
 <p>VLAN 创建广播域，将属于一个或多个物理 LAN 的站点分组到广播域。</p>
 <h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><h3 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h3><p>IPv4 是一个 32-bit 地址，它唯一地和通用地定义了一个链接在因特网上的设备。其地址空间为 $2^{32}$ 个。</p>
 <p>而<strong>子网掩码</strong>用于标识子网。通常在 IP 地址后面加数字 （如<code>192.168.1.1/24</code>）表示子网掩码中从左边开始连续为1的数。标识子网时，使用子网掩码和 IP 地址进行按位与运算，得到的结果即为其子网名。</p>
+<p>每个子网都留有<strong>网络地址</strong>（主机位全0）来表示子网本身，和<strong>广播地址</strong>（主机位全1）来向子网内所有主机广播。</p>
 <h4 id="分类寻址"><a href="#分类寻址" class="headerlink" title="分类寻址"></a>分类寻址</h4><p>在分类寻址中，地址空间被分为5类：A~E</p>
 <table>
 <thead>
@@ -475,6 +498,12 @@
 <p>因此，IP 地址块中的每一个地址可看作二级层次结构，最左的 <code>n</code> 位定义网络，最右的 <code>32 - n</code> 位定义主机。</p>
 <p>此处的地址通常由 ISP （网络服务提供商）提供。</p>
 <h3 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h3><p>NAT （网络地址转换） 用于在内部网络和外部网络之间，转换 IP 地址。它的出现缓解了 IPv4 地址枯竭的问题。</p>
+<p>NAT 转换有三种方式</p>
+<ol>
+<li>静态 NAT：手工一对一永久绑定，端口也不改变。</li>
+<li>动态 NAT：从地址池里临时性的一对一，在会话期间临时分配，会话结束后归还，也不改端口。</li>
+<li>PAT(NAT Overload)：多对一，用多端口区分，用于多对一，通常只需要一个公网地址。</li>
+</ol>
 <h3 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h3><p>一个 IPv6 地址的长度是 128 位，可以拆分为8个两字节的的冒号格式。</p>
 <p><img src="IPv6-for-short.png" srcset="/img/loading.gif" lazyload alt="IPv6 地址可以缩写"></p>
 <h2 id="IP-协议"><a href="#IP-协议" class="headerlink" title="IP 协议"></a>IP 协议</h2><p>因特网中的网络层交换是利用数据报分组交换的方法实现的。</p>
@@ -482,7 +511,7 @@
 <p><img src="proposal.png" srcset="/img/loading.gif" lazyload alt="IP 数据报的格式"></p>
 <ul>
 <li>版本<br>  占 4 bit，对于 IPv4，这个值固定为4</li>
-<li>首部长度<br>  占 4 bit，表示 IP 首部有多少个 <strong>32 位字</strong>，这个值通常是 <code>5</code>。最大可表示长度为 60 字节</li>
+<li>首部长度<br>  占 4 bit，表示 IP 首部有多少个 <strong>4 字节</strong>，这个值通常是 <code>5</code>。最大可表示长度为 60 字节</li>
 <li>区分服务<br>  占 8 bit，用于指示数据报的优先级和要求的路由服务质量，如吞吐量、延迟等</li>
 <li>总长度<br>  占 16 bit，指整个 IP 数据报的总长度，最大值为 65535 个字节</li>
 <li>标识<br>  占 16 bit，用于唯一标识一个数据报。当数据报因过大而被分片时，所有分片都具有相同的标识符，以便接收端能重组会原始数据报</li>
@@ -494,7 +523,9 @@
 <li>源 IP 地址<br>  占 32 bit</li>
 <li>目的 IP 地址<br>  占 32 bit</li>
 </ul>
+<p>IPv4 分组可以在源主机或中间路由器上进行分片。</p>
 <h3 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h3><p>每一个数据链路层协议都有自己的帧格式，并定义一个字段为数据字段的最大长度。数据报封装成帧时，该数据的总长度必须小于最大数据长度 <strong>MTU</strong>。默认的 IPv4 数据报的最大长度为 65535 个字节。</p>
+<p>IPv6 中由于中间路由器上不能分片，因此在某个 IPv6 数据包大小超过了出接口的 MTU，路由器将直接丢弃该数据包，并向源节点发送分组太大报文。而 IPv4 则会在路由器中拆包，发给下一片。若 DF 位置1，则返回报错并丢弃原包。</p>
 <h3 id="IPv6-1"><a href="#IPv6-1" class="headerlink" title="IPv6"></a>IPv6</h3><p><img src="proposal-IPv6.png" srcset="/img/loading.gif" lazyload alt="IP 数据报的格式"></p>
 <ul>
 <li>通信量类<br>  占 8 bit，这是为了区分不同的 IPv6 数据报的类别和优先级</li>
@@ -504,6 +535,8 @@
 <li>条数限制<br>  相当于 IPv4 协议中的生存时间</li>
 <li>源地址、目的地址<br>  占 128 bit</li>
 </ul>
+<p>IPv6 分组只能在源主机上进行分片。</p>
+<p>在 IPv4 转 IPv6 的过程中，用于解决 IPv4 和 IPv6 网络之间通信问题的技术有双栈技术、隧道技术和地址转换技术。其中，隧道技术用于将 IPv4 地址封装在 IPv6 地址中，地址转换技术用于实现 IPv4 地址和 IPv6 地址之间的相互替换。</p>
 <h2 id="ARP-协议"><a href="#ARP-协议" class="headerlink" title="ARP 协议"></a>ARP 协议</h2><p>在实际网络中，无论网络层采用何种协议，最终在链路上传送数据帧时，都必须使用硬件地址。每台主机都设有一个 ARP 高速缓存，其中记录了所在局域网内各主机和路由器的 IP 地址与硬件地址的映射关系。</p>
 <p>当主机 A 需要发送 IP 数据报到主机 B 时：</p>
 <ol>
@@ -513,10 +546,18 @@
 <li>将 IP 数据报封装成帧，目标 MAC 地址填入步骤 2 或 3 中解析出的地址，然后发送。</li>
 </ol>
 <p>ARP 主要用于解决同一局域网内主机或路由器的 IP 地址与硬件地址的映射问题。若目标主机与源主机不在同一局域网，则 ARP 会先解析出本网络出口路由器的硬件地址，将分组发往该路由器。从 IP 地址到硬件地址的解析过程是全自动的，只要主机或路由器需要与本网络中另一已知 IP 地址的设备通信，ARP 协议便会自动完成地址解析。</p>
-<p>ARP 请求报文是广播发送，ARP 回答报文是单播发送。</p>
+<p>ARP 请求报文是<strong>广播</strong>发送，ARP 回答报文是<strong>单播</strong>发送。</p>
 <h2 id="DHCP-协议"><a href="#DHCP-协议" class="headerlink" title="DHCP 协议"></a>DHCP 协议</h2><p>DHCP (Dynamic Host Configuration Protocol) 动态主机配置协议是一个局域网的网络协议，使用 UDP 协议工作。主要用于给内部网络或网络服务供应商自动分配 IP 地址，和给用户或者内部管理员作为对所有计算机作中央管理的手段。</p>
 <p>DHCP 提供可以是人工的或自动的静态或动态的地址配置。首先静态查找，其动态分配。DHCP 在有限时间内提供临时 IP 地址。租用到期时，停止使用该 IP 或更新其租用的 IP。</p>
-<h2 id="ICMP-协议"><a href="#ICMP-协议" class="headerlink" title="ICMP 协议"></a>ICMP 协议</h2><p>ICMP (Internet Control Message Protocol) Internet 控制报文协议，是 TCP&#x2F;IP 协议族的一个子协议，用于在 IP 主机、路由器之间传递控制信息。控制信息是指网络通不通、主机是否可达、路由是否可用等网络本身的信息。</p>
+<p>获取 IP 地址的流程如下：</p>
+<ol>
+<li>DHCP 客户端（主机）在获取 IP 地址时，首先会发送 DHCP Discover 报文。</li>
+<li>网络中所有收到 Discover 的 DHCP 服务器都会回一个 DHCP Offer 单播&#x2F;广播包，包含它们能提供的 IP 地址、子网掩码、租期等信息。</li>
+<li>客户端从中挑选一个 Offer（通常是最先到达的那个），再发一个 DHCP Request 广播包，正式请求使用该 IP，并告知其他服务器已经使用其他 IP 了。</li>
+<li>被选中的服务器回一个 DHCP ACK 确认包，IP 租约正式生效。</li>
+</ol>
+<p>DHCP 中继代理(DHCP Relay)用于爸客户端的 DHCP 广播报文变成单播，跨网段转发给远程 DHCP 服务器，再把服务器的回应带回客户端，从而使得不同子网的客户端可以获取 IP 地址。</p>
+<h2 id="ICMP-协议"><a href="#ICMP-协议" class="headerlink" title="ICMP 协议"></a>ICMP 协议</h2><p>ICMP (Internet Control Message Protocol) Internet 控制报文协议，是 TCP&#x2F;IP 协议族的一个子协议，用于在 IP 主机、路由器之间传递控制信息。控制信息是指网络通不通、主机是否可达、路由是否可用等网络本身的信息。用于<strong>网络层</strong>的差错报告和控制消息传递。</p>
 <p>ICMP 是 IP 层的配套协议，而非高层协议。它的报文在封装时，是作为 IP 层数据报的数据部分，再加上 IP 首部，共同组成完整的 IP 数据报进行传输。</p>
 <p>当网络设备发现数据包传输出现问题时，它总是通过 ICMP 向这个数据包的<strong>原始发送者</strong>报告错误。</p>
 <p><img src="icmp.png" srcset="/img/loading.gif" lazyload alt="ICMP  报文的格式"></p>
@@ -545,6 +586,7 @@
 <p>可以使用 <strong>PING</strong> (Packet InterNet Groper) 请求来测试两个主机之间的连通性。PING 使用了 ICMP 回送请求于会送回答报文。PING 是应用层直接使用网络层 ICMP 的例子，它没有经过运输层的 TCP 和 UDP。</p>
 <p>可以使用 <strong>traceroute</strong> (Linux) 或 <strong>tracert</strong> (Windows) 来了解信息从计算机到互联网另一端的主机走的是什么路径。输出结果中包括每次测试的时间和设备名称（如果有）及其 IP 地址。有时一些行是以 <code>*</code> 显示的，这可能是防火墙封掉了 ICMP 的返回信息。</p>
 <h2 id="IGMP-协议"><a href="#IGMP-协议" class="headerlink" title="IGMP 协议"></a>IGMP 协议</h2><p>Internet 组管理协议，用于 IP 主机向任一个直接相邻路由器报告组成员情况。IGMP 信息封装在 IP 报文中，IP 协议号为2。</p>
+<h2 id="NDP-协议"><a href="#NDP-协议" class="headerlink" title="NDP 协议"></a>NDP 协议</h2><p>其全称是<strong>邻居发现协议</strong>，用于在 IPv6 中，通过 IP 地址解析出源主机的 MAC 地址。</p>
 <h2 id="传递、转发和路由选择"><a href="#传递、转发和路由选择" class="headerlink" title="传递、转发和路由选择"></a>传递、转发和路由选择</h2><h3 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h3><p>路由转发主要分为两种方法：</p>
 <ul>
 <li>路由方法：在路由表中保存完整路由信息，各条目之间相互协调。</li>
@@ -554,9 +596,12 @@
 <p>此外，无类寻址的路由遵循<strong>最长掩码匹配</strong>原则，即路由表中的掩码按从长到短的顺序排列，确保更精确的路由匹配优先执行。</p>
 <p>在类 UNIX 系统下，可用 <code>netstat</code> 指令查找路由信息和路由表的内容。</p>
 <p>路由的选择算法有 Dijkstra 算法和 Bellman-Ford 算法。</p>
-<h3 id="AS"><a href="#AS" class="headerlink" title="AS"></a>AS</h3><p><strong>自治系统</strong>是指由 ISP 或管理机构统一管理的一组路由器。每个 AS 都有一个全球唯一的的编号，称为 AS 号。</p>
+<h3 id="AS"><a href="#AS" class="headerlink" title="AS"></a>AS</h3><p><strong>自治系统</strong>是指由 ISP 或管理机构统一管理的一组<strong>路由器</strong>。每个 AS 都有一个全球唯一的的编号，称为 AS 号。</p>
+<p>自治系统中地址聚合和最长掩码匹配的原则用于优化路由表。一般来说，最长掩码匹配原则的优先级高于偏好权重和 Cost 权重。</p>
+<p>在此之中通信的协议均为<strong>域内协议</strong> (infra-domain)，如 RIP、OSPF 等，而 BFP 则属于<strong>域间协议</strong> (inter-domain)。</p>
 <h4 id="RIP-协议"><a href="#RIP-协议" class="headerlink" title="RIP 协议"></a>RIP 协议</h4><p>这是一种最早出现的内部网关协议，用于在同一个 AS 内部交换路由信息。它是一种<strong>距离矢量协议</strong>，其核心决策依据就是跳数，只会选择跳数最小的路径。该协议配置简单，但收敛速度慢，因此只适用于小型网络。</p>
 <h4 id="OSPF-协议"><a href="#OSPF-协议" class="headerlink" title="OSPF 协议"></a>OSPF 协议</h4><p>这是另一种内部网关协议，用于在同一个 AS 内部工作。它是一种<strong>链路状态协议</strong>。OSPF 中的每台路由器都会主动收集周围网络的链路状态信息，并构建除整个网络的完整拓补图。然后使用 Dijkstra 算法计算出所有网络的最短路径。该方法收敛速度快，可靠性高，但实现复杂。</p>
+<h3 id="BGP-协议"><a href="#BGP-协议" class="headerlink" title="BGP 协议"></a>BGP 协议</h3><p>该协议是唯一在 Internet 上大规模运行的<strong>路径矢量、外部网关</strong>路由协议，用于在不同自治系统之间交换路由信息。</p>
 
                 
               </div>

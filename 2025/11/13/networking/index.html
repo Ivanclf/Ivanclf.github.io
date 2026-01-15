@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/13/networking/4d-pam5.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/11/13/networking/mlt3.png">
 <meta property="article:published_time" content="2025-11-13T02:25:16.000Z">
-<meta property="article:modified_time" content="2025-12-27T14:17:27.837Z">
+<meta property="article:modified_time" content="2026-01-15T14:11:18.374Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="日常">
@@ -246,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.3k 字
+          4.7k 字
         
       </span>
     
@@ -299,11 +299,12 @@
 <li>7th 应用层<br>  直接和用户的应用程序交互，提供网络服务接口。<br>  此处的协议有 HTTP （网页）、SMTP&#x2F;POP3 （电子邮件）、FTP（文件传输）、DNS。</li>
 <li>6th 表示层<br>  负责数据的转换和格式化，如加密、压缩、解压等。<br>  此处的协议有 SSL&#x2F;TLS、JPEG、MPEG。</li>
 <li>5th 会话层<br>  建立、管理和中止两个应用程序之间的对话，负责协调通信，负责决定通信是全双工还是半双工。<br>  此处的协议有 RPC、NetBIOS。</li>
-<li>4th 传输层<br>  提供端对端的可靠或不可靠的数据传输。负责流量控制、错误恢复和数据分段。<br>  此处的协议有 TCP、UDP</li>
-<li>3rd 网络层<br>  负责将数据包从一个网络路由到另一个网络。<br>  此处有 IP （IPv4, IPv6）、ICMP（用于 Ping）、路由器。</li>
-<li>2nd 数据链路层<br>  负责在一个局域网内，节点到节点间的可靠的数据传输，将数据封装成“帧”，并处理物理寻址（MAC 地址）和错误检测。<br>  此处有以太网、交换机、MAC 地址。</li>
+<li>4th 传输层<br>  提供端对端的可靠或不可靠的数据传输。负责流量控制、错误恢复和数据分段。<br>  此处的地址主要是端口号。<br>  此处的协议有 TCP、UDP</li>
+<li>3rd 网络层<br>  负责将数据包从一个网络路由到另一个网络。<br>  此处的地址称为逻辑地址。（IP 地址）<br>  此处有 IP （IPv4, IPv6）、ICMP（用于 Ping）、路由器。</li>
+<li>2nd 数据链路层<br>  负责在一个局域网内，节点到节点间的可靠的数据传输，将数据封装成“帧”，并处理物理寻址（MAC 地址）和错误检测。<br>  此处的地址称为物理地址。（MAC 地址）<br>  此处有以太网、交换机、MAC 地址。</li>
 <li>1st 物理层<br>  负责在物理介质上传输原始的比特流。<br>  可以使用网线、光纤、网卡等工具进行传输。</li>
 </ul>
+<p>由此，数据一层层进行封装，变成数据（应用层）、数据段（传输层）、数据报（网络层）、数据帧（数据链路层）、比特流（物理层）。</p>
 <h3 id="TCP-IP-协议簇"><a href="#TCP-IP-协议簇" class="headerlink" title="TCP&#x2F;IP 协议簇"></a>TCP&#x2F;IP 协议簇</h3><p>该协议是实际实施的协议集合，比 OSI 模型更早出现。</p>
 <ol>
 <li>应用层<br> 对应 OSI 的应用层、表示层、会话层<br> 包含了所有的应用程序相关的逻辑<br> 使用<strong>专用地址</strong></li>
@@ -313,7 +314,7 @@
 </ol>
 <p><img src="tcp-ip.png" srcset="/img/loading.gif" lazyload alt="各层协议对应"></p>
 <div class="note note-success">
-            <p><strong>全双工通信</strong>指通信双方可以同时向对方发送和接收数据，如打电话和以太网等；<strong>半双工通信</strong>指双方不能同时发送和接收数据，只能一方发送，一方接收，如对讲机等</p>
+            <p><strong>单工通信</strong>指通信只支持单向通信；<strong>全双工通信</strong>指通信双方可以同时向对方发送和接收数据，如打电话和以太网等；<strong>半双工通信</strong>指双方不能同时发送和接收数据，只能一方发送，一方接收，如对讲机等。</p>
           </div>
 
 <h2 id="信号传输"><a href="#信号传输" class="headerlink" title="信号传输"></a>信号传输</h2><p>数据通信中通常使用周期模拟信号和非周期数字信号。周期模拟信号需要更少的带宽，非周期数字信号可以表示数据的变化。</p>
@@ -324,7 +325,7 @@
 <p><strong>比特率</strong>指每秒发送的位数，以每秒位 (bits per second, or <strong><code>bps</code></strong>) 表示。</p>
 <h4 id="传输方式"><a href="#传输方式" class="headerlink" title="传输方式"></a>传输方式</h4><p>数字信号的传输有基带传输和宽带传输两种形式</p>
 <ul>
-<li><strong>基带传输</strong> 通过通道发送数字信号，不转换成模拟信号<br>  使用<strong>低通通道</strong>发送没有调制的信号，这种通道具有无限大带宽的特点。<br>  在基带传输中，所需的带宽和比特率成正比，如果需要更宽地发送位，就需要更大的带宽。而在同样比特率的情况下，叠加更多谐波，其合成后的模拟信号越接近于数字信号，则需要更宽的带宽。<br>  该种传输方式在同一时间的同一点上只能传输一路信号，主要用于有线 LAN。</li>
+<li><strong>基带传输</strong><br>  通过通道发送数字信号，不转换成模拟信号<br>  使用<strong>低通通道</strong>发送没有调制的信号，这种通道具有无限大带宽的特点。<br>  在基带传输中，所需的<strong>带宽和比特率成正比</strong>。（如果需要更宽地发送位，就需要更大的带宽。而在同样比特率的情况下，叠加更多谐波，其合成后的模拟信号越接近于数字信号，则需要更宽的带宽）<br>  该种传输方式在同一时间的同一点上只能传输一路信号，主要用于有线 LAN。</li>
 <li><strong>宽带传输</strong><br>  使用调制，将数字信号转换成模拟信号进行传输，允许使用带通通道。<br>  同一时间同一通道可以同时传输多路信号，用于各种远程传输。</li>
 </ul>
 <h4 id="传输减损"><a href="#传输减损" class="headerlink" title="传输减损"></a>传输减损</h4><p>信号传输时，可能产生衰减、失真和噪声</p>
@@ -354,17 +355,22 @@
 <p>可以使用<strong>奈奎斯特带宽公式</strong>估算无噪声数字通道的通道容量（最大数据率）。当通道上传送的数据率大于通道容量时，将因严重失真而失效。</p>
 <p>$$<br>C&#x3D;2B\log_2 L<br>$$</p>
 <p>其中的 $C$ 表示通道容量 (bps)，$B$ 表示通道带宽 (Hz)，$L$ 表示数字信号的电平数。</p>
+<div class="note note-info">
+            <p>还有<strong>奈奎斯特采样定律</strong>：</p><p>$$<br>f_{\text{s}}\geq 2f_{\text{max}}<br>$$</p><p>即采样频率要高于信号最高频率的两倍。而信号最高频率是带宽和最小频率的和。</p>
+          </div>
+
 <p>使用<strong>香农容量公式</strong>估算存在热噪声干扰情况下的通道容量。数据率越高，无用的噪声引起的破坏就越严重。</p>
 <p>$$<br>C&#x3D;B\log_2(1+\text{SNR})<br>$$</p>
 <p>其中 $C$ 表示通道容量 (bps)，$B$ 表示通道带宽 (Hz)，SNR 表示信噪比。当 SNR 很大时，也可以将公式中的1略去。</p>
 <p>香农容量定理给出数据速率的上限，奈奎斯特公式给出所需的信号电平数。</p>
 <h4 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h4><ul>
 <li><strong>带宽</strong><br>  除了表示复合信号中包含的频率范围或传输通道能通过的频率范围（此时的单位是 Hz），也能表示某通道的数据速率（此时单位是 bps）。是潜在的衡量值。</li>
-<li><strong>吞吐量</strong><br>  通道在单位时间内成功传输的总信息量 bps，是实际的衡量值。</li>
-<li><strong>延迟</strong><br>  通道在第一个比特发出开始到整个报文完全到达接收端所经历的时间</li>
-<li><strong>带宽和延迟的积</strong><br>  定义了可可充满该链路的比特数</li>
-<li><strong>抖动</strong><br>  数据不同分组的延迟时间不同，引起的实时接收和出现间断</li>
-<li><strong>误码率</strong><br>  计算机网络中要求低于 $10^{-6}$，即每传送1兆位错误不多于1位</li>
+<li><strong>吞吐量</strong><br>  通道在单位时间内成功传输的总信息量 bps，是实际的衡量值。$\displaystyle 吞吐量&#x3D;\frac{总传输量}{总时间}$</li>
+<li><strong>延迟</strong><br>  通道在第一个比特发出开始到整个报文完全到达接收端所经历的时间。</li>
+<li><strong>带宽和延迟的积</strong><br>  定义了可可充满该链路的比特数。</li>
+<li><strong>链路利用率</strong><br>  定义了传输延迟占总延迟的比率。$\displaystyle 链路利用率&#x3D;\frac{传输延迟}{总延迟}$</li>
+<li><strong>抖动</strong><br>  数据不同分组的延迟时间不同，引起的实时接收和出现间断。</li>
+<li><strong>误码率</strong><br>  计算机网络中要求低于 $10^{-6}$，即每传送1兆位错误不多于1位。</li>
 </ul>
 <h2 id="数字传输"><a href="#数字传输" class="headerlink" title="数字传输"></a>数字传输</h2><h3 id="线路编码"><a href="#线路编码" class="headerlink" title="线路编码"></a>线路编码</h3><h4 id="比率"><a href="#比率" class="headerlink" title="比率"></a>比率</h4><p><strong>数据速率</strong>或者比特率指1秒钟发送的数据元素数量，单位即 bps；<strong>信号速率</strong>或者脉冲速率、调制速率、波特率是1秒钟发送的信号元素的数量，单位是波特率 (baud)。</p>
 <p><strong>比率</strong> $r$ 指数据元素和信号元素的比值，即</p>
@@ -379,11 +385,11 @@
 <p>$$<br>N_{\text{max}}&#x3D;\frac{1}{c}\times B\times r&#x3D;2\times B\times \log_2L<br>$$</p>
 <p>这就是奈奎斯特公式。</p>
 <div class="note note-info">
-            <p><strong>基线</strong>指接收方计算收到信号功率的运行平均值。<strong>基线偏移</strong>指0或者1的长串会导致的一种现象，使得接收方不能正确解码。<strong>直流分量</strong>指接近于0的频率，会给不允许通过低频的系统或使用电子耦合的系统带来问题。</p>
+            <p><strong>基线</strong>指接收方计算收到信号功率的运行平均值。<br><strong>基线偏移</strong>指0或者1的长串会导致的一种现象，使得接收方不能正确解码。<br><strong>直流分量</strong>指接近于0的频率，会给不允许通过低频的系统或使用电子耦合的系统带来问题。</p>
           </div>
 
 <div class="note note-info">
-            <p><strong>自同步</strong>指接收方的位间隔和发送方的位间隔严格对应匹配。一般数字信号在传输的过程中包含有定时信息，通常是使用信号中包含有提示接收方起始、中间和结束位置的脉冲的跳变。</p>
+            <p><strong>自同步</strong>指接收方的位间隔和发送方的位间隔严格对应匹配。一般数字信号在传输的过程中包含有定时信息，通常是使用信号中包含有提示接收方起始、中间和结束位置的脉冲的跳变。<br>传输的方式分为<strong>同步传输</strong>和<strong>异步传输</strong>，前者需要同步时钟信号，后者需要每传一个字符都自带起止信号。</p>
           </div>
 
 <h4 id="线路编码方案"><a href="#线路编码方案" class="headerlink" title="线路编码方案"></a>线路编码方案</h4><h4 id="Unipolar-单极性编码"><a href="#Unipolar-单极性编码" class="headerlink" title="Unipolar 单极性编码"></a><code>Unipolar</code> 单极性编码</h4><p><img src="unipolar.png" srcset="/img/loading.gif" lazyload alt="NRZ"></p>
@@ -395,7 +401,8 @@
 <li>差分曼彻斯特编码：RZ + NRZ-I<br>  中间有跳变，值在位起始位置<br>  0：起始无跳变；1：起始有跳变</li>
 </ul>
 <p>在这两种跳变中，位中间的跳变用于同步，值要么在位中间，要么在位起始位置。</p>
-<h4 id="Bipolar-双极性编码"><a href="#Bipolar-双极性编码" class="headerlink" title="Bipolar 双极性编码"></a><code>Bipolar</code> 双极性编码</h4><p><img src="AMI.png" srcset="/img/loading.gif" lazyload alt="AMI 和伪三元编码"></p>
+<h4 id="Bipolar-双极性编码"><a href="#Bipolar-双极性编码" class="headerlink" title="Bipolar 双极性编码"></a><code>Bipolar</code> 双极性编码</h4><p>该编码技术可以消除直流分量。</p>
+<p><img src="AMI.png" srcset="/img/loading.gif" lazyload alt="AMI 和伪三元编码"></p>
 <ul>
 <li>AMI 在0时是0电平，在1时交替正负电平</li>
 <li>伪三元编码是 AMI 的一个变形，1编码成0电平，0编码成正负交替电平</li>
@@ -503,8 +510,9 @@
 </table>
 
 <h3 id="块编码"><a href="#块编码" class="headerlink" title="块编码"></a>块编码</h3><p>块编码通常称为 mB&#x2F;nB 编码技术，用 n-bit 位组替换 m-bit。其中常用的是 4B&#x2F;5B 编码方案，即将每 4 bit 的块按照特定规则换成 5 bit 编码，从而克服 NRZ-I 的缺陷。但是它增加了 NRZ-I 的速率，冗余位增加了 20% 的波特。</p>
+<p>该编码的主要目的是解决连续0或1过多的问题。</p>
 <h2 id="模数转换"><a href="#模数转换" class="headerlink" title="模数转换"></a>模数转换</h2><p>常用的两种方案是脉冲码调制 PCM 和 Delta 调制</p>
-<p><strong>采样</strong>指在固定的时间间隔，测量模拟信号的瞬时值的过程。<strong>量化</strong>是将每个采样得到的，幅度值连续的样本，归入到预先设定的、有限个数的离散电平值的过程，这些预先设定的电平值就是<strong>量化等级</strong>。而<strong>量化误差</strong>则是采样点的真实模拟值和被分配到的量化等级值之间的差值。</p>
+<p><strong>采样</strong>指在固定的时间间隔，测量模拟信号的瞬时值的过程。<br><strong>量化</strong>是将每个采样得到的，幅度值连续的样本，归入到预先设定的、有限个数的离散电平值的过程，这些预先设定的电平值就是<strong>量化等级</strong>。而<strong>量化误差</strong>则是采样点的真实模拟值和被分配到的量化等级值之间的差值。<br>量化误差产生的主要原因是量化级数过少。</p>
 <p>按照奈奎斯特定理，采样速率必须至少是信号所含最高频率的2倍，即 $f_s\geq 2B_{\text{ana log}}$ 。这个两倍的速率被称为<strong>最小采样率</strong>。</p>
 <p>可以证明，量化误差对 $\text{SNR}_{\text{dB}}$ 的影响取决于量化等级 $L$ 和每个样本位数 $n_b$。</p>
 <p>$$<br>\text{SNR}_{\text{dB}}&#x3D;6.02n_b+1.76\text{dB}<br>$$</p>
@@ -527,6 +535,8 @@
 
 <p>而<strong>最小汉明距离</strong>是一组字（一组编码方案）中所有可能对的最小汉明距离。即所有可能的汉明距离中最小的。</p>
 <p>为了保证检测出最多 $s$ 个错误，块编码中最小汉明距离一定是 $d_{\text{min}}&#x3D;s+1$。<br>为了保证能纠正最多 $t$ 个错误，块编码中最小汉明距离一定是 $d_{\text{min}}&#x3D;2t+1$</p>
+<p>汉明码用于往源码的特定位数中插入冗余位，收到码数后重新计算，若不一致则可找到对应的信号。</p>
+<p>汉明码可以实现纠正单比特错误。</p>
 <h3 id="CRC"><a href="#CRC" class="headerlink" title="CRC"></a>CRC</h3><h4 id="数学原理"><a href="#数学原理" class="headerlink" title="数学原理"></a>数学原理</h4><p>CRC 的所有运算都是模 2 运算。即等价于异或运算（加法不进位，减法不借位）。任何二进制数据流都可以表示为一个多项式，其中的每一项系数都是0或1，指数对应比特的位置。在操作前，先约定一个双方约定好的，阶数为 $r$ 的<strong>生成多项式</strong>。如 CRC-16 ($x^{16}+x^{15}+x^2+1$)，等等。这个生成多项式其他什么都行，但必须至少有两项，且 $x_0$ 项的系数必须是1。</p>
 <p>编码时</p>
 <ul>
@@ -534,7 +544,7 @@
 <li>这个多项式除以生成多项式，得到一个阶数小于 $r$ 的余数多项式 $R(x)$</li>
 <li>发送数据 $T(x)&#x3D;x^r\cdot M(x)+R(x)$。因此 $T(x)$ 一定能被 $G(x)$ 整除</li>
 </ul>
-<p>解码时，接收端将接收到的 $T’(x)$ 除以同样的 $G(x)$。若余数为0，则传输无误（或者有差错，但译码器无法检出），否则说明发生了错误。</p>
+<p>解码时，接收端将接收到的 $T’(x)$ 除以同样的 $G(x)$。若余数为0，则传输无误（或者有差错，但译码器无法检出），否则说明发生了错误，但无法确定位置，只能确定错误有几位。</p>
 <p>以下是一些结论</p>
 <ul>
 <li>单个比特错误的检测概率为100%</li>
@@ -542,6 +552,8 @@
 <li>包含 $x+1$ 的生成多项式能检测到所有奇数个比特位错误</li>
 <li>若出现<strong>突发错误</strong>，即连续多个比特发生错误，且首位两位都是1。此时，若突发长度 $L\leq r$，则100%检测；若长度 $L&#x3D;r+1$，则漏检概率为 $\frac{1}{2^{r-1}}$；若长度 $L&gt;r+1$，则漏检概率为 $\frac{1}{2^r}$</li>
 </ul>
+<p>CRC 更适合硬件实现。</p>
+<h3 id="校验和"><a href="#校验和" class="headerlink" title="校验和"></a>校验和</h3><p>发送方按 n-bit 逐字相加，取最后几位随数据一起发送。只能检验无法纠错。</p>
 
                 
               </div>

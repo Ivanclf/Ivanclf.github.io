@@ -1,0 +1,766 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="OAuth 2传统的账密登录需要用户记住天量的账号密码，很不方便，而且对 SSO 的支持很不友好。其解决方案是 OAuth2 协议，即通过跨应用的授权层协议，实现对账户的精细化管理。  用户在授权服务器完成身份认证（可使用传统账密、免密、生物识别等任何方式）。 用户明确授权第三方应用获取「有限权限」（如仅获取昵称头像、仅读取相册、不可修改数据）。 第三方应用仅能拿到对应权限的令牌，只能访问用户授权">
+<meta property="og:type" content="article">
+<meta property="og:title" content="common-business-model">
+<meta property="og:url" content="https://ivanclf.github.io/2026/01/24/common-business-model/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="OAuth 2传统的账密登录需要用户记住天量的账号密码，很不方便，而且对 SSO 的支持很不友好。其解决方案是 OAuth2 协议，即通过跨应用的授权层协议，实现对账户的精细化管理。  用户在授权服务器完成身份认证（可使用传统账密、免密、生物识别等任何方式）。 用户明确授权第三方应用获取「有限权限」（如仅获取昵称头像、仅读取相册、不可修改数据）。 第三方应用仅能拿到对应权限的令牌，只能访问用户授权">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-24T04:48:49.000Z">
+<meta property="article:modified_time" content="2026-01-27T06:22:00.905Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>common-business-model - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="common-business-model"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-24 12:48" pubdate>
+          2026年1月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">common-business-model</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="OAuth-2"><a href="#OAuth-2" class="headerlink" title="OAuth 2"></a>OAuth 2</h2><p>传统的账密登录需要用户记住天量的账号密码，很不方便，而且对 SSO 的支持很不友好。其解决方案是 OAuth2 协议，即通过跨应用的授权层协议，实现对账户的精细化管理。</p>
+<ol>
+<li>用户在授权服务器完成身份认证（可使用传统账密、免密、生物识别等任何方式）。</li>
+<li>用户明确授权第三方应用获取「有限权限」（如仅获取昵称头像、仅读取相册、不可修改数据）。</li>
+<li>第三方应用仅能拿到对应权限的令牌，只能访问用户授权的资源，且全程无需获取用户的账密。</li>
+<li>资源服务器仅对「有对应权限的令牌」提供服务。</li>
+</ol>
+<h3 id="向第三方要授权"><a href="#向第三方要授权" class="headerlink" title="向第三方要授权"></a>向第三方要授权</h3><p>其实现首先需要实现一个可以跳转其他页面的实现接口。用于发起 OAuth2 授权请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/oauth2/authorize&quot;)</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">authorize</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> oauth2Properties.getAuthorizeUrl() +<br>        <span class="hljs-string">&quot;?redirect_uri=&quot;</span> + oauth2Properties.getRedirectUrl() +<br>        <span class="hljs-string">&quot;&amp;state=123&amp;client_id=&quot;</span> + oauth2Properties.getClientId() +<br>        <span class="hljs-string">&quot;&amp;response_type=code&quot;</span>;<br>    log.info(<span class="hljs-string">&quot;授权url:&#123;&#125;&quot;</span>, url);<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;redirect:&quot;</span> + url;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后实现一个回调接口，用于在授权成功后，通过授权码 code 获取访问令牌，并提取 token 和用户相关信息，然后将用户的令牌放 redis 上放 6 小时，最后重定向到 SSO 登录页面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/oauth2/callback&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">callback</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;code&quot;)</span> String code, HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>    <span class="hljs-comment">// 用code获取token</span><br>    <span class="hljs-type">JSONObject</span> <span class="hljs-variable">tokenResponse</span> <span class="hljs-operator">=</span> getAccessToken(code);<br>    <span class="hljs-keyword">if</span> (ObjectUtil.isNotEmpty(tokenResponse)) &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">accessToken</span> <span class="hljs-operator">=</span> tokenResponse.getString(<span class="hljs-string">&quot;access_token&quot;</span>);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">uid</span> <span class="hljs-operator">=</span> tokenResponse.getString(<span class="hljs-string">&quot;uid&quot;</span>);<br><br>        <span class="hljs-keyword">if</span>(!oauth2Properties.getUserIdKey().equals(<span class="hljs-string">&quot;uid&quot;</span>)) &#123;<br>            uid = getUserInfo(oauth2Properties.getClientId(), accessToken, uid);<br>        &#125;<br><br>        <span class="hljs-type">String</span> <span class="hljs-variable">redirectUrl</span> <span class="hljs-operator">=</span> ssoUrl + <span class="hljs-string">&quot;/thdLogin.html?&quot;</span> + <span class="hljs-string">&quot;token=&quot;</span> + accessToken + <span class="hljs-string">&quot;tenantId=default&amp;userId=&quot;</span> + uid;<br>        redisTemplate.opsForValue().set(REDIS_KEY + accessToken, <span class="hljs-string">&quot;true&quot;</span>, <span class="hljs-number">6</span>, TimeUnit.HOURS);<br>        log.info(<span class="hljs-string">&quot;获取到access_token: &#123;&#125;,重定向到thdLogin.html, &#123;&#125;&quot;</span>, accessToken, redirectUrl);<br>        response.sendRedirect(redirectUrl);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        response.getWriter().write(<span class="hljs-string">&quot;获取token失败&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>授权接口和回调接口的请求方法强制为 GET。</p>
+<p>其中需要的获取 token 的方法，通过授权码获取访问令牌。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> JSONObject <span class="hljs-title function_">getAccessToken</span><span class="hljs-params">(String code)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> oauth2Properties.getAccessTokenUrl() +<br>        <span class="hljs-string">&quot;?client_id=&quot;</span> + oauth2Properties.getClientId() +<br>        <span class="hljs-string">&quot;&amp;grant_type=authorization_code&quot;</span> +<br>        <span class="hljs-string">&quot;&amp;code=&quot;</span> + code +<br>        <span class="hljs-string">&quot;&amp;client_secret=&quot;</span> + oauth2Properties.getClientSecret();<br>    <span class="hljs-comment">// 构建请求头</span><br>    <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">requestHeaders</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();<br>    <span class="hljs-comment">// 指定响应返回json格式</span><br>    requestHeaders.add(<span class="hljs-string">&quot;accept&quot;</span>, <span class="hljs-string">&quot;application/json&quot;</span>);<br>    <span class="hljs-comment">// 构建请求实体</span><br>    HttpEntity&lt;String&gt; requestEntity = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpEntity</span>&lt;&gt;(requestHeaders);<br>    <span class="hljs-comment">// post 请求方式</span><br>    ResponseEntity&lt;JSONObject&gt; response = restTemplate.postForEntity(url, requestEntity, JSONObject.class);<br><br>    <span class="hljs-comment">// 解析响应json字符串</span><br>    <span class="hljs-keyword">return</span> response.getBody();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过访问令牌获取用户信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> String <span class="hljs-title function_">getUserInfo</span><span class="hljs-params">(String clientId, String accessToken, String uid)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> String.format(oauth2Properties.getUserInfoUrl(), clientId, accessToken, uid);<br>    <span class="hljs-comment">// get 请求方式</span><br>    ResponseEntity&lt;JSONObject&gt; response = restTemplate.getForEntity(url, JSONObject.class);<br>    <span class="hljs-keyword">if</span>(response.getStatusCode().is2xxSuccessful()) &#123;<br>        <span class="hljs-comment">// 解析响应json字符串</span><br>        <span class="hljs-keyword">return</span> response.getBody().getString(oauth2Properties.getUserIdKey());<br>    &#125;<br>    <span class="hljs-keyword">return</span> StringConstants.EMPTY;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>用户授权后，授权服务器拿到的首先是有效时间只有几分钟的<strong>授权码</strong>。授权码只能使用一次。然后服务器通过授权码向授权服务器请求获得用户的<strong>访问令牌</strong>。访问令牌的生效时间则比较长，从几小时到几天不等。</p>
+<p>这种授权码和访问令牌分离的设计，可以避免访问令牌通过浏览器重定向传递，从而避免在 URL 中暴露，从而被各种手段捕获。并且，即使授权码被截获，攻击者仍然需要密钥才能获取访问令牌。从而防止中间人攻击。</p>
+<h3 id="授权给第三方"><a href="#授权给第三方" class="headerlink" title="授权给第三方"></a>授权给第三方</h3><p>此处的写法就比较多样了。此处列举使用 GET 方法和 POST 方法的情况。</p>
+<p>GET 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Operation(summary = &quot;第三方token校验接口&quot;)</span><br><span class="hljs-meta">@GetMapping(value = &quot;/check&quot;)</span><br><span class="hljs-keyword">public</span> ApiResponse&lt;ThdLoginResponse&gt; <span class="hljs-title function_">checkLogin</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(name = &quot;userId&quot;, required = false)</span> String userId,</span><br><span class="hljs-params">                                                <span class="hljs-meta">@RequestParam(name = &quot;tenantId&quot;, required = false)</span> String tenantId,</span><br><span class="hljs-params">                                                <span class="hljs-meta">@RequestParam(&quot;sessionId&quot;)</span> String sessionId,</span><br><span class="hljs-params">                                                <span class="hljs-meta">@RequestParam(&quot;state&quot;)</span> String state)</span> &#123;<br>    ApiResponse&lt;ThdLoginResponse&gt; apiResponse = ApiResponse.successResponse();<br>    <span class="hljs-type">ThdLoginResponse</span> <span class="hljs-variable">map</span> <span class="hljs-operator">=</span> thdLoginCheck.checkToken(tenantId, userId, sessionId, state);<br>    apiResponse.setData(map);<br>    <span class="hljs-keyword">return</span> apiResponse;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>POST 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Operation(summary = &quot;第三方token校验接口&quot;)</span><br><span class="hljs-meta">@PostMapping(value = &quot;/check&quot;)</span><br><span class="hljs-keyword">public</span> ApiResponse&lt;ThdLoginResponse&gt; <span class="hljs-title function_">checkLoginPost</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> ThdLoginRequest requestBody)</span> &#123;<br>    ApiResponse&lt;ThdLoginResponse&gt; apiResponse = ApiResponse.successResponse();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">tenantId</span> <span class="hljs-operator">=</span> requestBody.getTenantId();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">userId</span> <span class="hljs-operator">=</span> requestBody.getUserId();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">sessionId</span> <span class="hljs-operator">=</span> requestBody.getSessionId();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">state</span> <span class="hljs-operator">=</span> requestBody.getState();<br>    <span class="hljs-type">ThdLoginResponse</span> <span class="hljs-variable">map</span> <span class="hljs-operator">=</span> thdLoginCheck.checkToken(tenantId, userId, sessionId, state);<br>    apiResponse.setData(map);<br>    <span class="hljs-keyword">return</span> apiResponse;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>令牌的申请、校验和吊销都必须使用 POST 方法。</p>
+<p>注意到此处需要的请求都可以使用 resttemplate 实现，oauth-starter 依赖的注入不是必要的。</p>
+<h2 id="邮件收发"><a href="#邮件收发" class="headerlink" title="邮件收发"></a>邮件收发</h2><p>电子邮件的上传由 SMTP 协议实现，而发送由 IAMP 或 POP3 协议实现。作为服务器，需要在合适的时候发送合适的协议，从而有效发送信息。而在发送时，可以按照邮件及其附件的类型，调用不同的接口。</p>
+<p>要实现邮件收发的功能，需要注入 javamail 依赖。</p>
+<p>相关配置信息如下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">flyway:</span><br>    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">mail:</span><br>    <span class="hljs-comment"># 邮件服务器地址</span><br>    <span class="hljs-attr">host:</span> <span class="hljs-string">smtp.qq.com</span><br>    <span class="hljs-comment"># 协议 默认就是smtp</span><br>    <span class="hljs-attr">protocol:</span> <span class="hljs-string">smtps</span><br>    <span class="hljs-comment"># 编码格式 默认就是utf-8</span><br>    <span class="hljs-attr">default-encoding:</span> <span class="hljs-string">utf-8</span><br>    <span class="hljs-comment"># 邮箱</span><br>    <span class="hljs-attr">username:</span> <span class="hljs-string">example@qq.com</span><br>    <span class="hljs-comment"># 16位授权码 不是邮箱密码</span><br>    <span class="hljs-attr">password:</span> <span class="hljs-number">1145141919815000</span><br>    <span class="hljs-comment"># smtp的指定端口 25端口默认不启用ssl 也就是protoc为smtp, 使用465要将protocol改为smtps并且开启ssl为true</span><br>    <span class="hljs-attr">port:</span> <span class="hljs-number">465</span>   <span class="hljs-comment">#465</span><br>    <span class="hljs-comment"># 设置开启ssl</span><br>    <span class="hljs-attr">properties:</span><br>      <span class="hljs-attr">mail:</span><br>        <span class="hljs-attr">stmp:</span><br>          <span class="hljs-attr">ssl:</span><br>            <span class="hljs-attr">enable:</span> <span class="hljs-literal">false</span><br>        <span class="hljs-comment"># 收邮件配置</span><br>        <span class="hljs-attr">receive:</span><br>          <span class="hljs-attr">enable:</span> <span class="hljs-literal">false</span><br>          <span class="hljs-attr">protocol:</span> <span class="hljs-string">pop3</span><br>          <span class="hljs-attr">ssl:</span><br>            <span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>          <span class="hljs-attr">port:</span> <span class="hljs-number">995</span>     <span class="hljs-comment">#997</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="文字信息"><a href="#文字信息" class="headerlink" title="文字信息"></a>文字信息</h3><p>如果信件只是简单的文字信息，则只需要配置好相关信息，直接抄送即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendNormalEmailMessage</span><span class="hljs-params">(TextEmailVO mail)</span> &#123;<br>    <span class="hljs-comment">// 创建简单邮件消息</span><br>    <span class="hljs-type">SimpleMailMessage</span> <span class="hljs-variable">message</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SimpleMailMessage</span>();<br>    <span class="hljs-comment">// 发件箱</span><br>    message.setFrom(mailUserName);<br>    <span class="hljs-comment">// 谁要接收</span><br>    message.setTo(mail.getTo());<br>    <span class="hljs-comment">// 邮件标题</span><br>    message.setSubject(mail.getSubject());<br>    <span class="hljs-comment">// 邮件内容</span><br>    message.setText(mail.getContent());<br>    <span class="hljs-comment">// 抄送的人</span><br>    message.setCc(mail.getCc());<br>    <span class="hljs-comment">// 发送邮件</span><br>    javaMailSender.send(message);<br>    operatorOfEmail.insert(EmailEntityUtil.convertVo2Do(mail));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意，在发送的同时也要在数据库中同步一份数据记录。数据库中应该存放其租户 id、邮件发送时间、消息类型、发送者邮箱、主题、邮件内容、接收者、发送人姓名、发送人用户 id、邮件的附件 OSS 存储地址（或其比特流）、邮件的传输方向、邮件的系统来源这些信息。</p>
+<h3 id="富文本"><a href="#富文本" class="headerlink" title="富文本"></a>富文本</h3><p>富文本相比纯文字多出了图片、表格等信息。此处假设发送的是 HTML 文本文件（足够丰富了），而走的也是纯粹的比特流而非文件流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> String <span class="hljs-title function_">sendMimeMessage</span><span class="hljs-params">(EmailVO mail, MultipartFile multipartFile)</span> <span class="hljs-keyword">throws</span> MessagingException, IOException &#123;<br>    <span class="hljs-type">MimeMessage</span> <span class="hljs-variable">message</span> <span class="hljs-operator">=</span> javaMailSender.createMimeMessage();<br><br>    <span class="hljs-type">MimeMessageHelper</span> <span class="hljs-variable">helper</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MimeMessageHelper</span>(message, <span class="hljs-literal">true</span>);<br>    helper.setFrom(mailUserName);<br>    <span class="hljs-comment">// 谁要接收</span><br>    helper.setTo(mail.getTo());<br>    <span class="hljs-comment">// 邮件标题</span><br>    helper.setSubject(mail.getSubject());<br>    <span class="hljs-comment">// 抄送的人</span><br>    helper.setCc(mail.getCc());<br>    <span class="hljs-comment">// 邮件内容   true 表示带有附件或html</span><br>    helper.setText(mail.getContent(), <span class="hljs-literal">true</span>);<br><br>    <span class="hljs-comment">// 直接走二进制流，不走文件流，上传的是文件流，不是文件服务器的文件地址</span><br>    <span class="hljs-keyword">if</span> (!ObjectUtils.isEmpty(multipartFile)) &#123;<br>        log.info(<span class="hljs-string">&quot;send email: store email attachment file stream to database&quot;</span>);<br>        <span class="hljs-type">byte</span>[] bytes = multipartFile.getBytes();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">fileName</span> <span class="hljs-operator">=</span> Optional.ofNullable(multipartFile.getOriginalFilename()).orElse(<span class="hljs-string">&quot;&quot;</span>);<br>        mail.setBinaryEmailAttachment(bytes);<br>        mail.setFileName(fileName);<br>        helper.addAttachment(fileName, <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayResource</span>(bytes));<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">if</span> (StringUtils.hasText(mail.getFileAddress()))&#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-comment">// 以流的形式下载文件服务器文件</span><br>                <span class="hljs-type">InputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedInputStream</span>(Files.newInputStream(Paths.get(mail.getFileAddress())));<br>                <span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[fis.available()];<br>                fis.read(buffer);<br>                fis.close();<br>                mail.setBinaryEmailAttachment(buffer);<br>                helper.addAttachment(mail.getFileName(), <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayResource</span>(buffer));<br>            &#125; <span class="hljs-keyword">catch</span> (IOException ex) &#123;<br>                log.error(<span class="hljs-string">&quot;Error:  &#123;&#125;&quot;</span>, ex.getMessage(),ex);<br>            &#125;<br>        &#125;<br>    &#125;<br>    javaMailSender.send(message);<br>    <span class="hljs-type">EmailDO</span> <span class="hljs-variable">emailDO</span> <span class="hljs-operator">=</span> EmailEntityUtil.convertVo2Do(mail);<br>    operatorOfEmail.insert(emailDO);<br>    <span class="hljs-comment">// 查询该邮件的id</span><br>    <span class="hljs-keyword">return</span> operatorOfEmail.getEmailId(emailDO);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中的 <code>MultipartFile</code> 是 Spring Web 中用于处理客户端上传文件的核心接口。用于接收用户上传的文件并封装其元信息（如文件名、大小、字节流等）。</p>
+<h3 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h3><p>单纯传附件的话就更简单了，就是正常的将文件上传到 OSS 或本地存储二进制文件流的操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping(value =&quot;/uplode/file&quot;)</span><br><span class="hljs-meta">@ResponseBody</span><br><span class="hljs-keyword">public</span> ApiResponse&lt;String&gt; <span class="hljs-title function_">upFileToFileServer</span><span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-meta">@Parameter(description= &quot;文件名&quot;)</span> <span class="hljs-meta">@RequestParam</span> String fileName,</span><br><span class="hljs-params">    <span class="hljs-meta">@Parameter(description= &quot;文件流&quot;)</span> <span class="hljs-meta">@RequestParam(required = false)</span> MultipartFile multipartFile)</span> &#123;<br>    ApiResponse&lt;String&gt; apiResponse = ApiResponse.successResponse();<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;http://fileserver/fileserver/put?filechannel=wechat&amp;filetype=doc&quot;</span>;<br>        <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">headers</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();<br>        headers.setContentType(MediaType.APPLICATION_JSON);<br>        RestTemplateUtil.postMessage(restTemplate, url,fileName , headers);<br>        apiResponse.setMessage(<span class="hljs-string">&quot;文件上传成功&quot;</span>);<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        apiResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());<br>        apiResponse.setStatus(<span class="hljs-string">&quot;fail&quot;</span>);<br>        apiResponse.setMessage(e.getMessage());<br>        log.error(<span class="hljs-string">&quot;upload file failed &#123;&#125;&quot;</span>, e.getMessage(), e);<br>    &#125;<br>    <span class="hljs-keyword">return</span> apiResponse;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>若文件中既有附件又有富文本，则需要两者共同上传，这考验数据库表的设计能力。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Operation(summary = &quot;发送富文本含附件邮件&quot;)</span><br><span class="hljs-meta">@PostMapping(value = &quot;/mime/send&quot;)</span><br><span class="hljs-meta">@ResponseBody</span><br><span class="hljs-keyword">public</span> ApiResponse&lt;String&gt; <span class="hljs-title function_">sendAttachmentsMail</span><span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-meta">@Parameter(description= &quot;消息体&quot;, required = true)</span> <span class="hljs-meta">@RequestParam</span> String mail,</span><br><span class="hljs-params">    <span class="hljs-meta">@Parameter(description= &quot;消息附件&quot;)</span> <span class="hljs-meta">@RequestParam(required = false)</span> MultipartFile multipartFile)</span> &#123;<br>    ApiResponse&lt;String&gt; apiResponse = ApiResponse.successResponse();<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-type">EmailVO</span> <span class="hljs-variable">eMailVO</span> <span class="hljs-operator">=</span> JSONObject.parseObject(mail, EmailVO.class);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">emailId</span> <span class="hljs-operator">=</span> mailSendService.sendMimeMessage(eMailVO, multipartFile);<br>        apiResponse.setData(emailId);<br>        apiResponse.setMessage(<span class="hljs-string">&quot;邮件发送成功&quot;</span>);<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        apiResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());<br>        apiResponse.setStatus(<span class="hljs-string">&quot;fail&quot;</span>);<br>        apiResponse.setMessage(e.getMessage());<br>        log.error(<span class="hljs-string">&quot;send attachments mail &#123;&#125;&quot;</span>, e.getMessage(), e);<br>    &#125;<br>    <span class="hljs-keyword">return</span> apiResponse;<br>&#125;<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/web/" class="category-chain-item">web</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/java/" class="print-no-link">#java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>common-business-model</div>
+      <div>https://ivanclf.github.io/2026/01/24/common-business-model/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="../scraping/" title="爬虫与数据分析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">爬虫与数据分析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../../../2025/12/09/deepseek-param/" title="deepseek 调参">
+                        <span class="hidden-mobile">deepseek 调参</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

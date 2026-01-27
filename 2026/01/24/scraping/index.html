@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="此处的爬虫和数据分析的脚本均由 ai 生成。不同的网站的反爬措施也不同，爬虫的写法也不太一样。 B站评论首先需要准备好请求信息 12345678oid &#x3D; &quot;&#123;视频的oid&#125;&quot;cookie &#x3D; &quot;&#123;你的访问Cookie&#125;&quot;Referer &#x3D; &quot;https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫与数据分析">
+<meta property="og:url" content="https://ivanclf.github.io/2026/01/24/scraping/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="此处的爬虫和数据分析的脚本均由 ai 生成。不同的网站的反爬措施也不同，爬虫的写法也不太一样。 B站评论首先需要准备好请求信息 12345678oid &#x3D; &quot;&#123;视频的oid&#125;&quot;cookie &#x3D; &quot;&#123;你的访问Cookie&#125;&quot;Referer &#x3D; &quot;https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ivanclf.github.io/2026/01/24/scraping/right-click.png">
+<meta property="article:published_time" content="2026-01-24T04:49:53.000Z">
+<meta property="article:modified_time" content="2026-01-24T05:57:56.130Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="碎片知识">
+<meta property="article:tag" content="日常">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ivanclf.github.io/2026/01/24/scraping/right-click.png">
+  
+  
+  
+  <title>爬虫与数据分析 - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="爬虫与数据分析"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-24 12:49" pubdate>
+          2026年1月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">爬虫与数据分析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>此处的爬虫和数据分析的脚本均由 ai 生成。不同的网站的反爬措施也不同，爬虫的写法也不太一样。</p>
+<h2 id="B站评论"><a href="#B站评论" class="headerlink" title="B站评论"></a>B站评论</h2><p>首先需要准备好请求信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">oid = <span class="hljs-string">&quot;&#123;视频的oid&#125;&quot;</span><br>cookie = <span class="hljs-string">&quot;&#123;你的访问Cookie&#125;&quot;</span><br>Referer = <span class="hljs-string">&quot;https://www.bilibili.com/video/&#123;BV号&#125;&quot;</span><br>headers = &#123;<br>    <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;&#123;你的UA&#125;&#x27;</span>,<br>    <span class="hljs-string">&#x27;Referer&#x27;</span>: Referer,<br>    <span class="hljs-string">&#x27;Cookie&#x27;</span>: cookie<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>cookie 和 UA 需要在 F12 中随便找个请求截取。而 oid 需要找到视频页的源码</p>
+<p><img src="right-click.png" srcset="/img/loading.gif" lazyload alt="右击网页菜单，点击查看源码或 View Page Source"></p>
+<p>然后搜索 oid，一直找到视频的 oid 号。</p>
+<p>然后爬取评论</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">fetch_comments</span>(<span class="hljs-params">oid, page=<span class="hljs-number">1</span></span>):<br>    url = <span class="hljs-string">f&#x27;https://api.bilibili.com/x/v2/reply/main&#x27;</span><br>    params = &#123;<br>        <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-number">1</span>,<br>        <span class="hljs-string">&#x27;oid&#x27;</span>: oid,<br>        <span class="hljs-string">&#x27;mode&#x27;</span>: <span class="hljs-number">3</span>,<br>        <span class="hljs-string">&#x27;next&#x27;</span>: page<br>    &#125;<br>    <span class="hljs-keyword">try</span>:<br>        resp = requests.get(url, headers=headers, params=params, timeout=<span class="hljs-number">10</span>)<br>        resp.raise_for_status()<br>        data = resp.json()<br>        <span class="hljs-keyword">if</span> data.get(<span class="hljs-string">&#x27;code&#x27;</span>, <span class="hljs-number">0</span>) != <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;接口错误，code=<span class="hljs-subst">&#123;data.get(<span class="hljs-string">&#x27;code&#x27;</span>)&#125;</span>, message=<span class="hljs-subst">&#123;data.get(<span class="hljs-string">&#x27;message&#x27;</span>)&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> data<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;请求异常: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>一次爬取 10 条。然后通过数组存储，并不断追加</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_comments</span>(<span class="hljs-params">data</span>):<br>    comments = []<br>    replies = data.get(<span class="hljs-string">&#x27;data&#x27;</span>, &#123;&#125;).get(<span class="hljs-string">&#x27;replies&#x27;</span>, [])<br>    <span class="hljs-keyword">for</span> reply <span class="hljs-keyword">in</span> replies:<br>        uid = reply.get(<span class="hljs-string">&#x27;member&#x27;</span>, &#123;&#125;).get(<span class="hljs-string">&#x27;mid&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>        content = reply.get(<span class="hljs-string">&#x27;content&#x27;</span>, &#123;&#125;).get(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>        comments.append([uid, content])<br>    <span class="hljs-keyword">return</span> comments<br></code></pre></td></tr></table></figure>
+
+<p>最后将数据归总到 csv 文件中，并实现翻页效果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    page = <span class="hljs-number">1</span><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data.csv&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, newline=<span class="hljs-string">&#x27;&#x27;</span>, encoding=<span class="hljs-string">&#x27;utf-8-sig&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        writer = csv.writer(f)<br>        writer.writerow([<span class="hljs-string">&#x27;用户ID&#x27;</span>, <span class="hljs-string">&#x27;评论内容&#x27;</span>])<br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            data = fetch_comments(oid, page)<br>            <span class="hljs-keyword">if</span> data.get(<span class="hljs-string">&#x27;code&#x27;</span>, <span class="hljs-number">0</span>) != <span class="hljs-number">0</span>:<br>                <span class="hljs-keyword">break</span><br>            comments = parse_comments(data)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> comments:<br>                <span class="hljs-keyword">break</span><br>            writer.writerows(comments)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Fetched page <span class="hljs-subst">&#123;page&#125;</span>, <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(comments)&#125;</span> comments&#x27;</span>)<br>            page += <span class="hljs-number">1</span><br>            time.sleep(random.uniform(<span class="hljs-number">1.0</span>, <span class="hljs-number">3.0</span>))<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> data.get(<span class="hljs-string">&#x27;data&#x27;</span>, &#123;&#125;).get(<span class="hljs-string">&#x27;cursor&#x27;</span>, &#123;&#125;).get(<span class="hljs-string">&#x27;is_end&#x27;</span>, <span class="hljs-literal">True</span>):<br>                <span class="hljs-keyword">continue</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-keyword">break</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;导出完成，保存到data.csv&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>于是就可以获得所有的评论并导出成 csv 文件中了。最后可以依次进行词云分析和重复评论分析。分析需要用到 pandas 库用于读取和展示数据，jieba 库用于分词。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">read_comments</span>():<br>    current_dir = os.path.dirname(os.path.abspath(__file__))<br>    file_path = os.path.join(current_dir, <span class="hljs-string">&#x27;&#123;data.csv路径&#125;&#x27;</span>)<br>    <br>    <span class="hljs-keyword">try</span>:<br>        df = pd.read_csv(file_path, encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;成功读取文件：<span class="hljs-subst">&#123;file_path&#125;</span>&#x27;</span>)<br>        <span class="hljs-keyword">return</span> df[<span class="hljs-string">&#x27;评论内容&#x27;</span>].tolist()<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;读取文件失败：<span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> []<br></code></pre></td></tr></table></figure>
+
+<p>分析词云</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">analyze_comments</span>(<span class="hljs-params">comments</span>):<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;开始分词处理...&quot;</span>)<br>        words = []<br>        <span class="hljs-keyword">for</span> comment <span class="hljs-keyword">in</span> comments:<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(comment, <span class="hljs-built_in">str</span>):<br>                words.extend(jieba.lcut(comment))<br>        <br>        word_freq = Counter(words)<br>        <br>        <span class="hljs-comment"># 过滤掉一些停用词</span><br>        stop_words = &#123;<br>            <span class="hljs-string">&#x27;的&#x27;</span>, <span class="hljs-string">&#x27;了&#x27;</span>, <span class="hljs-string">&#x27;啊&#x27;</span>, <span class="hljs-string">&#x27;吧&#x27;</span>, <span class="hljs-string">&#x27;吗&#x27;</span>, <span class="hljs-string">&#x27;呢&#x27;</span>, <span class="hljs-string">&#x27;啦&#x27;</span>, <span class="hljs-string">&#x27;呀&#x27;</span>, <span class="hljs-string">&#x27;嘛&#x27;</span>, <span class="hljs-string">&#x27;哦&#x27;</span>, <span class="hljs-string">&#x27;哈&#x27;</span>, <span class="hljs-string">&#x27;呐&#x27;</span>, <span class="hljs-string">&#x27;嗯&#x27;</span>, <span class="hljs-string">&#x27;诶&#x27;</span>, <br>            <span class="hljs-string">&#x27;我&#x27;</span>, <span class="hljs-string">&#x27;你&#x27;</span>, <span class="hljs-string">&#x27;他&#x27;</span>, <span class="hljs-string">&#x27;她&#x27;</span>, <span class="hljs-string">&#x27;它&#x27;</span>, <span class="hljs-string">&#x27;我们&#x27;</span>, <span class="hljs-string">&#x27;你们&#x27;</span>, <span class="hljs-string">&#x27;他们&#x27;</span>, <span class="hljs-string">&#x27;这&#x27;</span>, <span class="hljs-string">&#x27;那&#x27;</span>, <span class="hljs-string">&#x27;这个&#x27;</span>, <span class="hljs-string">&#x27;那个&#x27;</span>, <span class="hljs-string">&#x27;这些&#x27;</span>, <span class="hljs-string">&#x27;那些&#x27;</span>, <span class="hljs-string">&#x27;什么&#x27;</span>, <span class="hljs-string">&#x27;谁&#x27;</span>, <span class="hljs-string">&#x27;哪&#x27;</span>, <span class="hljs-string">&#x27;哪个&#x27;</span>, <span class="hljs-string">&#x27;哪些&#x27;</span>,<br>            <span class="hljs-string">&#x27;都&#x27;</span>, <span class="hljs-string">&#x27;也&#x27;</span>, <span class="hljs-string">&#x27;很&#x27;</span>, <span class="hljs-string">&#x27;真&#x27;</span>, <span class="hljs-string">&#x27;太&#x27;</span>, <span class="hljs-string">&#x27;好&#x27;</span>, <span class="hljs-string">&#x27;还&#x27;</span>, <span class="hljs-string">&#x27;别&#x27;</span>, <span class="hljs-string">&#x27;就&#x27;</span>, <span class="hljs-string">&#x27;才&#x27;</span>, <span class="hljs-string">&#x27;可&#x27;</span>, <span class="hljs-string">&#x27;要&#x27;</span>, <span class="hljs-string">&#x27;怎么&#x27;</span>, <span class="hljs-string">&#x27;怎样&#x27;</span>, <span class="hljs-string">&#x27;这样&#x27;</span>, <span class="hljs-string">&#x27;那样&#x27;</span>,<span class="hljs-string">&#x27;真的&#x27;</span>, <span class="hljs-string">&#x27;这么&#x27;</span>, <span class="hljs-string">&#x27;那么&#x27;</span>, <span class="hljs-string">&#x27;已经&#x27;</span>, <span class="hljs-string">&#x27;只能&#x27;</span><br>            <span class="hljs-string">&#x27;在&#x27;</span>, <span class="hljs-string">&#x27;从&#x27;</span>, <span class="hljs-string">&#x27;和&#x27;</span>, <span class="hljs-string">&#x27;与&#x27;</span>, <span class="hljs-string">&#x27;跟&#x27;</span>, <span class="hljs-string">&#x27;同&#x27;</span>, <span class="hljs-string">&#x27;及&#x27;</span>, <span class="hljs-string">&#x27;或&#x27;</span>, <span class="hljs-string">&#x27;而&#x27;</span>, <span class="hljs-string">&#x27;但是&#x27;</span>, <span class="hljs-string">&#x27;可是&#x27;</span>, <span class="hljs-string">&#x27;然后&#x27;</span>, <span class="hljs-string">&#x27;因为&#x27;</span>, <span class="hljs-string">&#x27;所以&#x27;</span>, <span class="hljs-string">&#x27;如果&#x27;</span>, <span class="hljs-string">&#x27;要是&#x27;</span>,<span class="hljs-string">&#x27;还是&#x27;</span>, <span class="hljs-string">&#x27;就是&#x27;</span>, <br>            <span class="hljs-string">&#x27;是&#x27;</span>, <span class="hljs-string">&#x27;有&#x27;</span>, <span class="hljs-string">&#x27;没&#x27;</span>, <span class="hljs-string">&#x27;没有&#x27;</span>, <span class="hljs-string">&#x27;不&#x27;</span>, <span class="hljs-string">&#x27;不是&#x27;</span>, <span class="hljs-string">&#x27;不要&#x27;</span>, <span class="hljs-string">&#x27;能&#x27;</span>, <span class="hljs-string">&#x27;可以&#x27;</span>, <span class="hljs-string">&#x27;应该&#x27;</span>, <span class="hljs-string">&#x27;需要&#x27;</span>, <span class="hljs-string">&#x27;想&#x27;</span>, <span class="hljs-string">&#x27;觉得&#x27;</span>, <span class="hljs-string">&#x27;不会&#x27;</span>, <span class="hljs-string">&#x27;不能&#x27;</span>, <br>            <span class="hljs-string">&#x27;一个&#x27;</span>, <span class="hljs-string">&#x27;一些&#x27;</span>, <span class="hljs-string">&#x27;几个&#x27;</span>, <span class="hljs-string">&#x27;好多&#x27;</span>, <span class="hljs-string">&#x27;很多&#x27;</span>, <span class="hljs-string">&#x27;非常&#x27;</span>, <br>            <span class="hljs-comment"># 表情包等</span><br>            <span class="hljs-string">&#x27;doge&#x27;</span>, <span class="hljs-string">&#x27;up&#x27;</span>, <span class="hljs-string">&#x27;b23&#x27;</span>, <span class="hljs-string">&#x27;UP&#x27;</span>, <span class="hljs-string">&#x27;ok&#x27;</span>, <span class="hljs-string">&#x27;OK&#x27;</span>, <span class="hljs-string">&#x27;http&#x27;</span>, <span class="hljs-string">&#x27;https&#x27;</span>, <span class="hljs-string">&#x27;call&#x27;</span>, <span class="hljs-string">&#x27;tv&#x27;</span>, <span class="hljs-string">&#x27;\&quot;&#x27;</span>, <span class="hljs-string">&#x27;“&#x27;</span>, <span class="hljs-string">&#x27;”&#x27;</span>, <br>        &#125;<br>        <span class="hljs-comment"># 过滤掉形如[xxx]的内容</span><br>        word_freq = Counter(word <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> words <br>                    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> re.fullmatch(<span class="hljs-string">r&#x27;^\[.*?]$&#x27;</span>, word))<br>        <br>        word_freq = &#123;word: freq <span class="hljs-keyword">for</span> word, freq <span class="hljs-keyword">in</span> word_freq.items() <br>                     <span class="hljs-keyword">if</span> word <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> stop_words <span class="hljs-keyword">and</span> <span class="hljs-built_in">len</span>(word) &gt; <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> freq &gt;= <span class="hljs-number">5</span>&#125;<br>        <br>        <span class="hljs-comment"># 转换为DataFrame并排序</span><br>        word_df = pd.DataFrame(word_freq.items(), columns=[<span class="hljs-string">&#x27;词语&#x27;</span>, <span class="hljs-string">&#x27;出现次数&#x27;</span>])<br>        word_df = word_df.sort_values(<span class="hljs-string">&#x27;出现次数&#x27;</span>, ascending=<span class="hljs-literal">False</span>)<br>        <br>        <span class="hljs-keyword">return</span> word_df<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;分析词频时出错：<span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(traceback.format_exc())  <span class="hljs-comment"># 打印详细错误堆栈</span><br>        <span class="hljs-keyword">return</span> pd.DataFrame(columns=[<span class="hljs-string">&#x27;词语&#x27;</span>, <span class="hljs-string">&#x27;出现次数&#x27;</span>])<br></code></pre></td></tr></table></figure>
+
+<p>进行相同评论分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">analyze_duplicate_comments</span>(<span class="hljs-params">comments</span>):<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;开始分析重复评论...&quot;</span>)<br>        comment_freq = Counter(comments)<br>        comment_freq = &#123;comment: freq <span class="hljs-keyword">for</span> comment, freq <span class="hljs-keyword">in</span> comment_freq.items() <span class="hljs-keyword">if</span> freq &gt; <span class="hljs-number">1</span>&#125;<br>        comment_df = pd.DataFrame(comment_freq.items(), columns=[<span class="hljs-string">&#x27;评论内容&#x27;</span>, <span class="hljs-string">&#x27;重复次数&#x27;</span>])<br>        comment_df = comment_df.sort_values(<span class="hljs-string">&#x27;重复次数&#x27;</span>, ascending=<span class="hljs-literal">False</span>)<br>        <span class="hljs-keyword">return</span> comment_df<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;分析重复评论时出错：<span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(traceback.format_exc())<br>        <span class="hljs-keyword">return</span> pd.DataFrame(columns=[<span class="hljs-string">&#x27;评论内容&#x27;</span>, <span class="hljs-string">&#x27;重复次数&#x27;</span>])<br></code></pre></td></tr></table></figure>
+
+<p>入口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 1. 读取评论 ===&quot;</span>)<br>        comments = read_comments()<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> comments:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;没有读取到评论数据，程序终止&quot;</span>)<br>            <span class="hljs-keyword">return</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;共读取到 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(comments)&#125;</span> 条评论&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 2. 分析词频 ===&quot;</span>)<br>        word_df = analyze_comments(comments)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 3. 分析重复评论 ===&quot;</span>)<br>        duplicate_df = analyze_duplicate_comments(comments)<br>        current_dir = os.path.dirname(os.path.abspath(__file__))<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 4. 保存分析结果 ===&quot;</span>)<br>        <br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> word_df.empty <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> duplicate_df.empty:<br>            <span class="hljs-keyword">try</span>:<br>                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> word_df.empty:<br>                    word_freq_path = os.path.join(current_dir, <span class="hljs-string">&#x27;word_freq.csv&#x27;</span>)<br>                    word_df.to_csv(word_freq_path, index=<span class="hljs-literal">False</span>, encoding=<span class="hljs-string">&#x27;utf-8-sig&#x27;</span>)<br><br>                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> duplicate_df.empty:<br>                    duplicate_path = os.path.join(current_dir, <span class="hljs-string">&#x27;duplicate_comments.csv&#x27;</span>)<br>                    duplicate_df.to_csv(duplicate_path, index=<span class="hljs-literal">False</span>, encoding=<span class="hljs-string">&#x27;utf-8-sig&#x27;</span>)<br>                <br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;分析完成！结果已保存&#x27;</span>)<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\n词频统计 Top 10:&#x27;</span>)<br>                <span class="hljs-built_in">print</span>(word_df.head(<span class="hljs-number">10</span>))<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\n重复评论 Top 10:&#x27;</span>)<br>                <span class="hljs-built_in">print</span>(duplicate_df.head(<span class="hljs-number">10</span>))<br>                <br>                <span class="hljs-keyword">try</span>:<br>                    os.startfile(word_freq_path)<br>                <span class="hljs-keyword">except</span>:<br>                    <span class="hljs-keyword">pass</span><br>            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;保存结果时出错: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;没有分析结果可以保存&quot;</span>)<br>            <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 处理完成 ===&quot;</span>)<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;处理过程中出错: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
+      
+        <a href="../../../../tags/%E6%97%A5%E5%B8%B8/" class="print-no-link">#日常</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>爬虫与数据分析</div>
+      <div>https://ivanclf.github.io/2026/01/24/scraping/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../common-business-model/" title="common-business-model">
+                        <span class="hidden-mobile">common-business-model</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

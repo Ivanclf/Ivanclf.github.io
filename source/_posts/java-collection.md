@@ -179,6 +179,10 @@ Queue<Request> tempQueue = new PriorityQueue<>((r1, r2) -> {
 
 ## Map
 
+{% note info %}
+在 jdk 9 后，可以使用 `Map.of()` 方法往里面传入多个键值对，生成小型的不可变的小 map。
+{% endnote %}
+
 ### HashMap
 
 #### 数据结构

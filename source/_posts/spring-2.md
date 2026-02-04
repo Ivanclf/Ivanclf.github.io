@@ -73,10 +73,16 @@ Bean Validation 是一套定义 JavaBean 参数校验标准的规范，它提供
 |-|-|
 |`@CreditCardNumber`|信号卡号格式|
 |`@URL`|URL 格式|
-|`SafeHtml`|安全的 HTML（防 XSS）|
+|`@SafeHtml`|安全的 HTML（防 XSS）|
 |`@Range(min = 18, max = 100)`|数值范围|
 
 在这些信息后添加 `message` 属性，可以添加提示信息
+
+**bean 管理**
+
+|注释|说明|
+|-|-|
+|`@ConditionalOnMissingBean`|只有缺失这个 Bean 时才注册|
 
 ### JPA
 

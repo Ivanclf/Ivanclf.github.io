@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/10/sql/join.jpg">
 <meta property="article:published_time" content="2025-10-10T12:13:26.000Z">
-<meta property="article:modified_time" content="2026-01-07T07:07:42.332Z">
+<meta property="article:modified_time" content="2026-02-04T06:26:42.162Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="SQL">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.9k 字
+          4k 字
         
       </span>
     
@@ -365,6 +365,8 @@
 
 <h2 id="基本数据类型指北"><a href="#基本数据类型指北" class="headerlink" title="基本数据类型指北"></a>基本数据类型指北</h2><ul>
 <li><p><code>varchar</code>和<code>char</code>的区别在于，<code>varchar</code>是可变长度的字符类型，最长不会超过声明的大小。原则上最多可以容纳65535个字符（但MySQL需要1到2个字节来表示字符串长度）。但<code>char</code>字段无论存储的字符长度是多少，都会占用声明的长度。<br>  不过，当<code>varchar</code>类型在指定大小较大时，会消耗更多的内存，因为<code>varchar</code>类型在内存中操作时，通常会分配固定大小的内存块来保存值。</p>
+</li>
+<li><p><code>varchar</code> 的最大长度视具体数据库而定。MySQL 中所有列共享 6555 字节，在 UTF8M64 下为 16383 字符；PostgreSQL 中可不指定长度，通常由行最大大小（8kB）限制；SQL Server 中 <code>varchar(n)</code> 最大为 8000字符；Oracle 中最大为 4000 字节。</p>
 </li>
 <li><p><code>blob</code>和<code>text</code>的区别在于，<code>blob</code>用于存储二进制数据，因此基本所有数据都能存，但存多媒体更好。然而市面上更多人会把文件存到OSS上，然后在数据库中存URL。而<code>text</code>用于存储文本数据，但目前<code>text</code>因为不能有默认值，检索效率较低等缺点，目前也不常用。</p>
 </li>

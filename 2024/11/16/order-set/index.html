@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2024/11/16/order-set/vi-vim-cheat-sheet-sch.gif">
 <meta property="og:image" content="https://ivanclf.github.io/2024/11/16/order-set/Linux%E6%9D%83%E9%99%90%E8%A7%A3%E8%AF%BB-BGnXOuG0.png">
 <meta property="article:published_time" content="2024-11-16T11:51:38.000Z">
-<meta property="article:modified_time" content="2026-01-01T10:47:06.857Z">
+<meta property="article:modified_time" content="2026-02-05T01:25:37.377Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="速查">
 <meta name="twitter:card" content="summary_large_image">
@@ -787,7 +787,7 @@
 </tr>
 <tr>
 <td><code>tar &lt;input&gt; &lt;output&gt;</code></td>
-<td>打包并压缩文件<br><code>-z</code> 调用 gzip 压缩命令进行压缩<br><code>-c</code> 打包文件，<code>-v</code> 显示运行过程<br><code>-f</code> 指定文件名<br><code>-x</code> 解压</td>
+<td>打包并压缩文件<br><code>-z</code> 调用 gzip 压缩命令进行压缩<br><code>-c</code> 打包文件，<code>-v</code> 显示运行过程<br><code>-f</code> 指定文件名<br><code>-x</code> 解压<br>解压缩则直接使用 <code>tar -zxvf</code></td>
 </tr>
 <tr>
 <td><code>scp &lt;input&gt; &lt;output&gt;</code></td>
@@ -838,8 +838,12 @@
 <td>管理系统的服务单元，查看系统服务的状态信息<br><code>start</code> 启动服务<br><code>stop</code>停止服务<br><code>status</code> 查看服务状态</td>
 </tr>
 <tr>
-<td><code>netstat</code> <code>ss</code></td>
+<td><code>netstat</code></td>
 <td>查看系统的网络连接状态和网络统计信息<br><code>-t</code> 仅显示 TCP<br><code>-u</code> 仅显示 UDP<br> <code>l</code> 显示端口</td>
+</tr>
+<tr>
+<td><code>ss</code></td>
+<td>查看端口信息<br><code>-ant</code> 查看 tcp 端口<br><code>-anu</code> 查看 udp 端口<br><code>-ano</code> 查看所有端口</td>
 </tr>
 <tr>
 <td><code>grep &lt;content&gt; &lt;filepath&gt;</code></td>

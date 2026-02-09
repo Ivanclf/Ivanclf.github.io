@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="阿里云 OSS创建配置类使用以下方法，创建 OSS 的内网或外网客户端 12345678910111213141516&#x2F;** * 创建OSS客户端（用于外网访问） *&#x2F;private OSS createPublicOssClient() &#123;    String publicEndpointToUse &#x3D; StringUtils.hasText(publicEndpoint) ? pub">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见业务模型 - OSS 、操作系统集成与 FFmpeg">
+<meta property="og:url" content="https://ivanclf.github.io/2026/02/04/common-business-model-3/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="阿里云 OSS创建配置类使用以下方法，创建 OSS 的内网或外网客户端 12345678910111213141516&#x2F;** * 创建OSS客户端（用于外网访问） *&#x2F;private OSS createPublicOssClient() &#123;    String publicEndpointToUse &#x3D; StringUtils.hasText(publicEndpoint) ? pub">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-04T06:03:33.000Z">
+<meta property="article:modified_time" content="2026-02-09T02:05:03.376Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>常见业务模型 - OSS 、操作系统集成与 FFmpeg - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="常见业务模型 - OSS 、操作系统集成与 FFmpeg"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-04 14:03" pubdate>
+          2026年2月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">常见业务模型 - OSS 、操作系统集成与 FFmpeg</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="阿里云-OSS"><a href="#阿里云-OSS" class="headerlink" title="阿里云 OSS"></a>阿里云 OSS</h2><h3 id="创建配置类"><a href="#创建配置类" class="headerlink" title="创建配置类"></a>创建配置类</h3><p>使用以下方法，创建 OSS 的内网或外网客户端</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 创建OSS客户端（用于外网访问）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">private</span> OSS <span class="hljs-title function_">createPublicOssClient</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">publicEndpointToUse</span> <span class="hljs-operator">=</span> StringUtils.hasText(publicEndpoint) ? publicEndpoint : endpoint;<br>    log.debug(<span class="hljs-string">&quot;创建外网OSS客户端: endpoint=&#123;&#125;, accessKeyId=&#123;&#125;, bucketName=&#123;&#125;&quot;</span>, publicEndpointToUse, accessKeyId, bucketName);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">OSSClientBuilder</span>().build(publicEndpointToUse, accessKeyId, accessKeySecret);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 创建OSS客户端（用于内网操作）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">private</span> OSS <span class="hljs-title function_">createOssClient</span><span class="hljs-params">()</span> &#123;<br>    log.debug(<span class="hljs-string">&quot;创建内网OSS客户端: endpoint=&#123;&#125;, accessKeyId=&#123;&#125;, bucketName=&#123;&#125;&quot;</span>, endpoint, accessKeyId, bucketName);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">OSSClientBuilder</span>().build(endpoint, accessKeyId, accessKeySecret);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<div class="note note-info">
+            <p>但这里没有注册到 Bean 里，而是每次请求都新建一个 OSS 对象，显然比较浪费。因此比较好的做法是将内网和外网的 OSS 统一注册到 Spring 里。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">OssConfig</span> &#123;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;aliyun.oss.endpoint:&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String endpoint;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;aliyun.oss.publicEndpoint:&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String publicEndpoint;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;aliyun.oss.accessKeyId:&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String accessKeyId;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;aliyun.oss.accessKeySecret:&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String accessKeySecret;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 内网OSS客户端Bean</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean(&quot;internalOssClient&quot;)</span><br>    <span class="hljs-meta">@Primary</span><br>    <span class="hljs-keyword">public</span> OSS <span class="hljs-title function_">internalOssClient</span><span class="hljs-params">()</span> &#123;<br>        log.info(<span class="hljs-string">&quot;创建内网OSS客户端Bean: endpoint=&#123;&#125;&quot;</span>, endpoint);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">OSSClientBuilder</span>().build(endpoint, accessKeyId, accessKeySecret);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 外网OSS客户端Bean</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean(&quot;publicOssClient&quot;)</span><br>    <span class="hljs-keyword">public</span> OSS <span class="hljs-title function_">publicOssClient</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">publicEndpointToUse</span> <span class="hljs-operator">=</span> StringUtils.hasText(publicEndpoint) ? publicEndpoint : endpoint;<br>        log.info(<span class="hljs-string">&quot;创建外网OSS客户端Bean: endpoint=&#123;&#125;&quot;</span>, publicEndpointToUse);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">OSSClientBuilder</span>().build(publicEndpointToUse, accessKeyId, accessKeySecret);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 应用关闭时清理资源</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@PreDestroy</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cleanup</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// Spring会自动调用Bean的destroy方法，OSS客户端会自动shutdown</span><br>        log.info(<span class="hljs-string">&quot;OSS客户端资源清理完成&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+          </div>
+
+<h3 id="一次传输"><a href="#一次传输" class="headerlink" title="一次传输"></a>一次传输</h3><h4 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h4><p>上传文件的方法中，需要指明文件本身（即 <code>MultipartFile</code> 对象）和传输路径。首先需要进行校验</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (file == <span class="hljs-literal">null</span> || file.isEmpty()) &#123;<br>    <span class="hljs-comment">// 抛异常或返回错误信息</span><br>&#125;<br><br><span class="hljs-comment">// 校验路径参数</span><br><span class="hljs-keyword">if</span> (!StringUtils.hasText(path)) &#123;<br>    <span class="hljs-comment">// 抛异常或使用默认路径</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后生成对象的键</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 生成对象键: path/yyyyMMdd/uuid_原始文件名</span><br><span class="hljs-type">String</span> <span class="hljs-variable">originalFilename</span> <span class="hljs-operator">=</span> file.getOriginalFilename();<br><span class="hljs-type">String</span> <span class="hljs-variable">dateFolder</span> <span class="hljs-operator">=</span> LocalDate.now().format(DateTimeFormatter.ofPattern(<span class="hljs-string">&quot;yyyyMMdd&quot;</span>));<br><span class="hljs-type">String</span> <span class="hljs-variable">uuid</span> <span class="hljs-operator">=</span> UUID.randomUUID().toString().replace(<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-string">&quot;&quot;</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> String.format(<span class="hljs-string">&quot;%s/%s/%s_%s&quot;</span>, path, dateFolder, uuid, originalFilename);<br></code></pre></td></tr></table></figure>
+
+<p>上传文件流本身</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 上传文件流</span><br><span class="hljs-keyword">try</span> (<span class="hljs-type">InputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> file.getInputStream()) &#123;<br>    <span class="hljs-type">PutObjectRequest</span> <span class="hljs-variable">putObjectRequest</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PutObjectRequest</span>(<br>        bucketName,<br>        key,<br>        inputStream<br>    );<br>    ossClient.putObject(putObjectRequest);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>获取文件 url</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">fileUrl</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><span class="hljs-keyword">try</span> &#123;<br>    fileUrl = idpUrl + <span class="hljs-string">&quot;/api/oss/url/get?objectKey=&quot;</span> + key;<br>&#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>    log.error(<span class="hljs-string">&quot;获取文件访问URL失败&quot;</span>, e);<br>&#125;<br>log.info(<span class="hljs-string">&quot;文件上传成功: objectKey=&#123;&#125;, fileUrl=&#123;&#125;&quot;</span>, key, fileUrl);<br></code></pre></td></tr></table></figure>
+
+<p>无论如何，在打开 OSS 配置类后，都要注意关闭资源。但如果注册在 Bean 中，只需要打注释就好了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">finally</span> &#123;<br>    <span class="hljs-keyword">if</span> (ossClient != <span class="hljs-literal">null</span>) &#123;<br>        ossClient.shutdown();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h4><p>传入的参数为文件的 key 和响应体。</p>
+<p>首先需要检查文件是否存在</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 检查文件是否存在</span><br><span class="hljs-keyword">if</span> (!ossClient.doesObjectExist(bucketName, objectKey)) &#123;<br>    log.warn(<span class="hljs-string">&quot;文件不存在: objectKey=&#123;&#125;&quot;</span>, objectKey);<br>    response.setStatus(HttpServletResponse.SC_NOT_FOUND);<br>    response.getWriter().write(<span class="hljs-string">&quot;文件不存在&quot;</span>);<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>下载的流程比上传的简单很多，不需要完整拼接全部的 url</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 下载OSS文件</span><br><span class="hljs-type">OSSObject</span> <span class="hljs-variable">ossObject</span> <span class="hljs-operator">=</span> ossClient.getObject(bucketName, objectKey);<br></code></pre></td></tr></table></figure>
+
+<p>然后包装请求体，将其变成特定的格式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 设置响应头</span><br><span class="hljs-type">String</span> <span class="hljs-variable">fileName</span> <span class="hljs-operator">=</span> objectKey.substring(objectKey.lastIndexOf(<span class="hljs-string">&quot;/&quot;</span>) + <span class="hljs-number">1</span>);<br>response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);<br>response.setHeader(HttpHeaders.CONTENT_DISPOSITION,<br>    <span class="hljs-string">&quot;attachment; filename=&quot;</span> + URLEncoder.encode(fileName, StandardCharsets.UTF_8));<br><br><span class="hljs-comment">// 写入响应流</span><br><span class="hljs-keyword">try</span> (<span class="hljs-type">InputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> ossObject.getObjectContent();<br>        <span class="hljs-type">OutputStream</span> <span class="hljs-variable">outputStream</span> <span class="hljs-operator">=</span> response.getOutputStream()) &#123;<br><br>    <span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];<br>    <span class="hljs-type">int</span> bytesRead;<br>    <span class="hljs-keyword">while</span> ((bytesRead = inputStream.read(buffer)) != -<span class="hljs-number">1</span>) &#123;<br>        outputStream.write(buffer, <span class="hljs-number">0</span>, bytesRead);<br>    &#125;<br>    outputStream.flush();<br>&#125;<br><br>log.info(<span class="hljs-string">&quot;文件下载成功: objectKey=&#123;&#125;&quot;</span>, objectKey);<br></code></pre></td></tr></table></figure>
+
+<h4 id="检查是否存在"><a href="#检查是否存在" class="headerlink" title="检查是否存在"></a>检查是否存在</h4><p>这个人家包装好了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">boolean</span> <span class="hljs-variable">exists</span> <span class="hljs-operator">=</span> ossClient.doesObjectExist(bucketName, objectKey);<br></code></pre></td></tr></table></figure>
+
+<h4 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">ossClient.deleteObject(bucketName, objectKey);<br></code></pre></td></tr></table></figure>
+
+<h4 id="通过文件-key-获取-url"><a href="#通过文件-key-获取-url" class="headerlink" title="通过文件 key 获取 url"></a>通过文件 key 获取 url</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> String <span class="hljs-title function_">getFileUrl</span><span class="hljs-params">(String objectKey)</span> &#123;<br>    <span class="hljs-comment">// 创建公网客户端</span><br>    <span class="hljs-type">OSS</span> <span class="hljs-variable">ossClient</span> <span class="hljs-operator">=</span> createPublicOssClient();<br><br>    <span class="hljs-comment">// 创建客户端配置</span><br>        <span class="hljs-type">ClientBuilderConfiguration</span> <span class="hljs-variable">clientBuilderConfiguration</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClientBuilderConfiguration</span>();<br>        <span class="hljs-comment">// 请注意，设置true开启CNAME选项</span><br>        clientBuilderConfiguration.setSupportCname(<span class="hljs-literal">true</span>);<br>        <span class="hljs-comment">// 显式声明使用 V4 签名算法</span><br>        clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);<br><br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">// 指定生成的预签名URL过期时间，单位为毫秒</span><br>        <span class="hljs-type">Date</span> <span class="hljs-variable">expiration</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().getTime() + <span class="hljs-number">3600</span> * <span class="hljs-number">1000L</span>);<br>        <span class="hljs-comment">// 生成预签名URL</span><br>        <span class="hljs-type">GeneratePresignedUrlRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">GeneratePresignedUrlRequest</span>(bucketName, objectKey, HttpMethod.GET);<br>        <span class="hljs-comment">// 设置过期时间</span><br>        request.setExpiration(expiration);<br><br>        <span class="hljs-comment">// 通过HTTP GET请求生成预签名URL</span><br>        <span class="hljs-type">URL</span> <span class="hljs-variable">signedUrl</span> <span class="hljs-operator">=</span> ossClient.generatePresignedUrl(request);<br>        <span class="hljs-comment">// 打印预签名URL</span><br>        log.info(<span class="hljs-string">&quot;&#123;&#125;预签名URL: &#123;&#125;&quot;</span>, objectKey, signedUrl);<br>        <span class="hljs-keyword">return</span> signedUrl.toString();<br>    &#125; <span class="hljs-keyword">catch</span> (OSSException oe) &#123;<br>        log.error(<span class="hljs-string">&quot;获取OSS数据异常&quot;</span>, oe);<br>    &#125; <span class="hljs-keyword">catch</span> (ClientException ce) &#123;<br>        log.error(<span class="hljs-string">&quot;连接OSS异常&quot;</span>, ce);<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        <span class="hljs-keyword">if</span> (ossClient != <span class="hljs-literal">null</span>) &#123;<br>            ossClient.shutdown();<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="断点重传"><a href="#断点重传" class="headerlink" title="断点重传"></a>断点重传</h3><p>断点重传的核心在于给文件分片，并提供相应的合并和提示机制。</p>
+<h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><p>若不使用 Hutool 之类的工具，则使用 JDK 内置的方法获取系统内置信息</p>
+<h3 id="属性信息"><a href="#属性信息" class="headerlink" title="属性信息"></a>属性信息</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Properties</span> <span class="hljs-variable">props</span> <span class="hljs-operator">=</span> System.getProperties();<br><span class="hljs-comment">// 常用系统属性</span><br>System.out.println(<span class="hljs-string">&quot;操作系统名称: &quot;</span> + props.getProperty(<span class="hljs-string">&quot;os.name&quot;</span>));<br>System.out.println(<span class="hljs-string">&quot;操作系统版本: &quot;</span> + props.getProperty(<span class="hljs-string">&quot;os.version&quot;</span>));<br>System.out.println(<span class="hljs-string">&quot;操作系统架构: &quot;</span> + props.getProperty(<span class="hljs-string">&quot;os.arch&quot;</span>));<br>System.out.println(<span class="hljs-string">&quot;Java版本: &quot;</span> + props.getProperty(<span class="hljs-string">&quot;java.version&quot;</span>));<br>System.out.println(<span class="hljs-string">&quot;Java安装路径: &quot;</span> + props.getProperty(<span class="hljs-string">&quot;java.home&quot;</span>));<br>System.out.println(<span class="hljs-string">&quot;用户名称: &quot;</span> + props.getProperty(<span class="hljs-string">&quot;user.name&quot;</span>));<br>System.out.println(<span class="hljs-string">&quot;用户工作目录: &quot;</span> + props.getProperty(<span class="hljs-string">&quot;user.dir&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<p>运行时信息（内存、CPU 等）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Runtime</span> <span class="hljs-variable">runtime</span> <span class="hljs-operator">=</span> Runtime.getRuntime();<br><span class="hljs-comment">// 总内存（JVM初始分配的内存）</span><br><span class="hljs-type">long</span> <span class="hljs-variable">totalMemory</span> <span class="hljs-operator">=</span> runtime.totalMemory() / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span>;<br><span class="hljs-comment">// 最大可用内存（JVM能申请的最大内存）</span><br><span class="hljs-type">long</span> <span class="hljs-variable">maxMemory</span> <span class="hljs-operator">=</span> runtime.maxMemory() / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span>;<br><span class="hljs-comment">// 空闲内存</span><br><span class="hljs-type">long</span> <span class="hljs-variable">freeMemory</span> <span class="hljs-operator">=</span> runtime.freeMemory() / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span>;<br><span class="hljs-comment">// 已使用内存</span><br><span class="hljs-type">long</span> <span class="hljs-variable">usedMemory</span> <span class="hljs-operator">=</span> totalMemory - freeMemory;<br><span class="hljs-comment">// CPU核心数</span><br><span class="hljs-type">int</span> <span class="hljs-variable">processors</span> <span class="hljs-operator">=</span> runtime.availableProcessors();<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="执行系统命令"><a href="#执行系统命令" class="headerlink" title="执行系统命令"></a>执行系统命令</h3><p>一般使用 <code>Runtime.getRuntime().exec(command)</code> 函数执行系统命令。以下以 <code>ping</code> 命令为例。首先我们需要一个 <code>Precess</code> 对象来接收执行的结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">command</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ping www.baidu.com&quot;</span>;<br><span class="hljs-type">Process</span> <span class="hljs-variable">process</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(command);<br></code></pre></td></tr></table></figure>
+
+<p>然后通过这个 Process 对象，我们可以</p>
+<ul>
+<li>获取该进程的输出流</li>
+<li>获取该进程的错误流</li>
+<li>等待进程执行完成</li>
+<li>获取进程的退出码</li>
+</ul>
+<p>输出流和错误流均为 <code>InputStream</code>，注意一定要及时读取，否则新进程的输出缓冲区可能会被占满，从而导致进程阻塞，无法结束</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">BufferedReader</span> <span class="hljs-variable">reader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(process.getInputStream()));<br><span class="hljs-type">BufferedReader</span> <span class="hljs-variable">errorReader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(process.getErrorStream()));<br><br><span class="hljs-comment">// 读取标准输出</span><br>String line;<br><span class="hljs-keyword">while</span> ((line = reader.readLine()) != <span class="hljs-literal">null</span>) &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br><br><span class="hljs-comment">// 读取错误输出</span><br>String errorLine;<br><span class="hljs-keyword">while</span> ((errorLine = errorReader.readLine()) != <span class="hljs-literal">null</span>) &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过逐行读取，并且查询每一行中有没有特定的字符串，有则设置对应的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (line.contains(<span class="hljs-string">&quot;mono&quot;</span>)) &#123;<br>    map.put(STR_CHANNELS, <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="正则表达式匹配"><a href="#正则表达式匹配" class="headerlink" title="正则表达式匹配"></a>正则表达式匹配</h3><p>正则表达式作为一种3型文法，在使用时不能直接用于匹配。在 Java 中，对正则表达式有一个编译的过程，该过程中，JVM 会将正则表达式转换为 NFA，然后简化为 DFA，以数组-哈希表的方式存储。当然，为了支持反向引用、零宽断言等复杂语法，Java 中放着的是尽量 DFA 简化过的 NFA。</p>
+<p>因此面对一个新的正则表达式，Java 都会尝试编译一遍。因此使用最简单的 <code>String.matches()</code> 在大量匹配的场景中极为低效。更好的办法就是提前编译。这个需要定义一个 <code>Patten</code> 类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 定义正则表达式模式</span><br><span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">hz</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;(?&lt;=,)[0-9]+(?=Hz)&quot;</span>;<br><span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">bit_rate</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;(?&lt;=,)[0-9]+(?=kb)&quot;</span>;<br><span class="hljs-type">Pattern</span> <span class="hljs-variable">bit_rate_pattern</span> <span class="hljs-operator">=</span> Pattern.compile(bit_rate);<br><span class="hljs-type">Pattern</span> <span class="hljs-variable">hz_pattern</span> <span class="hljs-operator">=</span> Pattern.compile(hz);<br></code></pre></td></tr></table></figure>
+
+<p>各个 pattern 就是已经编译好的结果了，然后再直接匹配即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 解析错误输出中的音频信息</span><br>String errorLine;<br><span class="hljs-keyword">while</span> ((errorLine = errorReader.readLine()) != <span class="hljs-literal">null</span>) &#123;<br>    log.info(<span class="hljs-string">&quot;debug--&gt;&#123;&#125;&quot;</span>, errorLine);<br>    System.out.println(<span class="hljs-string">&quot;ff&quot;</span> + errorLine);<br>    errorLine = errorLine.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;&quot;</span>);<br>    <br>    <span class="hljs-comment">// 检测声道</span><br>    <span class="hljs-keyword">if</span> (errorLine.contains(<span class="hljs-string">&quot;mono&quot;</span>)) &#123;<br>        map.put(STR_CHANNELS, <span class="hljs-number">1</span>);<br>    &#125;<br>    <br>    <span class="hljs-comment">// 提取比特率</span><br>    <span class="hljs-type">Matcher</span> <span class="hljs-variable">bit_matcher</span> <span class="hljs-operator">=</span> bit_rate_pattern.matcher(errorLine);<br>    <span class="hljs-keyword">if</span> (bit_matcher.find()) &#123;<br>        map.put(STR_BIT, bit_matcher.group());<br>    &#125;<br>    <br>    <span class="hljs-comment">// 提取采样率</span><br>    <span class="hljs-type">Matcher</span> <span class="hljs-variable">hz_matcher</span> <span class="hljs-operator">=</span> hz_pattern.matcher(errorLine);<br>    <span class="hljs-keyword">if</span> (hz_matcher.find()) &#123;<br>        map.put(STR_HZ, hz_matcher.group());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="FFmepg"><a href="#FFmepg" class="headerlink" title="FFmepg"></a>FFmepg</h2><p>FFmpeg 通过命令行调用，整个调用过程及其考验其命令拼接能力</p>
+<h3 id="转换文件格式"><a href="#转换文件格式" class="headerlink" title="转换文件格式"></a>转换文件格式</h3><p>以 <code>.mp3</code> 转换为 <code>wav</code> 文件为例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">convertMp3ToWav</span><span class="hljs-params">(String tempPath, String fileName, <span class="hljs-type">boolean</span> isDelFile)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">name1</span> <span class="hljs-operator">=</span> fileName.split(<span class="hljs-string">&quot;.mp3&quot;</span>)[<span class="hljs-number">0</span>];<br>    <span class="hljs-type">String</span> <span class="hljs-variable">from</span> <span class="hljs-operator">=</span> tempPath + File.separator + fileName;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">to</span> <span class="hljs-operator">=</span> tempPath + File.separator + name1 + <span class="hljs-string">&quot;.wav&quot;</span>;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">command</span> <span class="hljs-operator">=</span> ffmpegPath + File.separator + <span class="hljs-string">&quot;ffmpeg -i &quot;</span> + from + <span class="hljs-string">&quot; &quot;</span> + to;<br>        log.info(<span class="hljs-string">&quot;Executing command: &#123;&#125;&quot;</span>, command);<br>        <span class="hljs-type">Process</span> <span class="hljs-variable">proc</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(command);<br>        proc.waitFor();<br>        <br>        <span class="hljs-comment">// 根据参数决定是否删除源文件</span><br>        <span class="hljs-keyword">if</span> (isDelFile) &#123;<br>            FileUtil.del(<span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(from));<br>        &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (Exception ex) &#123;<br>        log.error(<span class="hljs-string">&quot;Error converting MP3 to WAV: &#123;&#125;&quot;</span>, fileName, ex);<br>    &#125;<br>    <span class="hljs-keyword">return</span> to;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="从视频文件提取中音频"><a href="#从视频文件提取中音频" class="headerlink" title="从视频文件提取中音频"></a>从视频文件提取中音频</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">decodeVideo</span><span class="hljs-params">(File videoFile, String outPath)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">try</span> &#123;<br>        log.info(<span class="hljs-string">&quot;音频提取--&gt;视频地址路径--&gt;&#123;&#125;&quot;</span>, videoFile.getAbsolutePath());<br>        <span class="hljs-keyword">if</span> (!videoFile.exists()) &#123;<br>            log.error(<span class="hljs-string">&quot;视频文件不存在--&gt;&#123;&#125;&quot;</span>,videoFile.getAbsolutePath());<br>            <span class="hljs-keyword">return</span> result;<br>        &#125;<br>        <br>        <span class="hljs-comment">// 生成输出文件名</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">fileName</span> <span class="hljs-operator">=</span> videoFile.getName();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> fileName.substring(<span class="hljs-number">0</span>, fileName.lastIndexOf(<span class="hljs-string">&quot;.&quot;</span>));<br>        <span class="hljs-type">String</span> <span class="hljs-variable">outFile</span> <span class="hljs-operator">=</span> outPath + name + <span class="hljs-string">&quot;_&quot;</span> + DateUtil.current() + <span class="hljs-string">&quot;.wav&quot;</span>;<br>        <br>        <span class="hljs-type">String</span> <span class="hljs-variable">command</span> <span class="hljs-operator">=</span>  ffmpegPath + File.separator + <span class="hljs-string">&quot;ffmpeg -i &quot;</span> + videoFile.getAbsolutePath() + <span class="hljs-string">&quot; -c:a pcm_s16le &quot;</span> + outFile;<br>        log.info(<span class="hljs-string">&quot;音频提取--&gt;转换命令--&gt;&#123;&#125;&quot;</span>, command);<br>        <span class="hljs-type">Process</span> <span class="hljs-variable">proc</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(command);<br>        handleProcessOutput(proc);<br>        proc.waitFor();<br>        log.debug(<span class="hljs-string">&quot;解码文件 &#123;&#125;&quot;</span>, outFile);<br>        result = outFile;<br><br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        log.error(<span class="hljs-string">&quot;视频音频提取失败&quot;</span>, e);<br>        result = <span class="hljs-literal">null</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="从视频中截取图片帧"><a href="#从视频中截取图片帧" class="headerlink" title="从视频中截取图片帧"></a>从视频中截取图片帧</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">extractFrames</span><span class="hljs-params">(File videoFile, String outPath)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">try</span> &#123;<br>        log.info(<span class="hljs-string">&quot;截取图片--&gt;视频地址路径--&gt;&#123;&#125;&quot;</span>, videoFile.getAbsolutePath());<br>        <span class="hljs-keyword">if</span> (!videoFile.exists()) &#123;<br>            log.error(<span class="hljs-string">&quot;视频文件不存在--&gt;&#123;&#125;&quot;</span>,videoFile.getAbsolutePath());<br>            <span class="hljs-keyword">return</span> result;<br>        &#125;<br>        <br>        <span class="hljs-type">String</span> <span class="hljs-variable">outFile</span> <span class="hljs-operator">=</span> outPath + <span class="hljs-string">&quot;%05d.png&quot;</span>;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">command</span> <span class="hljs-operator">=</span>  ffmpegPath + File.separator + <span class="hljs-string">&quot;ffmpeg -i &quot;</span> + videoFile.getAbsolutePath() + <span class="hljs-string">&quot; -r 1/5 &quot;</span> + outFile;<br>        log.info(<span class="hljs-string">&quot;截取图片--&gt;转换命令--&gt;&#123;&#125;&quot;</span>, command);<br>        <span class="hljs-type">Process</span> <span class="hljs-variable">proc</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(command);<br>        handleProcessOutput(proc);<br>        proc.waitFor();<br>        log.debug(<span class="hljs-string">&quot;截取图片 &#123;&#125;&quot;</span>, outPath);<br>        result = outPath;<br><br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        log.error(<span class="hljs-string">&quot;视频截图失败&quot;</span>, e);<br>        result = <span class="hljs-literal">null</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="剪辑视频"><a href="#剪辑视频" class="headerlink" title="剪辑视频"></a>剪辑视频</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">cropVideo</span><span class="hljs-params">(String inputVideoPath, String outputVideoPath,</span><br><span class="hljs-params">                                <span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y, <span class="hljs-type">int</span> width, <span class="hljs-type">int</span> height)</span> &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">// 构建FFmpeg命令</span><br>        String[] command = &#123;<br>                ffmpegPath + File.separator + <span class="hljs-string">&quot;ffmpeg&quot;</span>,<br>                <span class="hljs-string">&quot;-i&quot;</span>, inputVideoPath,           <span class="hljs-comment">// 输入文件</span><br>                <span class="hljs-string">&quot;-filter:v&quot;</span>, <span class="hljs-string">&quot;crop=&quot;</span> + width + <span class="hljs-string">&quot;:&quot;</span> + height + <span class="hljs-string">&quot;:&quot;</span> + x + <span class="hljs-string">&quot;:&quot;</span> + y,<br>                <span class="hljs-string">&quot;-c:a&quot;</span>, <span class="hljs-string">&quot;copy&quot;</span>,<br>                <span class="hljs-string">&quot;-y&quot;</span>,                           <span class="hljs-comment">// 覆盖输出文件</span><br>                outputVideoPath                 <span class="hljs-comment">// 输出文件</span><br>        &#125;;<br>        log.info(<span class="hljs-string">&quot;视频裁剪命令: &#123;&#125;&quot;</span>, String.join(<span class="hljs-string">&quot; &quot;</span>, command));<br>        <br>        <span class="hljs-comment">// 执行命令</span><br>        <span class="hljs-type">Process</span> <span class="hljs-variable">process</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProcessBuilder</span>(command).start();<br>        <br>        <span class="hljs-comment">// 处理命令输出</span><br>        handleProcessOutput(process);<br>        <br>        <span class="hljs-comment">// 等待进程执行完成</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">exitCode</span> <span class="hljs-operator">=</span> process.waitFor();<br>        <br>        <span class="hljs-comment">// 退出码为0表示成功</span><br>        <span class="hljs-keyword">return</span> exitCode == <span class="hljs-number">0</span>;<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        log.error(<span class="hljs-string">&quot;视频裁剪失败: &#123;&#125;&quot;</span>, e.getMessage(), e);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/%E5%AE%A2%E6%9C%8D%E8%B4%A8%E6%A3%80/" class="category-chain-item">客服质检</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/java/" class="print-no-link">#java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>常见业务模型 - OSS 、操作系统集成与 FFmpeg</div>
+      <div>https://ivanclf.github.io/2026/02/04/common-business-model-3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年2月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../../01/27/common-business-model-2/" title="常见业务模型 - LLM 与传统 AI 的设计模式实现">
+                        <span class="hidden-mobile">常见业务模型 - LLM 与传统 AI 的设计模式实现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

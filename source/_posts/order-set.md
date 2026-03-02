@@ -162,7 +162,7 @@ $$\begin{vmatrix} 1 & 5 \\\\ 4 & 6 \end{vmatrix}$$
 |`touch`|创建新文件或更新已存在文件的时间戳<br>`-a` 仅更改访问时间<br>`-m` 仅访问修改时间|
 |`ln`|创建硬链接，软连接需要加参数 `-s`|
 |`cat` `more` `less` `tail`|文件的查看<br>`cat` 为一次性输出。`-n` 显示行号，`-b` 显示非空行行号<br>`more` 为分页输出（只能向下分页）<br>`less` 分页输出（功能更丰富） `S` 禁用换行<br>`tail` 查看文件末尾的内容。`-n` 指定行数，`-f` 实时监控日志|
-|`tar <input> <output>`|打包并压缩文件<br>`-z` 调用 gzip 压缩命令进行压缩<br>`-c` 打包文件，`-v` 显示运行过程<br>`-f` 指定文件名<br>`-x` 解压|
+|`tar <input> <output>`|打包并压缩文件<br>`-z` 调用 gzip 压缩命令进行压缩<br>`-c` 打包文件，`-v` 显示运行过程<br>`-f` 指定文件名<br>`-x` 解压<br>解压缩则直接使用 `tar -zxvf`|
 |`scp <input> <output>`|通过 SSH 协议传输<br>`p` 指定远程端口|
 |`chmod <auth> <file>`|修改权限|
 |`chown`|修改所有者或所属组|
@@ -175,7 +175,8 @@ $$\begin{vmatrix} 1 & 5 \\\\ 4 & 6 \end{vmatrix}$$
 |`du`|查看指定目录或文件的磁盘空间使用情况|
 |`sar <time> <repeat>`|收集、报告和分析系统的性能统计信息<br>`-u` 显示 CPU 使用率<br>`-r` 显示内存使用率<br>`-n` 网络统计|
 |`systemctl <order> <name>`|管理系统的服务单元，查看系统服务的状态信息<br>`start` 启动服务<br>`stop`停止服务<br>`status` 查看服务状态|
-|`netstat` `ss`|查看系统的网络连接状态和网络统计信息<br>`-t` 仅显示 TCP<br>`-u` 仅显示 UDP<br> `l` 显示端口|
+|`netstat`|查看系统的网络连接状态和网络统计信息<br>`-t` 仅显示 TCP<br>`-u` 仅显示 UDP<br> `l` 显示端口|
+|`ss`|查看端口信息<br>`-ant` 查看 tcp 端口<br>`-anu` 查看 udp 端口<br>`-ano` 查看所有端口|
 |`grep <content> <filepath>`|根据指定的字符串或正则表达式在文件或命令输出中进行匹配查找<br>`-i` 忽略大小写<br>`-v` 反向匹配|
 |`kill -9`|杀死进程|
 |`useradd <name>`|创建账号|

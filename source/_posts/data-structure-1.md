@@ -528,34 +528,35 @@ for(int i = 0; i< length; ++i)
 
 ### 堆排序
 
-序列$k_1,\cdots,k_n$在满足 $$k_i\geq k_{2i},\quad k_i\geq k_{2i+1}\quad 或\quad k_{i}\leq k_{2i},\quad k_i\leq k_{si+1}$$ 其中之一时，可以称为堆。
+序列 $k_1,\cdots,k_n$ 在满足 $$k_i\geq k_{2i},\quad k_i\geq k_{2i+1}\quad 或\quad k_{i}\leq k_{2i},\quad k_i\leq k_{si+1}$$ 其中之一时，可以称为堆。满足前者的是大顶堆，满足后者的是小顶堆。以下以大顶堆为例。
 
-筛选法调整成堆
+调整成堆。首先查找这个节点和其子节点哪个更大，若更大的是子节点则找出最大的那个，和父节点交换。注意，交换后，可能子节点处堆的结构也遭到了破坏，因此还需要递归调整。
 
-```cpp
-void heap_adjust(int array[], int s, int m)
-{   
-    int temp = array[s];
-    for(int j = 2 * s; j <= m; j *= 2)
-    {
-        if(j < m && array[j] < array[j + 1])
-            ++j;
-        if(temp >= array[j])
-            break;
-        array[s] = array[j];
-        s = j;
+```java
+public void adjustHeap(int[] a, int i, int heapSize) {
+    int largest = i;
+    if (i * 2 + 1 < heapSize && a[i * 2 + 1] > a[largest]) {
+        largest = i * 2 + 1;
+    } 
+    if (i * 2 + 2 < heapSize && a[i * 2 + 2] > a[largest]) {
+        largest = i * 2 + 2;
     }
-    array[s] = temp;
+    if (largest != i) {
+        int temp = a[i];
+        a[i] = a[largest];
+        a[largest] = temp;
+        adjustHeap(a, largest, heapSize);
+    }
 }
 ```
 
-建初堆
+建初堆。此处的 $\frac{k}{2}-1$ 是第一个非叶子节点。
 
-```cpp
-void create_heap(int array[])
-{
-    for(int i = length / 2; i >= 0; --i)
-        heap_adjust(array, i, length);
+```java
+public void buildMaxHeap(int[] a, int heapSize) {
+    for (int i = heapSize / 2 - 1; i >= 0; --i) {
+        adjustHeap(a, i, heapSize);
+    } 
 }
 ```
 

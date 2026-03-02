@@ -1051,7 +1051,7 @@ class Solution {
 ```java
 class Solution {
     int quickselect(int[] nums, int l, int r, int k) {
-        if (l == r) return nums[k];
+        if (l == r) return nums[k]; // 因为每次都只排一侧的数据，因此在排序结束后，这部分的数据其实已经排好了。
         int x = nums[l], i = l - 1, j = r + 1;
         while (i < j) {
             do i++; while (nums[i] < x);
@@ -1067,7 +1067,7 @@ class Solution {
     }
     public int findKthLargest(int[] _nums, int k) {
         int n = _nums.length;
-        return quickselect(_nums, 0, n - 1, n - k);
+        return quickselect(_nums, 0, n - 1, n - k); // 找第 n - k 小的元素
     }
 }
 ```
@@ -1083,7 +1083,7 @@ class Solution {
 
 ##### 堆排
 
-建立一个大根堆，做$k-1$次删除操作后堆顶的元素就是我们要找的答案。
+建立一个大根堆，做 $k-1$ 次删除操作后堆顶的元素就是我们要找的答案。
 [有关堆排序的内容可以看这里](https://ivanclf.github.io/2024/12/30/data-structure-1/#%E5%A0%86%E6%8E%92%E5%BA%8F)
 大根堆中，每个节点的值都大于等于其节点的值。代码首先将数组重新排列成一个最大堆，然后每次我们拿走塔顶的数字（最大值），然后重新调整金字塔，让下一个最大的数字升到塔顶，重复K次后就是最后结果。
 
@@ -1125,7 +1125,7 @@ class Solution {
 }
 ```
 
-时间复杂度为$O(n \log n)$
+时间复杂度为 $O(n \log n)$
 
 #### 前K个高频元素
 

@@ -2,7 +2,7 @@
 title: 常见业务模型 - 企业系统部分外连接口
 date: 2026-01-24 12:48:49
 tags: [java]
-category: web
+category: 客服质检
 ---
 
 ## OAuth 2
@@ -44,9 +44,9 @@ public void callback(@RequestParam("code") String code, HttpServletResponse resp
             uid = getUserInfo(oauth2Properties.getClientId(), accessToken, uid);
         }
 
-        String redirectUrl = ssoUrl + "/thdLogin.html?" + "token=" + accessToken + "tenantId=default&userId=" + uid;
+        String redirectUrl = ssoUrl + "/login.html?" + "token=" + accessToken + "tenantId=default&userId=" + uid;
         redisTemplate.opsForValue().set(REDIS_KEY + accessToken, "true", 6, TimeUnit.HOURS);
-        log.info("获取到access_token: {},重定向到thdLogin.html, {}", accessToken, redirectUrl);
+        log.info("获取到access_token: {},重定向到login.html, {}", accessToken, redirectUrl);
         response.sendRedirect(redirectUrl);
     } else {
         response.getWriter().write("获取token失败");

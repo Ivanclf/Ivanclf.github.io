@@ -8,8 +8,8 @@
 <head>
   <meta charset="UTF-8">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="../img/image.jpg">
-  <link rel="icon" href="../img/image.jpg">
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
@@ -19,21 +19,23 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="该网站主要是个人技术类文章以及各种笔记。具体的部署工作则交给我的.com网站了。当然，既然该网站不受监管，那我可能也会发点其他东西😋 若发现我的博客中有表述不准确或知识性错误，请发至邮箱 1121846957@qq.com 。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="https://ivanclf.github.io/about/index.html">
+    <meta name="description" content="服务打包好后，需要将其在公司内部环境、公有云、私有云等地方进行部署。而不同的公司对这些云服务都有不同的安全策略，需要分别处理。 公有云和私有云公有云是放在阿里云&#x2F;腾讯云&#x2F;华为云&#x2F;AWS上的云服务。代码和数据都放在托管的服务中，使用的也是服务提供商的物理机。而私有云是公司自己的云服务，所有的云服务均跑在公司本地的机房上。一般而言，公有云更方便，私有云更安全。 公有云的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务部署常见概念">
+<meta property="og:url" content="https://ivanclf.github.io/2026/02/10/concepts-of-service-deployment/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="该网站主要是个人技术类文章以及各种笔记。具体的部署工作则交给我的.com网站了。当然，既然该网站不受监管，那我可能也会发点其他东西😋 若发现我的博客中有表述不准确或知识性错误，请发至邮箱 1121846957@qq.com 。">
+<meta property="og:description" content="服务打包好后，需要将其在公司内部环境、公有云、私有云等地方进行部署。而不同的公司对这些云服务都有不同的安全策略，需要分别处理。 公有云和私有云公有云是放在阿里云&#x2F;腾讯云&#x2F;华为云&#x2F;AWS上的云服务。代码和数据都放在托管的服务中，使用的也是服务提供商的物理机。而私有云是公司自己的云服务，所有的云服务均跑在公司本地的机房上。一般而言，公有云更方便，私有云更安全。 公有云的">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-07-12T08:01:17.000Z">
-<meta property="article:modified_time" content="2025-11-27T06:46:04.492Z">
+<meta property="article:published_time" content="2026-02-10T06:26:05.000Z">
+<meta property="article:modified_time" content="2026-02-10T07:16:40.205Z">
 <meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="碎片知识">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>关于 - Ivan的博客</title>
+  <title>服务部署常见概念 - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -57,12 +59,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
 
 
-<link  rel="stylesheet" href="../css/main.css" />
+<link  rel="stylesheet" href="../../../../css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="../css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="../css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
   
 
 
@@ -78,8 +80,8 @@
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="../js/utils.js" ></script>
-  <script  src="../js/color-schema.js" ></script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
   
 
 
@@ -93,10 +95,10 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 80vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../../../index.html">
       <strong>Ivan的博客</strong>
     </a>
 
@@ -115,7 +117,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../index.html" target="_self">
+              <a class="nav-link" href="../../../../index.html" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -127,7 +129,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../archives/" target="_self">
+              <a class="nav-link" href="../../../../archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -139,7 +141,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../categories/" target="_self">
+              <a class="nav-link" href="../../../../categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -151,7 +153,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../tags/" target="_self">
+              <a class="nav-link" href="../../../../tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -163,7 +165,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../about/" target="_self">
+              <a class="nav-link" href="../../../../about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -175,7 +177,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="../links/" target="_self">
+              <a class="nav-link" href="../../../../links/" target="_self">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -205,19 +207,54 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('../img/banner-link.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="关于"></span>
+            <span id="subtitle" data-typed-text="服务部署常见概念"></span>
           
         </div>
 
         
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-10 14:26" pubdate>
+          2026年2月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          817 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
       </div>
 
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
       
     </div>
   </div>
@@ -229,50 +266,151 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-            <div class="about-avatar">
-              <img src="../img/image.jpg" srcset="/img/loading.gif" lazyload class="img-fluid" alt="avatar">
-            </div>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center">
-  <div class="about-info">
-    <div class="about-name">Ivan</div>
-    <div class="about-intro">一个托管在GitHub上的博客网站</div>
-    <div class="about-icons">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-        
-        
-        
-        <a href=https://github.com/Ivanclf/Ivanclf.github.io class="
-           hint--bottom hint--rounded"
-           aria-label="GitHub"
-           target="_blank"
-        >
-          <i class="iconfont icon-github-fill" aria-hidden="true"></i>
-          
-        </a>
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">服务部署常见概念</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>服务打包好后，需要将其在公司内部环境、公有云、私有云等地方进行部署。而不同的公司对这些云服务都有不同的安全策略，需要分别处理。</p>
+<h2 id="公有云和私有云"><a href="#公有云和私有云" class="headerlink" title="公有云和私有云"></a>公有云和私有云</h2><p><strong>公有云</strong>是放在阿里云&#x2F;腾讯云&#x2F;华为云&#x2F;AWS上的云服务。代码和数据都放在托管的服务中，使用的也是服务提供商的物理机。而<strong>私有云</strong>是公司自己的云服务，所有的云服务均跑在公司本地的机房上。一般而言，公有云更方便，私有云更安全。</p>
+<p>公有云的 IP 地址由云服务提供商直接给，而私有云则需要移动&#x2F;联通&#x2F;电信等运营商分配 IP 地址。获得 IP 地址后，可以到域名解析商（阿里云&#x2F;cloudflare&#x2F;电信&#x2F;谷歌）购买域名并进行域名解析。</p>
+<h2 id="安全措施"><a href="#安全措施" class="headerlink" title="安全措施"></a>安全措施</h2><p>无论是公有云还是私有云，都不能让外部人员随便 ssh 进去，因此需要进行各种限制措施。</p>
+<h3 id="IP-白名单"><a href="#IP-白名单" class="headerlink" title="IP 白名单"></a>IP 白名单</h3><p>只有特定 IP 的机子才能进入里面。该方法适合作为最外层的防护，也是后续很多防护措施的基础。一般的 ECS 的 IP 白名单都是通过控制面板的安全组策略来实现放行的。</p>
+<h3 id="VPN"><a href="#VPN" class="headerlink" title="VPN"></a>VPN</h3><p>通过 IP 白名单限制后，只有内网和指定 IP 的外网地址才能 ssh 进入。不是内网的用户想要进入内网中 ssh 相应的机器，就需要 VPN 进行链接。这是除了翻墙之外，VPN 最广泛的用途。</p>
+<h3 id="跳板机与堡垒机"><a href="#跳板机与堡垒机" class="headerlink" title="跳板机与堡垒机"></a>跳板机与堡垒机</h3><p>除了 VPN，为了访问内网的资源，还可以部署一台可以链接内外网的<strong>跳板机</strong>。外网的人员只有进入到这台跳板机当中，才能进入到指定的内网环境中。这台机子的构造可以很简单，简单到没有权限控制、没有操作记录与审计，只要拿到账号密码 ssh 进去，就能进入到内网之中。</p>
+<p>而复杂到一定程度后，就称为<strong>堡垒机</strong>了。堡垒机拥有强大的记录功能，并且统一入口，统一权限，支持各种赋权操作，允许不同权限的用户访问不同数量的服务器。</p>
+<p>这些机子起到了网关的作用，以防止外网的用户 ssh 或通过其他途径进入到公司内部环境中。一般生产环境下几种手段往往相互配合，比如，只有连上 VPN 的机子才能进堡垒机。</p>
+<h2 id="开发流水线"><a href="#开发流水线" class="headerlink" title="开发流水线"></a>开发流水线</h2><p>一般的服务从开发到生产，往往需要经历以下几次部署</p>
+<ol>
+<li>开发环境<br> 在自己的 web 接入区上部署，用于自己测试以及前后端，不同服务间联调。</li>
+<li>测试环境<br> 对初具规模的服务进行功能测试，并修复 bug。</li>
+<li>预发&#x2F;仿真环境<br> 其实仍然是测试环境，但其架构、配置、链路和生产环境完全一样，是生产环境的预演。此时开始小规模上线使用</li>
+<li>生产环境<br> 正式上线使用。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
       
+        <a href="../../../../tags/java/" class="print-no-link">#java</a>
+      
+        <a href="../../../../tags/%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86/" class="print-no-link">#碎片知识</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>服务部署常见概念</div>
+      <div>https://ivanclf.github.io/2026/02/10/concepts-of-service-deployment/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年2月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../09/common-business-model-4/" title="常见业务模型 - 文字识别">
+                        <span class="hidden-mobile">常见业务模型 - 文字识别</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
     </div>
   </div>
 </div>
-
-<article class="about-content page-content mt-5">
-  <div class="markdown-body">
-    <p>该网站主要是个人技术类文章以及各种笔记。具体的部署工作则交给我的.com网站了。当然，既然该网站不受监管，那我可能也会发点其他东西😋</p>
-<p>若发现我的博客中有表述不准确或知识性错误，请发至邮箱 <a href="mailto:&#x31;&#x31;&#50;&#49;&#x38;&#52;&#54;&#x39;&#x35;&#55;&#64;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">1121846957@qq.com</a> 。</p>
-
-  </div>
-
-  
-</article>
 
 
 
@@ -321,11 +459,8 @@
 
 
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
     
 
     
@@ -390,8 +525,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="../js/events.js" ></script>
-<script  src="../js/plugins.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -413,10 +548,50 @@
 
 
   
-    <script  src="../js/img-lazyload.js" ></script>
+    <script  src="../../../../js/img-lazyload.js" ></script>
   
 
 
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
 
 
   <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
@@ -515,7 +690,7 @@
 
   <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
-  <script  src="../js/local-search.js" ></script>
+  <script  src="../../../../js/local-search.js" ></script>
 
 
 
@@ -523,7 +698,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="../js/boot.js" ></script>
+<script  src="../../../../js/boot.js" ></script>
 
 
   

@@ -27,7 +27,7 @@
 <meta property="og:description" content="URLURL(Uniform Resource Locators)是统一资源定位器的简称，Web浏览器通过URL从Web服务器请求页面。其一般格式为： 1protocol :&#x2F;&#x2F; hostname[:port] &#x2F; path &#x2F; [;parameters][?query]#fragment([]中内容可省略)     类型名 说明    protocol (协议) 指定使用的传输协议   host">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-01T14:20:04.000Z">
-<meta property="article:modified_time" content="2025-11-18T02:24:42.496Z">
+<meta property="article:modified_time" content="2026-03-03T07:01:37.774Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="碎片知识">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          1.5k 字
         
       </span>
     
@@ -557,6 +557,22 @@
 <li>网址和接口中不能有动词，只能有名词，API 中的名词也应该用复数</li>
 <li>不用大写字母，建议用 <code>-</code> 而不是 <code>_</code></li>
 <li>善用版本化 API</li>
+</ul>
+<h3 id="规约"><a href="#规约" class="headerlink" title="规约"></a>规约</h3><ul>
+<li><p>【强制】 前后端数据列表相关的接口返回，如果为空，则返回空数组 <code>[]</code> 或空集合 <code>&#123;&#125;</code>。</p>
+</li>
+<li><p>【强制】 服务端发生错误时，返回给前端的相应信息必须包含 HTTP 状态码、errorCode、errorMessage、用户提示信息四个部分。这四个部分的设计对象分别是浏览器、前端开发、错误排查人员、用户。</p>
+</li>
+<li><p>【强制】 对于需要使用超大整数的场景，服务端一律使用 String 返回，禁止使用 Long 类型。<br>  Java服务端如果直接返回Long整型数据给前端，Javascript会自动转换为Number类型。Long类型能表示的最大值是 $2^{63}-1$，在取值范围之内，超过 $2^{53}$（9007199254740992）的数值转化为 Javascript 的Number 时，有些数值会产生精度损失。</p>
+<p>  扩展说明，在Long取值范围内，任何2的指数次的整数都是绝对不会存在精度损失的，所以说精度损失是一个概率问题。若浮点数尾数位与指数位空间不限，则可以精确表示任何整数，但很不幸，双精度浮点数的尾数位只有52位。 </p>
+<p>  通常在订单号或交易号大于等于16位，大概率会出现前后端订单数据不一致的情况。</p>
+</li>
+<li><p>【强制】 HTTP 请求通过 URL 传递参数时，不能超过2048字节。HTTP 请求通过 body 传递内容时，必须控制长度（nginx 默认限制为 1MB，tomcat 默认限制是 2MB）。</p>
+</li>
+<li><p>【强制】 分页场景中，若用户输入的参数小于1，则前端返回第一页参数给后端；后端发现用户输入的参数大于总页数，则直接返回最后一页。</p>
+</li>
+<li><p>【推荐】 前后端时间格式统一为 <code>yyyy-MM-dd HH:mm:ss</code>，统一为 GMT。</p>
+</li>
 </ul>
 
                 

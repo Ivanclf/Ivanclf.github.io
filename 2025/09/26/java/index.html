@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/26/java/channel-buffer-selector.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/09/26/java/rpc.png">
 <meta property="article:published_time" content="2025-09-26T00:40:25.000Z">
-<meta property="article:modified_time" content="2026-03-02T14:38:10.423Z">
+<meta property="article:modified_time" content="2026-03-03T06:22:05.951Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.2k 字
+          8.5k 字
         
       </span>
     
@@ -619,6 +619,10 @@
             <p>在调用 RPC、二方包、或动态生成类的相关方法时，捕获异常用 Throwable 类进行拦截。</p><p>有时候会抛出 Exception 但有时候会抛出 Error，要避免出现拦截不了的情况。如，通过反射机制调用方法时，如果找不到方法，会抛出 <code>NoSuchMethodException</code>。而二方包在类冲突时，仲裁机制可能导致引入非预期的版本导致类的方法签名不匹配，或者在字节码修改框架（如 ASM）动态创建或修改类时，修改了相应的方法签名。此时即使代码编译期是正确的，但在代码执行时，也会抛出 <code>NoSuchMethodError</code>。</p>
           </div>
 
+<div class="note note-warning">
+            <p>定义时区分受检异常和未受检异常，避免直接抛出 <code>RuntimeException</code> 或 <code>Exception</code>。</p>
+          </div>
+
 <h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><p>流的分类方式有很多种。可以按照其流动方向将其分为<strong>输入流</strong>和<strong>输出流</strong>；按照其数据单位分为处理音频、图像等二进制数据的<strong>字节流</strong>，和处理文本数据的<strong>字符流</strong>；按功能划分为与输入输出端相连的<strong>节点流</strong>，对已存在的流进行包装的<strong>缓冲流</strong>，进行线程间的数据传输的<strong>管道流</strong>。</p>
 <p><img src="stream.png" srcset="/img/loading.gif" lazyload alt="流的分类"></p>
 <p>当生产消费速度不匹配，数据写入速度大于读取&#x2F;处理速度时（比如客户端发送数据过快，文件写入速度过快，控制台输入数据过多等），可能会导致缓冲区无法容纳更多数据而出现异常或数据丢失的问题。为了避免此类问题，可以合理设置缓冲区大小，或者控制写入的数据量，进行流量控制，或者使用 NIO 的非阻塞 IO。</p>
@@ -716,7 +720,21 @@
 <p>Unsafe 提供的功能实现需要依赖本地方法。</p>
 <p>Unsafe 中的方法是实现整个 JUC (Java.util.concurrent) 的基石。然而业务代码无法直接使用。普通代码想拿到它只能通过反射拿到单例字段。</p>
 <p>在 JDK 9 后，模块系统开始强封禁，反射访问会警告。在 JDK 17+ 后默认进制打开，启动需要添加 <code>--add-opens</code> 参数。</p>
+<h2 id="注释规约"><a href="#注释规约" class="headerlink" title="注释规约"></a>注释规约</h2><div class="note note-danger">
+            <p>类、类属性、类方法的注释都使用 <code>/** */</code>，不得使用 <code>//</code>。</p>
+          </div>
 
+<div class="note note-danger">
+            <p>所有的类都必须添加创建者和创建日期。日期统一设置为 <code>yyyy/MM/dd</code> 格式。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/** </span><br><span class="hljs-comment">* </span><br><span class="hljs-comment">* <span class="hljs-doctag">@author</span> yangguanbao </span><br><span class="hljs-comment">* <span class="hljs-doctag">@date</span> 2021/11/26 </span><br><span class="hljs-comment">* </span><br><span class="hljs-comment">**/</span> <br></code></pre></td></tr></table></figure>
+          </div>
+
+<div class="note note-success">
+            <p>谨慎注释掉代码，并在上方详细说明。如果无用，则删除。一般来说，代码注释掉有两种可能性：一是后续会恢复这段代码，而是永久不用。后者直接删掉即可，需要查阅的就直接在 git 上找。</p>
+          </div>
+
+<div class="note note-success">
+            <p>特殊注释标记有两种。这两种需要及时处理</p><ol><li>待办事宜 <code>// TODO</code>：写明标记人、标记时间、预计处理时间。表示需要实现但目前仍未实现的功能。只能应用与类、接口和方法。</li><li>错误、不能工作 <code>// FIXME</code>：写明标记人、标记时间、预计处理时间。用于标记某代码是错误的，而且不能工作，需要及时纠正。</li></ol>
+          </div>
                 
               </div>
             

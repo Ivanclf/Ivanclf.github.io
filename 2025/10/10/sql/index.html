@@ -19,16 +19,16 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="这部分主要涉及SQL语法及部分实现上的差别，暂不涉及太底层的内容。还有一些数据库考试用到的概念也会写在这里。 参考文献：  https:&#x2F;&#x2F;javaguide.cn&#x2F;database&#x2F;sql&#x2F;sql-syntax-summary.html https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;mysql.html               SQL和NoSQL有什么区别？SQ">
+    <meta name="description" content="这部分主要涉及SQL语法及部分实现上的差别，暂不涉及太底层的内容。还有一些数据库考试用到的概念也会写在这里。 参考文献：  https:&#x2F;&#x2F;javaguide.cn&#x2F;database&#x2F;sql&#x2F;sql-syntax-summary.html https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;mysql.html 阿里巴巴 Java 开发手册（黄山版）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL基础">
 <meta property="og:url" content="https://ivanclf.github.io/2025/10/10/sql/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="这部分主要涉及SQL语法及部分实现上的差别，暂不涉及太底层的内容。还有一些数据库考试用到的概念也会写在这里。 参考文献：  https:&#x2F;&#x2F;javaguide.cn&#x2F;database&#x2F;sql&#x2F;sql-syntax-summary.html https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;mysql.html               SQL和NoSQL有什么区别？SQ">
+<meta property="og:description" content="这部分主要涉及SQL语法及部分实现上的差别，暂不涉及太底层的内容。还有一些数据库考试用到的概念也会写在这里。 参考文献：  https:&#x2F;&#x2F;javaguide.cn&#x2F;database&#x2F;sql&#x2F;sql-syntax-summary.html https:&#x2F;&#x2F;javabetter.cn&#x2F;sidebar&#x2F;sanfene&#x2F;mysql.html 阿里巴巴 Java 开发手册（黄山版）">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/10/sql/join.jpg">
 <meta property="article:published_time" content="2025-10-10T12:13:26.000Z">
-<meta property="article:modified_time" content="2026-02-04T06:26:42.162Z">
+<meta property="article:modified_time" content="2026-03-03T06:05:26.201Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="SQL">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4k 字
+          4.7k 字
         
       </span>
     
@@ -292,6 +292,7 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://javaguide.cn/database/sql/sql-syntax-summary.html">https://javaguide.cn/database/sql/sql-syntax-summary.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/mysql.html">https://javabetter.cn/sidebar/sanfene/mysql.html</a></li>
+<li>阿里巴巴 Java 开发手册（黄山版）</li>
 </ul>
 <div class="note note-success">
             <p>SQL和NoSQL有什么区别？</p><table><thead><tr><th></th><th>SQL</th><th>NoSQL</th></tr></thead><tbody><tr><td>数据存储类型</td><td>结构化存储，具有固定行和列的表格</td><td>非结构化存储。文档：JSON 文档，键值：键值对，宽列：包含行和动态列的表，图：节点和边</td></tr><tr><td>例子</td><td>Oracle、MySQL、Microsoft SQL Server、PostgreSQL</td><td>文档：MongoDB、CouchDB，<br>键值：Redis、DynamoDB，<br>宽列：Cassandra、 HBase，<br>图表：Neo4j、 Amazon Neptune、Giraph</td></tr><tr><td>ACID 属性</td><td>提供原子性、一致性、隔离性和持久性 (ACID) 属性</td><td>通常不支持 ACID 事务，为了可扩展、高性能进行了权衡，少部分支持比如 MongoDB</td></tr><tr><td>性能</td><td>性能通常取决于磁盘子系统。要获得最佳性能，通常需要优化查询、索引和表结构</td><td>性能通常由底层硬件集群大小、网络延迟以及调用应用程序来决定</td></tr><tr><td>扩展</td><td>垂直（使用性能更强大的服务器进行扩展）、读写分离、分库分表</td><td>横向（增加服务器的方式横向扩展，通常是基于分片机制）</td></tr></tbody></table>
@@ -629,6 +630,56 @@
 <li><p><code>ifnull()</code> 函数使用两个参数，若第一个参数为 null 则返回第二个参数的值，否则返回第一个参数的值</p>
 </li>
 <li><p><code>coalesce()</code> 函数返回参数列表中第一个非 null 的值，若全为 null 则返回 null</p>
+</li>
+</ul>
+<h2 id="规约"><a href="#规约" class="headerlink" title="规约"></a>规约</h2><ul>
+<li><p>【强制】 表达是否概念的字段，必须使用 <code>is_xxx</code> 的方式命名，数据类型是 <code>unsigned tinyint</code>，其中1表示是，2表示否。</p>
+</li>
+<li><p>【强制】 表名、字段名必须使用小写字母或数字。禁止数字开头，禁止两个下划线中间只有数字。<br>  因为 MySQL 在 Windows 下不区分大小写，但在 Linux 下默认区分大小写，要避免节外生枝。</p>
+</li>
+<li><p>【强制】 主键索引为 <code>pk_xxx</code>，唯一索引名为 <code>uk_xxx</code>，普通索引名为 <code>idx_xxx</code>。</p>
+</li>
+<li><p>【强制】 小数类型为 decimal，禁用 float 和 double。</p>
+</li>
+<li><p>【强制】 varchar 是可变长字符串，不预先分配存储空间，长度不要超过5000，若大于此数则定义字段类型为 text，独立出来一张表，并用主键来对应。</p>
+</li>
+<li><p>【推荐】 冗余字段应遵循</p>
+<ol>
+<li>不是频繁修改的字段</li>
+<li>不是唯一索引字段</li>
+<li>不是 varchar 字段，不能是 text 字段</li>
+</ol>
+</li>
+<li><p>【推荐】 单表行数超过500万行或者单表容量超过2GB财推荐进行分库分表。</p>
+</li>
+<li><p>【强制】 超过3个表禁止 join，关联查询时保证被关联字段要有索引。</p>
+</li>
+<li><p>【强制】 在 varchar 字段上简历索引时必须指定索引长度。</p>
+</li>
+<li><p>【强制】 页面搜索严禁左模糊或右模糊，需要就走搜索引擎解决。</p>
+</li>
+<li><p>【推荐】 利用覆盖索引来进行查询操作，避免回表。</p>
+</li>
+<li><p>【推荐】 SQL 性能优化的目标：至少要到 range 级别，要求是 ref 级别，是 const 最好。</p>
+</li>
+<li><p>【强制】 不要用 count(列名) 或 count(常量) 来替代 count(*)。</p>
+<ul>
+<li>count(*) 是 SQL92 定义的标准统计行数的语法，和数据库无关，跟有没有 null 无关。</li>
+<li>count(distinct col) 计算该列除 null 外的不重复行数，注意 count(distinct col1, col2) 如果其中一列全为 null，那么最终结果也是0。</li>
+<li>某一列全为 null 时，count(col) 的结果是0，sum(col) 的结果是 null。</li>
+</ul>
+</li>
+<li><p>【强制】 代码中写分页查询时，若 count 为0则直接返回。</p>
+</li>
+<li><p>【强制】 不得使用外键和级联，一切外键概念都在应用层解决；禁止使用存储过程。<br>  外键和级联更新适用于单机开发，不适合分布式、高并发集群；级联更新是强阻塞，存在数据库更新风暴的风险；外键影响数据库的插入速度；存储过程难以调试和扩展，更没有移植性。</p>
+</li>
+<li><p>【强制】 数据订正（删除或修改记录操作）时，要先 select，避免出现误删除的情况。</p>
+</li>
+<li><p>【推荐】 in 操作能避免就避免，实在无法避免则需要将 in 后面集合元素的数量控制在 1000 个以内。</p>
+</li>
+<li><p>【参考】 所有字符均采用 utf8m64 字符集。要注意该字符集和 utf8 的区别。</p>
+</li>
+<li><p>【参考】 <code>truncate table</code> 比 <code>delete</code> 速度快，且使用的系统和事务日志资源少，但该命令无事务且不触发 trigger，有可能造成事故，因此不建议在开发代码中使用。</p>
 </li>
 </ul>
 

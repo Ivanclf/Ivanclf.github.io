@@ -215,11 +215,15 @@ The figure is as follow
 Why we need thread instead of creating a new process?
 
 - Threads can share an address space and all of its data among themselves (in the same process), while processes is relatively independent.
+    *补充： 在这个基础上，我们才有共享资源和锁的概念。由于进程间使用的空间不同，所以在没有共享内存的概念时，也就没有共享资源的概念。*
 - Threads are lighter weight than processes, which means they are easier to create and destroy than processes.
 - When there is substantial computing and also substantial I/O, having threads allows these activities to overlap, thus speeding up the application.
+    *补充：大量 IO 的场景下线程仍然太过笨重，可以考虑协程。*
 
 {% note info %}
 Though threads can share same memories, each thread has its own stack.
+
+*补充：此处放 AI 的说法：进程是资源调度的最小单位，线程是 CPU调度的最小单位。*
 {% endnote %}
 
 ### The Classical Thread Model

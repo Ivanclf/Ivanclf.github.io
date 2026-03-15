@@ -10,6 +10,7 @@ category: 数据库
 参考文献：
 - [https://javaguide.cn/database/sql/sql-syntax-summary.html](https://javaguide.cn/database/sql/sql-syntax-summary.html)
 - [https://javabetter.cn/sidebar/sanfene/mysql.html](https://javabetter.cn/sidebar/sanfene/mysql.html)
+- 阿里巴巴 Java 开发手册（黄山版）
 
 {% note success %}
 SQL和NoSQL有什么区别？
@@ -301,3 +302,35 @@ MySQL常用函数如下
 - `ifnull()` 函数使用两个参数，若第一个参数为 null 则返回第二个参数的值，否则返回第一个参数的值
 
 - `coalesce()` 函数返回参数列表中第一个非 null 的值，若全为 null 则返回 null
+
+## 规约
+
+- 【强制】 表达是否概念的字段，必须使用 `is_xxx` 的方式命名，数据类型是 `unsigned tinyint`，其中1表示是，2表示否。
+- 【强制】 表名、字段名必须使用小写字母或数字。禁止数字开头，禁止两个下划线中间只有数字。
+    因为 MySQL 在 Windows 下不区分大小写，但在 Linux 下默认区分大小写，要避免节外生枝。
+- 【强制】 主键索引为 `pk_xxx`，唯一索引名为 `uk_xxx`，普通索引名为 `idx_xxx`。
+- 【强制】 小数类型为 decimal，禁用 float 和 double。
+- 【强制】 varchar 是可变长字符串，不预先分配存储空间，长度不要超过5000，若大于此数则定义字段类型为 text，独立出来一张表，并用主键来对应。
+- 【推荐】 冗余字段应遵循
+    1. 不是频繁修改的字段
+    2. 不是唯一索引字段
+    3. 不是 varchar 字段，不能是 text 字段
+- 【推荐】 单表行数超过500万行或者单表容量超过2GB财推荐进行分库分表。
+
+- 【强制】 超过3个表禁止 join，关联查询时保证被关联字段要有索引。
+- 【强制】 在 varchar 字段上简历索引时必须指定索引长度。
+- 【强制】 页面搜索严禁左模糊或右模糊，需要就走搜索引擎解决。
+- 【推荐】 利用覆盖索引来进行查询操作，避免回表。
+- 【推荐】 SQL 性能优化的目标：至少要到 range 级别，要求是 ref 级别，是 const 最好。
+
+- 【强制】 不要用 count(列名) 或 count(常量) 来替代 count(*)。
+    - count(*) 是 SQL92 定义的标准统计行数的语法，和数据库无关，跟有没有 null 无关。
+    - count(distinct col) 计算该列除 null 外的不重复行数，注意 count(distinct col1, col2) 如果其中一列全为 null，那么最终结果也是0。
+    - 某一列全为 null 时，count(col) 的结果是0，sum(col) 的结果是 null。
+- 【强制】 代码中写分页查询时，若 count 为0则直接返回。
+- 【强制】 不得使用外键和级联，一切外键概念都在应用层解决；禁止使用存储过程。
+    外键和级联更新适用于单机开发，不适合分布式、高并发集群；级联更新是强阻塞，存在数据库更新风暴的风险；外键影响数据库的插入速度；存储过程难以调试和扩展，更没有移植性。
+- 【强制】 数据订正（删除或修改记录操作）时，要先 select，避免出现误删除的情况。
+- 【推荐】 in 操作能避免就避免，实在无法避免则需要将 in 后面集合元素的数量控制在 1000 个以内。
+- 【参考】 所有字符均采用 utf8m64 字符集。要注意该字符集和 utf8 的区别。
+- 【参考】 `truncate table` 比 `delete` 速度快，且使用的系统和事务日志资源少，但该命令无事务且不触发 trigger，有可能造成事故，因此不建议在开发代码中使用。

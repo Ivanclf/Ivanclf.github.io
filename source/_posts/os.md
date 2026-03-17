@@ -223,7 +223,7 @@ Why we need thread instead of creating a new process?
 {% note info %}
 Though threads can share same memories, each thread has its own stack.
 
-*补充：此处放 AI 的说法：进程是资源调度的最小单位，线程是 CPU调度的最小单位。*
+*补充：进程是资源调度的最小单位，线程是 CPU调度的最小单位。*
 {% endnote %}
 
 ### The Classical Thread Model

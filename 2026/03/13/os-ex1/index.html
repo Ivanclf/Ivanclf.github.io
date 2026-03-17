@@ -19,18 +19,18 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考文献  https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;465574868 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;367591714 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1qJ411w7du  进程间通信方式 IPC在 操作系统课上内容中，我们可以看到课上对进程的内容如下  Process Creation Process Termi">
+    <meta name="description" content="参考文献  https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;465574868 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;367591714  进程间通信方式 IPC在 操作系统课上内容中，我们可以看到课上对进程的内容如下  Process Creation Process Termination Process State  往后就是重点的线程内容了。但进程和进程有着很">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统额外内容 - 1">
+<meta property="og:title" content="操作系统额外内容 - IPC">
 <meta property="og:url" content="https://ivanclf.github.io/2026/03/13/os-ex1/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;465574868 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;367591714 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1qJ411w7du  进程间通信方式 IPC在 操作系统课上内容中，我们可以看到课上对进程的内容如下  Process Creation Process Termi">
+<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;465574868 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;367591714  进程间通信方式 IPC在 操作系统课上内容中，我们可以看到课上对进程的内容如下  Process Creation Process Termination Process State  往后就是重点的线程内容了。但进程和进程有着很">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2026/03/13/os-ex1/fifo-create.png">
 <meta property="og:image" content="https://ivanclf.github.io/2026/03/13/os-ex1/fifo-cat.png">
 <meta property="og:image" content="https://ivanclf.github.io/2026/03/13/os-ex1/signal.png">
 <meta property="article:published_time" content="2026-03-13T07:59:19.000Z">
-<meta property="article:modified_time" content="2026-03-15T08:07:10.162Z">
+<meta property="article:modified_time" content="2026-03-17T05:53:45.490Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="碎片知识">
 <meta property="article:tag" content="日常">
@@ -39,7 +39,7 @@
   
   
   
-  <title>操作系统额外内容 - 1 - Ivan的博客</title>
+  <title>操作系统额外内容 - IPC - Ivan的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -217,7 +217,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="操作系统额外内容 - 1"></span>
+            <span id="subtitle" data-typed-text="操作系统额外内容 - IPC"></span>
           
         </div>
 
@@ -240,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.5k 字
+          1.6k 字
         
       </span>
     
@@ -283,7 +283,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">操作系统额外内容 - 1</h1>
+            <h1 id="seo-header">操作系统额外内容 - IPC</h1>
             
             
               <div class="markdown-body">
@@ -292,7 +292,6 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/465574868">https://zhuanlan.zhihu.com/p/465574868</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/367591714">https://zhuanlan.zhihu.com/p/367591714</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1qJ411w7du">https://www.bilibili.com/video/BV1qJ411w7du</a></li>
 </ul>
 <h2 id="进程间通信方式-IPC"><a href="#进程间通信方式-IPC" class="headerlink" title="进程间通信方式 IPC"></a>进程间通信方式 IPC</h2><p>在 <a href="https://ivanclf.github.io/2025/05/14/os/">操作系统课上内容中</a>，我们可以看到课上对进程的内容如下</p>
 <ul>
@@ -326,86 +325,15 @@
 <h3 id="信号-Signal"><a href="#信号-Signal" class="headerlink" title="信号 Signal"></a>信号 Signal</h3><p>信号是一种软中断。这是进程通信机制中唯一的<strong>异步</strong>通信机制，可以在任何时候发送信号给某个进程，从而迫使进程执行信号处理程序。</p>
 <p><img src="signal.png" srcset="/img/loading.gif" lazyload alt="所有的信号"></p>
 <h3 id="socket"><a href="#socket" class="headerlink" title="socket"></a>socket</h3><p>最通用，最常见的通信方式。此处不赘述。</p>
-<h2 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h2><h3 id="阻塞式-IO"><a href="#阻塞式-IO" class="headerlink" title="阻塞式 IO"></a>阻塞式 IO</h3><p>进程&#x2F;线程在进行 IO 的整段时间都是被阻塞的。一个 IO 请求会阻塞一条线程，需要额外处理。</p>
-<h3 id="非阻塞式-IO"><a href="#非阻塞式-IO" class="headerlink" title="非阻塞式 IO"></a>非阻塞式 IO</h3><p>进程发起 IO 系统调用后，如果内核缓冲区没有数据，需要到设备中读取，那么进程会返回一个错误而不会被堵塞；若有数据则会将数据返回进程。</p>
-<h3 id="信号驱动-IO"><a href="#信号驱动-IO" class="headerlink" title="信号驱动 IO"></a>信号驱动 IO</h3><p>当进程发起一个 IO 时，会向内核注册一个信号处理函数，然后进程返回不阻塞。<br>当内核数据就绪时会发送一个信号给进程，进程便在信号处理函数中调用 IO 读取数据。</p>
-<h3 id="异步-IO"><a href="#异步-IO" class="headerlink" title="异步 IO"></a>异步 IO</h3><p>当进程发起一个 IO 操作，进程返回，不阻塞，也不返回结果；内核处理完后会通知进程结果。如果 IO  操作成功，则直接获取到数据。</p>
-<h3 id="IO复用"><a href="#IO复用" class="headerlink" title="IO复用"></a>IO复用</h3><p>在 Linux 的缓存 IO 机制中，操作系统会先将 IO 数据缓存到文件系统的<strong>页缓存</strong>（Page Cache）中，也就是内核态的缓冲区，之后再将数据拷贝到应用程序的用户态地址空间。这个过程会在用户态与内核态之间发生多次数据拷贝，带来明显的 CPU 与内存开销。</p>
-<p>但这种设计又是必需的：因为出于安全与稳定性考虑，不能允许应用程序直接操作底层硬件设备。</p>
-<h2 id="IO-多路系统调用"><a href="#IO-多路系统调用" class="headerlink" title="IO 多路系统调用"></a>IO 多路系统调用</h2><p>IO 多路复用就是通过一种机制，让一个进程监视多个描述符，一旦某个描述符就绪，就能够通知程序进行相应的读写操作。于多进程。多线程技术相比，IO 多路复用技术最大的优势是<strong>系统开销小，系统不必创建和维护这些进程&#x2F;线程</strong>。</p>
-<p>为什么不用多进程？因为多进程存在上下文切换的成本，在高并发状态下有很大开销。</p>
-<h3 id="select"><a href="#select" class="headerlink" title="select"></a><code>select</code></h3><p>该函数的核心作用是，让程序同时监听多个文件的描述符（File Descriptor <strong>FD</strong>）的可读&#x2F;可写&#x2F;异常事件，当其中任意一个 FD 满足条件时，函数返回并通知程序处理事件。</p>
-<p>Linux 中 <code>select</code> 函数的原型为</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/select.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">select</span><span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> nfds,                  <span class="hljs-comment">// 监听的最大 FD 编号 + 1</span></span><br><span class="hljs-params">    fd_set *readfds,           <span class="hljs-comment">// 监听“可读”事件的FD集合</span></span><br><span class="hljs-params">    fd_set *writefds,          <span class="hljs-comment">// 监听“可写”事件的FD集合</span></span><br><span class="hljs-params">    fd_set *exceptfds,         <span class="hljs-comment">// 监听“异常”事件的FD集合</span></span><br><span class="hljs-params">    <span class="hljs-keyword">struct</span> timeval *timeout    <span class="hljs-comment">// 超时时间（阻塞/非阻塞/定时）</span></span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
-
-<p>成功时返回就绪的 FD 总数（可读 + 可写 + 异常）；若返回 0 则表示超时（无 FD 就绪），若返回 -1 则出错。</p>
-<p>该函数的跨平台性好，且简单易懂，但该函数存在以下问题</p>
-<ol>
-<li>FD 大小是固定的，在 Linux 中固定为 1024，无法监听超过限制的 FD。</li>
-<li>每次调用 <code>select</code> 都要遍历 0 到 nfds - 1 的所有 FD，无法监听超过限制的 FD。</li>
-<li><code>select</code> 会修改传入的 fd_set，因此每次调用前都要重新初始化集合。</li>
-<li><code>select</code> 只告诉程序“有 FD 就绪”，但不知道是哪个，还需要遍历。</li>
-</ol>
-<p>此处的3个 FD 集合都是全为0的位图。在调用函数时，系统将这些集合从用户态传到内核态，然后当有 FD 就绪时，就给 FD 编号对应位置1，因此说每一次都会修改集合。</p>
-<h3 id="poll"><a href="#poll" class="headerlink" title="poll"></a><code>poll</code></h3><p><code>poll</code> 是 <code>select</code> 的改进版，解决了后者数量受限等痛点。</p>
-<p>其原型为</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;poll.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">poll</span><span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-keyword">struct</span> pollfd *fds,    <span class="hljs-comment">// 待监听的FD数组（每个元素描述一个FD和要监听的事件）</span></span><br><span class="hljs-params">    <span class="hljs-type">nfds_t</span> nfds,           <span class="hljs-comment">// FD数组的长度（要监听的FD数量）</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> timeout            <span class="hljs-comment">// 超时时间（毫秒）</span></span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
-
-<p>此处的入参使用动态长度的 <code>pollfd</code> 数组代替固定大小的 <code>fd_set</code>，从而可以监听到任意数量的 FD。</p>
-<p><code>select</code> 会直接修改传入的 <code>readfds/writefds</code> 集合，因此每次调用 <code>select</code> 前都必须重新初始化集合（因为既然是监听那肯定是放在 <code>while(1)</code> 里面的）。在 <code>select</code> 的基础上，<code>poll</code> 用结构体单独描述每个 FD 的监听需求和改进状态，避免了 <code>select</code> 中修改集合的问题。</p>
-<p><code>poll</code> 把监听的事件和实际发生的事件进行分离。因此只需要在 FD 监听需求变化时更新 <code>events</code>，而无需在每次调用 <code>poll</code> 都重新初始化数组。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">pollfd</span> &#123;</span><br>    <span class="hljs-type">int</span>   fd;         <span class="hljs-comment">// 要监听的文件描述符（FD），设为-1则忽略该元素</span><br>    <span class="hljs-type">short</span> events;     <span class="hljs-comment">// 要监听的事件（输入，比如POLLIN/POLLOUT）</span><br>    <span class="hljs-type">short</span> revents;    <span class="hljs-comment">// 实际发生的事件（输出，由内核填充）</span><br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>返回值表示的含义与 <code>select</code> 一致。并且其存在的某些问题其实和 <code>select</code> 是一样的，也就是没有优化大量 FD 复制于用户态和内核态地址空间之间，以及部分描述符就绪就触发整体描述符集合全部遍历的低效问题。</p>
-<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a><code>epoll</code></h3><p>前两者都要遍历所有 FD，比较低效。而 <code>epoll</code> 则解决了这个问题，转为高并发场景而生。</p>
-<p><code>epoll</code> 创建了一个内核级的“事件表”，只需要将 FD 一次性注册到列表中而无需在每次调用后都传递。同时，内核主动记录就绪的 FD，仅返回就绪的 FD 列表，无需遍历所有监听的 FD。除此之外，<code>epoll</code> 同时支持水平出发 <strong>LT</strong> 和边缘触发 <strong>ET</strong>。</p>
-<p>该接口一共有三个函数</p>
-<h4 id="epoll-create"><a href="#epoll-create" class="headerlink" title="epoll_create"></a><code>epoll_create</code></h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">epoll_create</span><span class="hljs-params">(<span class="hljs-type">int</span> size)</span>;<br></code></pre></td></tr></table></figure>
-
-<p>该函数生成一个 <code>epoll</code> 函数专用的 FD。在 Linux 2.6.8 后，size 参数默认被忽略，现在只需要填写任意一个大于0的值就好。其返回值返回 <code>poll</code> 专用的 FD，失败则为 -1。</p>
-<h4 id="epoll-ctl"><a href="#epoll-ctl" class="headerlink" title="epoll_ctl"></a><code>epoll_ctl</code></h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">epoll_ctl</span><span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> epfd,                <span class="hljs-comment">// epoll_create返回的epoll_fd</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> op,                  <span class="hljs-comment">// 操作类型</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> fd,                  <span class="hljs-comment">// 要监听的FD</span></span><br><span class="hljs-params">    <span class="hljs-keyword">struct</span> epoll_event *ev   <span class="hljs-comment">// 监听的事件和FD关联数据</span></span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
-
-<p><code>op</code> 参数表示动作，用三个宏表示</p>
-<ul>
-<li><code>EPOLL_CTL_ADD</code>（添加）</li>
-<li><code>EPOLL_CTL_MOD</code>（修改）</li>
-<li><code>EPOLL_CTL_DEL</code>（删除）</li>
-</ul>
-<p><code>epoll</code> 事件注册函数。它不同于 <code>select</code> 是在监听事件时告诉内核，要监听什么类型的事件，而是在这里要先注册要监听的事件类型。</p>
-<p>其中的 <code>epoll_event</code> 是核心结构体。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">epoll_event</span> &#123;</span><br>    <span class="hljs-type">uint32_t</span> events;  <span class="hljs-comment">// 监听的事件（如EPOLLIN/EPOLLOUT）</span><br>    <span class="hljs-type">epoll_data_t</span> data; <span class="hljs-comment">// 关联数据（通常存FD）</span><br>&#125;;<br><br><span class="hljs-comment">// 联合体，存放FD或自定义指针</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">epoll_data</span> &#123;</span><br>    <span class="hljs-type">void</span> *ptr;<br>    <span class="hljs-type">int</span> fd;<br>    <span class="hljs-type">uint32_t</span> u32;<br>    <span class="hljs-type">uint64_t</span> u64;<br>&#125; <span class="hljs-type">epoll_data_t</span>;<br></code></pre></td></tr></table></figure>
-
-<p>常用监听的事件有以下几种</p>
-<ul>
-<li><code>EPOLLIN</code> FD 可读。这里面也包括 socket 正常关闭。</li>
-<li><code>EPOLLOUT</code> FD 可写</li>
-<li><code>EPOLLLET</code> FD 的边缘触发 ET 模式，默认是 LT</li>
-<li><code>EPOLLONESHOT</code> FD 只监听一次事件，出发后需要重新注册</li>
-</ul>
-<p>返回0表示成功，返回1表示失败。</p>
-<h4 id="epoll-wait"><a href="#epoll-wait" class="headerlink" title="epoll_wait"></a><code>epoll_wait</code></h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">epoll_wait</span><span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> epfd,                <span class="hljs-comment">// epoll_fd</span></span><br><span class="hljs-params">    <span class="hljs-keyword">struct</span> epoll_event *events, <span class="hljs-comment">// 输出参数：存放就绪的事件</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> maxevents,           <span class="hljs-comment">// events数组的最大长度</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> timeout              <span class="hljs-comment">// 超时时间（毫秒，-1=永久阻塞，0=非阻塞）</span></span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
-
-<p><code>epoll</code> 事件就绪函数。等待事件的产生，收集在 <code>epoll</code> 监控事件中已经发送的事件。成功时返回需要处理的事件数目，0时表示超时，-1时表示失败。</p>
-<p>注册好了的 FD 在内核态中以红黑树结构存储。而就绪的 FD 会被内核转移到“就绪链表”中。当无 FD 就绪时，<code>epoll_wait</code> 会让进程进入睡眠状态，让出 CPU。当内核检测到某个 FD 就绪时，会把该 FD 从红黑树中取出（或标记），加入链表，并唤醒就绪线程（也就是回调）。线程被唤醒后，<code>epoll_wait</code> 直接从就绪链表中拷贝就绪的 FD 信息到用户态，返回给程序。</p>
-<p><code>epoll</code> 系列接口只有在 <code>epoll_ctl</code> 方法在写入时需要将数据从用户态拷贝到内核态，只有在 <code>epoll_wait</code> 方法中读取已就绪事件时将已就绪的事件从内核态拷贝到用户态。</p>
-<p>如果并发数只有几个或十几个，那么其实 <code>poll</code> 更有优势。但在高并发场景下一般用 <code>epoll</code>。</p>
-<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>有了线程这个概念为什么要需要协程？先看看线程的痛点。</p>
-<h3 id="线程的核心痛点"><a href="#线程的核心痛点" class="headerlink" title="线程的核心痛点"></a>线程的核心痛点</h3><p>线程虽然实现了并发，但它是内核态的调度单位，因此也就导致了以下几个问题</p>
-<ol>
-<li>切换&#x2F;调度开销极大。在调度时需要做上下文切换，每次切换时耗时为微妙级，在高并发场景下会被无限放大。</li>
-<li>内存开销高。每个线程会默认分配几 MB 的空间（Linux 下默认为 8MB），在多个线程时占用空间巨大。</li>
-<li>线程是抢占式调度，操作系统随时可能打断线程。多个线程操作共享数据时容易产生死锁等问题。</li>
-<li>实际业务中，大部分并发场景都是 IO 密集型。线程在执行这些任务时，绝大部分时间都在等待，但线程在等待时，仍然会占用大量资源。</li>
-</ol>
-<h3 id="协程的概念"><a href="#协程的概念" class="headerlink" title="协程的概念"></a>协程的概念</h3><p>协程是用户态的轻量级的线程，可以通俗理解为“可以暂停和恢复的函数”。</p>
-<ol>
-<li>其切换开销极小，仅需要保存函数暂停点，可以达到纳秒级。</li>
-<li>内存开销低，由于其可以看作是一种函数，因此它占用的是栈空间，初始仅几 KB。</li>
-<li>协程是非抢占式调度。</li>
-<li>对于 IO 密集型任务，协程在遇到等待时会主动暂停并交出控制权，让其他协程执行。</li>
-</ol>
-<p>协程的作用，实在执行函数 A 时，可以随时中断，去执行另一个函数 B，然后再次中断继续执行函数 A。但这一过程并不是函数调用，因为没有调用语句，这一整个过程看似像多线程，然而协程只有一个线程执行。</p>
-<h3 id="虚拟线程"><a href="#虚拟线程" class="headerlink" title="虚拟线程"></a>虚拟线程</h3><p>在 Java 中，协程的概念也叫做虚拟线程。详情看<a href="https://ivanclf.github.io/2025/09/30/concurrent-2/#%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B">并发的文章</a></p>
+<h2 id="IO-模型"><a href="#IO-模型" class="headerlink" title="IO 模型"></a>IO 模型</h2><h3 id="阻塞式-IO"><a href="#阻塞式-IO" class="headerlink" title="阻塞式 IO"></a>阻塞式 IO</h3><p>进程&#x2F;线程在进行 IO 的整段时间都是被阻塞的。一个 IO 请求会阻塞一条线程，需要额外处理。</p>
+<h3 id="非阻塞式-IO"><a href="#非阻塞式-IO" class="headerlink" title="非阻塞式 IO"></a>非阻塞式 IO</h3><p>进程把一个套接字设置成非阻塞时，它是在通知内核：如果这个 IO 操作暂时做不了，必须要等，那就别让进程阻塞休眠，而是直接返回错误，告诉进程“现在还不行”，让程序继续运行</p>
+<p>应用进程一般会轮询内核，以查看某个操作是否就绪，这么做往往会耗费大量 CPU 时间。</p>
+<h3 id="IO复用"><a href="#IO复用" class="headerlink" title="IO复用"></a>IO复用</h3><p>IO 复用是 <code>select</code> 或 <code>poll</code> 的基础。</p>
+<p>我们阻塞于 <code>select</code> 调用，等待数据报套接字变为可读，然后 <code>select</code> 返回套接字可读这一条件，然后调用进程将所读数据报复制到应用缓冲区。</p>
+<p>事实上由于使用 <code>select</code> 需要两个系统调用而不是一个，因此该方式还稍有劣势。不过 <code>select</code> 的优势在于我们可以等待多个描述符就绪。</p>
+<h3 id="信号驱动-IO"><a href="#信号驱动-IO" class="headerlink" title="信号驱动 IO"></a>信号驱动 IO</h3><p>当进程发起一个 IO 时，会向内核注册一个信号处理函数，然后进程返回不阻塞。</p>
+<p>当内核数据就绪时会发送一个信号给进程，进程便在信号处理函数中调用 IO 读取数据。</p>
+<h3 id="异步-IO"><a href="#异步-IO" class="headerlink" title="异步 IO"></a>异步 IO</h3><p>告诉内核启动某个操作，并让内核在整个操作完成后通知我们。这种模型和信号驱动 IO 的区别在于，前者由内核通知我们 IO 操作何时完成（<em>数据已经放好了，直接用就行</em>），后者由内核通知我们何时启动一个 IO 操作（<em>数据好了，自己来读吧</em>）。这种模型和非阻塞式 IO 的区别在于，前者有就绪后通知的机制，后者因为没有通知机制，因此需要进程不断轮询。</p>
 
                 
               </div>
@@ -453,7 +381,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>操作系统额外内容 - 1</div>
+      <div>操作系统额外内容 - IPC</div>
       <div>https://ivanclf.github.io/2026/03/13/os-ex1/</div>
     </div>
     <div class="license-meta">
@@ -497,6 +425,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="../../16/os-ex2/" title="操作系统额外内容 - 基本 TCP 套接字编程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">操作系统额外内容 - 基本 TCP 套接字编程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

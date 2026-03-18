@@ -1,0 +1,793 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="../../../../img/image.jpg">
+  <link rel="icon" href="../../../../img/image.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ivan Chan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考文献  https:&#x2F;&#x2F;developer.aliyun.com&#x2F;article&#x2F;1662485 https:&#x2F;&#x2F;www.zhihu.com&#x2F;tardis&#x2F;zm&#x2F;art&#x2F;675509396  RAG 解决了什么问题 知识更新滞后。LLM 是离线训练的，一旦训练完成后，它们无法获取新信息，因此，它们无法回答训练数据时间点后发生的事件。 幻觉现象。LLM 的回答是根据已有的训练数据和概率预测得来的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RAG 的设计与实现">
+<meta property="og:url" content="https://ivanclf.github.io/2026/03/18/rag/index.html">
+<meta property="og:site_name" content="Ivan的博客">
+<meta property="og:description" content="参考文献  https:&#x2F;&#x2F;developer.aliyun.com&#x2F;article&#x2F;1662485 https:&#x2F;&#x2F;www.zhihu.com&#x2F;tardis&#x2F;zm&#x2F;art&#x2F;675509396  RAG 解决了什么问题 知识更新滞后。LLM 是离线训练的，一旦训练完成后，它们无法获取新信息，因此，它们无法回答训练数据时间点后发生的事件。 幻觉现象。LLM 的回答是根据已有的训练数据和概率预测得来的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-18T08:17:16.000Z">
+<meta property="article:modified_time" content="2026-03-18T13:00:39.137Z">
+<meta property="article:author" content="Ivan Chan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="RAG">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>RAG 的设计与实现 - Ivan的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="../../../../css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="../../../../css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="../../../../css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ivanclf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":30,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="../../../../js/utils.js" ></script>
+  <script  src="../../../../js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="../../../../index.html">
+      <strong>Ivan的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('../../../../img/banner-page.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RAG 的设计与实现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-03-18 16:17" pubdate>
+          2026年3月18日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RAG 的设计与实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>参考文献</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1662485">https://developer.aliyun.com/article/1662485</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/tardis/zm/art/675509396">https://www.zhihu.com/tardis/zm/art/675509396</a></li>
+</ul>
+<h2 id="RAG-解决了什么问题"><a href="#RAG-解决了什么问题" class="headerlink" title="RAG 解决了什么问题"></a>RAG 解决了什么问题</h2><ol>
+<li>知识更新滞后。LLM 是离线训练的，一旦训练完成后，它们无法获取新信息，因此，它们无法回答训练数据时间点后发生的事件。</li>
+<li>幻觉现象。LLM 的回答是根据已有的训练数据和概率预测得来的，当面对没有在训练中见过的问题时，模型很可能会胡编。</li>
+</ol>
+<h2 id="RAG-架构"><a href="#RAG-架构" class="headerlink" title="RAG 架构"></a>RAG 架构</h2><p>RAG 的机制并不难理解，就是通过检索获取相关的知识并将其融入 prompt，让大模型能够参考相应的知识从而给出合理回答。这也是其名字“检索增强生成”的由来。</p>
+<pre><code class=" mermaid">graph LR
+
+document[文档]--&gt;|分片|chunk[文档分片]--&gt;|向量化并存储|database[向量数据库]
+user[用户问题]--&gt;|向量化用户问题|database--&gt;|检索|prompt[构建提示词]
+user--&gt;|原来的问题|prompt--&gt;|发送构建好的prompt|llm[大语言模型]--&gt;|生成|answer[答案]
+</code></pre>
+
+<p>完整的 RAG 应用流程主要包括以下阶段</p>
+<p><a href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87%E9%98%B6%E6%AE%B5">数据准备阶段</a>：<a href="#%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96">数据提取</a> $\rightarrow$ <a href="#%E6%96%87%E6%9C%AC%E5%88%86%E5%89%B2">文本分割</a> $\rightarrow$ <a href="#%E5%90%91%E9%87%8F%E5%8C%96">向量化</a> $\rightarrow$ <a href="#%E5%85%A5%E5%BA%93">入库</a><br>应用阶段：<a href="#%E7%94%A8%E6%88%B7%E6%8F%90%E9%97%AE">用户提问</a> $\rightarrow$ <a href="#%E6%95%B0%E6%8D%AE%E6%A3%80%E7%B4%A2">数据检索</a> $\rightarrow$ <a href="#%E6%B3%A8%E5%85%A5-prompt">注入 prompt</a> $\rightarrow$ 生成答案</p>
+<h2 id="数据准备阶段"><a href="#数据准备阶段" class="headerlink" title="数据准备阶段"></a>数据准备阶段</h2><h3 id="数据提取"><a href="#数据提取" class="headerlink" title="数据提取"></a>数据提取</h3><p>在我个人搭建的简单 RAG 中，对数据提取一般仅限于固定的文档格式。对于这种情形，工厂模式 + 策略模式提供多种解析器就成为解析文件的最佳实践。</p>
+<h4 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h4><p>该设计模式用于快速从众多已实现的解析器 Bean 里找到一个适合的出来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@RequiredArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DocumentParserFactory</span> &#123;<br><br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;DocumentParser&gt; parsers;<br><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">parse</span><span class="hljs-params">(InputStream inputStream, String filename)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>		<span class="hljs-keyword">for</span> (DocumentParser parser : parsers) &#123;<br>			<span class="hljs-keyword">if</span> (parser.supports(filename)) &#123;<br>				log.info(<span class="hljs-string">&quot;使用 &#123;&#125; 解析文件: &#123;&#125;&quot;</span>, parser.getClass().getSimpleName(), filename);<br>				<span class="hljs-keyword">return</span> parser.parse(inputStream, filename);<br>			&#125;<br>		&#125;<br>		<br>		<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;不支持的文件类型: &quot;</span> + filename);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>supports</code> 方法在目前的实现类中均为后缀校验，那能不能舍弃呢？一般来说还是不建议的。该方法还可以实现以下功能</p>
+<ul>
+<li><code>.txt</code> 的 UTF8 和 GBK 编码，我使用两个解析器分别解析，并通过该方法去校验。</li>
+<li>校验 <code>.log</code> 是 json 格式还是 Java 程序的调式信息格式，还是纯文本。</li>
+<li>舍弃后需要每次新增解析器时在工厂类中新增一项判定条件，违背开闭原则。</li>
+</ul>
+<h4 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h4><p>策略模式简单来说就是“我只提供规范，其他你们看着办”，适合有很多种实现的情况。首先我们定义一组接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 文档解析器接口</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">DocumentParser</span> &#123;<br>	<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 解析文档内容</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> inputStream 文件输入流</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> filename 文件名</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> 解析后的文本内容</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@throws</span> Exception 解析异常</span><br><span class="hljs-comment">	 */</span><br>	String <span class="hljs-title function_">parse</span><span class="hljs-params">(InputStream inputStream, String filename)</span> <span class="hljs-keyword">throws</span> Exception;<br>	<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 判断是否支持该文件类型</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> filename 文件名</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> 是否支持</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">boolean</span> <span class="hljs-title function_">supports</span><span class="hljs-params">(String filename)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>以 <code>.txt</code> 等文本文件为例，以下是一种解析器实现示例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TextParser</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">DocumentParser</span> &#123;<br><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">parse</span><span class="hljs-params">(InputStream inputStream, String filename)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>		<span class="hljs-keyword">try</span> (<span class="hljs-type">BufferedReader</span> <span class="hljs-variable">reader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(inputStream, StandardCharsets.UTF_8))) &#123;<br>			<span class="hljs-keyword">return</span> reader.lines().collect(Collectors.joining(<span class="hljs-string">&quot;\n&quot;</span>));<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">supports</span><span class="hljs-params">(String filename)</span> &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">lower</span> <span class="hljs-operator">=</span> filename.toLowerCase();<br>		<span class="hljs-keyword">return</span> lower.endsWith(<span class="hljs-string">&quot;.txt&quot;</span>) || lower.endsWith(<span class="hljs-string">&quot;.md&quot;</span>) || lower.endsWith(<span class="hljs-string">&quot;.log&quot;</span>);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>常见的文件解析需求有 PDF、Word、Excel、CSV、图片、音频等，技术选型有 PDFBox、POI、OCR、ASR 等。如果需要解析 URL 中的文件，一般还是建议先本地下载好再放到解析器里，不应该让解析器分担太多功能。</p>
+<h3 id="文本分割"><a href="#文本分割" class="headerlink" title="文本分割"></a>文本分割</h3><p>文本分割好了 embedding 模型才能搜得快。文本分割主要考虑两个因素，一个是 embedding 模型的 token 限制情况，另一个是语义完整性对整体的检索效果的影响。一般文本分割有两种方式</p>
+<ul>
+<li>句分割：以“句”为粒度进行分割，保留一条句子的完整语义。常见分割符为句号、感叹号、问号等。</li>
+<li>固定长度分割，以 token 为单位进行分割，这种切分方式可能会损失很多信息，一般通过添加相关信息，或者增加一定的冗余量来缓解。</li>
+</ul>
+<p>以下为在 service 类中，使用 spring ai，将文件从原始文件到多个按 token 分块的简单过程。省略了异常处理和校验模块等内容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">docId</span> <span class="hljs-operator">=</span> UUID.randomUUID().toString();<br>log.info(<span class="hljs-string">&quot;开始处理文档: &#123;&#125;, docId: &#123;&#125;&quot;</span>, file.getOriginalFilename(), docId);<br><br><span class="hljs-comment">// 使用工厂解析文档内容</span><br><span class="hljs-type">String</span> <span class="hljs-variable">content</span> <span class="hljs-operator">=</span> documentParserFactory.parse(file.getInputStream(), file.getOriginalFilename());<br><br><span class="hljs-type">Document</span> <span class="hljs-variable">fullDocument</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Document</span>(content);<br>List&lt;Document&gt; documents = List.of(fullDocument);<br><br><span class="hljs-comment">// 文本分割 - 每 500 个 token 一个块，重叠 50 个 token（缓解语义割裂），</span><br><span class="hljs-comment">// 最小块长度为 5，最大 token 数为 10000，按 token 分割的模式为 true。</span><br><span class="hljs-type">TokenTextSplitter</span> <span class="hljs-variable">splitter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TokenTextSplitter</span>(<span class="hljs-number">500</span>, <span class="hljs-number">50</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10000</span>, <span class="hljs-literal">true</span>);<br>List&lt;Document&gt; chunks = splitter.apply(documents);<br><br><span class="hljs-comment">// 为每个块添加元数据，用于检索溯源/过滤</span><br>chunks.forEach(chunk -&gt; &#123;<br>    chunk.getMetadata().put(<span class="hljs-string">&quot;docId&quot;</span>, docId); <span class="hljs-comment">// 原始文档 id</span><br>    chunk.getMetadata().put(<span class="hljs-string">&quot;collection&quot;</span>, collection); <span class="hljs-comment">// 向量库集合隔离。如果方法没传这个参数可以忽略</span><br>    chunk.getMetadata().put(<span class="hljs-string">&quot;filename&quot;</span>, file.getOriginalFilename()); <span class="hljs-comment">// 来源文件名</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p><code>Document</code> 是 spring ai 中文本内容 + 元数据的标准封装容器，它贯穿 RAG 从分割到 prompt 注入的全流程，是 spring ai 组件间交互的通用数据格式。</p>
+<p>Transformer 模型具有固定的输入序列长度，即使输入上下文窗口很大，一个句子或几个句子的向量也比几页文本的向量更能代表其语义含义。说人话就是，小块语义更清晰，检索更准。</p>
+<p>分块大小是一个需要重点考虑的问题。太大了不符合 embedding 模型的要求，太小了语义完整性受影响。不一定要按源码中的格式来。块的大小取决于使用的 embedding 模型及使用的 token 的容量，不同的 embedding 模型有不同的适配方案，如 BERT 常用 512，OpenAi ada-002 支持 8191。</p>
+<h3 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h3><p>向量化是一个将文本数据转化为向量矩阵的过程。该过程会直接影响到后续搜索的结果。向量化需要专门的 embedding 大模型解决。这些模型的目标是使得具有相似语义的文字序列对应的向量尽可能靠近，而语义不同的文字序列对应的向量尽可能远离，从而通过数学计算向量之间的距离，快速检索处相似度最高的文字序列。</p>
+<p>目前常用的 embedding 模型有 ChatGPT-Embedding (OpenAi)、Qwen-Embedding (Alibaba)、ERNIE-Embedding (百度)，等等。</p>
+<p>通过对编码器微调，可以提升特定场景下的 embedding 质量。但其收益有限，一般在后期优化。</p>
+<div class="note note-info">
+            <p>有时候需要指定 embedding 大模型的<strong>向量维度</strong>，也就是模型把一段文本转换成的<strong>浮点数数组的长度</strong>。</p><p>维度越高，模型能表达的语义细节，概念区分，上下文关系越丰富。但同时，维度越大，每个文本块占用的存储空间就越大，且检索速度就越慢。且对于 ANN 索引来说，维度越大，构建索引的速度也就越慢。</p><p>一般我们使用 512 &#x2F; 768 维构建内部知识库，1024 维构建通用 RAG 或企业级知识库，2048 维及以上构建学术等专业知识库。一般不同的 embedding 允许的维度不一样，直接用官方默认的最省事。</p>
+          </div>
+
+<h3 id="入库"><a href="#入库" class="headerlink" title="入库"></a>入库</h3><p>入库指将文本向量化后，把向量及关联元数据写入存储载体的过程。这里的 “存储载体” 并非传统关系型数据库，而是向量存储。可以使用纯内存、redis、关系型数据库（需支持向量类型）、ES来存储向量库。一般而言，小体量知识库用 redis 较多，大体量知识库用 ES 较多。</p>
+<p>以 redis 为例，向量库的配置 Bean 如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@ConditionalOnProperty(prefix = &quot;spring.ai.model.rag&quot;, name = &quot;enabled&quot;, havingValue = &quot;true&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RagConfig</span> &#123;<br>	<span class="hljs-meta">@Value(&quot;$&#123;spring.data.redis.host:localhost&#125;&quot;)</span><br>	<span class="hljs-keyword">private</span> String redisHost;<br>	<span class="hljs-meta">@Value(&quot;$&#123;spring.data.redis.port:6379&#125;&quot;)</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-type">int</span> redisPort;<br>	<span class="hljs-meta">@Value(&quot;$&#123;spring.data.redis.password:&#125;&quot;)</span><br>	<span class="hljs-keyword">private</span> String redisPassword;<br>	<span class="hljs-meta">@Value(&quot;$&#123;spring.data.redis.database:0&#125;&quot;)</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-type">int</span> redisDatabase;<br><br>    <span class="hljs-comment">// 1. 构建Redis连接池（JedisPooled）：Spring AI的RedisVectorStore依赖Jedis客户端</span><br>	<span class="hljs-meta">@Bean</span><br>	<span class="hljs-keyword">public</span> JedisPooled <span class="hljs-title function_">jedisPooled</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">if</span> (StringUtils.hasText(redisPassword)) &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JedisPooled</span>(redisHost, redisPort, <span class="hljs-literal">null</span>, redisPassword);<br>		&#125; <span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JedisPooled</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">HostAndPort</span>(redisHost, redisPort));<br>		&#125;<br>	&#125;<br><br>    <span class="hljs-comment">// 2. 构建DashScope（阿里通义）向量存储：默认实现</span><br>	<span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> VectorStore <span class="hljs-title function_">dashscopeVectorStore</span><span class="hljs-params">(<span class="hljs-meta">@Qualifier(&quot;dashscopeEmbeddingModel&quot;)</span> EmbeddingModel embeddingModel, JedisPooled jedisPooled)</span> &#123;<br>        <span class="hljs-comment">// Builder 配置：redis 连接池 + embedding 配置 + 索引名 + key 前缀</span><br>        <span class="hljs-keyword">return</span> RedisVectorStore.builder(jedisPooled, embeddingModel)<br>			.indexName(<span class="hljs-string">&quot;rag-vectors-dashscope&quot;</span>)<br>			.prefix(<span class="hljs-string">&quot;rag&quot;</span>)<br>			.build();<br>    &#125;<br><br>    <span class="hljs-comment">// 3. 构建OpenAI向量存储：仅当配置文件指定provider=openai时生效（条件注入）</span><br>	<span class="hljs-meta">@Bean</span><br>	<span class="hljs-meta">@ConditionalOnProperty(</span><br><span class="hljs-meta">		prefix = &quot;spring.ai.model&quot;,</span><br><span class="hljs-meta">		name = &quot;provider&quot;,</span><br><span class="hljs-meta">		havingValue = &quot;openai&quot;</span><br><span class="hljs-meta">	)</span><br>	<span class="hljs-keyword">public</span> VectorStore <span class="hljs-title function_">openAiVectorStore</span><span class="hljs-params">(<span class="hljs-meta">@Qualifier(&quot;openAiEmbeddingModel&quot;)</span> EmbeddingModel embeddingModel, JedisPooled jedisPooled)</span> &#123;<br>		<span class="hljs-keyword">return</span> RedisVectorStore.builder(jedisPooled, embeddingModel)<br>			.indexName(<span class="hljs-string">&quot;rag-vectors-openai&quot;</span>)<br>			.prefix(<span class="hljs-string">&quot;rag&quot;</span>)<br>			.build();<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在海量数据下，搜索索引应该采用向量索引，使用 FAISS&#x2F;NMSLiB&#x2F;HNSW 等 ANN 索引加速。在超大型数据库中，处理块的一个有效方法就是创建两个索引：一个由摘要组成，一个由文档块组成，然后分两步进行搜索。还可以存储元数据，并使用元数据过滤器来按照日期、来源等条件进行信息检索。</p>
+<h2 id="应用阶段"><a href="#应用阶段" class="headerlink" title="应用阶段"></a>应用阶段</h2><h3 id="用户提问"><a href="#用户提问" class="headerlink" title="用户提问"></a>用户提问</h3><p><strong>查询转换</strong><br>用户提问的内容不一定需要原样保存，还可以使用 LLM 作为推理引擎来修改用户输入以提高检索质量。例如，将复杂的查询拆分为多个子查询。如问“在 GitHub 上，Langchain 和 LlamaIndex 哪个更受欢迎？”，此时大模型可以将其拆分为两个更简单合理的例子查询：“Langchain 在 GitHub 上有多少星？”和“LlamaIndex 在 GitHub 上有多少星”。</p>
+<p>还可以根据用户的问题，生成更通用的上层查询，以补充背景知识。</p>
+<h3 id="数据检索"><a href="#数据检索" class="headerlink" title="数据检索"></a>数据检索</h3><p>数据检索的方式有两种：一种是相似性检索，一种是全文检索。</p>
+<ul>
+<li>相似性检索：通过余弦相似性、欧氏距离、曼哈顿距离等算法计算查询向量和所有存储向量的相似性得分，并返回得分高的记录。其核心依赖 embedding 模型的语义理解能力。</li>
+<li>全文检索：直接通过倒排索引或其他方式搜索。无语义理解能力。</li>
+</ul>
+<p>以下是进行相似性检索的代码，忽略空值检测和错误处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// prompt 为用户的问题，会自动转为向量；topK 为返回最相似的前 N 条结果</span><br><span class="hljs-keyword">public</span> List&lt;String&gt; <span class="hljs-title function_">search</span><span class="hljs-params">(String query, String collection, <span class="hljs-type">int</span> topK)</span> &#123;<br>    <span class="hljs-comment">// 构造搜索请求</span><br>    <span class="hljs-type">SearchRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> SearchRequest.builder()<br>        .query(query)<br>        .topK(topK)<br>        .similarityThreshold(<span class="hljs-number">0.5</span>) <span class="hljs-comment">// 相似度阈值，过滤低于 0.5 的低相关性结果。</span><br>        .build();<br><br>    List&lt;Document&gt; results = vectorStore.similaritySearch(request);<br><br>    <span class="hljs-comment">// 过滤指定 collection 的结果并提取内容</span><br>    <span class="hljs-keyword">return</span> results.stream()<br>        .filter(doc -&gt; collection.equals(doc.getMetadata().get(<span class="hljs-string">&quot;collection&quot;</span>)))<br>        .map(Document::getContent)<br>        .collect(Collectors.toList());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<div class="note note-info">
+            <p><strong>融合搜索</strong>或<strong>混合搜索</strong><br>同时结合基于关键字的搜索和现代语义或向量搜索，并将其结果组合在一个检索结果中。这里的唯一关键是如何组合不同相似度分数的检索结果，可以使用 Reciprocal Rank Fusion 算法对检索结果进行重排。在 LangChain 中称为 <code>EnsembleRetriever</code>。</p>
+          </div>
+
+<h3 id="注入-prompt"><a href="#注入-prompt" class="headerlink" title="注入 prompt"></a>注入 prompt</h3><p>将搜索完成的结果注入到用户的 prompt 里。以下是一种参考实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> String <span class="hljs-title function_">chatWithContext</span><span class="hljs-params">(String question, String collection, <span class="hljs-type">int</span> topK)</span> &#123;<br>    log.info(<span class="hljs-string">&quot;RAG 问答: &#123;&#125;&quot;</span>, question);<br><br>    <span class="hljs-comment">// 1. 检索相关文档</span><br>    List&lt;String&gt; contexts = search(question, collection, topK);<br><br>    <span class="hljs-keyword">if</span> (contexts.isEmpty()) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;未找到相关文档，无法回答该问题。&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 2. 构建提示词</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">contextText</span> <span class="hljs-operator">=</span> String.join(<span class="hljs-string">&quot;\n\n&quot;</span>, contexts);<br>    <span class="hljs-type">String</span> <span class="hljs-variable">promptText</span> <span class="hljs-operator">=</span> String.format(<br>        <span class="hljs-string">&quot;基于以下文档内容回答问题。如果文档中没有相关信息，请说明无法回答。\n\n&quot;</span> +<br>            <span class="hljs-string">&quot;文档内容：\n%s\n\n&quot;</span> +<br>            <span class="hljs-string">&quot;问题：%s\n\n&quot;</span> +<br>            <span class="hljs-string">&quot;回答：&quot;</span>,<br>        contextText, question<br>    );<br><br>    <span class="hljs-comment">// 3. 调用 LLM 生成答案</span><br>    <span class="hljs-type">Prompt</span> <span class="hljs-variable">prompt</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Prompt</span>(promptText);<br>    <span class="hljs-keyword">return</span> chatModel.call(prompt).getResult().getOutput().getText();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<div class="note note-info">
+            <p><strong>内容增强</strong><br>将相关的上下文组合起来供 LLM 推理，检索较小的块，以获得更好的搜索效果。内容增强一般有两种选择。</p><ul><li>语句窗口检索器：适用于句子级 embedding，在检索到句子后，把前后 <code>k</code> 句一起送给 LLM。</li><li>自动合并检索器：拆成用于检索的子块和用于推理的父块，若多个子块命中统一父块，则直接返回父块。</li></ul>
+          </div>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="../../../../categories/%E4%B8%9A%E5%8A%A1/" class="category-chain-item">业务</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="../../../../tags/java/" class="print-no-link">#java</a>
+      
+        <a href="../../../../tags/RAG/" class="print-no-link">#RAG</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RAG 的设计与实现</div>
+      <div>https://ivanclf.github.io/2026/03/18/rag/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ivan Chan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年3月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="../../17/os-ex3/" title="操作系统额外内容 - IO 复用常用函数">
+                        <span class="hidden-mobile">操作系统额外内容 - IO 复用常用函数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default","securityLevel":"loose"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="../../../../js/events.js" ></script>
+<script  src="../../../../js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="../../../../js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="../../../../js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="../../../../js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

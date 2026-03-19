@@ -19,17 +19,17 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考书籍：UNIX网络编程卷1：套接字联网API（第3版） 参考文献  https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;367591714 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1qJ411w7du  基本 TCP 套接字编程 sockaddr 结构体往下的 sockaddr 为一个通用的地址结构体，为多种通信域提供一个统一的接口。我们一般使用它的子类。它的内">
+    <meta name="description" content="参考书籍：UNIX网络编程卷1：套接字联网API（第3版） 参考文献  https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;367591714 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1qJ411w7du  基本 TCP 套接字编程 sockaddr 结构体往下的 sockaddr 为一个通用的地址结构体，为多种通信域提供一个统一的接口。我们一般使用它的”子类”。它">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统额外内容 - 基本 TCP 套接字编程">
 <meta property="og:url" content="https://ivanclf.github.io/2026/03/16/os-ex2/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="参考书籍：UNIX网络编程卷1：套接字联网API（第3版） 参考文献  https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;367591714 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1qJ411w7du  基本 TCP 套接字编程 sockaddr 结构体往下的 sockaddr 为一个通用的地址结构体，为多种通信域提供一个统一的接口。我们一般使用它的子类。它的内">
+<meta property="og:description" content="参考书籍：UNIX网络编程卷1：套接字联网API（第3版） 参考文献  https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;367591714 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1qJ411w7du  基本 TCP 套接字编程 sockaddr 结构体往下的 sockaddr 为一个通用的地址结构体，为多种通信域提供一个统一的接口。我们一般使用它的”子类”。它">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2026/03/16/os-ex2/socket-function.png">
 <meta property="og:image" content="https://ivanclf.github.io/2026/03/16/os-ex2/example1.png">
 <meta property="article:published_time" content="2026-03-16T05:47:06.000Z">
-<meta property="article:modified_time" content="2026-03-17T05:53:58.538Z">
+<meta property="article:modified_time" content="2026-03-19T06:36:03.110Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="碎片知识">
 <meta property="article:tag" content="日常">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.3k 字
+          4.5k 字
         
       </span>
     
@@ -294,15 +294,16 @@
 <li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1qJ411w7du">https://www.bilibili.com/video/BV1qJ411w7du</a></li>
 </ul>
 <h2 id="基本-TCP-套接字编程"><a href="#基本-TCP-套接字编程" class="headerlink" title="基本 TCP 套接字编程"></a>基本 TCP 套接字编程</h2><p><img src="socket-function.png" srcset="/img/loading.gif" lazyload alt="基本 TCP 客户端&#x2F;服务器常用函数"></p>
-<h3 id="sockaddr-结构体"><a href="#sockaddr-结构体" class="headerlink" title="sockaddr 结构体"></a><code>sockaddr</code> 结构体</h3><p>往下的 <code>sockaddr</code> 为一个通用的地址结构体，为多种通信域提供一个统一的接口。我们一般使用它的子类。它的内容为</p>
+<h3 id="sockaddr-结构体"><a href="#sockaddr-结构体" class="headerlink" title="sockaddr 结构体"></a><code>sockaddr</code> 结构体</h3><p>往下的 <code>sockaddr</code> 为一个通用的地址结构体，为多种通信域提供一个统一的接口。我们一般使用它的”子类”。它的内容为</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr</span> &#123;</span><br>    <span class="hljs-type">sa_family_t</span> sa_family;  <span class="hljs-comment">// 地址族（如 AF_INET、AF_UNIX、AF_INET6）</span><br>    <span class="hljs-type">char</span>        sa_data[<span class="hljs-number">14</span>];<span class="hljs-comment">// 存放具体的地址数据（IP+端口/本地路径等），长度14字节</span><br>&#125;;<br></code></pre></td></tr></table></figure>
 
 <p>IPv4 专用的“子类”为</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> &#123;</span><br>    <span class="hljs-type">sa_family_t</span>    sin_family;   <span class="hljs-comment">// 必须设为 AF_INET（IPv4 地址族）</span><br>    <span class="hljs-type">in_port_t</span>      sin_port;     <span class="hljs-comment">// 端口号（网络字节序，2字节）</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">in_addr</span> <span class="hljs-title">sin_addr</span>;</span>     <span class="hljs-comment">// IPv4 地址（4字节）</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>  sin_zero[<span class="hljs-number">8</span>];  <span class="hljs-comment">// 填充字节，使整体大小和 sockaddr 一致（14+2=16字节）</span><br>&#125;;<br><br><span class="hljs-comment">// 嵌套的 in_addr 结构体（存放 IPv4 地址）</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">in_addr</span> &#123;</span><br>    <span class="hljs-type">in_addr_t</span> s_addr;  <span class="hljs-comment">// IPv4 地址（32位无符号整数，网络字节序）</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> &#123;</span><br>    <span class="hljs-type">sa_family_t</span>    sin_family;   <span class="hljs-comment">// 必须设为 AF_INET（IPv4 地址族）</span><br>    <span class="hljs-type">in_port_t</span>      sin_port;     <span class="hljs-comment">// 端口号（网络字节序，2字节）</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">in_addr</span> <span class="hljs-title">sin_addr</span>;</span>     <span class="hljs-comment">// IPv4 地址（4字节）</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>  sin_zero[<span class="hljs-number">8</span>];  <span class="hljs-comment">// 填充字节，使整体大小和 sockaddr 一致（8+8=16字节）</span><br>&#125;;<br><br><span class="hljs-comment">// 嵌套的 in_addr 结构体（存放 IPv4 地址）</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">in_addr</span> &#123;</span><br>    <span class="hljs-type">in_addr_t</span> s_addr;  <span class="hljs-comment">// IPv4 地址（32位无符号整数，网络字节序）</span><br>&#125;;<br></code></pre></td></tr></table></figure>
 
 <p><code>sin_zero</code> 一般直接 <code>memset()</code> 置0即可。</p>
 <p>IPv6 则使用 <code>sockaddr_in6</code>，本地 Unix 域通信则为 <code>sockaddr_un</code>。</p>
-<h3 id="socket"><a href="#socket" class="headerlink" title="socket"></a><code>socket</code></h3><p>为了执行网络 IO，一个进程必须要做的第一件事就是调用 socket 函数，指定期望的通信协议类型。它是所有 UNIX 客户端&#x2F;服务端收发的起点。但它仅创建端点，需要配合其他函数才能完成完整的通信流程。</p>
+<p>网络字节序是大端序，但主机的字节则可能是大端序或小端序。因此必须通过函数转换（<code>htons</code> 转端口，<code>htonl</code> 转 IP）而不能直接赋值。直接赋值可能导致通信失败。</p>
+<h3 id="socket"><a href="#socket" class="headerlink" title="socket"></a><code>socket</code></h3><p>为了执行网络 IO，一个进程必须要做的第一件事就是调用 socket 函数，指定期望的通信协议类型。它为所有 UNIX 客户端&#x2F;服务端创建网络通信的端点。但它仅创建端点，需要配合其他函数才能完成完整的通信流程。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">socket</span> <span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> family, <span class="hljs-comment">// 协议簇，也叫协议域</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> type, <span class="hljs-comment">// 套接字类型</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> protocol <span class="hljs-comment">// 某个协议类型常值</span></span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
 
 <table>
@@ -338,17 +339,18 @@
 </thead>
 <tbody><tr>
 <td><code>SOCK_STREAM</code></td>
-<td>字节流套接字</td>
+<td>TCP 传输</td>
 </tr>
 <tr>
 <td><code>SOCK_DGRAM</code></td>
-<td>数据报套接字</td>
+<td>UDP 传输</td>
 </tr>
 <tr>
 <td><code>SOCK_RAW</code></td>
 <td>原始套接字</td>
 </tr>
 </tbody></table>
+<p>当 <code>type</code> 为 <code>SOCK_RAW</code> 时，<code>protocol</code> 常值需要填写常值。其余时候填0。</p>
 <table>
 <thead>
 <tr>
@@ -357,7 +359,7 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>IPPROTO_CP</code></td>
+<td><code>IPPROTO_TCP</code></td>
 <td>TCP</td>
 </tr>
 <tr>
@@ -368,55 +370,65 @@
 <td><code>IPPROTO_SCTP</code></td>
 <td>SCTP</td>
 </tr>
+<tr>
+<td><code>IPPROTO_ICMP</code></td>
+<td>ICMP</td>
+</tr>
 </tbody></table>
 <p>若成功，则为非负描述符，和文件描述符类似，成为套接字描述符；若出错，则为-1。</p>
-<p><code>AF_</code> 前缀表示地址族，<code>PF_</code> 前缀表示协议族。书中仅使用 <code>AF_</code> 常值。</p>
-<h3 id="connect"><a href="#connect" class="headerlink" title="connect"></a><code>connect</code></h3><p>该函数用于建立与 TCP 服务器的链接。</p>
+<p><code>AF_</code> 前缀表示地址结构体，<code>PF_</code> 前缀表示创建套接字，二者如今已经没什么区别。</p>
+<h3 id="connect"><a href="#connect" class="headerlink" title="connect"></a><code>connect</code></h3><p>该函数用于建立与 TCP 服务器的连接。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">connect</span> <span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> sockfd, <span class="hljs-comment">// socket 函数返回的套接字描述符</span></span><br><span class="hljs-params">    <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr *sockaddr, <span class="hljs-comment">// 套接字地址结构的指针</span></span><br><span class="hljs-params">    <span class="hljs-type">socklen_t</span> addrlen <span class="hljs-comment">// 该结构的大小</span></span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
 
-<p>函数若成功则返回0；出错则返回1。</p>
-<p>客服端在调用 connect 函数前不一定需要调用 bind 函数，因为内核会确定源 IP 地址并选择一个临时端口作为源端口。如果是 TCP，该函数将激发 <a href="https://ivanclf.github.io/2025/11/15/networking-3/#%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5">TCP 的三次握手过程</a>，并且在建立成功或出错后才返回。</p>
+<p>函数若成功则返回0；出错则返回-1。</p>
+<p>客户端在调用 connect 函数前不一定需要调用 bind 函数，因为内核会确定源 IP 地址并选择一个临时端口作为源端口。如果是 TCP，该函数将激发 <a href="https://ivanclf.github.io/2025/11/15/networking-3/#%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5">TCP 的三次握手过程</a>，并且在建立成功或出错后才返回。</p>
 <ol>
-<li>若 TCP 客户没有收到 SYN 分节的回应，则在一定时间后重发。重发一定次数后仍未回应，则返回 <code>ETIMEDOUT</code> 错误。</li>
+<li>若 TCP 客户没有收到 SYN 报文段的回应，则在一定时间后重发。重发一定次数后仍未回应，则返回 <code>ETIMEDOUT</code> 错误。</li>
 <li>若对 SYN 的响应是 RST （复位），则表明服务器主机在我们指定的端口上没有进程，则立即返回 <code>ECONNREFUSED</code> 错误。</li>
-<li>SYN 在某个路由器上引发了一个 destination unreachable 这种 ICMP 错误，客户主机内核保存该信息，并在和第一种情况相同的时间间隔下重发。若仍是这种情况则返回 <code>EHOSTUNREEACH</code> 或 <code>ENETUNREACH</code> 错误。</li>
+<li>SYN 在某个路由器上引发了一个 destination unreachable 这种 ICMP 错误，若是硬错误则快速失败，软错误则客户主机内核保存该信息，并在和第一种情况相同的时间间隔下重发。若仍是这种情况则返回 <code>EHOSTUNREACH</code> (主机不可达) 或 <code>ENETUNREACH</code> (网络不可达) 错误。</li>
 </ol>
-<p>该函数会导致当前 socket 从 CLOSED 状态转为 SYN_SENT 状态，若成功则转为 ESTABLISHED 状态。若失败则该套接字不可用，必须先 close 当前的套接字描述符并重新调用 socket。</p>
-<h3 id="bind"><a href="#bind" class="headerlink" title="bind"></a><code>bind</code></h3><p>该函数将一个本地协议地址赋予一个套接字。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">bind</span> <span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> sockfd, <span class="hljs-comment">// socket 函数返回的套接字描述符</span></span><br><span class="hljs-params">    <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr *myaddr, <span class="hljs-comment">// 指向特定于协议的地址结构的指针</span></span><br><span class="hljs-params">    <span class="hljs-type">socklen_t</span> addrlen <span class="hljs-comment">// 该地址结构的长度</span></span><br><span class="hljs-params">)</span><br></code></pre></td></tr></table></figure>
+<p>该函数会导致当前 socket 从 CLOSED 状态转为 SYN_SENT 状态，若成功则转为 ESTABLISHED 状态，失败则转为 CLOSED 状态。失败时最好先 close 当前的套接字描述符并重新调用 socket，因为在早期的 BSD 系统中只能这么做。但在现代 Linux 系统中，失败后重新调用该函数即可。</p>
+<h3 id="bind"><a href="#bind" class="headerlink" title="bind"></a><code>bind</code></h3><p>该函数将本地协议地址绑定到套接字描述符 <code>sockfd</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">bind</span> <span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> sockfd, <span class="hljs-comment">// socket 函数返回的套接字描述符</span></span><br><span class="hljs-params">    <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr *myaddr, <span class="hljs-comment">// 指向特定于协议的地址结构的指针</span></span><br><span class="hljs-params">    <span class="hljs-type">socklen_t</span> addrlen <span class="hljs-comment">// 该地址结构的长度</span></span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
 
-<p>使用该函数，可以指定一个端口号，可以指定一个 IP 地址，也可以什么都不指定。服务端不指定时，listen 函数会为其自动给一个接口。但一般不这么做，因为服务器一般是通过一个众所周知的接口来被访问的。</p>
+<p>成功返回0，失败返回-1。</p>
+<p>使用该函数，可以指定一个端口号，可以指定一个 IP 地址，也可以两个都不指定。服务端不指定时，listen 函数调用后，内核会为其自动给一个通配 IP + 临时端口。但一般不这么做，因为服务器一般是通过一个知名端口来被访问的。</p>
+<p>服务端一般指定端口 + <code>0.0.0.0</code> IP （使用 <code>INADDR_ANY</code> 表示）。</p>
 <h3 id="listen"><a href="#listen" class="headerlink" title="listen"></a><code>listen</code></h3><p>该函数仅由 TCP 服务器调用，主要做两件事情：</p>
 <ol>
-<li>socket 函数通常被假设为一个主动套接字，listen 函数将一个未连接的套接字转换成被动套接字，指示内核应接受指向该套接字的连接请求。调用该函数会使得套接字从 closed 状态转为 listen 状态。 <div class="note note-info">
-            <p><strong>主动套接字</strong>只能用于发起连接，无法接受链接；<strong>被动套接字</strong>创建时，会告诉内核，该套接字需要监听指定接口的请求。</p>
+<li>socket 函数默认是主动套接字（用于发起链接），调用 listen 后转换成被动套接字（只能接收链接），指示内核监听并接受指向该套接字的连接请求。调用该函数会使得套接字从 closed 状态转为 listen 状态。 <div class="note note-info">
+            <p>主动套接字仅能调用 <code>connect()</code> 发起连接；被动套接字仅能通过 <code>accept()</code> 接受连接。</p>
           </div></li>
-<li>规定内核应该为相应套接字排队的最大连接数。</li>
+<li>设置内核为该套接字维护的连接队列最大长度：</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">listen</span> <span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> sockfd, <span class="hljs-comment">// socket 函数返回的套接字描述符</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> backlog <span class="hljs-comment">// 内核为该套接字维护的连接队列最大长度，现代系统中为“已完成队列”的上限</span></span><br><span class="hljs-params">)</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">listen</span> <span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> sockfd, <span class="hljs-comment">// socket 函数返回的套接字描述符</span></span><br><span class="hljs-params">    <span class="hljs-type">int</span> backlog</span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
 
-<p>backlog 参数通常在老系统中通常设为5或10，但这在现代系统中肯定是不够的。不同系统的值也不一样。当一个客户的 SYN 到达时，若队列是满的，TCP 就忽略该分节，不发送 RST。这么做是因为，这种情况是暂时的，客户 TCP 会重发 SYN。要是服务器发 RST，客户就不知道这个 RST 是代表“该端口没有进程在监听”还是代表“有进程但队列满了”。</p>
-<p>成功时返回0，失败时返回1。</p>
+<p><code>backlog</code> 参数在早期 BSD 系统中是所有队列的总上限，常用值为 5&#x2F;10，而在现代系统中一般是“已完成连接队列”的上限，常用值 128&#x2F;256。</p>
+<p>成功时返回0，失败时返回-1。</p>
 <div class="note note-info">
-            <p><strong>未完成连接队列</strong> 指已由某个客户发出并到达服务器，而服务器还在等待完成响应的 TCP 三路握手过程的 SYN 分节，这些套接字处于 SYN_RCVD 状态。<br><strong>已完成连接队列</strong> 指每个已完成 TCP 三路握手过程的客户，这些套接字处于 ESTABLISHED 状态。</p>
+            <p><strong>未完成连接队列</strong> 指客户端发送 SYN 后，三路握手未完成的连接。这些套接字处于 SYN_RCVD 状态。<br><strong>已完成连接队列</strong> 三路握手完成，等待 <code>accept</code> 取走的链接。这些套接字处于 ESTABLISHED 状态。</p>
           </div>
 
-<p>当来自客户的 SYN 到达时，TCP 在未完成连接队列中创建一个新项，然后进行三路握手中的回应。当三路握手中的第三次到达后，该项就从未完成连接队列移到已完成连接队列的末尾。当进程调用 accept 时，已完成连接队列中的队头项将返回给进程。</p>
-<h3 id="accept"><a href="#accept" class="headerlink" title="accept"></a><code>accept</code></h3><p>该函数由 TCP 服务器调用，用于从已完成连接队列队头返回下一个已完成链接。若此队列为空则进程被投入睡眠。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">accept</span> <span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> sockfd,</span><br><span class="hljs-params">    <span class="hljs-keyword">struct</span> sockaddr *cliaddr,</span><br><span class="hljs-params">    <span class="hljs-type">socklen_t</span> *addrlen</span><br><span class="hljs-params">)</span><br></code></pre></td></tr></table></figure>
+<p>当来自客户的 SYN 到达时，若未完成队列未满，则 TCP 在未完成连接队列中创建一个新项，然后进行三路握手中的回应。当三路握手中的第三次到达后，该项就从未完成连接队列移到已完成连接队列的末尾。当进程调用 accept 时，已完成连接队列中的队头项将返回给进程。</p>
+<h3 id="accept"><a href="#accept" class="headerlink" title="accept"></a><code>accept</code></h3><p>该函数由 TCP 服务器调用，用于从已完成连接队列队头返回下一个已完成连接。若此队列为空则进程被投入睡眠。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">accept</span> <span class="hljs-params">(</span><br><span class="hljs-params">    <span class="hljs-type">int</span> sockfd,</span><br><span class="hljs-params">    <span class="hljs-keyword">struct</span> sockaddr *cliaddr,</span><br><span class="hljs-params">    <span class="hljs-type">socklen_t</span> *addrlen</span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
 
-<p>第二个参数是输出型参数，函数返回时，内核会把发起连接的客户端的 IP 地址、端口等信息填充到这个结构体中。</p>
+<p>第一个参数需要始终处于 listen 状态，不会随着客户端关闭而关闭。</p>
+<p>第二个参数是输出型参数，函数返回时，内核会把发起连接的客户端的 IP 地址、端口等信息填充到这个结构体中。若不需要这个地址，可传 <code>null</code>，但此时的第三个参数也要填 <code>null</code>。</p>
 <p>第三个参数输入输出都要用，输入时，告诉内核 <code>*cliaddr</code> 这个结构体的大小；输出时，内核返回实际填充的地址结构体长度。</p>
-<p>若该函数执行成功，其返回值就是有内核自动生成的一个全新描述符，代表与所返回客户的 TCP 链接。第一个叫做<strong>监听套接字描述符</strong>，返回值为<strong>已连接套接字描述符</strong>。当服务器完成对某个给定客户的服务时，相应的已连接套接字就被关闭。</p>
+<p>若该函数执行成功，其返回值就是有内核自动生成的一个全新描述符，代表与所返回客户的 TCP 链接。第一个叫做<strong>监听套接字</strong>，返回值为<strong>已连接套接字</strong>。当服务器完成对某个给定客户的服务时，相应的已连接套接字就被关闭。错误时返回-1。</p>
 <div class="note note-info">
             <p>该函数的第三个参数称为 <strong>值-结果参数</strong>。该概念指某个参数是“双向的”，既能给函数传值，又能从函数拿结果。内核设计这个机制，核心是解决缓冲区大小不固定的问题。网络编程中，地址结构体有很多种，内核又不知道你给这个函数的结构体是什么，所以需要先手动指定。内核写完后，需要告知“实际写了多少”，避免其他程序读取超出实际数据长度的内容。</p>
           </div>
 
-<h3 id="close"><a href="#close" class="headerlink" title="close"></a><code>close</code></h3><p>关闭一个 socket。</p>
+<h3 id="close"><a href="#close" class="headerlink" title="close"></a><code>close</code></h3><p>关闭一个 socket。更深入一点，该函数调用后，会将套接字描述符的引用次数减1。当且仅当引用次数为0时，才会触发 TCP 的四次挥手（发送 FIN 报文段）。</p>
+<p>因此该函数执行后，并不一定会关闭链接。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">close</span> <span class="hljs-params">(<span class="hljs-type">int</span> sockfd)</span>;<br></code></pre></td></tr></table></figure>
 
 <p>成功返回0，出错返回-1。</p>
-<h3 id="getsockname-和-getpeername-函数"><a href="#getsockname-和-getpeername-函数" class="headerlink" title="getsockname 和 getpeername 函数"></a><code>getsockname</code> 和 <code>getpeername</code> 函数</h3><p>这两个函数返回和某个套接字关联的本地协议地址，或者和某个套接字关联的外地协议地址</p>
+<h3 id="getsockname-和-getpeername-函数"><a href="#getsockname-和-getpeername-函数" class="headerlink" title="getsockname 和 getpeername 函数"></a><code>getsockname</code> 和 <code>getpeername</code> 函数</h3><p>这两个函数返回和某个套接字关联的本地协议地址，或者和某个套接字关联的对端协议地址。</p>
+<p><code>getsockname()</code> 函数用于字客户端未调用 <code>bind</code> 时，获取内核自动分配的临时端口；服务器绑定通配 IP 时，获取实际接受连接的网卡 IP。也就是<strong>本地绑定</strong>的 IP + 端口。</p>
+<p><code>getpeername()</code> 函数用于服务端需要直到连接的客户端 IP&#x2F;端口；进程通过 <code>fork</code>&#x2F;<code>exec</code> 后，获取对端地址。也就是<strong>对端</strong>的IP + 端口。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getsockname</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-keyword">struct</span> sockaddr *localaddr, <span class="hljs-type">socklen_t</span> *addrlen)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">getpeername</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-keyword">struct</span> sockaddr *peeraddr, <span class="hljs-type">socklen_t</span> *addrlen)</span>;<br></code></pre></td></tr></table></figure>
 
 <p>成功则返回0，失败返回-1。这两个函数的最后一个参数都是值-结果参数。</p>
@@ -424,20 +436,26 @@
 <p><img src="example1.png" srcset="/img/loading.gif" lazyload alt="简单的回射客户&#x2F;服务器"></p>
 <h3 id="服务器程序：main"><a href="#服务器程序：main" class="headerlink" title="服务器程序：main"></a>服务器程序：<code>main</code></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span>    <span class="hljs-string">&quot;unp.h&quot;</span></span><br><br><span class="hljs-type">int</span><br><span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span><br>&#123;<br>    <span class="hljs-type">int</span>     listenfd, connfd;<br>    <span class="hljs-type">pid_t</span>   childpid;<br>    <span class="hljs-type">socklen_t</span> clilen;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">cliaddr</span>, <span class="hljs-title">servaddr</span>;</span><br><br>    listenfd = Socket(AF_INET, SOCK_STREAM, <span class="hljs-number">0</span>);<br><br>    bzero(&amp;servaddr, <span class="hljs-keyword">sizeof</span>(servaddr));<br>    servaddr.sin_family = AF_INET;<br>    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);<br>    servaddr.sin_port = htons(SERV_PORT);<br><br>    Bind(listenfd, (SA *) &amp;servaddr, <span class="hljs-keyword">sizeof</span>(servaddr));<br><br>    Listen(listenfd, LISTENQ);<br><br>    <span class="hljs-keyword">for</span> ( ; ; ) &#123;<br>        clilen = <span class="hljs-keyword">sizeof</span>(cliaddr);<br>        connfd = Accept(listenfd, (SA *) &amp;cliaddr, &amp;clilen);<br><br>        <span class="hljs-keyword">if</span> ( (childpid = Fork()) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">/* 子进程 */</span><br>            Close(listenfd);    <span class="hljs-comment">/* 关闭监听状态下的 socket */</span><br>            str_echo(connfd);   <span class="hljs-comment">/* 处理请求 */</span><br>            <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>        &#125;<br>        Close(connfd);          <span class="hljs-comment">/* 父进程关闭 socket */</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>首先通过 <code>socket</code>、<code>bind</code>、<code>listen</code> 方法创建一个监听套接字，然后通过外层无限循环调用 <code>accept</code>，阻塞等待新的客户端链接。每当有客户端链接到达时，<code>accept</code> 返回一个新的链接 socket，用于与该客户端链接。</p>
-<p>然后通过 <code>fork</code> 创建子进程，并发处理多个客户端。子进程关闭监听 socket（子进程不需要监听新连接），然后调用 <code>str_echo(connfd)</code>，从客户端读取数据。完成后调用 <code>exit(0)</code> 结束进程。父进程关闭该 socket，然后继续回到循环，等待下一个客户链接。</p>
-<p><code>close</code> 关闭的是文件描述符的引用，而非销毁底层的 socket 资源。只有引用计数为0时，操作系统才会销毁 socket。子进程需要的是 <code>connfd</code>，父进程需要的是 <code>listenfd</code>，现在子进程关闭的是父进程中 <code>listenfd</code> 的引用，父进程关闭的是 <code>connfd</code> 的引用。这样一番操作后，只有父进程有 <code>listenfd</code> 的引用，子进程由于已经退出，也就不引用 <code>connfd</code> 了，因此子进程退出后，<code>connfd</code> 自然销毁。</p>
-<h3 id="服务器程序：str-echo"><a href="#服务器程序：str-echo" class="headerlink" title="服务器程序：str_echo"></a>服务器程序：<code>str_echo</code></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span>    <span class="hljs-string">&quot;unp.h&quot;</span></span><br><br><span class="hljs-type">void</span><br><span class="hljs-title function_">str_echo</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd)</span><br>&#123;<br>    <span class="hljs-type">ssize_t</span> n;<br>    <span class="hljs-type">char</span>    buf[MAXLINE];<br><br>again:<br>    <span class="hljs-keyword">while</span> ((n = read(sockfd, buf, MAXLINE)) &gt; <span class="hljs-number">0</span>)<br>        Writen(sockfd, buf, n);<br><br>    <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span> &amp;&amp; errno == EINTR)<br>        <span class="hljs-keyword">goto</span> again;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span>)<br>        err_sys(<span class="hljs-string">&quot;str_echo: read error&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>首先通过 <code>socket</code>、<code>bind</code>、<code>listen</code> 方法创建一个监听套接字 <code>listenfd</code>，该套接字始终由父进程持有，用于持续接受新连接。</p>
+<p><code>fork</code> 后，子进程会复制父进程的所有 FD。</p>
+<ul>
+<li>操作后，父进程持有 <code>listenfd</code> (引用次数 &#x3D; 1)、<code>connfd</code>（引用次数 &#x3D; 1）；子进程持有 <code>listenfd</code>（引用次数 &#x3D; 2），<code>connfd</code>（引用次数 &#x3D; 2）。</li>
+<li>子进程 <code>Close</code> 后，销毁自己的 <code>listenfd</code> 引用，引用次数从2到1。</li>
+<li>父进程 <code>Close</code> 后，销毁自己的 <code>connfd</code> 引用，引用次数从2到1。</li>
+<li>子进程 <code>str_echo</code> 执行函数，完成后 <code>exit(0)</code>。</li>
+<li>子进程退出时，内核自动关闭其持有的所有 FD，<code>connfd</code> 从1到0，该 TCP 开始四次挥手。</li>
+</ul>
+<h3 id="服务器程序：str-echo"><a href="#服务器程序：str-echo" class="headerlink" title="服务器程序：str_echo"></a>服务器程序：<code>str_echo</code></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span>    <span class="hljs-string">&quot;unp.h&quot;</span></span><br><br><span class="hljs-type">void</span><br><span class="hljs-title function_">str_echo</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd)</span><br>&#123;<br>    <span class="hljs-type">ssize_t</span> n;<br>    <span class="hljs-type">char</span>    buf[MAXLINE]; <span class="hljs-comment">// MAXLINE：UNP 宏，默认 4096 字节</span><br><br>again:<br>    <span class="hljs-keyword">while</span> ((n = read(sockfd, buf, MAXLINE)) &gt; <span class="hljs-number">0</span>)<br>        Writen(sockfd, buf, n);<br><br>    <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span> &amp;&amp; errno == EINTR)<br>        <span class="hljs-keyword">goto</span> again;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span>)<br>        err_sys(<span class="hljs-string">&quot;str_echo: read error&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>其中，<code>read</code> 函数表示从传入的链接套接字 <code>sockfd</code> 中读取最多 <code>MAXSIZE</code> 字节的数据发缓冲区中，返回实际读取的字节数 <code>n</code>。然后再 <code>write</code> 写回去。</p>
+<p>其中，<code>read</code> 函数表示从传入的已连接套接字 <code>sockfd</code> 中读取最多 <code>MAXLINE</code> 字节的数据缓冲区中，返回实际读取的字节数 <code>n</code>。然后再 <code>writen</code> 写回去。</p>
 <h3 id="客户端程序"><a href="#客户端程序" class="headerlink" title="客户端程序"></a>客户端程序</h3><p><code>main</code> 函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span>    <span class="hljs-string">&quot;unp.h&quot;</span></span><br><br><span class="hljs-type">int</span><br><span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span><br>&#123;<br>    <span class="hljs-type">int</span>                 sockfd;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span>  <span class="hljs-title">servaddr</span>;</span><br><br>    <span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>)<br>        err_quit(<span class="hljs-string">&quot;usage: tcpcli &lt;IPaddress&gt;&quot;</span>);<br><br>    sockfd = Socket(AF_INET, SOCK_STREAM, <span class="hljs-number">0</span>);<br><br>    bzero(&amp;servaddr, <span class="hljs-keyword">sizeof</span>(servaddr));<br>    servaddr.sin_family = AF_INET;<br>    servaddr.sin_port = htons(SERV_PORT);<br>    Inet_pton(AF_INET, argv[<span class="hljs-number">1</span>], &amp;servaddr.sin_addr);<br><br>    Connect(sockfd, (SA *) &amp;servaddr, <span class="hljs-keyword">sizeof</span>(servaddr));<br><br>    str_cli(<span class="hljs-built_in">stdin</span>, sockfd);    <span class="hljs-comment">/* 全干了 */</span><br><br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span>    <span class="hljs-string">&quot;unp.h&quot;</span></span><br><br><span class="hljs-type">int</span><br><span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span><br>&#123;<br>    <span class="hljs-type">int</span>                 sockfd;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span>  <span class="hljs-title">servaddr</span>;</span><br><br>    <span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>)<br>        err_quit(<span class="hljs-string">&quot;usage: tcpcli &lt;IPaddress&gt;&quot;</span>);<br><br>    sockfd = Socket(AF_INET, SOCK_STREAM, <span class="hljs-number">0</span>);<br><br>    bzero(&amp;servaddr, <span class="hljs-keyword">sizeof</span>(servaddr));<br>    servaddr.sin_family = AF_INET;<br>    servaddr.sin_port = htons(SERV_PORT);<br>    Inet_pton(AF_INET, argv[<span class="hljs-number">1</span>], &amp;servaddr.sin_addr);<br><br>    Connect(sockfd, (SA *) &amp;servaddr, <span class="hljs-keyword">sizeof</span>(servaddr)); <span class="hljs-comment">// SA 是 UNP 宏，替换 struct sockaddr</span><br><br>    str_cli(<span class="hljs-built_in">stdin</span>, sockfd);    <span class="hljs-comment">/* 全干了 */</span><br><br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>由于此处客户端只需要链接并发一条信息，等待回应即可，因此也就不需要循环了。</p>
+<p>此处没有循环不代表客服端只发一条消息，因为 <code>str_cli</code> 函数包含循环，在此处会将用户输入逐行发送给服务器。</p>
 <p><code>str_cli</code> 函数</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span>    <span class="hljs-string">&quot;unp.h&quot;</span></span><br><br><span class="hljs-type">void</span><br><span class="hljs-title function_">str_cli</span><span class="hljs-params">(FILE *fp, <span class="hljs-type">int</span> sockfd)</span><br>&#123;<br>    <span class="hljs-type">char</span>    sendline[MAXLINE], recvline[MAXLINE];<br><br>    <span class="hljs-keyword">while</span> (Fgets(sendline, MAXLINE, fp) != <span class="hljs-literal">NULL</span>) &#123;<br><br>        Writen(sockfd, sendline, <span class="hljs-built_in">strlen</span>(sendline));<br><br>        <span class="hljs-keyword">if</span> (Readline(sockfd, recvline, MAXLINE) == <span class="hljs-number">0</span>)<br>            err_quit(<span class="hljs-string">&quot;str_cli: server terminated prematurely&quot;</span>);<br><br>        Fputs(recvline, <span class="hljs-built_in">stdout</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h3 id="处理-SIGCHLD-信号"><a href="#处理-SIGCHLD-信号" class="headerlink" title="处理 SIGCHLD 信号"></a>处理 <code>SIGCHLD</code> 信号</h3><p>然而这个简单的实现存在一个问题：在服务器子进程终止时，会给父进程发送一个 <code>SIGCHLD</code> 信号。然而，父进程没有捕获这一信号，子进程进入<strong>僵死</strong>(zombie) 状态。该状态下的子进程会占用内核空间。</p>
+<h3 id="处理-SIGCHLD-信号"><a href="#处理-SIGCHLD-信号" class="headerlink" title="处理 SIGCHLD 信号"></a>处理 <code>SIGCHLD</code> 信号</h3><p>然而这个简单的实现存在一个问题：在服务器子进程终止时，会给父进程发送一个 <code>SIGCHLD</code> 信号。然而，父进程没有捕获这一信号，子进程进入<strong>僵死</strong>(zombie) 状态。该状态下的子进程会占用内核资源。</p>
 <p>要解决这个问题，核心是让父进程捕获该信号，并再信号处理函数中调用 <code>waitpid()</code> 回收所有终止的子进程。</p>
 <h4 id="wait-和-waitpid"><a href="#wait-和-waitpid" class="headerlink" title="wait 和 waitpid"></a><code>wait</code> 和 <code>waitpid</code></h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">pid_t</span> <span class="hljs-title function_">wait</span> <span class="hljs-params">(<span class="hljs-type">int</span> *statloc)</span>;<br><span class="hljs-type">pid_t</span> <span class="hljs-title function_">waitpid</span> <span class="hljs-params">(<span class="hljs-type">pid_t</span> pid, <span class="hljs-type">int</span> *statloc, <span class="hljs-type">int</span> options)</span>;<br></code></pre></td></tr></table></figure>
 
@@ -476,16 +494,16 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>WHOHANG</code></td>
+<td><code>WNOHANG</code></td>
 <td>非阻塞模式，若子进程未终止，直接返回0，不阻塞</td>
 </tr>
 <tr>
 <td><code>WUNTRACED</code></td>
-<td>除了终止的子进程，还会返回被暂停的子进程的状态</td>
+<td>除了终止的子进程，还会返回被暂停（如信号 <code>SIGSTOP</code>）的子进程的状态</td>
 </tr>
 <tr>
 <td><code>WCONTINUED</code></td>
-<td>返回被恢复运行的子进程状态，需结合信号使用</td>
+<td>返回因收到 <code>SIGCONT</code> 信号恢复运行的子进程状态，需结合信号使用</td>
 </tr>
 </tbody></table>
 <p>二者的差别如下</p>
@@ -509,7 +527,7 @@
 </tr>
 <tr>
 <td>返回值</td>
-<td>终止子进程的 pid，若无则返回-1</td>
+<td>终止子进程的 pid，若无子进程则返回-1</td>
 <td>终止子进程的 pid，非阻塞无终止进程返回0，出错返回-1</td>
 </tr>
 <tr>
@@ -524,8 +542,8 @@
 <p>同时在主函数的适当地方（循环外，初始化过程中），使用 <code>signal</code> 函数注册 <code>SIGCHLD</code> 信号处理函数。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">Signal(SIGCHLD, sig_chld);<br></code></pre></td></tr></table></figure>
 
-<h3 id="accept-返回前链接终止"><a href="#accept-返回前链接终止" class="headerlink" title="accept 返回前链接终止"></a><code>accept</code> 返回前链接终止</h3><p>三次握手完成，链接建立后，客户端却发了一个 RST。在服务端视角来看，就是在该链接已由 TCP 排队，等着服务器调用 <code>accept</code> 时 RST 到达。此时客户端主动终止连接，内核中已建立的“半开链接”会被清理。当服务器后续调用 <code>accept</code> 时，内核会返回 <code>ECONNABORTED</code> 错误。</p>
-<p>解决方案也很简单，在 <code>accept</code> 处增加错误判断，若捕获到这个报错就直接跳过循环，重新 <code>accept</code> 即可。</p>
+<h3 id="accept-返回前链接终止"><a href="#accept-返回前链接终止" class="headerlink" title="accept 返回前链接终止"></a><code>accept</code> 返回前链接终止</h3><p>三次握手完成，链接建立后，客户端发了一个 RST。在服务端视角来看，就是在该链接已经在全连接队列里，等着服务器调用 <code>accept</code> 时 RST 到达。也就是说，此时客户端主动终止连接，内核中该链接会被清理。当服务器后续调用 <code>accept</code> 时，由于该连接握手未完成就被重置，内核会返回 <code>ECONNABORTED</code> 错误。</p>
+<p>解决方案也很简单，在 <code>accept</code> 处增加错误判断，若捕获到这个报错就直接跳过本次，重新 <code>accept</code> 即可。</p>
 <h3 id="服务器进程直接终止"><a href="#服务器进程直接终止" class="headerlink" title="服务器进程直接终止"></a>服务器进程直接终止</h3><p>客户端一直阻塞在 <code>while(Fgets(...))</code> 循环中，等待用户信息。然而此时服务器被直接 <code>kill -9</code> 了，没有主动调用 <code>close(sockfd)</code>，此时客户端就一直被卡在了等待信息这一栏。</p>
 <p>原因是“服务器挂了”是网络层的事，但 <code>fgets</code> 是本地输入层的事，二者默认互不干扰。</p>
 <p>其全过程如下</p>
@@ -547,7 +565,7 @@
 <tr>
 <td>服务器被终止</td>
 <td>管理员执行 <code>kill -9</code> 服务器 PID，服务器进程直接被内核终止；内核清理服务器的套接字资源，给客户端发送 RST 包</td>
-<td>客户端内核收到 RST 包，标记客户端的 sockfd 为 “连接重置” 状态；但客户端进程还卡在 <code>Fgets</code> 处，完全没感知到这个变化</td>
+<td>客户端内核收到 FIN 包，标记客户端的 sockfd 为 “连接重置” 状态；但客户端进程还卡在 <code>Fgets</code> 处，完全没感知到这个变化</td>
 <td>客户端进程的执行流还没走到 “网络操作”（读 &#x2F; 写 sockfd），所以不知道连接已断</td>
 </tr>
 <tr>
@@ -559,15 +577,15 @@
 <tr>
 <td>（补充）用户输入后才会发现异常</td>
 <td>-</td>
-<td>用户终于输入一行内容并回车，<code>Fgets</code> 返回，客户端执行 Writen 向 sockfd 写数据；此时客户端内核发现 sockfd 已被重置，Writen 会返回 <code>EPIPE</code> 错误（Broken pipe）</td>
+<td>用户终于输入一行内容并回车，<code>Fgets</code> 返回，客户端执行 Writen 向 sockfd 写数据；此时客户端内核发现 sockfd 已被重置，服务器内核收到数据后回复 RST，第二次写时触发 <code>EPIPE</code> 错误（Broken pipe）</td>
 <td>只有当客户端尝试写网络时，才会发现 “连接已断”—— 但在这之前，<code>Fgets</code> 早就堵死了</td>
 </tr>
 </tbody></table>
-<p>这里的问题在于，客户实际上正在同时应对两个描述符——套接字和用户输入，它不能单纯阻塞在这两个源中某个特定源的输入上。而是应该阻塞在任意一个源的输入上。事实上这正是 <code>select</code> 和 <code>poll</code> 这两个函数的目的之一。</p>
-<p>若客户不理会这里产生的错误，反而继续写入，那又会发生什么呢？当一个进程向某个已收到 RST 的套接字执行写操作时，内核会向进程发送一个 SIGPIPE 信号。该信号的默认行为是终止进程。无论进程是否处理该信号，写操作都将返回 EPIPE 错误，只不过处理信号后就接收不到这个错误了。</p>
+<p>这里的问题在于，客户实际上正在同时应对两个描述符——套接字和用户输入，它不能单纯阻塞在这两个源中某个特定源的输入上。而是应该阻塞在任意一个源的输入上。事实上这正是 <code>select</code>、<code>poll</code> 和 <code>epoll</code> 这三个函数的目的之一。</p>
+<p>当进程向已收到 RST 的套接字执行写操作时，第一次写就会触发 SIGPIPE 信号，同时返回 EPIPE。SIGPIPE 默认行为是终止进程；即使捕获信号，写操作仍返回 EPIPE。</p>
 <h3 id="服务器主机崩溃或关机"><a href="#服务器主机崩溃或关机" class="headerlink" title="服务器主机崩溃或关机"></a>服务器主机崩溃或关机</h3><p>服务器主机崩溃时，已有的网络链接上不发出任何东西。此时的客户端发出一行文本，等待回答。但此时客户会一直尝试重传，直到超时。</p>
 <p>若为崩溃后重启，服务器的 TCP 丢失了崩溃前的所有链接信息，因此服务器 TCP 对所有的客户数据分节均回复 RST，从而使客户端收到 <code>ECONNRESET</code> 错误。若需要实现即使客户不主动发送数据也要能检测出来，就需要采用其他技术，如心跳机制等。</p>
-<p>若为客户端主动关机，则 Unix 系统的 <code>init</code> 进程会先给所有进程发送 SIGTERM 信号，等待一段固定的时间，然后给所有仍在运行的进程发送 SIGKILL 信号，该信号不能被捕获。如果部门不捕获 SIGTERM 信号并终止，我们的服务器将由 SIGKILL 信号终止。需要注意<a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9B%E7%A8%8B%E7%9B%B4%E6%8E%A5%E7%BB%88%E6%AD%A2">客户端在服务端终止后的情况</a></p>
+<p>若为客户端主动关机，则 Unix 系统的 <code>init</code>&#x2F;<code>systemd</code> 会先给所有进程发送 SIGTERM 信号，等待一段固定的时间，然后给所有仍在运行的进程发送 SIGKILL 信号，该信号不能被捕获。如果部门不捕获 SIGTERM 信号并终止，我们的服务器将由 SIGKILL 信号终止。需要注意<a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9B%E7%A8%8B%E7%9B%B4%E6%8E%A5%E7%BB%88%E6%AD%A2">客户端在服务端终止后的情况</a></p>
 
                 
               </div>

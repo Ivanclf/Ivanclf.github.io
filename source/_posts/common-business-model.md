@@ -2,7 +2,7 @@
 title: 常见业务模型 - 企业系统部分外连接口
 date: 2026-01-24 12:48:49
 tags: [java]
-category: 客服质检
+category: 业务
 ---
 
 ## OAuth 2

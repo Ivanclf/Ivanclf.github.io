@@ -2,7 +2,7 @@
 title: 常见业务模型 - OSS 、操作系统集成与 FFmpeg
 date: 2026-02-04 14:03:33
 tags: [java]
-category: 客服质检
+category: 业务
 ---
 
 ## 阿里云 OSS

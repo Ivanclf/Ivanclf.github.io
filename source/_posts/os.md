@@ -42,7 +42,9 @@ The heart of the system, known as the virtual machine monitor, runs on the bare 
 
 The system calls available in the interface vary from one operating system to another. Usually we would use system calls open() (open a file), read() (read a file), write() (write a file), fork() (create a process), exit() (kill a process), and so on.
 
-Processes in UNIX have their memory divided up into three segments: the **text segment** (i.e., the program code), the **data segment** (i.e., the variables), and the **stack segment**. The data segment grows upward and the stack grows downward.
+Processes in UNIX have their memory divided into three segments: the **text segment** (i.e., the program code), the **data segment** (i.e., the variables), and the **stack segment**. The data segment grows upward and the stack grows downward.
+
+*在 UNIX 中进程被分为三段：**代码段**、**数据段**和**栈段**。数据段往上涨而栈往下探。*
 
 The global variables contain in the data segment, while the local variables contain in the stack segment.
 

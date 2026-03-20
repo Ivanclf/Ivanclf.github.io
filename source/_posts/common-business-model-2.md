@@ -2,7 +2,7 @@
 title: 常见业务模型 - LLM 与传统 AI 的设计模式实现
 date: 2026-01-27 16:14:21
 tags: [java]
-category: 客服质检
+category: 业务
 ---
 
 ## ASR 语音识别

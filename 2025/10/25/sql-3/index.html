@@ -19,16 +19,16 @@
   <meta name="author" content="Ivan Chan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="锁的类别全局锁锁整个数据库 表锁锁整张表。适合读多写少，全表扫描或表结构更改的场景。InnoDB中无索引的 update 或 delete 可能会导致锁升级为表锁。  意向锁  表示事务打算对表中某些数据加锁，但不会直接锁定。比如在实行 select for update 操作时，会先在表上加一个意向锁，然后在目标行上加排他锁   该锁由 InnoDB 自动管理。当事务需要添加行锁时，会先在表上添">
+    <meta name="description" content="锁的类别全局锁锁整个数据库。适合全库备份等场景。 表锁锁整张表。适合读多写少，全表扫描或表结构更改的场景。InnoDB 中无索引的 update 或 delete 可能会导致锁升级为表锁。 意向锁表示事务打算对表中某些数据加锁，但不会直接锁定。比如在实行 select for update 操作时，会先在表上加一个意向锁，然后在目标行上加排他锁。该锁由 InnoDB 自动管理。当事务需要添加行锁时">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库底层 - 2">
 <meta property="og:url" content="https://ivanclf.github.io/2025/10/25/sql-3/index.html">
 <meta property="og:site_name" content="Ivan的博客">
-<meta property="og:description" content="锁的类别全局锁锁整个数据库 表锁锁整张表。适合读多写少，全表扫描或表结构更改的场景。InnoDB中无索引的 update 或 delete 可能会导致锁升级为表锁。  意向锁  表示事务打算对表中某些数据加锁，但不会直接锁定。比如在实行 select for update 操作时，会先在表上加一个意向锁，然后在目标行上加排他锁   该锁由 InnoDB 自动管理。当事务需要添加行锁时，会先在表上添">
+<meta property="og:description" content="锁的类别全局锁锁整个数据库。适合全库备份等场景。 表锁锁整张表。适合读多写少，全表扫描或表结构更改的场景。InnoDB 中无索引的 update 或 delete 可能会导致锁升级为表锁。 意向锁表示事务打算对表中某些数据加锁，但不会直接锁定。比如在实行 select for update 操作时，会先在表上加一个意向锁，然后在目标行上加排他锁。该锁由 InnoDB 自动管理。当事务需要添加行锁时">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/25/sql-3/mysql-20240415094939.png">
 <meta property="article:published_time" content="2025-10-25T04:50:33.000Z">
-<meta property="article:modified_time" content="2026-01-07T07:21:09.016Z">
+<meta property="article:modified_time" content="2026-03-20T06:51:17.043Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="SQL">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.6k 字
+          2.9k 字
         
       </span>
     
@@ -287,12 +287,10 @@
             
               <div class="markdown-body">
                 
-                <h2 id="锁的类别"><a href="#锁的类别" class="headerlink" title="锁的类别"></a>锁的类别</h2><h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><p>锁整个数据库</p>
-<h3 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h3><p>锁整张表。适合读多写少，全表扫描或表结构更改的场景。InnoDB中无索引的 <code>update</code> 或 <code>delete</code> 可能会导致锁升级为表锁。</p>
-<ul>
-<li><p>意向锁<br>  表示事务打算对表中某些数据加锁，但不会直接锁定。比如在实行 <code>select for update</code> 操作时，会先在表上加一个意向锁，然后在目标行上加排他锁</p>
-<p>  该锁由 InnoDB 自动管理。当事务需要添加行锁时，会先在表上添加意向锁。这样当要添加表锁时，可以通过查看表上的意向锁，快速判断是否有冲突。</p>
-<p>  意向锁主要用于协同其他锁进行工作。避免为了添加表锁而不得不扫描全表的情况。而共享锁允许多个事务同时加从而读取同一数据。但排他锁和其他共享锁或排他锁均互斥。</p>
+                <h2 id="锁的类别"><a href="#锁的类别" class="headerlink" title="锁的类别"></a>锁的类别</h2><h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><p>锁整个数据库。适合全库备份等场景。</p>
+<h3 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h3><p>锁整张表。适合读多写少，全表扫描或表结构更改的场景。InnoDB 中无索引的 <code>update</code> 或 <code>delete</code> 可能会导致锁升级为表锁。</p>
+<h3 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h3><p>表示事务打算对表中某些数据加锁，但不会直接锁定。比如在实行 <code>select for update</code> 操作时，会先在表上加一个意向锁，然后在目标行上加排他锁。该锁由 InnoDB 自动管理。当事务需要添加行锁时，会先在表上添加意向锁。这样当要添加表锁时，可以通过查看表上的意向锁，快速判断是否有冲突。</p>
+<p>意向锁主要用于协同其他锁进行工作。避免为了添加表锁而不得不扫描全表的情况。而共享锁允许多个事务同时加从而读取同一数据。但排他锁和其他共享锁或排他锁均互斥。</p>
 <table>
 <thead>
 <tr>
@@ -332,8 +330,6 @@
 <td>是</td>
 </tr>
 </tbody></table>
-</li>
-</ul>
 <div class="note note-info">
             <p>还存在 SIX 这种“意向共享 + 排他锁”，用于“既要读整张表，又要修改某些行”，与其他的锁都互斥。</p>
           </div>
@@ -342,11 +338,11 @@
 <ul>
 <li><p>记录锁<br>  这是行锁最基本的表现形式，当我们使用唯一索引或主键索引进行等值查询时，MySQL会为该记录自动添加排他锁，禁止其他事务读取或修改锁定记录</p>
 </li>
-<li><p>间隙锁<br>  进行范围查询时，锁定记录间的“间隙”，防止其他事务在该范围内插入新纪录，防止幻读</p>
+<li><p>间隙锁<br>  进行范围查询时，锁定记录间的“间隙”（无数据的区间），防止其他事务在该范围内插入新纪录，防止幻读</p>
 <p>  在执行<code>for update</code> <code>lock in share mode</code>等加锁语句，且查询条件是范围查询时，就会自动加间隙锁</p>
 </li>
-<li><p>临键锁<br>  这是前两者的结合体，锁索引记录和索引记录之间的空隙</p>
-<p>  该锁的间隙是一个左开右闭区间。MySQL默认的行锁就是临键锁。</p>
+<li><p>临键锁<br>  这是前两者的结合体，锁索引记录和记录之间的空隙。</p>
+<p>  该锁的间隙是一个左闭右闭&#x3D;开区间。MySQL默认的行锁就是临键锁。</p>
 </li>
 </ul>
 <div class="note note-success">
@@ -376,10 +372,10 @@
 </ul>
 <h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><p>SQL标准定义了四种事务隔离级别，用来平衡事务的隔离性和并发性能</p>
 <ul>
-<li>读取未提交，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。</li>
-<li>读取已提交，允许读取已提交的数据。Oracle或SQL Server默认的隔离级别，可能导致幻读和不可重复读。</li>
-<li>可重复读，对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己修改。MySQL InnoDB 的默认隔离级别。</li>
-<li>可串行化，所有事务依次逐个执行，这样事务间就不会造成干扰。可以防止脏读、不可重复读和幻读。</li>
+<li>读取未提交，允许读取尚未提交的数据变更。</li>
+<li>读取已提交，允许读取已提交的数据。Oracle或SQL Server默认的隔离级别。</li>
+<li>可重复读，对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己修改。<strong>MySQL InnoDB 的默认隔离级别</strong>。</li>
+<li>可串行化，所有事务依次逐个执行，这样事务间就不会造成干扰。</li>
 </ul>
 <table>
 <thead>
@@ -422,13 +418,6 @@
 <li><strong>幻读</strong>，在同一个事务中，两次执行相同的条件查询，第二次查询看到了第一次查询没看到的新的“幻影”行。也就是说，在事务执行期间，有其他 已提交的事务插入了新的、满足查询条件的记录。</li>
 </ul>
 <p>不可重复读的重点在于修改了已有的行，幻读的重点在于新增了原本不存在的行。</p>
-<p>解决幻读的方法有很多，主要有以下三种</p>
-<ul>
-<li>将隔离级别设置为可串行化</li>
-<li>在可重复读的事务级别下给事务操作的这张表添加表锁</li>
-<li>在可重复读的事务级别下，给事务操作的这张表添加<code>Next-key Lock（Record Lock+Gap Lock）</code></li>
-</ul>
-<p>InnoDB通过MVCC机制可以在一定程度上避免幻读。</p>
 <div class="note note-info">
             <p>在可串行化调度中，多个事务的并发执行结果为这些事务按某种次序串行化执行的结果。要实现这个效果，就必须满足<strong>两段锁协议</strong> (2PL)</p><ol><li>获得封锁，在对任何数据进行读写操作前，事务首先要获得对该数据的封锁。</li><li>释放封锁，在释放一个封锁后，事务不再申请和获得任何其他封锁。</li></ol>
           </div>
@@ -439,46 +428,25 @@
             <p>读操作分为两种：当前读和快照读。</p><ul><li>快照读指事务在执行<code>select</code>查询时，InnoDB不会直接读取当前最新数据，而是根据事务开始时生成的快照去判断每条记录的可见性，从而读取符合条件的历史版本</li><li>当前读指事务在进行更新、插入和删除操作时，其本质上也要进行读操作。为了保证修改的是最新的数据，并防止并发冲突，InnoDB必须读取最新版本的数据并加锁。</li></ul>
           </div>
 
-<p>在InnoDB中，每一行数据都会自动添加几个隐藏的字段，对MVCC较为重要的有</p>
-<ul>
-<li><code>DB_TRX_ID</code> 事务id，表示最后一次修改本行数据的事务id</li>
-<li><code>DB_ROLL_PTR</code> 回滚指针，指向改行数据上一个历史版本在undo log中的地址。该指针不断往前指，形成一条<strong>版本链</strong>，用于支持快照读</li>
-<li><code>DB_ROW_ID</code> 行id，用于在没有主键时自动生成聚簇索引</li>
-</ul>
-<p>undo log 除了为回滚提供数据，还用于MVCC，存储数据的历史版本。每一行的<code>DB_ROLL_PTR</code>会直接指向其各个历史版本。</p>
-<p>一个<code>Read View</code>快照中主要包含以下内容</p>
-<ul>
-<li><code>m_ids</code> 生成快照时系统中所有活跃事务的事务id列表</li>
-<li><code>min_trx_id</code> <code>m_ids</code>中最小的事务id，小于这个id的均为可见</li>
-<li><code>max_trx_id</code> 生成快照时，系统应该分配给下一个事务的id</li>
-<li><code>creator_trx_id</code> 创建这个快照的事务id</li>
-</ul>
-<p>当事务需要读取一行数据时，它会从最新的版本开始，顺着版本链依次判断每个版本是否对自己可见</p>
-<ul>
-<li>若<code>DB_TRX_ID</code> &#x3D; <code>creator_trx_id</code>，说明这是当前事务自己修改的，可见</li>
-<li>若<code>DB_TRX_ID</code> &lt; <code>min_trx_id</code>，说明这个版本在快照创建前就已经提交了，可见</li>
-<li>若<code>DB_TRX_ID</code> &gt;&#x3D; <code>max_trx_id</code>，说明这个版本是在快照创建后才开启的事务修改，不可见</li>
-<li>若<code>min_trx_id</code> &lt; <code>DB_TRX_ID</code> &lt; <code>max_trx_id</code>，则需要判断<code>DB_TRX_ID</code>是否在<code>m_ids</code>（活跃事务列表）中。<ul>
-<li>在则说明该版本的事务在生成快照时还没有提交，不可见</li>
-<li>不再则说明修改该版本的事务在生成快照时已提交，可见</li>
-</ul>
-</li>
-<li>若某版本对当前事务不可见，则顺着版本链找到上一版本，重复上述判断规则，直到找到可见的版本为止</li>
-</ul>
 <p><img src="mysql-20240415094939.png" srcset="/img/loading.gif" lazyload alt="示意图"></p>
 <p>在不同的隔离级别下</p>
 <ul>
-<li>读已提交<br>  每一次执行<code>select</code>语句时，都会重新生成一个新的快照。因此它能读取到最新已提交的数据，避免了脏读，但无法避免不可重复读和幻读</li>
-<li>可重复读<br>  只有第一次执行<code>select</code>语句时才会生成一个快照，并且这个快照贯穿整个事务的始终。因此事务中后续的所有读操作都是在同一个快照下进行，避免了不一致问题</li>
+<li>读已提交<br>  每一次执行<code>select</code>语句时，都会重新生成一个新的快照。因此它能读取到最新已提交的数据，避免了脏读，但无法避免不可重复读。</li>
+<li>可重复读<br>  只有第一次执行<code>select</code>语句时才会生成一个快照，并且这个快照贯穿整个事务的始终。因此事务中后续的所有读操作都是在同一个快照下进行，避免了不一致问题。</li>
+<li>其他的级别不需要MVCC机制</li>
 </ul>
-<p>而其他的级别不需要MVCC机制</p>
 <div class="note note-info">
             <p>推荐观看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Hr421p7EK">https://www.bilibili.com/video/BV1Hr421p7EK</a></p>
           </div>
 
 <h3 id="MVRC"><a href="#MVRC" class="headerlink" title="MVRC"></a>MVRC</h3><p>Oracle 中使用的多版本控制工具。</p>
-<p>当修改一条数据时，Oracle 并不会立刻覆盖旧数据。相反，它会将数据修改前的原始值保存到<strong>回滚段</strong> (Undo Segment) 中，同时，数据行头会修改它的事务 ID。当另一个查询在修改后开始执行时，Oracle 进行判断，若数据行未修改则直接读取，若数据行已被其他事务修改但未提交，或是在查询开始后才提交，那么查询不会去读取这个数据，而是从回滚段中找出并重建出查询开始时刻该数据的正确版本。因此其默认隔离级别是读已提交。</p>
-<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><h3 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h3><p>可以对数据库的读写操作分散到不同的节点上，一个节点为主，负责写操作，多个从。负责读操作。应用层通过中间件（小型项目自己处理，中型项目通过spring+多数据源插件，AOP注解自动路由，大型项目通过中间件，如MyCat、Atlas、shardingsphere 或 MySQL Router）进行代理，自动路由请求。</p>
+<p>修改数据时，旧数据存入<strong>回滚段</strong>（Undo Segment），数据行头记录事务信息。<br>查询时：</p>
+<ul>
+<li>若数据未被修改，则直接读</li>
+<li>数据被修改且事务未提交 &#x2F; 在查询后提交 → 从回滚段重建历史版本</li>
+</ul>
+<p>因此 Oracle 默认隔离级别为读已提交。</p>
+<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><h3 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h3><p>可以对数据库的读写操作分散到不同的节点上，一个节点为主，负责写操作，多个从。负责读操作。应用层通过中间件（小型项目自己处理，中型项目通过spring + 多数据源插件，AOP 注解自动路由，大型项目通过中间件，如MyCat、Atlas、shardingsphere 或 MySQL Router）进行代理，自动路由请求。</p>
 <p>主库将数据变更通过binlog同步到从库，从而保证数据一致性。</p>
 <ol>
 <li>主库将数据库中数据的变化写入binlog</li>
@@ -500,7 +468,7 @@
 <li>水平分库，一个表按一定的规则拆分到不同的库中</li>
 <li>垂直分库，按照业务模块将不同的表拆分到不同的库中</li>
 </ul>
-<p>分表也可以垂直分表或垂直分表。其中水平分表一般和水平分库同时出现。往往在单表数据达到500万级，或者数据库占用空间过大时，就可以考虑水平分表了。</p>
+<p>分表也可以垂直分表或水平分表。其中水平分表一般在单表数据达到500万级，或者数据库占用空间过大时，就可以考虑。</p>
 <p>数据的分片有以下几种方案</p>
 <ul>
 <li>哈希分片：求指定分片键的哈希，然后根据哈希值确定数据应该被放置在哪个表中<br>  适合随机读写的场景，但对动态伸缩（动态新增表或库）不友好</li>

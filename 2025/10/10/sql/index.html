@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ivanclf.github.io/2025/10/10/sql/join.jpg">
 <meta property="article:published_time" content="2025-10-10T12:13:26.000Z">
-<meta property="article:modified_time" content="2026-03-03T06:05:26.201Z">
+<meta property="article:modified_time" content="2026-03-20T03:53:11.377Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="SQL">
@@ -298,7 +298,7 @@
             <p>SQL和NoSQL有什么区别？</p><table><thead><tr><th></th><th>SQL</th><th>NoSQL</th></tr></thead><tbody><tr><td>数据存储类型</td><td>结构化存储，具有固定行和列的表格</td><td>非结构化存储。文档：JSON 文档，键值：键值对，宽列：包含行和动态列的表，图：节点和边</td></tr><tr><td>例子</td><td>Oracle、MySQL、Microsoft SQL Server、PostgreSQL</td><td>文档：MongoDB、CouchDB，<br>键值：Redis、DynamoDB，<br>宽列：Cassandra、 HBase，<br>图表：Neo4j、 Amazon Neptune、Giraph</td></tr><tr><td>ACID 属性</td><td>提供原子性、一致性、隔离性和持久性 (ACID) 属性</td><td>通常不支持 ACID 事务，为了可扩展、高性能进行了权衡，少部分支持比如 MongoDB</td></tr><tr><td>性能</td><td>性能通常取决于磁盘子系统。要获得最佳性能，通常需要优化查询、索引和表结构</td><td>性能通常由底层硬件集群大小、网络延迟以及调用应用程序来决定</td></tr><tr><td>扩展</td><td>垂直（使用性能更强大的服务器进行扩展）、读写分离、分库分表</td><td>横向（增加服务器的方式横向扩展，通常是基于分片机制）</td></tr></tbody></table>
           </div>
 
-<h2 id="数据库概念"><a href="#数据库概念" class="headerlink" title="数据库概念"></a>数据库概念</h2><p>数据库的<strong>数据模型</strong>包括<strong>概念模型</strong>和<strong>逻辑模型&#x2F;物理模型</strong>。前者按用户的观点建模，用于数据库设计，如 E-R 模型；后者按计算机的观点建模，用于 DBMS 的实现。</p>
+<h2 id="数据库概念"><a href="#数据库概念" class="headerlink" title="数据库概念"></a>数据库概念</h2><p>数据库的<strong>数据模型</strong>包括<strong>概念模型</strong>和<strong>逻辑模型&#x2F;物理模型</strong>。前者按用户的视角建模，用于数据库设计，如 E-R 模型；后者按计算机的视角建模，用于 DBMS 的实现。</p>
 <p>数据模型的组成要素为<strong>数据结构</strong>、<strong>数据操作</strong>和<strong>完整性约束条件</strong>。</p>
 <p>数据库的三层模式结构分为模式、内模式、外模式</p>
 <ul>
@@ -306,7 +306,7 @@
 <li>模式，全体数据的全局逻辑约束，即属性、数据类型、约束等等。一个数据库只有一个模式。</li>
 <li>外模式，用户或应用程序看到的数据逻辑结构。一个数据库可以有多个外模式。</li>
 </ul>
-<p>数据库的完整性是指数据的正确性和相容性。正确性是指符合现实世界的语义，相容性是指同一对象在不同表中的数据符合逻辑。完整性需要满足以下三大完整性</p>
+<p>数据库的完整性是指数据的<strong>正确性</strong>和<strong>相容性</strong>。正确性是指符合现实世界的语义，相容性是指同一对象在不同表中的数据符合逻辑。完整性需要满足以下三大完整性</p>
 <ul>
 <li>实体完整性：主码唯一且非空。</li>
 <li>参照完整性：外码的约束。</li>
@@ -316,8 +316,8 @@
 <p>嵌入式 SQL 与主语言在进行通信时，涉及以下概念</p>
 <ul>
 <li>SQL 通信区<br>  SQL 语句执行后的执行状态信息将送到 SQL 通信区中，应用程序从中取出这些消息。</li>
-<li>主变量<br>  SQL 语句中使用的主语言程序变量成为主变量，即 SQL 使用主语言的变量。</li>
-<li>游标<br>  SQL 是面向集合的，一条 SQL 语句可以产生或处理多条记录，而主语言是面向记录的，一组变量一次只能存放一条记录，因此引入游标来协调这两种不同的处理方式。</li>
+<li>主变量<br>  在 SQL 语句中引用的主语言变量，用于实现数据传递。</li>
+<li>游标<br>  SQL 是面向集合的，一条 SQL 语句可以产生或处理多条记录，而主语言是面向记录的，一组变量一次只能存放一条记录，游标用于协调二者处理方式，实现逐条访问结果集。</li>
 </ul>
 <h2 id="数据库范式"><a href="#数据库范式" class="headerlink" title="数据库范式"></a>数据库范式</h2><h3 id="第一范式"><a href="#第一范式" class="headerlink" title="第一范式"></a>第一范式</h3><p>如果其元素被视为不可分割的单元，则该<strong>域</strong>具有<strong>原子性</strong>。</p>
 <p>若关系模式 $R$ 中的所有属性都是原子的，则 $R$ 满足<strong>第一范式</strong>。</p>
@@ -331,7 +331,7 @@
 <li>不依赖候选键</li>
 </ul>
 <div class="note note-info">
-            <p>候选键是潜在的主键的集合。一个表可以有多个候选键，但只能有一个主键。</p>
+            <p>候选键是潜在的主键的属性集合。一个表可以有多个候选键，但只能有一个主键。</p>
           </div>
 
 <h3 id="BC-范式-BCNF"><a href="#BC-范式-BCNF" class="headerlink" title="BC 范式 (BCNF)"></a>BC 范式 (BCNF)</h3><p>关系依赖 $R$ 满足 BC 范式，若其函数依赖超集 $F^+$ 所有形如 $\alpha \rightarrow \beta$ 的依赖均满足以下任一条件</p>
@@ -364,44 +364,40 @@
 <p>或者</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">distinct</span> r.student<br><span class="hljs-keyword">from</span> R r<br><span class="hljs-keyword">where</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">exists</span> (<br>    <span class="hljs-keyword">select</span> <span class="hljs-number">1</span><br>    <span class="hljs-keyword">from</span> S s<br>    <span class="hljs-keyword">where</span> (r.student, s.course) <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> (<br>        <span class="hljs-keyword">select</span> r2.student, r2.course<br>        <span class="hljs-keyword">from</span> R r2<br>    )<br>)<br></code></pre></td></tr></table></figure>
 
-<h2 id="基本数据类型指北"><a href="#基本数据类型指北" class="headerlink" title="基本数据类型指北"></a>基本数据类型指北</h2><ul>
-<li><p><code>varchar</code>和<code>char</code>的区别在于，<code>varchar</code>是可变长度的字符类型，最长不会超过声明的大小。原则上最多可以容纳65535个字符（但MySQL需要1到2个字节来表示字符串长度）。但<code>char</code>字段无论存储的字符长度是多少，都会占用声明的长度。<br>  不过，当<code>varchar</code>类型在指定大小较大时，会消耗更多的内存，因为<code>varchar</code>类型在内存中操作时，通常会分配固定大小的内存块来保存值。</p>
+<h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><ul>
+<li><p><code>varchar</code>和<code>char</code>的区别在于，<code>varchar</code>是可变长度字符类型，最长不会超过声明的大小。原则上最多可以容纳65535个字符（但MySQL需要1到2个字节来表示字符串长度）。但<code>char</code>字段无论存储的字符长度是多少，都会占用声明的长度。<br>  不过，当<code>varchar</code>类型在指定大小较大时，会消耗更多的内存，因为<code>varchar</code>类型在内存中操作时，通常会分配固定大小的内存块来保存值。</p>
 </li>
-<li><p><code>varchar</code> 的最大长度视具体数据库而定。MySQL 中所有列共享 6555 字节，在 UTF8M64 下为 16383 字符；PostgreSQL 中可不指定长度，通常由行最大大小（8kB）限制；SQL Server 中 <code>varchar(n)</code> 最大为 8000字符；Oracle 中最大为 4000 字节。</p>
+<li><p><code>varchar</code> 的最大长度视具体数据库而定。MySQL 中所有列共享 65535 字节，在 UTF8M64 下为 16383 字符；PostgreSQL 中可不指定长度，通常由行最大大小（8kB）限制；SQL Server 中 <code>varchar(n)</code> 最大为 8000字符；Oracle 中最大为 4000 字节。</p>
 </li>
-<li><p><code>blob</code>和<code>text</code>的区别在于，<code>blob</code>用于存储二进制数据，因此基本所有数据都能存，但存多媒体更好。然而市面上更多人会把文件存到OSS上，然后在数据库中存URL。而<code>text</code>用于存储文本数据，但目前<code>text</code>因为不能有默认值，检索效率较低等缺点，目前也不常用。</p>
+<li><p><code>blob</code>和<code>text</code>的区别在于，<code>blob</code>用于存储二进制数据，但实际开发中通常将文件存储至 OSS &#x2F; 对象存储，仅在数据库保存文件 URL。而<code>text</code>用于存储文本数据，但<code>text</code>无默认值，检索效率较低，目前也不常用。</p>
 </li>
 <li><p><code>datetime</code>和<code>timestamp</code>的区别在于，一个直接放日期和时间的完整值，和时区无关，占8个字节；而另一个放时间戳，占4个字节，实际开发更常用。</p>
 </li>
-<li><p><code>null</code>和<code>&#39;&#39;</code>是两个不同的值，一个表示值未确定，而另一个表示空字符串。<br>  任何值和<code>null</code>进行比较的结果都是<code>null</code>。<br>  要判断一个值是不是<code>null</code>，必须使用<code>is null</code>或<code>is not null</code>。<br>  大多数聚合函数会忽略<code>null</code>值。</p>
+<li><p><code>null</code>和<code>&#39;&#39;</code>是两个不同的值，一个表示值未确定，而另一个表示空字符串。<br>  任何值和<code>null</code>进行比较的结果都是<code>null</code>。<br>  要判断一个值是不是<code>null</code>，必须使用<code>is null</code>或<code>is not null</code>。<br>  大多数聚合函数会忽略<code>null</code>值。<br>  筛选包含有 null 的数据，必须显式使用 <code>is null</code> 进行筛选，否则不会选到。</p>
 </li>
-<li><p>若需要包含有 null 的数据，需要加上 <code>is null</code> 进行筛选，否则不会选到。</p>
-</li>
-<li><p>MySQL中没有专门的布尔类型，一般使用<code>tinyint(1)</code>表示布尔值。</p>
+<li><p>MySQL中没有专门的布尔类型，一般使用<code>tinyint(1)</code>替代。</p>
 </li>
 </ul>
-<h2 id="关键字指北"><a href="#关键字指北" class="headerlink" title="关键字指北"></a>关键字指北</h2><p><img src="join.jpg" srcset="/img/loading.gif" lazyload alt="提到数据库基础就必须要放的join图"></p>
+<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><p><img src="join.jpg" srcset="/img/loading.gif" lazyload alt="提到数据库基础就必须要放的join图"></p>
 <ul>
-<li><p><code>left join</code> 在遇到没有的数据时会置 null，而 <code>inner join</code> 在遇到没有的数据会不合并。最后查询时，前者会返回 null，后者不返回结果。</p>
+<li><p><code>left join</code> 在遇到没有的数据时会置 null，最终返回左表所有行，而 <code>inner join</code> 在遇到没有的数据会不合并。</p>
 </li>
-<li><p><code>drop</code>，<code>delete</code>，<code>truncate</code>的区别在于，<code>drop</code>直接把整个表删除掉，<code>truncate</code>只是清空表中的数据而不改变表的结构，同时自增id也重新开始，<code>delete</code>删除某一行的数据，不加<code>where</code>字句时和<code>truncate</code>类似，不改变表的结构。同时，<code>truncate</code>和<code>drop</code>直接对整张表进行操作，因此原数据不能回滚，也不会触发trigger。</p>
+<li><p><code>drop</code>，<code>delete</code>，<code>truncate</code>的区别在于<br>  <code>drop</code>直接把整个表删除掉<br>  <code>truncate</code>只是清空表中的数据而不改变表的结构，同时自增id也重新开始<br>  <code>delete</code>删除某一行的数据，不加<code>where</code>字句时和<code>truncate</code>类似，不改变表的结构。<br>  <code>truncate</code>和<code>drop</code>直接对整张表进行操作，因此原数据不能回滚，也不会触发trigger。</p>
 </li>
-<li><p><code>in</code>和<code>exists</code>的区别在于，在使用<code>in</code>时，MySQL会首先执行子查询，然后将结果集用于外部查询的条件，适用于结果集较小的情况；<code>exists</code>会对外部查询的每一行执行一次子查询，若子查询返回任何行则<code>exists</code>条件为真，适用于结果集可能很大的情况。<br>  还有，<code>in</code>可能会受到null值陷的影响，产生意外结果，而<code>exists</code>完全不受影响。</p>
+<li><p><code>in</code>和<code>exists</code>的区别在于<br>  在使用<code>in</code>时，MySQL会首先执行子查询，然后将结果集用于外部查询的条件，适用于结果集较小的情况<br>  <code>exists</code>会对外部查询的每一行执行一次子查询，若子查询返回任何行则<code>exists</code>条件为真，适用于结果集可能很大的情况。<br>  还有，<code>in</code>可能会受到null值陷阱的影响，产生意外结果，而<code>exists</code>完全不受影响。</p>
 </li>
-<li><p><code>union</code>，<code>union all</code>，<code>join</code>的区别在于，<code>union</code>和<code>union all</code>都是垂直合并，用于合并多个<code>select</code>语句的结果集，但前者会自动去重，后者不去重，而<code>join</code>为列合并，基于某个条件将多个表的列组合到一起。</p>
+<li><p><code>union</code>，<code>union all</code>，<code>join</code>的区别在于，<code>union</code>和<code>union all</code>都是垂直合并，用于合并多个<code>select</code>语句的结果集，但前者会自动去重（但性能很低），后者不去重，而<code>join</code>为列合并，基于某个条件将多个表的列组合到一起。</p>
 </li>
-<li><p>交并非的操作在不同数据库中的支持不同，非操作在 Oracle 中叫 <code>minus</code>。交操作一般是 <code>intersect</code>，非操作为 <code>except</code>。</p>
+<li><p>交并非的操作在不同数据库中的支持不同，非操作在 Oracle 中叫 <code>minus</code>，MySQL &#x2F; SQL Server 叫 <code>except</code>。交操作一般是 <code>intersect</code>。</p>
 </li>
 <li><p><code>like</code>操作符用于确定字符串是否匹配模式，支持两个通配符选项：<code>%</code>和<code>_</code><br>  <code>%</code>表示任何字符出现任意次数<br>  <code>_</code>表示任何字符出现一次</p>
   <div class="note note-info">
-            <p>比如，<code>___</code>匹配有3个字母的字符串；<code>___%</code> 匹配至少有3个字母的字符串。</p>
+            <p>比如，<code>___</code>匹配有3个字母的字符串；<code>___%</code> 匹配至少有3个字母的字符串。</p><p>匹配通配符本身需要转义，MySQL 中用 <code>\</code>，SQL Server 中用 <code>[]</code>。</p>
           </div>
-</li>
-<li><p>然而，需要指定字符的，需要通过 <code>\</code> 或者 <code>\\</code> 转义，具体哪个需要看数据库类型和版本。</p>
 </li>
 <li><p>事务管理不对<code>select</code>操作生效，不能回退<code>create</code>和<code>drop</code>语句。</p>
 </li>
-<li><p>使用<code>start transaction</code>开启事务，<code>commit</code>提交事务，<code>savepoint</code>创建保留点，<code>rollback to</code>用于回滚到某个保留点（没有设置则回滚到<code>start transaction</code>）。</p>
+<li><p>使用<code>start transaction</code>开启事务，<code>commit</code>提交事务，<code>savepoint</code>创建保留点，<code>rollback to</code>用于回滚到某个保留点（没有设置则回滚到事务起点）。</p>
 </li>
 <li><p><code>where</code> 字句在分组前过滤，<code>having</code> 在分组后过滤。</p>
 </li>
@@ -473,7 +469,7 @@
 </tr>
 <tr>
 <td><code>type</code></td>
-<td>连接类型或访问类型。是衡量查询效率的关键指标<br>从好到坏大致是<br><code>system</code>&gt;<code>count</code>&gt;<code>eq_ref</code>&gt;<code>ref</code>&gt;<code>range</code>&gt;<code>index</code>&gt;<code>all</code><br>达到<code>const</code> <code>eq_ref</code> <code>ref</code>的推荐情况；范围查询下，使用<code>range</code>也可以接受。如果是<code>all</code>，则需要进行优化</td>
+<td>连接类型或访问类型。是衡量查询效率的关键指标<br>从好到坏大致是<br><code>system</code>&gt;<code>const</code>&gt;<code>eq_ref</code>&gt;<code>ref</code>&gt;<code>range</code>&gt;<code>index</code>&gt;<code>all</code><br>达到<code>const</code> <code>eq_ref</code> <code>ref</code>的为优；范围查询下，使用<code>range</code>也可以接受。如果是<code>all</code>，则需要进行优化</td>
 </tr>
 <tr>
 <td><code>possible_keys</code></td>
@@ -501,7 +497,7 @@
 </li>
 <li><p><code>grant</code> 关键字用于给予权限、<code>revoke</code> 关键字用于删除权限。</p>
 </li>
-<li><p>窗口函数用于在排名的同时显示其明细，这在传统的 sql 语句中往往非常复杂。其格式为</p>
+<li><p>窗口函数：在保留明细数据的同时完成排名 &#x2F; 聚合计算，这在传统的 sql 语句中往往非常复杂。其格式为</p>
   <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-operator">&lt;</span>窗口函数<span class="hljs-operator">&gt;</span>(表达式)<br><span class="hljs-keyword">over</span> (<br>    <span class="hljs-keyword">partition</span> <span class="hljs-keyword">by</span> 分组字段<br>    <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> 排序字段<br>)<br></code></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>MySQL常用函数如下</p>

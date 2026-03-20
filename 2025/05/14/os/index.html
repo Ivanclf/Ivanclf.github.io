@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://ivanclf.github.io/2025/05/14/os/2-43.png">
 <meta property="og:image" content="https://ivanclf.github.io/2025/05/14/os/2-45.png">
 <meta property="article:published_time" content="2025-05-14T04:09:46.000Z">
-<meta property="article:modified_time" content="2026-03-17T01:31:40.179Z">
+<meta property="article:modified_time" content="2026-03-20T07:02:25.850Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="日常">
@@ -315,7 +315,8 @@
 <h4 id="Virtual-Machines"><a href="#Virtual-Machines" class="headerlink" title="Virtual Machines"></a>Virtual Machines</h4><p><img src="1-28.png" srcset="/img/loading.gif" lazyload alt="One possible structure of VM"></p>
 <p>The heart of the system, known as the virtual machine monitor, runs on the bare hardware and does the multiprogramming, providing not one, but several virtual machines to the next layer up.</p>
 <h3 id="System-Calls"><a href="#System-Calls" class="headerlink" title="System Calls"></a>System Calls</h3><p>The system calls available in the interface vary from one operating system to another. Usually we would use system calls open() (open a file), read() (read a file), write() (write a file), fork() (create a process), exit() (kill a process), and so on.</p>
-<p>Processes in UNIX have their memory divided up into three segments: the <strong>text segment</strong> (i.e., the program code), the <strong>data segment</strong> (i.e., the variables), and the <strong>stack segment</strong>. The data segment grows upward and the stack grows downward.</p>
+<p>Processes in UNIX have their memory divided into three segments: the <strong>text segment</strong> (i.e., the program code), the <strong>data segment</strong> (i.e., the variables), and the <strong>stack segment</strong>. The data segment grows upward and the stack grows downward.</p>
+<p><em>在 UNIX 中进程被分为三段：<strong>代码段</strong>、<strong>数据段</strong>和<strong>栈段</strong>。数据段往上涨而栈往下探。</em></p>
 <p>The global variables contain in the data segment, while the local variables contain in the stack segment.</p>
 <p><img src="1-20.png" srcset="/img/loading.gif" lazyload alt="A process shown inIntel CPU"></p>
 <p>In Intel CPU, biggest address is the bottom of stack, so decline pointer means push something in stack.</p>

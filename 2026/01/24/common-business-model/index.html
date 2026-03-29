@@ -27,7 +27,7 @@
 <meta property="og:description" content="OAuth 2传统的账密登录需要用户记住天量的账号密码，很不方便，而且对 SSO 的支持很不友好。其解决方案是 OAuth2 协议，即通过跨应用的授权层协议，实现对账户的精细化管理。  用户在授权服务器完成身份认证（可使用传统账密、免密、生物识别等任何方式）。 用户明确授权第三方应用获取「有限权限」（如仅获取昵称头像、仅读取相册、不可修改数据）。 第三方应用仅能拿到对应权限的令牌，只能访问用户授权">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-24T04:48:49.000Z">
-<meta property="article:modified_time" content="2026-03-18T08:17:17.950Z">
+<meta property="article:modified_time" content="2026-03-20T14:51:47.944Z">
 <meta property="article:author" content="Ivan Chan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary_large_image">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.3k 字
         
       </span>
     
@@ -290,7 +290,33 @@
 <li>第三方应用仅能拿到对应权限的令牌，只能访问用户授权的资源，且全程无需获取用户的账密。</li>
 <li>资源服务器仅对「有对应权限的令牌」提供服务。</li>
 </ol>
-<h3 id="向第三方要授权"><a href="#向第三方要授权" class="headerlink" title="向第三方要授权"></a>向第三方要授权</h3><p>其实现首先需要实现一个可以跳转其他页面的实现接口。用于发起 OAuth2 授权请求。</p>
+<h3 id="向第三方要授权"><a href="#向第三方要授权" class="headerlink" title="向第三方要授权"></a>向第三方要授权</h3><p>整体流程如下</p>
+<pre><code class=" mermaid">sequenceDiagram
+    participant User as 用户
+    participant Client as 客户端服务
+    participant AuthServer as 授权服务器
+    participant Redis as Redis
+    participant SSOPage as SSO登录页面
+
+    Note over User,AuthServer: 授权码获取阶段
+    User-&gt;&gt;Client: 访问客户端授权接口 /oauth2/authorize
+    Client-&gt;&gt;Client: 拼接授权URL（client_id、redirect_uri、response_type=code等）
+    Client-&gt;&gt;User: 重定向到授权服务器授权页面
+    User-&gt;&gt;AuthServer: 完成授权操作
+    AuthServer-&gt;&gt;Client: 重定向到回调接口 /oauth2/callback，携带授权码code
+    Note over Client,AuthServer: 访问令牌获取阶段
+    Client-&gt;&gt;AuthServer: 携带code、client_id、client_secret等请求access_token
+    AuthServer-&gt;&gt;Client: 返回access_token、uid等信息
+    alt 用户ID字段非默认&quot;uid&quot;
+        Client-&gt;&gt;AuthServer: 携带access_token请求用户信息
+        AuthServer-&gt;&gt;Client: 返回用户信息，提取正确的用户ID
+    end
+    Client-&gt;&gt;Redis: 将access_token存入Redis，过期时间6小时
+    Client-&gt;&gt;User: 重定向到SSO登录页面，携带access_token、userId等参数
+    User-&gt;&gt;SSOPage: 访问SSO登录页面（已携带token信息）
+</code></pre>
+
+<p>其实现首先需要实现一个可以跳转其他页面的实现接口。用于发起 OAuth2 授权请求。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/oauth2/authorize&quot;)</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">authorize</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> oauth2Properties.getAuthorizeUrl() +<br>        <span class="hljs-string">&quot;?redirect_uri=&quot;</span> + oauth2Properties.getRedirectUrl() +<br>        <span class="hljs-string">&quot;&amp;state=123&amp;client_id=&quot;</span> + oauth2Properties.getClientId() +<br>        <span class="hljs-string">&quot;&amp;response_type=code&quot;</span>;<br>    log.info(<span class="hljs-string">&quot;授权url:&#123;&#125;&quot;</span>, url);<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;redirect:&quot;</span> + url;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>然后实现一个回调接口，用于在授权成功后，通过授权码 code 获取访问令牌，并提取 token 和用户相关信息，然后将用户的令牌放 redis 上放 6 小时，最后重定向到 SSO 登录页面。</p>

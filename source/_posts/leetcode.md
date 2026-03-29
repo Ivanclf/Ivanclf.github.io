@@ -242,7 +242,7 @@ class Solution {
 
 {% endnote %}
 
-#### 乘最多水的容器
+#### **乘最多水的容器**
 
 给定一个长度为 `n` 的整数数组 `height` 。有 `n` 条垂线，第 `i` 条线的两个端点是 `(i, 0)` 和 `(i, height[i])` 。
 找出其中的两条线，使得它们与 `x` 轴共同构成的容器可以容纳最多的水。
@@ -263,15 +263,15 @@ class Solution {
         while(left != right) {
             area = Math.min(height[left], height[right]) * (right - left);
             maxArea = Math.max(maxArea, area);
-            if (height[left] > height[right]) right -= 1;
-            else left += 1;
+            if (height[left] > height[right]) right--;
+            else left++;
         }
         return maxArea;
     }
 }
 ```
 
-#### 三数之和
+#### **三数之和**
 
 给你一个整数数组 `nums` ，判断是否存在三元组 `[nums[i], nums[j], nums[k]]` 满足 `i != j`、`i != k` 且 `j != k` ，同时还满足 `nums[i] + nums[j] + nums[k] == 0` 。请你返回所有和为 `0` 且不重复的三元组。
 注意：答案中不可以包含重复的三元组。
@@ -302,50 +302,44 @@ for(int i = 0; i < nums.size(); ++i)
                         }
 ```
 
-复杂度为$O(n^3)$。
-我们注意到，当我们固定了`i`，并且找到了`j` `k`以满足`i + j + k = 0`后，再次寻找则只会是`j' > j`，因此必有`k' < k`，于是我们可以保持第二重循环不变，将第三重循环变成一个从右向左移动的指针。
-
-```cpp
-nums.sort()
-for(int i = 0; i < nums.size(); ++i)
-    if(!i || nums[i] != nums[i - 1])
-    {
-        int k = nums.size() - 1;
-        for(int j = i + i; j < nums.size(); ++j)
-            if(j = i + 1 || nums[j] != nums[j - 1])
-            {
-                while(nums[i] + nums[j] + nums[k--] > 0 && j != k);
-                if(nums[i] + nums[j] + nums[k] == 0)
-                {
-                    ...
-                }
-            }
-    }
-```
-
-于是复杂度可以降到$O(n^2)$。
+复杂度为 $O(n^3)$。
+我们注意到，当我们固定了`i`，并且找到了`j` `k`以满足`i + j + k = 0`后，再次寻找则只会是`j' > j`，因此必有`k' < k`，于是我们可以保持第二重循环不变，将第三重循环变成一个从右向左移动的指针。于是复杂度可以降到 $O(n^2)$。
 完整的Java代码如下
 
 ```java
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
-        int length = nums.length, k;
-        Set<List<Integer>> set = new HashSet<>();
-        for(int i = 0; i < length; ++i) {
+        int length = nums.length, j, k, sum;
+        List<List<Integer>> list = new ArrayList<>();
+        for(int i = 0; i < length - 2; ++i) {
             if(i == 0 || nums[i] != nums[i - 1]) {
+                j = i + 1;
                 k = length - 1;
-                for(int j = i + 1; j < length; ++j)
-                    if(j == i + 1 || nums[j] != nums[j - 1]) {
-                        while(j < k && nums[i] + nums[j] + nums[k] > 0) --k;
-                        if(j == k) break;
-                        if(nums[i] + nums[j] + nums[k] == 0) {
-                            set.add(new ArrayList<>(Arrays.asList(nums[i], nums[j], nums[k])));
+                while(j < k) {
+                    sum = nums[i] + nums[j] + nums[k];
+                    if(s > 0) {
+                        k--;
+                    } else if(s < 0) {
+                        j++;
+                    } else {
+                        List<Integer> ans = new ArrayList<>();
+                        ans.add(nums[i]);
+                        ans.add(nums[j]);
+                        ans.add(nums[k]);
+                        set.add(ans);
+
+                        while(j < k && nums[j] == nums[j - 1]) {
+                            j++;
+                        }
+                        while(j < k && nums[k] == nums[k + 1]) {
+                            k--;
                         }
                     }
+                }
             }
         }
-        return new ArrayList<>(set);
+        return list;
     }
 }
 ```
@@ -424,6 +418,8 @@ class Solution {
 ##### 解法三：双指针
 
 维护两个指针`left`和`right`，及对应的最大值。让这两个指针不断靠拢，同时更新最大值。
+
+如果左边最大值小于右边最大值, 那么左边木桶的容量就知道了. 因为右边最大值不可能再变小, 只会变得更大, 但此处接雨水大小其实还是受左边的短板影响. 所以就去算左边的; 反之算右边的.
 
 ```java
 class Solution {

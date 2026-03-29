@@ -9,7 +9,7 @@ category: leetcode
 
 #### 二叉树中序遍历
 
-无需多言
+递归
 
 ```java
 class Solution {
@@ -25,8 +25,7 @@ class Solution {
 }
 ```
 
-{% note primary %}
-接下来提供迭代做法。由于递归实质上也是在维护一个栈（拿内存当栈用），因此迭代可以将这个栈显示出来
+迭代. 存储一个栈。栈每次固定弹出一个。在此题中，放入的条件为先放入左子树，读取栈数据，再放入其右子树。
 
 ```java
 class Solution {
@@ -47,10 +46,6 @@ class Solution {
 }
 ```
 
-存储一个栈。栈每次固定弹出一个。在此题中，放入的条件为先放入左子树，读取栈数据，再放入其右子树。
-
-{% endnote %}
-
 #### 二叉树的最大深度
 
 也无需多言
@@ -63,8 +58,7 @@ class Solution {
 }
 ```
 
-{% note primary %}
-递归更多是使用dfs的思想，也可以使用bfs来解决。
+也可以做一遍[层序遍历](#二叉树层序遍历)
 
 ```java
 class Solution {
@@ -91,9 +85,6 @@ class Solution {
 }
 ```
 
-使用bfs时，队列里存放的是当前层的所有节点，每次拓展下一层时，bfs算法每次从队列中拿出一个节点并遍历出其左右节点。而在此题中需要把队列中的所有节点都拿来拓展
-
-{% endnote %}
 
 #### 翻转二叉树
 
@@ -130,12 +121,7 @@ class Solution {
     输入：`root = [1,2,2,3,4,4,3]`
     输出：`true`
 
-依然可以使用递归。难点在于互为镜像的条件。本题中镜像条件如下
-
-- 对应的两个根结点具有相同的值
-- 每个右子树都与另一个左子树镜像对称
-
-因此可以实现这样一个递归函数，通过“同步移动”两个指针的方法来遍历这棵树。当一个左移时另一个右移，反之亦然。每次检查两个值是否相等，若相等再判断两个子树是否对称。
+要查看这棵树是不是对称的二叉树, 就要看其左边的左子树和右边的右子树是否对称. 因此可以不断递归.
 
 ```java
 class Solution {
@@ -153,7 +139,6 @@ class Solution {
 }
 ```
 
-{% note primary %}
 使用迭代时，需要把根节点入队两个并提取两个节点，最后比较他们的值。然后将两个节点的左右子节点按相反的顺序插入队列中。
 
 ```java
@@ -184,8 +169,6 @@ class Solution {
     }
 }
 ```
-
-{% endnote %}
 
 #### 二叉树的直径
 
@@ -315,39 +298,16 @@ class Solution {
 }
 ```
 
-#### 验证二叉搜索树
+#### **验证二叉搜索树**
 
 给你一个二叉树的根节点 `root` ，判断其是否是一个有效的二叉搜索树。
 示例略
 
-{% note info %}
-观察到BST的中序遍历是升序排列，因此只要比较中序遍历出来的数组是否满足升序排列就行。但该方法还不是最快。
+[参考视频](https://www.bilibili.com/video/BV14G411P7C1)
 
-```java
-class Solution {
-    public boolean isValidBST(TreeNode root) {
-        Deque<TreeNode> stack = new LinkedList<>();
-        Integer history = null, now;
-        while(root != null || !stack.isEmpty()) {
-            while(root != null) {
-                stack.push(root);
-                root = root.left;
-            }
-            root = stack.pop();
-            now = root.val;
-            if(history != null && now <= history)
-                return false;
-            history = now;
-            root = root.right;
-        }
-        return true;
-    }
-}
-```
+##### 前序遍历
 
-{% endnote %}
-
-依然可以使用递归来做
+每一次到达非叶子节点时, 就更新一次节点理应存在的节点值. 对于根节点而言, 其范围为 $(-\infty,\infty)$. 每次往左子树遍历时更新右上限, 往右子树遍历时更新左下限. 如果该节点的值超过了区间的范围, 那么这棵树就不是二叉搜索树.
 
 ```java
 class Solution {
@@ -355,44 +315,71 @@ class Solution {
         return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    public boolean isValidBST(TreeNode node, long lower, long upper) {
-        if (node == null)
+    private boolean isValidBST(TreeNode node, long left, long right) {
+        if (node == null) {
             return true;
-        if (node.val <= lower || node.val >= upper)
-            return false;
-        return isValidBST(node.left, lower, node.val) && isValidBST(node.right, node.val, upper);
+        }
+        long x = node.val;
+        return left < x && x < right &&
+               isValidBST(node.left, left, x) &&
+               isValidBST(node.right, x, right);
     }
 }
 ```
 
-{% note success %}
+##### 中序遍历
+
+不难发现二叉搜索树的中序遍历就是递增数组, 因此将其中序遍历一遍, 看其单调性就是结果. 以下是官解的做法. 其实此处的栈略显多余, 往方法外定义好存储前一个数的变量就好.
 
 ```java
-public boolean isValidBST(TreeNode root) {
-    if(root.left == null && root.right == null)
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        double inorder = -Double.MAX_VALUE;
+
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+              // 如果中序遍历得到的节点的值小于等于前一个 inorder，说明不是二叉搜索树
+            if (root.val <= inorder) {
+                return false;
+            }
+            inorder = root.val;
+            root = root.right;
+        }
         return true;
-    else if(root.right == null)
-        return root.left.val < root.val && isValidBST(root.left);
-    else if(root.left == null)
-        return root.right.val > root.val && isValidBST(root.right);
-    else
-        return root.left.val < root.val && root.right.val > root.val && isValidBST(root.left) && isValidBST(root.right);
+    }
 }
 ```
 
-我写的递归和这个递归的思路是一致的：BST的子树也会是BST。但是我的会因为这种情况而判错
+##### 后序遍历
 
-```mermaid
-graph TD
-5-->4
-5-->6-->3
-6-->7
+此处的思路和前序遍历是一致的. 只是赋值为 $(-\infty,\infty)$ 的节点从根节点变成了叶子节点. dfs 用于返回子树的最小值和最大值.
+
+```java
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return dfs(root)[1] != Long.MAX_VALUE;
+    }
+
+    private long[] dfs(TreeNode node) {
+        if (node == null) {
+            return new long[]{Long.MAX_VALUE, Long.MIN_VALUE};
+        }
+        long[] left = dfs(node.left);
+        long[] right = dfs(node.right);
+        long x = node.val;
+        // 也可以在递归完左子树之后立刻判断，如果发现不是二叉搜索树，就不用递归右子树了
+        if (x <= left[1] || x >= right[0]) {
+            return new long[]{Long.MIN_VALUE, Long.MAX_VALUE};
+        }
+        return new long[]{Math.min(left[0], x), Math.max(right[1], x)};
+    }
+}
 ```
-
-这里增加了上下界判断条件，通过根节点的值为条件不断添加上下界。
-{% endnote %}
-
-当然迭代也是可以的，这里不写了。思路和蓝色注释部分是一样的。
 
 #### 二叉搜索树中第K小的元素
 
@@ -435,39 +422,6 @@ class Solution {
 ![示例](tmpd5jn43fs-1.png)
     输入：`root = [1,2,3,null,5,null,4]`
     输出：`[1,3,4]`
-
-{% note info %}
-我是sb，最🤡的一次，明明知道了出来的是同高度最右边的那个，结果敲了半天的中序遍历🤡🤡🤡。然后看评论是层序遍历，一语惊醒梦中人。如果是中序遍历，高度根本不好找。知道了可以用层序遍历，10分钟就敲完了。
-
-```java
-class Solution {
-    public List<Integer> rightSideView(TreeNode root) {
-        if(root == null)
-            return new ArrayList<>();
-        Queue<TreeNode> queue = new LinkedList<>();
-        List<Integer> ans = new ArrayList<>();
-        TreeNode temp;
-        int node = -10000, size;
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            size = queue.size();
-            while (size > 0) {
-                temp = queue.poll();
-                if(temp.left != null)
-                    queue.offer(temp.left);
-                if(temp.right != null)
-                    queue.offer(temp.right);
-                node = temp.val;
-                size--;
-            }
-            ans.add(node);
-        }
-        return ans;
-    }
-}
-```
-
-{% endnote %}
 
 官方题解是基于dfs的递归实现，我们总是先访问右子树，这样出来的就是最右边的结点了。
 
@@ -548,86 +502,8 @@ class Solution {
 前驱节点的具体做法是
 
 - 对于当前节点，若左节点不为空，则寻找左子树最右边的节点，作为前驱节点
-
-```mermaid
-flowchart TD
-cur[cur]
-pre[pre]
-next[next]
-
-subgraph tree[tree]
-one[1]
-two[2]
-three[3]
-four[4]
-five[5]
-six[6]
-end
-
-one-->two-->three
-two-->four
-one-->five-->six
-
-cur-.->one
-next-.->two
-pre-.->four
-```
-
 - 当前节点的右子节点赋给前驱节点的右子节点
-
-```mermaid
-flowchart TD
-cur[cur]
-pre[pre]
-next[next]
-
-subgraph tree[tree]
-one[1]
-two[2]
-three[3]
-four[4]
-five[5]
-six[6]
-end
-
-one-->two-->three
-two-->four
-four-->five-->six
-
-cur-.->one
-next-.->two
-pre-.->four
-```
-
 - 当前节点的左子节点赋给当前节点的右子节点，左子节点赋空
-
-```mermaid
-flowchart TD
-cur[cur]
-pre[pre]
-next[next]
-
-
-subgraph tree[tree]
-null[null]
-one[1]
-two[2]
-three[3]
-four[4]
-five[5]
-six[6]
-end
-
-one-.->null
-one-->two-->three
-two-->four
-four-->five-->six
-
-cur-.->one
-next-.->two
-pre-.->four
-```
-
 - 继续处理下一节点(即cur移动到2)
 
 故最后的源码如下
@@ -901,7 +777,7 @@ class Solution {
 
 查找前缀和为7的出现次数，若结果为2，则说明存在2个不同的祖先节点，`节点->当前节点`的路径和为8。
 
-#### 二叉树的最近公共祖先
+#### **二叉树的最近公共祖先**
 
 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
 
@@ -911,80 +787,27 @@ class Solution {
     输出：3
     解释：节点 5 和节点 1 的最近公共祖先是节点 3 。
 
-##### 递归
+[参考视频](https://www.bilibili.com/video/BV1W44y1Z7AR)
 
-遍历整棵二叉树，定义$f_x$表示$x$节点的子树是否包含$p$节点或$q$节点。需要最近公共祖先满足以下条件
-$$
-(f_{lson} \cap f_{rson}) \cup ((x=p\cup x=q)\cap (f_{lson}\cup f_{rson}))
-$$
-
-{% note success %}
-也就是说，需要这个节点
-
-- 同时有左右孩子，并且两个子树上都有要求的节点
-- 自己本身等于一个值，并且有一个子树上有要求的节点
-
-{% endnote %}
+经总结可以得到以下的分类状况
+- 当前节点是空节点, 或当前节点是 `p`, 或当前节点是 `q` 时, 最近公共祖先要么在其上方, 要么就是其本身. 因此返回当前节点, 不往下递归了
+- 左右子树都找到时, 说明最近公共祖先就是自己, 返回当前节点
+- 只有左子树找到, 答案在左子树, 返回递归左子树的结果
+- 只有右子树找到, 答案在右子树, 返回递归右子树的结果
+- 都没有找到, 返回空
 
 ```java
 class Solution {
-
-    private TreeNode ans;
-
-    public Solution() {
-        this.ans = null;
-    }
-
-    private boolean dfs(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) return false;
-        boolean lson = dfs(root.left, p, q);
-        boolean rson = dfs(root.right, p, q);
-        if ((lson && rson) || ((root.val == p.val || root.val == q.val) && (lson || rson)))
-            ans = root;
-        return lson || rson || (root.val == p.val || root.val == q.val);
-    }
-
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        this.dfs(root, p, q);
-        return this.ans;
-    }
-}
-```
-
-##### 存储父节点
-
-- 从根节点遍历整棵二叉树，用哈希表记录每个节点的父节点指针
-- 从$p$节点开始不断往它的祖先移动，并用数据结构记录已访问过的祖先节点
-- 对$q$同理，但是，若有祖先已经被访问过，那么返回这个节点
-
-```java
-class Solution {
-    Map<Integer, TreeNode> parent = new HashMap<Integer, TreeNode>();
-    Set<Integer> visited = new HashSet<Integer>();
-
-    public void dfs(TreeNode root) {
-        if (root.left != null) {
-            parent.put(root.left.val, root);
-            dfs(root.left);
+        if (root == null || root == p || root == q) {
+            return root;
         }
-        if (root.right != null) {
-            parent.put(root.right.val, root);
-            dfs(root.right);
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left != null && right != null) {
+            return root;
         }
-    }
-
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        dfs(root);
-        while (p != null) {
-            visited.add(p.val);
-            p = parent.get(p.val);
-        }
-        while (q != null) {
-            if (visited.contains(q.val))
-                return q;
-            q = parent.get(q.val);
-        }
-        return null;
+        return left != null ? left : right;
     }
 }
 ```

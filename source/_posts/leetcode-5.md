@@ -593,7 +593,7 @@ class Solution {
 
 ### 回溯
 
-#### 全排列
+#### **全排列**
 
 给定一个不含重复数字的数组`nums`，返回其*所有可能的全排列*。可以按任意顺序返回答案
 
@@ -632,7 +632,54 @@ class Solution {
 }
 ```
 
-#### 子集
+[参考视频](https://www.bilibili.com/video/BV1mY411D7f6)
+
+或者这样子. 当前操作是从 `s` 中枚举 `path[i]` 要填入的数字 `x`; 子问题是构造排列中 $\geq i$ 的部分.
+
+```java
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        int n = nums.length;
+        List<Integer> path = Arrays.asList(new Integer[n]);
+        boolean[] onPath = new boolean[n];
+        List<List<Integer>> ans = new ArrayList<>();
+
+        dfs(0, nums, ans, path, onPath);
+        return ans;
+    }
+
+    // 枚举 path[i] 填 nums 的哪个数
+    private void dfs(int i, int[] nums, List<List<Integer>> ans, List<Integer> path, boolean[] onPath) {
+        if (i == nums.length) {
+            ans.add(new ArrayList<>(path));
+            return;
+        }
+
+        for (int j = 0; j < nums.length; j++) {
+            if (!onPath[j]) {
+                path.set(i, nums[j]); // 从没有选的数字中选一个
+                onPath[j] = true; // 已选上
+                dfs(i + 1, nums, ans, path, onPath);
+                onPath[j] = false; // 恢复现场
+            }
+        }
+    }
+}
+```
+
+时间复杂度是 $O(n\cdot n!)$.
+
+{% note info %}
+节点个数为
+
+$$
+\text{node} = \sum^n_{i=0}A^i_n=n!\underbrace{\sum^n_{i=1}\frac{1}{(n-i)!}}_{取n\rightarrow +\infty ,就是e的定义}\approx \lfloor e\cdot n!\rfloor
+$$
+
+每选一次, 选 $n$ 次, 因此最后为 $O(n\cdot n!)$
+{% endnote %}
+
+#### **子集**
 
 给你一个整数数组`nums`，数组中的元素互不相同。返回该数组所有可能的子集。
 不能有重复的自己，可以按任意顺序返回子集。
@@ -668,41 +715,61 @@ class Solution {
 
 ##### 递归
 
+[参考视频](https://www.bilibili.com/video/BV1mG4y1A7Gu)
+
+当前的操作为枚举第 `i` 个数选或不选的情况, 子问题为从下标 $\geq i$ 的数字中构造子集, 下一个子问题为从下标 $\geq i+1$ 的数字中构造子集.
+
+注意, 如果选了这个数, 后面记得撤销选择.
+
 ```java
 class Solution {
-    List<Integer> t = new ArrayList<Integer>();
-    List<List<Integer>> ans = new ArrayList<List<Integer>>();
-
     public List<List<Integer>> subsets(int[] nums) {
-        dfs(0, nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        dfs(0, nums, path, ans);
         return ans;
     }
 
-    public void dfs(int cur, int[] nums) {
-        if (cur == nums.length) {
-            ans.add(new ArrayList<Integer>(t));
+    private void dfs(int i, int[] nums, List<Integer> path, List<List<Integer>> ans) {
+        if (i == nums.length) {
+            ans.add(new ArrayList<>(path));
             return;
         }
-        t.add(nums[cur]);
-        dfs(cur + 1, nums);
-        t.remove(t.size() - 1);
-        dfs(cur + 1, nums);
+
+        // 不选
+        dfs(i + 1, nums, path, ans);
+
+        // 选
+        path.add(nums[i]);
+        dfs(i + 1, nums, path, ans);
+        path.removeLast();
     }
 }
 ```
 
-第一个`add`为考虑选择当前位置的情况，第二个`add`为不考虑选择当前位置的情况
+以上的思路简单来说就是选哪个不选哪个的问题. 而现在也可以转变一下思路, 从答案的视角出发, 枚举子集的第几个数选谁.
 
-```mermaid
-graph TD
+```java
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        dfs(0, nums, path, ans);
+        return ans;
+    }
 
-a1[1,2,3]-->a2[ ]-->a3[1]-->a4[1,2]-->a5[1,2,3]
-a3-->b1[2]-->b2[2,3]
-b1-->c1[3]
-a4-->d1[1,3]
+    private void dfs(int i, int[] nums, List<Integer> path, List<List<Integer>> ans) {
+        ans.add(new ArrayList<>(path)); // 不选，把当前子集加入答案
+        for (int j = i; j < nums.length; j++) { // 选, 任选一个数
+            path.add(nums[j]);
+            dfs(j + 1, nums, path, ans);
+            path.removeLast();
+        }
+    }
+}
 ```
 
-#### 电话号码的字母组合
+#### **电话号码的字母组合**
 
 给定一个仅包含数字 `2-9` 的字符串，返回所有它能表示的字母组合。答案可以按 **任意顺序** 返回。
 
@@ -712,93 +779,41 @@ a4-->d1[1,3]
 输入：`digits = "23"`
 输出：`["ad","ae","af","bd","be","bf","cd","ce","cf"]`
 
-思路其实不难，就是实现起来比较麻烦
+思路其实不难，就是实现起来比较麻烦. [参考视频](https://www.bilibili.com/video/BV1mG4y1A7Gu).
 
-```mermaid
-graph TD
-A["23"]
-2-->a
-2-->b
-2-->c
-a-->3
-3-->d
-3-->e
-3-->f
-d-->B["ad"]
-e-->C["ae"]
-f-->D["af"]
-```
-
-{% note info %}
-终于对回溯法有了一点点理解
+使用一个数组 `path` 记录路径上的字母. 在每一步, 我们都要去枚举 `path[i]` 上要填入的字母, 枚举对应 `MAPPING` 中的每一个字母. 然后再递归去构造字符串中 $\geq i$ 的部分.
 
 ```java
 class Solution {
-    List<String> ans = new ArrayList<>();
-    char[][] table = { { '\0' }, { '\0' }, { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' }, { 'j', 'k', 'l' },{ 'm', 'n', 'o' }, { 'p', 'q', 'r', 's' }, { 't', 'u', 'v' }, { 'w', 'x', 'y', 'z' } };
+    private static final String[] MAPPING = new String[]{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
     public List<String> letterCombinations(String digits) {
-        if (digits.length() == 0)
-            return new ArrayList<>();
-        function(0, new String(), digits);
+        int n = digits.length();
+        if (n == 0) {
+            return List.of();
+        }
+
+        List<String> ans = new ArrayList<>();
+        char[] path = new char[n]; // 注意 path 长度一开始就是 n，不是空数组
+        dfs(0, ans, path, digits.toCharArray());
         return ans;
     }
 
-    public void function(int first, String output, String digits) {
-        if (first == digits.length()) {
-            ans.add(output);
+    private void dfs(int i, List<String> ans, char[] path, char[] digits) {
+        if (i == digits.length) {
+            ans.add(new String(path));
             return;
         }
-        for (int i = 0; i < table[(int) (digits.charAt(first) - '0')].length; i++) {
-            StringBuilder sb = new StringBuilder(output);
-            sb.append(table[digits.charAt(first) - '0'][i]);
-            function(first + 1, sb.toString(), digits);
+        String letters = MAPPING[digits[i] - '0'];
+        for (char c : letters.toCharArray()) {
+            path[i] = c;
+            dfs(i + 1, ans, path, digits);
         }
     }
 }
 ```
 
-{% endnote %}
-
-官解利用哈希表替代了我这个数组
-
-```java
-class Solution {
-    public List<String> letterCombinations(String digits) {
-        List<String> combinations = new ArrayList<String>();
-        if (digits.length() == 0) {
-            return combinations;
-        }
-        Map<Character, String> phoneMap = new HashMap<Character, String>() {{
-            put('2', "abc");
-            put('3', "def");
-            put('4', "ghi");
-            put('5', "jkl");
-            put('6', "mno");
-            put('7', "pqrs");
-            put('8', "tuv");
-            put('9', "wxyz");
-        }};
-        backtrack(combinations, phoneMap, digits, 0, new StringBuffer());
-        return combinations;
-    }
-
-    public void backtrack(List<String> combinations, Map<Character, String> phoneMap, String digits, int index, StringBuffer combination) {
-        if (index == digits.length()) {
-            combinations.add(combination.toString());
-        } else {
-            char digit = digits.charAt(index);
-            String letters = phoneMap.get(digit);
-            int lettersCount = letters.length();
-            for (int i = 0; i < lettersCount; i++) {
-                combination.append(letters.charAt(i));
-                backtrack(combinations, phoneMap, digits, index + 1, combination);
-                combination.deleteCharAt(index);
-            }
-        }
-    }
-}
-```
+时间复杂度为 $O(n4^n)$, 空间复杂度为 $O(n)$.
 
 #### 组合总和
 
@@ -1106,7 +1121,7 @@ class Solution {
 
 通过动态规划数组`f`先算好那些是回文串，然后再通过dfs的回溯将它们划分好。
 
-#### N 皇后
+#### **N 皇后**
 
 **n 皇后问题** 研究的是如何将 `n` 个皇后放置在 `n × n` 的棋盘上，并且使皇后彼此之间不能相互攻击。
 给你一个整数 `n` ，返回所有不同的 **n 皇后问题** 的解决方案。
@@ -1121,104 +1136,55 @@ class Solution {
 
 ##### 基于集合
 
-使用3个集合$columns$、$diagonals_1$、$diagonals_2$分别记录每一列以及两个方向的每条斜线上是否有皇后。其中，左上-右下方向斜线可以用行下表和列下标之差表示（这种斜线的同一条斜线上的差恒定）值，左下-右上可以用行下标与列下标之和（与上一种斜线同理）。
-
-```java
-class Solution {
-    public List<List<String>> solveNQueens(int n) {
-        List<List<String>> solutions = new ArrayList<List<String>>();
-        int[] queens = new int[n];
-        Arrays.fill(queens, -1);
-        Set<Integer> columns = new HashSet<Integer>();
-        Set<Integer> diagonals1 = new HashSet<Integer>();
-        Set<Integer> diagonals2 = new HashSet<Integer>();
-        backtrack(solutions, queens, n, 0, columns, diagonals1, diagonals2);
-        return solutions;
-    }
-
-    public void backtrack(List<List<String>> solutions, int[] queens, int n, int row, Set<Integer> columns, Set<Integer> diagonals1, Set<Integer> diagonals2) {
-        if (row == n) {
-            List<String> board = generateBoard(queens, n);
-            solutions.add(board);
-        } else {
-            for (int i = 0; i < n; i++) {
-                if (columns.contains(i)) {
-                    continue;
-                }
-                int diagonal1 = row - i;
-                if (diagonals1.contains(diagonal1)) {
-                    continue;
-                }
-                int diagonal2 = row + i;
-                if (diagonals2.contains(diagonal2)) {
-                    continue;
-                }
-                queens[row] = i;
-                columns.add(i);
-                diagonals1.add(diagonal1);
-                diagonals2.add(diagonal2);
-                backtrack(solutions, queens, n, row + 1, columns, diagonals1, diagonals2);
-                queens[row] = -1;
-                columns.remove(i);
-                diagonals1.remove(diagonal1);
-                diagonals2.remove(diagonal2);
-            }
-        }
-    }
-
-    public List<String> generateBoard(int[] queens, int n) {
-        List<String> board = new ArrayList<String>();
-        for (int i = 0; i < n; i++) {
-            char[] row = new char[n];
-            Arrays.fill(row, '.');
-            row[queens[i]] = 'Q';
-            board.add(new String(row));
-        }
-        return board;
-    }
-}
-```
+使用3个集合$columns$、$diagonals_1$、$diagonals_2$分别记录每一列以及两个方向的每条斜线上是否有皇后。其中，
+- 左上-右下方向斜线可以用行下表和列下标之差表示（这种斜线的同一条斜线上的差恒定）.
+- 左下-右上可以用行下标与列下标之和（与上一种斜线同理）.
 
 ##### 基于位运算
 
 使用三个整数，1的位置不能放，0的位置能放
 
+##### 回溯
+
+[参考视频](https://www.bilibili.com/video/BV1mY411D7f6)
+
+既然每行每列都只能放一个皇后, 那反过来不就说明每一行每一列都应该有一个皇后吗? 因此依然可以通过枚举列号的[全排列](#全排列)的方式来放皇后. 但还有一个要求, 就是不能放同一斜线. 这个可以参照[上面的做法](#基于集合).
+
 ```java
 class Solution {
     public List<List<String>> solveNQueens(int n) {
-        int[] queens = new int[n];
-        Arrays.fill(queens, -1);
-        List<List<String>> solutions = new ArrayList<List<String>>();
-        solve(solutions, queens, n, 0, 0, 0, 0);
-        return solutions;
+        List<List<String>> ans = new ArrayList<>();
+        int[] queens = new int[n]; // 皇后放在 (r,queens[r])
+        boolean[] col = new boolean[n];
+        boolean[] diag1 = new boolean[n * 2 - 1];
+        boolean[] diag2 = new boolean[n * 2 - 1];
+        dfs(0, queens, col, diag1, diag2, ans);
+        return ans;
     }
 
-    public void solve(List<List<String>> solutions, int[] queens, int n, int row, int columns, int diagonals1, int diagonals2) {
-        if (row == n) {
-            List<String> board = generateBoard(queens, n);
-            solutions.add(board);
-        } else {
-            int availablePositions = ((1 << n) - 1) & (~(columns | diagonals1 | diagonals2));
-            while (availablePositions != 0) {
-                int position = availablePositions & (-availablePositions);
-                availablePositions = availablePositions & (availablePositions - 1);
-                int column = Integer.bitCount(position - 1);
-                queens[row] = column;
-                solve(solutions, queens, n, row + 1, columns | position, (diagonals1 | position) << 1, (diagonals2 | position) >> 1);
-                queens[row] = -1;
+    private void dfs(int r, int[] queens, boolean[] col, boolean[] diag1, boolean[] diag2, List<List<String>> ans) {
+        int n = col.length;
+        if (r == n) {
+            List<String> board = new ArrayList<>(n); // 预分配空间
+            for (int c : queens) {
+                char[] row = new char[n];
+                Arrays.fill(row, '.');
+                row[c] = 'Q';
+                board.add(new String(row));
+            }
+            ans.add(board);
+            return;
+        }
+        // 在 (r,c) 放皇后
+        for (int c = 0; c < n; c++) {
+            int rc = r - c + n - 1;
+            if (!col[c] && !diag1[r + c] && !diag2[rc]) { // 判断能否放皇后
+                queens[r] = c; // 直接覆盖，无需恢复现场
+                col[c] = diag1[r + c] = diag2[rc] = true; // 皇后占用了 c 列和两条斜线
+                dfs(r + 1, queens, col, diag1, diag2, ans);
+                col[c] = diag1[r + c] = diag2[rc] = false; // 恢复现场
             }
         }
-    }
-
-    public List<String> generateBoard(int[] queens, int n) {
-        List<String> board = new ArrayList<String>();
-        for (int i = 0; i < n; i++) {
-            char[] row = new char[n];
-            Arrays.fill(row, '.');
-            row[queens[i]] = 'Q';
-            board.add(new String(row));
-        }
-        return board;
     }
 }
 ```

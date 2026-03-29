@@ -112,7 +112,7 @@ class Solution {
 
 {% endnote %}
 
-#### 打家劫舍
+#### **打家劫舍**
 
 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
 
@@ -122,6 +122,8 @@ class Solution {
     输入：`[1,2,3,1]`
     输出：`4`
     解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。偷窃到的最高金额 = 1 + 3 = 4 。
+
+##### 官解
 
 边界条件为$k>2$。现在考虑规律。
 遇到第$k$间房屋时，若偷窃，则不能偷窃第$k-1$间房屋，金额之和为第$k-2$间和第$k$间的和。若不偷，总金额为前$k-1$间的最高金额。
@@ -157,6 +159,16 @@ class Solution {
 
 {% endnote %}
 
+##### 灵神解法
+
+[参考视频](https://www.bilibili.com/video/BV1Xj411K7oF)
+
+这题相当于一种子集型回溯. 每一步的当前操作是枚举**第** `i` 个房子选或者不选. 需要解决的问题是从**前** `i` 个房子中得到的最大金额和. 如果不选, 那么就是找从 `i - 1` 个房子中得到的最大金额和; 如果选, 那么就是从前 `i - 2` 个房子得到的最大金额和, 并加上当前金额. 因此可以使用回溯算法去找最大值.
+
+然后有一些递归是重复的. 比如选 5 或选 7 时都会递归到选不选 3 的问题. 因此可以开一片数组或哈希表, 记录选到当前索引时对应的值, 不需要再重复递归了. 这种做法称为**记忆化搜索**, 即递归搜索+保存计算结果.
+
+并且我们还可以发现, 我们最后实际计算是只有 `max(dfs(i - 1), dfs(i - 2) + nums[i])` 的过程. 因此可以世界省去"递"的步骤, 直接开始"归", 从第一个数开始计算.
+
 #### 完全平方数
 
 给你一个整数 `n` ，返回 和为 `n` 的完全平方数的最少数量 。
@@ -167,10 +179,6 @@ class Solution {
     输入：n = 12
     输出：3
     解释：12 = 4 + 4 + 4
-
-{% note success %}
-绞尽脑汁找规律，最后果断找题解
-{% endnote %}
 
 数必然在区间$[1,\sqrt{i}]$内，因此可以一个个枚举，设当前枚举到$j$，那么原问题就变成了找$i-j^2$的最小平方数。于是可以写出状态转移方程
 
@@ -202,7 +210,7 @@ class Solution {
 }
 ```
 
-#### 零钱兑换
+#### **零钱兑换**
 
 给你一个整数数组 `coins` ，表示不同面额的硬币；以及一个整数 `amount` ，表示总金额。
 计算并返回可以凑成总金额所需的 **最少的硬币个数** 。如果没有任何一种硬币组合能组成总金额，返回 `-1` 。
@@ -213,35 +221,7 @@ class Solution {
     输出：`3`
     解释：`11 = 5 + 5 + 1`
 
-{% note info %}
-当作爬楼梯，将硬币数当作不同的阶，然后检查某阶能不能由更低阶直接爬上来
-
-```java
-class Solution {
-    public int coinChange(int[] coins, int amount) {
-        if (amount == 0)
-            return 0;
-        Arrays.sort(coins);
-        int[] dp = new int[amount];
-        for (int i = 0; i < amount; i++) {
-            int min = Integer.MAX_VALUE;
-            for (int coin : coins) {
-                if (i + 1 <= coin) {
-                    min = i + 1 == coin ? 1 : min;
-                    break;
-                } else
-                    min = dp[i - coin] == -1 ? min : Math.min(min, dp[i - coin] + 1);
-            }
-            dp[i] = min == Integer.MAX_VALUE ? -1 : min;
-        }
-        return dp[amount - 1];
-    }
-}
-```
-
-{% endnote %}
-
-题解的动态规划是这样的
+这种也叫完全背包问题. 题解的动态规划是这样的
 
 ```java
 public class Solution {
@@ -258,8 +238,6 @@ public class Solution {
     }
 }
 ```
-
-该代码相比我写的快了1ms，主要在于省去了排序部分（毕竟全部都遍历了一遍），由$O(n\log n)$减少到了$O(n)$，还有省去了一大堆条件讨论（可能？）。
 
 #### 单词拆分
 
@@ -311,6 +289,8 @@ public class Solution {
 }
 ```
 
+此处的时间复杂度为 $O(n^2)$, 由于存在两层没优化过的循环, 因此性能可能比较差. 也可以先去求字典中最长单词的长度, 然后只在这个长度内去遍历即可.
+
 #### 最长递增子序列
 
 给你一个整数数组 `nums` ，找到其中最长严格递增子序列的长度。
@@ -324,25 +304,21 @@ public class Solution {
 ##### 动态规划
 
 定义`dp[i]`为考虑前$i$个元素，以第$i$个数字结尾的最长上升子序列的长度（其中第$i$个数字必须被选取。
-从小到大计算`dp`数组的值，既然是序列，那么状态转移方程可以是
-$$
-\text{dp[i]=max(dp[j])+1,其中0≤j<i且num[j]<num[i]}
-$$
+从小到大计算`dp`数组的值.
 最后，整个数组的最长上升子序列即所有`dp[i]`中的最大值。
 
 ```java
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        if (nums.length == 0)
-            return 0;
         int[] dp = new int[nums.length];
-        dp[0] = 1;
+        Arrays.fill(dp, 1);
         int maxans = 1;
         for (int i = 1; i < nums.length; i++) {
-            dp[i] = 1;
-            for (int j = 0; j < i; j++)
-                if (nums[i] > nums[j])
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
                     dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
             maxans = Math.max(maxans, dp[i]);
         }
         return maxans;
@@ -352,7 +328,7 @@ class Solution {
 
 ##### 贪心 + 二分查找
 
-上面方法的时间复杂度为$O(n^2)$，而这个方法的时间复杂度可缩减至$O(n\log n)$
+上面方法的时间复杂度为 $O(n^2)$，而这个方法的时间复杂度可缩减至 $O(n\log n)$
 考虑贪心算法，既然我们要上升子序列尽可能长，那么就需要让序列上升尽可能慢。于是我们维护一个数组`d[i]`，其中`d[1]=nums[0]`，维护整数值`len`，表示最长的长度。
 若`nums[i] > d[len]`，则直接加入到数组的末尾，并更新`len++`。
 否则，在数组中二分查找。找到第一个比`nums[i]`小的数`d[k]`，并更新`d[k+1] = nums[i]`。
@@ -362,13 +338,13 @@ class Solution {
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int len = 1, n = nums.length;
-        if (n == 0)
-            return 0;
         int[] d = new int[n + 1];
         d[len] = nums[0];
         for (int i = 1; i < n; ++i) {
+            // 若当前数 > 最长LIS的末尾, 可以直接延长
             if (nums[i] > d[len])
                 d[++len] = nums[i];
+            // 若当前数更小, 则用二分查找优化数组
             else {
                 int l = 1, r = len, pos = 0;
                 while (l <= r) {
@@ -376,8 +352,9 @@ class Solution {
                     if (d[mid] < nums[i]) {
                         pos = mid;
                         l = mid + 1;
-                    } else
-                        r = mid - 1;
+                    } else {
+                        r = mid - 1;                        
+                    }
                 }
                 d[pos + 1] = nums[i];
             }
@@ -948,6 +925,72 @@ class Solution {
             }
         }
         return D[n][m];
+    }
+}
+```
+
+### 额外篇
+
+#### 01 背包问题
+
+[参考视频](https://www.bilibili.com/video/BV16Y411v7Y6)
+
+有 `n` 个物品, 第 `i` 个物品的体积是 `w[i]`, 价值是 `v[i]`, 每个物品最多选一个.求体积和不超过容量时的最大价值和.
+
+##### 回溯
+
+当前只有选或不选两种选择, 若选, 则容量变小, 价值增加; 不选, 则剩余容量不变. 因此可列出回溯式子
+
+$$
+\text{dfs}(i,c)=\text{max}(\text{dfs}(i-1, c),\text{dfs}(i-1,c-w[i])+v[i])
+$$
+
+因此其代码可以是
+
+```python
+def main(capacity: int, w: List[int], v: List[int]) -> int:
+    n = len(w)
+
+    def dfs(i, c):
+        if i < 0:
+            return 0
+        if c < w[i]:
+            return dfs(i - 1, c)
+        return max(dfs(i - 1, c), dfs(i - 1, c - w[i]) + v[i])
+    
+    return dfs(n - 1, capacity)
+```
+
+##### 动态规划
+
+定义 `dp[i][j]` 为前 `i` 个物品再背包容量为 `j` 时的最大价值.
+
+- 在不选第 `i` 个物品时, 此时价值和以前一样, 即 `dp[i][j] = dp[i - 1][j]`
+- 选第 `i` 个物品时, 此时能装的数量减少, 价值增加, 为 `dp[i][j] = dp[i - 1][j - w[i]] + v[i]`
+- 最后两者相比较, 选最大值
+
+```java
+int[][] dp = new int[v.length + 1][w.length + 1];
+for(int i = 1; i <= v.length; i++) {
+    for(int j = 1; j <= capacity; j++) {
+        dp[i][j] = dp[i - 1][j];
+        if(w[i - 1] <= j) {
+            dp[i][j] = Math.max(
+                dp[i][j],
+                dp[i - 1][j - w[i - 1]] + v[i - 1]
+            );
+        }
+    }
+}
+```
+
+但其实可以发现我们只用到上一次的结果, 因此可以使用一维数组, 同时不断覆盖. 但注意, 需要从后往前遍历, 因为后面的数据需要前面的数据作比较.
+
+```java
+int[] dp = new int[capacity + 1];
+for (int i = 0; i < n; i++) {
+    for (int j = capacity; j >= w[i]; j--) {
+        dp[j] = Math.max(dp[j], dp[j - w[i]] + v[i]);
     }
 }
 ```

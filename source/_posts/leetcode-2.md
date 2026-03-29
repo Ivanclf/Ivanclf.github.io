@@ -7,9 +7,9 @@ category: leetcode
 
 ### 滑动窗口
 
-#### 无重复字符的最长子串
+#### **无重复字符的最长子串**
 
-给定一个字符串 s ，请你找出其中不含有重复字符的 最长 子串 的长度。
+给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。
 
 示例:
     输入: s = "abcabcbb"
@@ -21,16 +21,16 @@ category: leetcode
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         Set<Character> occ = new HashSet<Character>();
-        int n = s.length(), rk = -1, ans = 0;
-        for (int i = 0; i < n; ++i) {
-            if (i != 0) {
+        int n = s.length(), right = -1, ans = 0;
+        for (int left = 0; left < n; ++i) {
+            if (left != 0) {
                 occ.remove(s.charAt(i - 1));
             }
-            while (rk + 1 < n && !occ.contains(s.charAt(rk + 1))) {
-                occ.add(s.charAt(rk + 1));
-                ++rk;
+            while (right + 1 < n && !occ.contains(s.charAt(right + 1))) {
+                occ.add(s.charAt(right + 1));
+                ++right;
             }
-            ans = Math.max(ans, rk - i + 1);
+            ans = Math.max(ans, right - i + 1);
         }
         return ans;
     }
@@ -384,41 +384,6 @@ class Solution {
     解释：相交节点的值为 `8` （注意，如果两个链表相交则不能为 0）。从各自的表头开始算起，链表 `A` 为 `[4,1,8,4,5]`，链表 B 为 `[5,6,1,8,4,5]`。在 A 中，相交节点前有 2 个节点；在 B 中，相交节点前有 3 个节点。
     - 请注意相交节点的值不为 1，因为在链表 A 和链表 B 之中值为 1 的节点 (A 中第二个节点和 B 中第三个节点) 是不同的节点。换句话说，它们在内存中指向两个不同的位置，而链表 A 和链表 B 中值为 8 的节点 (A 中第三个节点，B 中第四个节点) 在内存中指向相同的位置。
 
-{% note info %}
-C++丢人版。扔两个栈里，然后一个个弹出，若找到不一样的就返回最后一个一样的节点。
-
-```cpp
-class Solution {
-public:
-    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB)
-    {
-        if (headA == nullptr || headB == nullptr)
-            return nullptr;
-        else if(headA == headB)
-            return headA;
-        stack<ListNode *> a, b;
-        ListNode *ha, *hb, *temp = ha;
-        for (ListNode *p = headA; p != nullptr; p = p->next)
-            a.push(p);
-        for (ListNode *p = headB; p != nullptr; p = p->next)
-            b.push(p);
-        while (!a.empty() && !b.empty())
-        {
-            ha = a.top(), hb = b.top();
-            a.pop(), b.pop();
-            if(ha == hb)
-                temp == ha;
-            else
-                return ha->next;
-        }
-        
-        return temp;
-    }
-};
-```
-
-{% endnote %}
-
 ##### 哈希集合
 
 先将 `headA` 中的节点加入哈希集合中，再遍历链表 `headB`，然后将 `headB` 中的节点与表中的进行比较。
@@ -479,88 +444,17 @@ public class Solution {
     输入：`head = [1,2,3,4,5]`
     输出：`[5,4,3,2,1]`
 
-{% note info %}
-C++超过100%的办法(虽然空间很难看)
-
-```cpp
-class Solution {
-public:
-    ListNode *Head1 = new ListNode(-10000), *Head2 = new ListNode(-10000);
-    ListNode *reverseList(ListNode *head)
-    {
-        if(head == nullptr)
-            return nullptr;
-        if (Head1->val == -10000)
-            Head1 = head;
-        ListNode *pointer;
-        if (head->next != nullptr)
-            pointer = reverseList(head->next);
-        else
-        {
-            Head2 = head;
-            return head;
-        }
-
-        pointer->next = head;
-        head->next = nullptr;
-        if (head == Head1)
-            return Head2;
-        return head;
-    }
-};
-```
-
-{% endnote %}
-
 ##### 迭代
 
 头插法创建新链表。
 
-```mermaid
-flowchart LR
-    prev1[prev]
-    curr1[curr]
-    next[next]
-    prev2[prev']
-    curr2[curr']
-    n1[null]
-    n2[null]
-
-    subgraph S1[已反转部分]
-        R1[1]
-        R2[2]
-        R3[3]
-        R4[4]
-        R5[5]
-    end
-    
-    subgraph S2[未反转部分]
-        U1[1]
-        U2[2]
-        U3[3]
-        U4[4]
-        U5[5]
-    end
-    
-    R2 --> R3 --> R4 --> R5
-    R1 --> n2
-    U1 --> U2 --> U3 --> U4 --> U5
-
-    prev1 -.-> n1
-    curr1 -.-> U1
-    next -.-> U2
-
-    prev2 -.-> R1
-    curr2 -.-> R2
-```
-
 ```java
 class Solution {
     public ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        ListNode curr = head;
+        ListNode prev = null; // 新链表的头部
+        ListNode curr = head; // 旧链表的头部
         while (curr != null) {
-            ListNode next = curr.next;
+            ListNode next = curr.next; // 要动的节点的 next
             curr.next = prev;
             prev = curr;
             curr = next;
@@ -574,33 +468,6 @@ class Solution {
 
 相比迭代的从头来过，这个只是逆转了箭头的方向
 
-```mermaid
-flowchart LR
-    head1[head]
-    n1[null]
-    head2[newhead]
-    n2[null]
-    
-    subgraph step1[step-1]
-        direction LR
-        c1[C] --> b1[B]
-        a1[A] --> b1
-    end
-    
-    subgraph step2[step-2]
-        direction LR
-        c2[C] --> b2[B] --> a2[A]
-    end
-    
-    head1 -.-> a1
-    b1 -.-> n1
-    head2 -.-> c2
-    a2 -.-> n2
-    
-    %% 使用虚拟节点连接步骤
-    step1 ==>step2
-```
-
 ```java
 class Solution {
     public ListNode reverseList(ListNode head) {
@@ -611,6 +478,38 @@ class Solution {
         head.next.next = head;
         head.next = null;
         return newHead;
+    }
+}
+```
+
+##### 指定区间的情况 (原题: 反转链表 II)
+
+[详见视频](https://www.bilibili.com/video/BV1sd4y1x7KN)
+
+```java
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode p0 = dummy;
+        // 找到需要开始反转的前一个节点
+        for (int i = 0; i < left - 1; i++) {
+            p0 = p0.next;
+        }
+
+        ListNode pre = null; // 新头节点
+        ListNode cur = p0.next; // 旧头节点
+        for (int i = 0; i < right - left + 1; i++) {
+            ListNode nxt = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = nxt;
+        }
+
+        // dummy 节点的下一个节点即现在的末尾节点, 其 next 应该指向循环外的末尾
+        p0.next.next = cur;
+        // dummy 节点的下一个节点应该是以前的末尾节点
+        p0.next = pre;
+        return dummy.next;
     }
 }
 ```
@@ -702,59 +601,6 @@ class Solution {
 
 `frontPointer`变量存储前面的值，递归的 `currentNode` 部分存储后面的值。若前面的`false`则传递下去，若二者值不相等也返回`false`。`frontPointer`通过`next`赋值实现迭代，`currentNode`部分通过递归的返回部分实现往回迭代。
 
-##### 快慢指针
-
-前三种的空间复杂度都是$O(n)$，这里是$O(1)$的做法。讲链表后半部分反转后再进行比较。由于该方法会改变链表本身，因此不适合在并发条件下使用。
-
-```java
-class Solution {
-    public boolean isPalindrome(ListNode head) {
-        if (head == null)
-            return true;
-        ListNode firstHalfEnd = endOfFirstHalf(head);
-        ListNode secondHalfStart = reverseList(firstHalfEnd.next);
-
-        ListNode p1 = head;
-        ListNode p2 = secondHalfStart;
-        boolean result = true;
-        while (result && p2 != null) {
-            if (p1.val != p2.val) {
-                result = false;
-            }
-            p1 = p1.next;
-            p2 = p2.next;
-        }
-
-        firstHalfEnd.next = reverseList(secondHalfStart);
-        return result;
-    }
-
-    private ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        ListNode curr = head;
-        while (curr != null) {
-            ListNode nextTemp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = nextTemp;
-        }
-        return prev;
-    }
-
-    private ListNode endOfFirstHalf(ListNode head) {
-        ListNode fast = head;
-        ListNode slow = head;
-        while (fast.next != null && fast.next.next != null) {
-            fast = fast.next.next;
-            slow = slow.next;
-        }
-        return slow;
-    }
-}
-```
-
-后面的函数 `reverseList` 用于逆转链表（见上一题），`endOfFirstHalf`用于快慢指针的遍历。先使用快慢指针在一次遍历中找到。快指针一次两步，慢指针一次一步。快指针到链表末尾时慢指针刚好到链表中间。现在有了慢指针作为基准，我们可以以此为起点进行逆转链表。逆转完了就可以再比较。由于两边都是顺序，直接`next`索引即可。
-
 #### 环形链表
 
 给你一个链表的头节点 `head` ，判断链表中是否有环。
@@ -768,25 +614,6 @@ class Solution {
     输入：`head = [3,2,0,-4], pos = 1`
     输出：`true`
     解释：链表中有一个环，其尾部连接到第二个节点。
-
-{% note info %}
-赖皮做法：本地链表最长为10000条，我遍历10001次还没跑完不就有环了嘛
-
-```cpp
-class Solution {
-public:
-    bool hasCycle(ListNode *head) {
-        ListNode *pointer = head;
-        for(int i = 0; i < 10001; i++, pointer = pointer->next){
-            if(pointer == nullptr)
-                return false;
-        }
-        return true;
-    }
-};
-```
-
-{% endnote %}
 
 ##### 哈希表
 
@@ -920,16 +747,6 @@ public:
 可以把链表2合并到链表1上。
 
 ```cpp
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution
 {
 public:
@@ -1006,43 +823,6 @@ class Solution {
 
 ##### 迭代
 
-```mermaid
-graph LR
-n1(null)
-n2(null)
-prehead[prehead]
-prev[prev]
-p1[l1]
-p2[l2]
-
-prev-.->l1[1]-->l2[4]-->l3[5]-->n1
-p1-.->l1
-prehead-.->l1
-p2-.->L1[1]-->L2[2]-->L3[3]-->L4[6]-->n2
-```
-
-然后l1的1为最小值（相等取l1），l1向前，比较l1和l2的值，然后将prev的值指向更小的那个
-
-```mermaid
-flowchart LR
-n1(null)
-n2(null)
-prehead[prehead]
-prev[prev]
-p1[l1]
-p2[l2]
-
-prev-.->L1[1]
-L1[1]-->L2[2]-->L3[3]-->L4[6]-->n2
-l2[4]-->l3[5]-->n1
-l1[1]-->L1
-p1-.->l2
-prehead-.->l1
-p2-.->L2
-```
-
-一次操作的结果如上图
-
 ```java
 class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
@@ -1075,59 +855,6 @@ class Solution {
     输入：`l1 = [2,4,3], l2 = [5,6,4]`
     输出：`[7,0,8]`
     解释：`342 + 465 = 807`.
-
-{% note info %}
-本人的迭代思路。虽然时间和题解一样但不知道为什么空间复杂度特别高
-
-```java
-class Solution {
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode head = l1;
-        int add, c = 0;
-        while(true) {
-            add = l1.val + l2.val + c;
-            c = add > 9 ? 1 : 0;
-            l1.val = add > 9 ? add - 10 : add;
-
-            if(l1.next == null || l2.next == null)
-                break;
-            l1 = l1.next;
-            l2 = l2.next;
-        }
-
-        if(l1.next != null) {
-            l1 = l1.next;
-            while(c == 1) {
-                l1.val = l1.val + c;
-                c = l1.val > 9 ? 1 : 0;
-                l1.val = l1.val > 9 ? l1.val - 10 : l1.val;
-                if(l1.next == null)
-                    break;
-                l1 = l1.next;
-            }
-        } else if(l2.next != null) {
-            l2 = l2.next;
-            while(true) {
-                add = l2.val + c;
-                c = add > 9 ? 1 : 0;
-                add = add > 9 ? add - 10 : add;
-                l1.next = new ListNode(add);
-                l1 = l1.next;
-                if(l2.next == null)
-                    break;
-                l2 = l2.next;
-            }
-        }
-
-        if(c == 1) {
-            l1.next = new ListNode(1);
-        }
-        return head;
-    }
-}
-```
-
-{% endnote %}
 
 这个和数电的ALU计算器类似，一位位计算他们的值并存储进位。以下是题解的模拟法
 
@@ -1229,118 +956,6 @@ class Solution {
 
 ##### 迭代
 
-为减少需要讨论的情况。创建头节点 `dummyHead`，在`head`的前面，然后开始交换(图中交换`2`和`3`)
-
-```mermaid
-flowchart LR
-
-temp[temp]
-node1[node1]
-node2[node2]
-next[next]
-
-subgraph list[链表]
-    one[1]
-    two[2]
-    three[3]
-end
-
-one-->two-->three
-temp-.->one
-node1-.->two
-node2-.->three-->next
-```
-
-`temp.next = node2`
-
-```mermaid
-flowchart LR
-
-temp[temp]
-node1[node1]
-node2[node2]
-next[next]
-
-subgraph list[链表]
-    one[1]
-    two[2]
-    three[3]
-end
-
-two-->three
-temp-.->one-->three
-node1-.->two
-node2-.->three-->next
-```
-
-`node1.next = node2.next`
-
-```mermaid
-flowchart LR
-
-temp[temp]
-node1[node1]
-node2[node2]
-next[next]
-
-subgraph list[链表]
-    one[1]
-    two[2]
-    three[3]
-end
-
-one-->three-->next
-temp-.->one
-node1-.->two-->next
-node2-.->three
-```
-
-`node2.next = node1`
-
-```mermaid
-flowchart LR
-
-temp[temp]
-node1[node1]
-node2[node2]
-next[next]
-
-subgraph list[链表]
-    one[1]
-    two[2]
-    three[3]
-end
-
-one-->three
-temp-.->one
-node1-.->two-.->next
-node2-.->three-->two
-```
-
-`temp = node1`
-
-```mermaid
-flowchart LR
-
-temp[temp]
-node1[node1]
-node2[node2]
-next[next]
-
-subgraph list[链表]
-    one[1]
-    two[2]
-    three[3]
-end
-
-one-->three
-temp-.->two
-node1-.->two-.->next
-node2-.->three-->two
-```
-
-交换完成
-
 ```java
 class Solution {
     public ListNode swapPairs(ListNode head) {
@@ -1386,7 +1001,11 @@ class Solution {
 
 {% endnote %}
 
-#### K个一组翻转链表
+#### **K个一组翻转链表**
+
+{% note danger %}
+美团后台开发 - 暑期实习, 一面.
+{% endnote %}
 
 给你链表的头节点 `head` ，每 `k` 个节点一组进行翻转，请你返回修改后的链表。
 `k` 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 `k` 的整数倍，那么请将最后剩余的节点保持原有顺序。
@@ -1396,59 +1015,41 @@ class Solution {
     输入：`head = [1,2,3,4,5], k = 2`
     输出：`[2,1,4,3,5]`
 
-明明中间就是[逆转链表](#反转链表)的过程，只要放个循环就行，为何会变成困难题呢？因为需要考虑的细节比较多，需要简化。
+中间是[逆转链表](#指定区间的情况-原题-反转链表-ii)的过程，只要放个循环就行. [详见视频](https://www.bilibili.com/video/BV1sd4y1x7KN)
 
 ```java
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode hair = new ListNode(0);
-        hair.next = head;
-        ListNode pre = hair;
+        // 统计节点个数
+        int n = 0;
+        for (ListNode cur = head; cur != null; cur = cur.next) {
+            n++;
+        }
 
-        while (head != null) {
-            ListNode tail = pre;
-            for (int i = 0; i < k; ++i) {
-                tail = tail.next;
-                if (tail == null)
-                    return hair.next;
+        ListNode dummy = new ListNode(0, head);
+        ListNode p0 = dummy;
+        ListNode pre = null; // 新头节点
+        ListNode cur = p0.next; // 旧头节点
+
+        for(; n >= k; n -= k) {
+            for (int i = 0; i < right - left + 1; i++) {
+                ListNode nxt = cur.next;
+                cur.next = pre;
+                pre = cur;
+                cur = nxt;
             }
-            ListNode nex = tail.next;
-            ListNode[] reverse = myReverse(head, tail);
-            head = reverse[0];
-            tail = reverse[1];
-            pre.next = head;
-            tail.next = nex;
-            pre = tail;
-            head = tail.next;
+            ListNode next = p0.next;
+            // dummy 节点的下一个节点即现在的末尾节点, 其 next 应该指向循环外的末尾
+            p0.next.next = cur;
+            // dummy 节点的下一个节点应该是以前的末尾节点
+            p0.next = pre;
+            // 与指定位置不同, 此处需要将 dummy 指定为现在的末尾节点
+            p0 = next;
         }
-
-        return hair.next;
-    }
-
-    public ListNode[] myReverse(ListNode head, ListNode tail) {
-        ListNode prev = tail.next;
-        ListNode p = head;
-        while (prev != tail) {
-            ListNode nex = p.next;
-            p.next = prev;
-            prev = p;
-            p = nex;
-        }
-        return new ListNode[]{tail, head};
+        return dummy.next;
     }
 }
 ```
-
-需要几个辅助指针：
-
-- hair: 头节点
-- head: 开始逆转的开始部分
-- tail: 逆转的结束部分
-- pre: 开始逆转的前一个部分
-- nex: 逆转部分后的第一个
-
-由于逆转后的部分早已不知道哪个是哪个了，因此统一指定`pre`的下一个是`head`，`nex`的上一个为`tail`（前提是确保逆转部分是清晰的）。逆转部分使用迭代法（更加方便传送头尾两个节点）。
-思维上没有什么难度，但巨麻烦。
 
 #### 随机链表的复制
 
@@ -1458,36 +1059,6 @@ class Solution {
 返回复制链表的头节点。
 
 提示中显示的做法是在原链表每个节点后面新建一个节点，这样就可以直接复制原节点的`random`值了。
-
-{% note info %}
-本人做法，和题解差不多
-
-```java
-class Solution {
-    public Node copyRandomList(Node head) {
-        Node temp, nodeNew = new Node(0), tempNew;
-        for (Node node = head; node != null; node = node.next.next) {
-            temp = node.next;
-            Node n = new Node(node.val);
-            n.next = temp;
-            node.next = n;
-        }
-        for (Node node = head; node != null; node = node.next.next) {
-            temp = node.next;
-            temp.random = node.random == null ? null : node.random.next;
-        }
-        tempNew = nodeNew;
-        for (Node node = head; node != null; node = node.next) {
-            tempNew.next = node.next;
-            node.next = node.next.next;
-            tempNew = tempNew.next;
-        }
-        return nodeNew.next;
-    }
-}
-```
-
-{% endnote %}
 
 题解的做法如下
 
@@ -1516,8 +1087,6 @@ class Solution {
     }
 }
 ```
-
-由于第二次循环只是给`random`赋值而已，应该可以把第三次的一起合并起来，只要循环两次即可。但还没想到可以怎么做。
 
 [^1]: 深拷贝出来的两个链表有3个特征：1. 原来的值全部拷贝；2. 保证拷贝后的链表和原来的链表不重叠（`return head`是不行的）；3. 原来的链表必须保持原样（删去原来链表一部分的行为是不行的）。
 
@@ -1668,26 +1237,6 @@ class Solution {
 但这又导致了新的问题。当进行`get`或`put`操作时，该缓存块被使用，因此需要把该节点运到头节点处，这也是最难办的部分。
 
 此处将其分为两个部分：要么尾部没有节点，要么尾部有节点。
-在某节点需要前移的时候
-
-```mermaid
-graph LR
-subgraph g1[尾部有节点]
-h1[H]
-one1[1]
-two1[2]
-three[3]
-end
-h1-->one1-->two1-->three-->two1-->one1-->h1
-subgraph g2[尾部为null]
-h2[H]
-one2[1]
-two2[2]
-null[null]
-end
-h2-->one2-->two2-->null
-two2-->one2-->h2
-```
 
 {% endnote %}
 

@@ -15,6 +15,34 @@ category: 业务
 
 ### 向第三方要授权
 
+整体流程如下
+
+```mermaid
+sequenceDiagram
+    participant User as 用户
+    participant Client as 客户端服务
+    participant AuthServer as 授权服务器
+    participant Redis as Redis
+    participant SSOPage as SSO登录页面
+
+    Note over User,AuthServer: 授权码获取阶段
+    User->>Client: 访问客户端授权接口 /oauth2/authorize
+    Client->>Client: 拼接授权URL（client_id、redirect_uri、response_type=code等）
+    Client->>User: 重定向到授权服务器授权页面
+    User->>AuthServer: 完成授权操作
+    AuthServer->>Client: 重定向到回调接口 /oauth2/callback，携带授权码code
+    Note over Client,AuthServer: 访问令牌获取阶段
+    Client->>AuthServer: 携带code、client_id、client_secret等请求access_token
+    AuthServer->>Client: 返回access_token、uid等信息
+    alt 用户ID字段非默认"uid"
+        Client->>AuthServer: 携带access_token请求用户信息
+        AuthServer->>Client: 返回用户信息，提取正确的用户ID
+    end
+    Client->>Redis: 将access_token存入Redis，过期时间6小时
+    Client->>User: 重定向到SSO登录页面，携带access_token、userId等参数
+    User->>SSOPage: 访问SSO登录页面（已携带token信息）
+```
+
 其实现首先需要实现一个可以跳转其他页面的实现接口。用于发起 OAuth2 授权请求。
 
 ```java

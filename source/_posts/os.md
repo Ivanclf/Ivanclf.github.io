@@ -631,6 +631,10 @@ In simple terms, it occurs when multiple processes are waiting for each other to
 
 ### Conditions for Resource Deadlocks
 
+{% note danger %}
+JDY 测试开发, 二面.
+{% endnote %}
+
 four conditions must hold for there to be a (resource) deadlock:
 
 1. **Mutual exclusion condition**. Each resource is either currently assigned to exactly one process or is available.

@@ -20,131 +20,6 @@ $$
 \sum^n_{i=1}i=\frac{n(n+1)}{2}
 $$
 
-## 链表
-
-### 链表的初始化
-
-链表的最基础初始化，可以使用C语言的结构体
-
-```c
-typedef struct Node {
-    int value;
-    struct Node *next;
-}node, *list_node;
-```
-
-也可以使用C++种对象的定义
-
-```cpp
-class node {
-public:
-    int value;
-    node *next;
-
-    void function() {
-
-    }
-};
-```
-
-### 链表节点的插入
-
-#### 尾插法
-
-在末尾插入新节点，返回最后节点的指针
-C语言
-
-```c
-list_node insert_to_foot(list_node operation, int value) {
-    if(!operation) {
-        printf("List Error!\n");
-        exit(-1);
-    }
-    list_node to_node;
-    to_node->value = value;
-    operation->next = to_node;
-    return to_node;
-}
-```
-
-#### 头插法
-
-在头部插入新节点，返回新的头节点
-C语言
-
-```c
-list_node insert_to_head(list_node operation, int value) {
-    if(!operation) {
-        printf("list Error!\n");
-        exit(-1);
-    }
-    list_node to_node;
-    to_node->value = value;
-    to_node->next = operation;
-    return to_node;
-}
-```
-
-### 链表节点的删除
-
-当不存在头部节点时，对节点的删除操作较为复杂。首先，我们需要找到头节点，然后开始向下遍历，搜索到需要的节点
-
-- 若头节点就是待删除的节点，则头节点指针下移，删除头节点。
-- 若尾节点就是待删除的节点，则删除尾节点，前一节点的next指针赋空值。
-- 其余的一般情况下，找到待删除节点的前一节点，让其指向待删除节点的下一节点，再删除指定节点。
-
-存在头部节点时，可以省略对第一种情况的讨论。
-
-### 链表相关功能
-
-#### 求尺寸或搜索
-
-求尺寸需要从头节点开始遍历，而遍历可以通过迭代或递归实现
-迭代
-
-```c
-int size(list_node head) {
-    int i;
-    for(i = 1; head != NULL; head = head->next, ++i);
-    return i;
-}
-```
-
-递归
-
-```c
-int size(list_node head) {
-    if(head->next == NULL)
-        return 1;
-    else
-        return 1 + size(head->next);
-}
-```
-
-当需要搜索时，需要再参加相关参数
-迭代
-
-```c
-bool is_find(list_node head, int target) {
-    for(; head != NULL; head = head->next)
-        if(head->value = target)
-            return true;
-    return false;
-}
-```
-
-递归
-
-```c
-bool is_find(list_node head, int target) {
-    if(head->value == target)
-        return true;
-    if(head->next == NULL)
-        return false;
-    return is_find(head->next, target);
-}
-```
-
 ## 循环队列
 
 假设将循环队列定义为：以域变量`rear`和`length`分别指示循环队列中队尾元素的位置和内含的元素个数，试给出此循环队列的队满条件，写出相应的入队列和出队列算法（出队列算法应返回队头元素）
@@ -232,6 +107,10 @@ int brute_force(string s, string t, int pos) // s串为主串，t串为模式，
 ```
 
 ### 临时数组next
+
+{% note danger %}
+小红书 - 实习, 笔试.
+{% endnote %}
 
 以下举例说明，设模式串为**abaabcac**
 
@@ -443,7 +322,11 @@ for (int i = 1; i < length; ++i)
 
 ### 希尔排序
 
-将整个排序记录序列分成几组，从而减少直接插入排序的数据量。需要提前指定分组数量和分组次数。希尔排序不稳定，其最后一个增量必须为1，适合初始记录无序，n较大的情况。
+{% note danger %}
+JDY 测试开发, 二面.
+{% endnote %}
+
+将整个排序记录序列分成几组，从而减少直接插入排序的数据量。需要提前指定分组数量和分组次数。希尔排序不稳定，其最后一个增量必须为1，适合初始记录无序，n较大的情况。时间复杂度为 $O(n^{1.3})-O(n^{1.5})$
 
 ```cpp
 void ShellInsert(int *a, int length, int dk) // 对顺序表L进行一趟增量是dk的希尔插入排序
@@ -470,6 +353,14 @@ void ShellSort(int *a, int *dt, int t) // 按增量序列dt[0..t-1]对顺序表L
 较为稳定，但n较大时不适宜使用。
 
 ### 快速排序
+
+{% note danger %}
+腾讯微信支付 - 实习, 一面.
+{% endnote %}
+
+{% note danger %}
+腾讯混元 - 实习, 一面.
+{% endnote %}
 
 算法partition完成一趟快速排序，返回枢轴的位置。若待排序序列长度大于1（low < high），算法sort调用partition获取枢轴位置，然后递归执行，分别对分割所得的两个子表进行排序。
 
@@ -528,6 +419,10 @@ for(int i = 0; i< length; ++i)
 
 ### 堆排序
 
+{% note danger %}
+腾讯微信支付 - 实习, 一面.
+{% endnote %}
+
 序列 $k_1,\cdots,k_n$ 在满足 $$k_i\geq k_{2i},\quad k_i\geq k_{2i+1}\quad 或\quad k_{i}\leq k_{2i},\quad k_i\leq k_{si+1}$$ 其中之一时，可以称为堆。满足前者的是大顶堆，满足后者的是小顶堆。以下以大顶堆为例。
 
 调整成堆。首先查找这个节点和其子节点哪个更大，若更大的是子节点则找出最大的那个，和父节点交换。注意，交换后，可能子节点处堆的结构也遭到了破坏，因此还需要递归调整。
@@ -582,6 +477,42 @@ void sort(int array[])
 ### 归并排序
 
 通过递归进行排序，稳定排序。
+
+```py
+# 归并排序
+def merge_sort(left, right):
+    if left >= right:
+        return
+    mid = (left + right) // 2
+    # 分治
+    merge_sort(left, mid)
+    merge_sort(mid + 1, right)
+
+    # 使用双指针合并
+    def merge(left, mid, right):
+        left_array = array_sort2[left : mid + 1]
+        right_array = array_sort2[mid + 1 : right + 1]
+        i = j = 0
+        k = left
+        while i < len(left_array) and j < len(right_array):
+            if left_array[i] <= right_array[j]:
+                array_sort2[k] = left_array[i]
+                i += 1
+            else:
+                array_sort2[k] = right_array[j]
+                j += 1
+            k += 1
+        while i < len(left_array):
+            array_sort2[k] = left_array[i]
+            k += 1
+            i += 1
+        while j < len(right_array):
+            array_sort2[k] = right_array[j]
+            k += 1
+            j += 1
+
+    merge(left, mid, right)
+```
 
 ## 图
 

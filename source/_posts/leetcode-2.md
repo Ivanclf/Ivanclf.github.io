@@ -9,6 +9,10 @@ category: leetcode
 
 #### **无重复字符的最长子串**
 
+{% note danger %}
+小红书商业技术 - 实习, 一面.
+{% endnote %}
+
 给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。
 
 示例:
@@ -38,32 +42,6 @@ class Solution {
 ```
 
 当左指针 `i` 不在起始位置时，集合需要删掉 `i`前面的字母，然后右指针往后遍历，直到遇到相同字母为止。
-
-{% note info %}
-或者这样
-
-```java
-class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        int[] index = new int[128]; // 记录每个字符最后一次出现的位置 +1
-        int maxLen = 0;
-        int left = 0;
-
-        for (int right = 0; right < s.length(); right++) {
-            char ch = s.charAt(right);
-            left = Math.max(left, index[ch]);
-            maxLen = Math.max(maxLen, right - left + 1);
-            index[ch] = right + 1; 
-        }
-
-        return maxLen;
-    }
-}
-```
-
-第一个max函数用于比较右指针字符上一次出现的位置是否在左指针后，是则让左指针移动到后面一位。
-
-{% endnote %}
 
 #### 找到字符串中的所有字母异位词
 
@@ -176,8 +154,6 @@ class Solution {
 
 {% endnote %}
 
-题解和上面的差不多
-
 #### 滑动窗口最大值
 
 给你一个整数数组 `nums`，有一个大小为 `k` 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 `k` 个数字。滑动窗口每次只向右移动一位。
@@ -194,48 +170,6 @@ class Solution {
 | 1  3  -1 [-3  5  3] 6  7  | 5      |
 | 1  3  -1  -3 [5  3  6] 7  | 6      |
 | 1  3  -1  -3  5 [3  6  7] | 7      |
-
-{% note info %}
-滑动窗口就要注意其出来的数据和进来的数字。
-勇敢一次次遍历，最后时间复杂度超过5%。
-
-```java
-class Solution {
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        if (nums.length == 0) {
-            return new int[0];
-        }
-        int[] ans = new int[nums.length - k + 1];
-        int max = nums[0], maxIndex = 0;
-        
-        for (int i = 0; i < k; i++)
-            if (max <= nums[i]) {
-                max = nums[i];
-                maxIndex = i;                
-            }
-        ans[0] = max;
-        
-        for (int i = k; i < nums.length; i++) {
-            if (maxIndex == i - k) {
-                max = nums[i - k + 1];
-                maxIndex = i - k + 1;
-                for (int j = i - k + 2; j <= i; j++)
-                    if (max <= nums[j]) {
-                        max = nums[j];
-                        maxIndex = j;
-                    }
-            } else if (max <= nums[i]) {
-                    max = nums[i];
-                    maxIndex = i;
-                }
-            ans[i - k + 1] = max;
-        }
-        return ans;
-    }
-}
-```
-
-{% endnote %}
 
 ##### 优先队列
 
@@ -1032,7 +966,7 @@ class Solution {
         ListNode cur = p0.next; // 旧头节点
 
         for(; n >= k; n -= k) {
-            for (int i = 0; i < right - left + 1; i++) {
+            for (int i = 0; i < k; i++) {
                 ListNode nxt = cur.next;
                 cur.next = pre;
                 pre = cur;

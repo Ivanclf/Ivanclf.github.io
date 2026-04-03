@@ -6,7 +6,7 @@ category: leetcode
 ---
 
 {% note warning %}
-以下几篇均为leetcode热门100题中的原题与官方题解。部分会做的题目做好了会以蓝色注释放出来。
+以下几篇均为leetcode热门100题中的原题与官方题解. 部分题目会参考[灵神](https://space.bilibili.com/206214)的写法.
 {% endnote %}
 
 ### 哈希
@@ -109,7 +109,7 @@ class Solution {
 
 #### 最长连续序列
 
-给定一个未排序的整数数组 `nums` ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。请你设计并实现时间复杂度为$O(n)$的算法解决此问题。
+给定一个未排序的整数数组 `nums` ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。请你设计并实现时间复杂度为 $O(n)$ 的算法解决此问题。
 
 示例：
     输入：`nums = [100,4,200,1,3,2]`
@@ -144,36 +144,6 @@ class Solution {
 
 在示例中，能够开头的序列为`[100,200]`和`[1,2,3,4]`，代码能找到这两列，然后得到数字2和4，最后输出4。
 
-{% note info %}
-也可以直接排序后找结果，虽然复杂度由$O(n)$增加至$O(n\log_2n)$，但好懂多了。而且这套代码为什么比官方的还快？
-
-```java
-class Solution {
-    public int longestConsecutive(int[] nums) {
-        if(nums.length == 0)
-            return 0;
-        int temp = 0, max = 0;
-        Arrays.sort(nums);
-        for(int i = 0; i < nums.length - 1; i++) {
-            if(nums[i + 1] - nums[i] == 1) {
-                temp++;
-            } else if (nums[i + 1] - nums[i] == 0) {
-                continue;
-            } else {
-                temp++;
-                max = Math.max(temp, max);
-                temp = 0;
-            }
-        }
-        temp++;
-        max = Math.max(temp, max);
-        return max;
-    }
-}
-```
-
-{% endnote %}
-
 ### 双指针
 
 #### 移动零
@@ -205,42 +175,6 @@ class Solution {
 ```
 
 一开始快慢指针都是同一个，自己和自己交换。当出现0时快慢指针错开一位或多位，快指针指向非0数，与慢指针的0进行交换。
-
-{% note info %}
-提交做法
-
-```java
-class Solution {
-    public void moveZeroes(int[] nums) {
-        int fast = 0, slow = 0, length = nums.length;
-        while (fast != length) {
-            if (fast == slow) {
-                if (nums[fast] == 0) {
-                    fast++;
-                } else {
-                    fast++;
-                    slow++;
-                }
-            } else {
-                if (nums[fast] != 0) {
-                    nums[slow] = nums[fast];
-                    nums[fast] = 0;
-                    slow++;
-                    fast++;
-                } else {
-                    fast++;
-                }
-            }
-        }
-        while (slow != fast) {
-            nums[slow] = 0;
-            slow++;
-        }
-    }
-}
-```
-
-{% endnote %}
 
 #### **乘最多水的容器**
 
@@ -826,5 +760,56 @@ class Solution {
         }
         return ans;
     }
+}
+```
+
+### 非 hot 100
+
+#### 模拟乘法
+
+{% note danger %}
+字节跳动, 中国交易与广告 - 实习, 一面
+{% endnote %}
+
+实现字符串形式的大数乘法.
+
+```java
+public static String multiply(String num1, String num2) {
+    // 边界情况：任一数字为0，直接返回"0"
+    if ("0".equals(num1) || "0".equals(num2)) {
+        return "0";
+    }
+
+    int len1 = num1.length();
+    int len2 = num2.length();
+
+    // 结果数组：最大长度为 len1 + len2
+    int[] result = new int[len1 + len2];
+
+    // 从右往左遍历 num1
+    for (int i = len1 - 1; i >= 0; i--) {
+        int digit1 = num1.charAt(i) - '0'; // 字符转数字
+        // 从右往左遍历 num2
+        for (int j = len2 - 1; j >= 0; j--) {
+            int digit2 = num2.charAt(j) - '0';
+            // 计算乘积 + 当前位置原有值
+            int product = digit1 * digit2 + result[i + j + 1];
+            // 个位留在当前位置
+            result[i + j + 1] = product % 10;
+            // 进位放到前一位
+            result[i + j] += product / 10;
+        }
+    }
+
+    StringBuilder sb = new StringBuilder();
+    for (int num : result) {
+        // 跳过开头的0
+        if (sb.length() == 0 && num == 0) {
+            continue;
+        }
+        sb.append(num);
+    }
+
+    return sb.toString();
 }
 ```

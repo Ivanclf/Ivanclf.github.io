@@ -11,6 +11,10 @@ category: OS
 
 ## 进程间通信方式 IPC
 
+{% note danger %}
+腾讯微信支付 - 实习, 一面.
+{% endnote %}
+
 在 [操作系统课上内容中](https://ivanclf.github.io/2025/05/14/os/)，我们可以看到课上对进程的内容如下
 - Process Creation
 - Process Termination

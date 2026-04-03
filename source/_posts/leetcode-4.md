@@ -889,9 +889,7 @@ class Solution {
     exention -> exection (将 'n' 替换为 'c')
     exection -> execution (插入 'u')
 
-{% note success %}
-最难的题往往只需要最简单的题干。看第一个示例想着搞一个dp二维数组就行的，第二个示例直接放弃了。后面看示例2应该也可以继续搞，然后面对`sea` `eat`没有了办法。
-{% endnote %}
+##### 官解解法
 
 题目中可以对两个单词都进行操作，但简单起见不进行删除操作（容易证明这样和有了删除操作后依然是等价的），并且插入或者修改操作只在末尾进行（这也是能等价的）。
 
@@ -925,6 +923,79 @@ class Solution {
             }
         }
         return D[n][m];
+    }
+}
+```
+
+##### 灵神解法
+
+如果删除一个字母, 那么就等同于删除 `s[i]`, 如果增加一个字母, 那就等同于删除 `t[j]`, 若 `s[i] = t[j]`, 那二者都去掉. 于是, 状态转移公式为
+
+$$
+dfs(i, j)=\begin{cases}
+dfs(i-1, j-1),\quad s[i]-t[j]\\\\
+\min(\underbrace{dfs(i, j-1)}_{插入}, \underbrace{dfs(i-1, j)}_{删除},\underbrace{dfs(i-1, j-1)}_{替换}) + 1\quad s[i] \neq t[j]
+\end{cases}
+$$
+
+递归代码为
+
+```java
+class Solution {
+    private char[] s, t;
+    private int[][] memo;
+
+    public int minDistance(String text1, String text2) {
+        s = text1.toCharArray();
+        t = text2.toCharArray();
+        int n = s.length;
+        int m = t.length;
+        memo = new int[n][m];
+        for (int[] row : memo) {
+            Arrays.fill(row, -1); // -1 表示还没有计算过
+        }
+        return dfs(n - 1, m - 1);
+    }
+
+    private int dfs(int i, int j) {
+        if (i < 0) {
+            return j + 1;
+        }
+        if (j < 0) {
+            return i + 1;
+        }
+        if (memo[i][j] != -1) { // 之前算过了
+            return memo[i][j];
+        }
+        if (s[i] == t[j]) {
+            return memo[i][j] = dfs(i - 1, j - 1);
+        }
+        return memo[i][j] = Math.min(Math.min(dfs(i - 1, j), dfs(i, j - 1)), dfs(i - 1, j - 1)) + 1;
+    }
+}
+```
+
+然后将其翻译成递推
+
+```java
+class Solution {
+    public int minDistance(String text1, String text2) {
+        char[] s = text1.toCharArray();
+        char[] t = text2.toCharArray();
+        int n = s.length;
+        int m = t.length;
+        int[][] f = new int[n + 1][m + 1];
+        for (int j = 0; j < m; j++) {
+            f[0][j + 1] = j + 1;
+        }
+        for (int i = 0; i < n; i++) {
+            f[i + 1][0] = i + 1;
+            for (int j = 0; j < m; j++) {
+                f[i + 1][j + 1] = s[i] == t[j] ? f[i][j] :
+                        Math.min(Math.min(f[i][j + 1], f[i + 1][j]), f[i][j]) + 1;
+            }
+        }
+        return f[n][m];
     }
 }
 ```

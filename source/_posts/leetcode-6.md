@@ -412,6 +412,23 @@ class Solution {
 
 或者这样, 找最后一个数, 这个数要么是最小值, 要么比最小值大. 所以利用这个值可以做一些变化. 中间值小于最后一个值, 就说明在右半边, 有 `right = mid`, 反之在左半边, 有 `left = mid`.
 
+```java
+class Solution {
+    public int findMin(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while(left < right) {
+            int mid = (right - left) / 2 + left;
+            if(nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+}
+```
+
 
 #### 寻找两个正序数组的中位数
 

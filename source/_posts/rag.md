@@ -16,10 +16,18 @@ category: 业务
 
 ## RAG 架构
 
+{% note danger %}
+腾讯混元 - 实习, 一面.
+{% endnote %}
+
+{% note danger %}
+OPPO 后端工程师 - 实习, 一面
+{% endnote %}
+
 RAG 的机制并不难理解，就是通过检索获取相关的知识并将其融入 prompt，让大模型能够参考相应的知识从而给出合理回答。这也是其名字“检索增强生成”的由来。
 
 ```mermaid
-graph LR
+graph TD
 
 document[文档]-->|分片|chunk[文档分片]-->|向量化并存储|database[向量数据库]
 user[用户问题]-->|向量化用户问题|database-->|检索|prompt[构建提示词]

@@ -634,54 +634,6 @@ class Solution {
 }
 ```
 
-对前序遍历某个连续的节点`u`和`v`，只有两种可能的关系
-
-- `v`是`u`的左儿子
-- `u`没有左儿子，并且`v`是`u`的某个祖先节点（或者`u`本身）的右儿子。
-
-    - 若`u`没有左儿子，那么`v`就是`u`的右儿子
-    - 若`u`没有右儿子，那么可以向上追溯，直到遇到第一个有右儿子的节点。该节点的右儿子就是`v`
-
-{% note primary %}
-题解中的例子如下
-
-我们以树
-
-```mermaid
-graph TD
-3-->9-->8-->5-->4
-8-->10
-3-->20-->15
-20-->7
-```
-
-和其遍历
-
-```
-preorder = [3, 9, 8, 5, 4, 10, 20, 15, 7]
-inorder = [4, 5, 8, 10, 9, 3, 15, 20, 7]
-```
-
-为例。我们使用栈和指针进行维护。
-
-- 栈压入根节点3，指针指向4
-- 遍历9，9不等于栈顶3，因此9是3的左儿子，入栈
-    假如9是3的右儿子，那么由于先序遍历，3没有左儿子。这与中序遍历开头不是3相矛盾
-- 遍历8、5、4同理，是上一节点的左儿子，入栈 `stack=[3 9 8 5 4] *index=4`
-- 遍历10，此时栈顶为4，和中序一样了，那么4没有左儿子。那么10一定是栈中某个节点的右儿子
-    如何找到这个节点呢？我们可以把指针不断移动，同时弹出栈顶节点（若栈顶节点等于指针指向值），直到指针指向值不等于栈顶值(此例中为`stack=[3 9] *index=10`)。不等于时，说明 10 就是弹出的最后一个节点 8 的右儿子
-    8在此时是根节点，中序遍历中遍历完8后会先遍历其右儿子10，而先序遍历中会先遍历完左儿子再遍历枝杈，这就是二者不同的原因
-    最后把10入栈 `stack=[3 9 10] *index=10`
-- 遍历到20，刚好又和栈顶10相等，弹出9、3，栈空，因此20是3的右儿子。20入栈 `stack=[20] *index=15`
-- 遍历15与栈顶20不等，入栈 `stack=[20 15] *index=15`
-- 遍历7，指针指向值刚好是15，弹出15和20，栈空，因此7为20的右儿子
-- 遍历结束
-{% endnote %}
-
-于是，我们可以用一个栈辅助进行二叉树的构造，栈的含义为“当前节点的所有还没有考虑过右儿子的祖先节点”。初始时栈中存放了根节点（前序遍历第一个节点），指针指向中序遍历的第一个节点，该指针对应的节点是“当前节点不断往左走达到的最终节点”。
-我们依次枚举前序遍历中除了第一个节点以外的每个节点。若指针恰好指向栈顶，那么我们不断地弹出栈顶节点并向右移动指针，并将当前节点作为最后一个弹出节点的右儿子。若指针和栈顶节点不同，我们将当前节点作为栈顶节点的右儿子。
-无论哪一种情况，我们最后都将当前的节点入栈。
-
 #### 路径总和III
 
 给定一个二叉树根节点`root`，和一个整数 `targetSum` ，求该二叉树里节点值之和等于 `targetSum` 的 **路径** 的数目。
@@ -705,6 +657,7 @@ inorder = [4, 5, 8, 10, 9, 3, 15, 20, 7]
 
 ```java
 class Solution {
+    // 外层递归, 遍历每个节点, 统计所有合法路径
     public int pathSum(TreeNode root, long targetSum) {
         if (root == null)
             return 0;
@@ -715,6 +668,7 @@ class Solution {
         return ret;
     }
 
+    // 同累加和等于结果的路径数量
     public int rootSum(TreeNode root, long targetSum) {
         int ret = 0;
         if (root == null)
@@ -731,7 +685,7 @@ class Solution {
 
 ##### 前缀和
 
-此此方法可以把时间复杂度由$O(n^2)$降到$O(n)$。
+此此方法可以把时间复杂度由 $O(n^2)$ 降到 $O(n)$。
 我们定义前缀和为，由根节点到当前节点的路径上，所有节点的和。
 
 - 先序遍历二叉树，记录下根节点到当前节点的路径上，除当前节点意外所有节点的前缀和。在已保存的路径前缀和中查找是否存在前缀和刚好等于当前节点到根节点的前缀和
@@ -821,7 +775,7 @@ class Solution {
 考虑一个函数`maxGain(node)`，计算二叉树某个节点的最大贡献值，也就是说，以该节点为根节点的子树中，寻找以该节点为起点的一条路径，使得该路径上的节点之和最大。
 计算方式如下
 
-- 空姐点的最大贡献值为0
+- 空节点的最大贡献值为0
 - 非空节点的最大贡献值等于该节点与其子节点中的最大贡献值之和（叶节点则为节点值本身）
 
 对于以下子树
@@ -838,6 +792,7 @@ graph TD
 
 ```java
 class Solution {
+    // 最终答案
     int maxSum = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
@@ -846,13 +801,18 @@ class Solution {
     }
 
     public int maxGain(TreeNode node) {
+        // 节点为空时贡献值为 0
         if (node == null)
             return 0;
         
+        // 左子树能提供的最大链和
         int leftGain = Math.max(maxGain(node.left), 0);
+        // 右子树能提供的最大链和
         int rightGain = Math.max(maxGain(node.right), 0);
+        // 更新全局最大路径和
         int priceNewpath = node.val + leftGain + rightGain;
         maxSum = Math.max(maxSum, priceNewpath);
+        // 给父节点返回最大链和. 选左链或右链中更大的一个 + 当前节点. 若为负数则直接舍弃, 取0.
         return node.val + Math.max(leftGain, rightGain);
     }
 }
@@ -1046,10 +1006,6 @@ class Solution {
 }
 ```
 
-{% note success %}
-讽刺的是这两个官方题解都没过。
-{% endnote %}
-
 #### 数据流的中位数
 
 实现 `MedianFinder` 类:
@@ -1073,12 +1029,16 @@ class MedianFinder {
     }
     
     public void addNum(int num) {
+        // 符合条件则放数字到小顶堆
         if (queMin.isEmpty() || num <= queMin.peek()) {
             queMin.offer(num);
+            // 判断是否两个堆失衡, 失衡则放一个数到大于的堆里
             if (queMax.size() + 1 < queMin.size())
                 queMax.offer(queMin.poll());
+        // 放到大于的堆
         } else {
             queMax.offer(num);
+            // 判断是否失衡
             if (queMax.size() > queMin.size())
                 queMin.offer(queMax.poll());
         }
@@ -1088,6 +1048,41 @@ class MedianFinder {
         if (queMin.size() > queMax.size())
             return queMin.peek();
         return (queMin.peek() + queMax.peek()) / 2.0;
+    }
+}
+```
+
+### 非 hot 100
+
+#### 求根节点到叶子节点数据之和
+
+{% note danger %}
+美团后台开发 - 暑期实习, 二面
+{% endnote %}
+
+给你一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。每条从根节点到叶节点的路径都代表一个数字：例如，从根节点到叶节点的路径 `1 -> 2 -> 3` 表示数字 `123` 。
+
+计算从根节点到叶节点生成的**所有数字之和**。
+
+```java
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        return dfs(root, 0);
+    }
+
+    public int dfs(TreeNode root, int prevSum) {
+        // 空节点, 贡献 0
+        if (root == null) {
+            return 0;
+        }
+        int sum = prevSum * 10 + root.val;
+        // 叶子节点, 说明已经拼接好, 返回
+        if (root.left == null && root.right == null) {
+            return sum;
+        } else {
+            // 非叶子节点, 继续递归
+            return dfs(root.left, sum) + dfs(root.right, sum);
+        }
     }
 }
 ```

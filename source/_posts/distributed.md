@@ -13,6 +13,11 @@ categories: web
 
 ## CAP 理论
 
+{% note danger %}
+OPPO 后端工程师 - 实习, 二面
+{% endnote %}
+
+
 CAP 就是 Consistency (一致性)、Availability (可用性)、Partition Tolerance (分区容错性)这三个单词的首字母组合
 - 一致性：所有节点在同一时间看到的数据都是一致的
 - 可用性：系统在正常时间内返回合理的响应，即使部分节点出现故障，系统仍然能提供服务
@@ -121,6 +126,10 @@ PBFT 算法通常无领导者或其轮换机制，但需要复杂的投票阶段
 该思想的核心就是通过多个 Basic Paxos 实例就一系列值达成公式。
 
 ### Raft 算法
+
+{% note danger %}
+OPPO 后端工程师 - 实习, 二面
+{% endnote %}
 
 #### 节点基本状态
 

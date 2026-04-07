@@ -417,7 +417,7 @@ class Solution {
     输出：`true`
     解释：数组可以分割成 `[1, 5, 5]` 和 `[11]`
 
-把该问题进行转化，就是找选取的物品总量不超过数组和的一半，就是“0-1背包问题”。
+把该问题进行转化，就是找选取的物品总量不超过数组和的一半，就是[0-1背包问题](#01-背包问题)。
 首先进行判断。若数组长度为1或数组和为奇数，则直接返回`false`。然后创建二维数组`dp`，包含`n`行`target + 1`列，其中`dp[i][j]`表示从数组的`[0,i]`下标范围内选取若干个正整数，是否存在一种方案，使得选取的正整数之和等于`j`。
 边界条件为
 
@@ -442,6 +442,43 @@ $$
 `dp[i][j]`表示从数组的前`i`个元素中选取若干个正整数，是否存在一种方案，使得他们的和等于`j`。
 在第一种情况中，若不选当前元素（`dp[i][j]=dp[i-1][j]`）也不影响为`true`，或选了就需要前面所有元素凑出差值（`dp[i][j]=dp[i-1][j-nums[i]]`），那么就是`true`
 {% endnote %}
+
+```java
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        if(n < 2) {
+            return false;
+        }
+        int maxNum = -1, sum = 0;
+        for(int num : nums) {
+            sum += num;
+            maxNum = Math.max(maxNum, num);
+        }
+        if(sum % 2 != 0 || maxNum > sum / 2) {
+            return false;
+        }
+        sum /= 2;
+        boolean[][] dp = new boolean[sum + 1][n];
+        Arrays.fill(dp[0], true);
+        for(int i = 1; i <= sum; i++) {
+            for(int j = 0; j < n; j++) {
+                if(j > 0) {
+                    dp[i][j] = dp[i][j - 1];
+                }
+                if(i >= nums[j]) {
+                    if(j == 0) {
+                        dp[i][j] = nums[j] == i; 
+                    } else {
+                        dp[i][j] = dp[i][j] || dp[i - nums[j]][j - 1];
+                    }
+                }
+            }
+        }
+        return dp[sum][n - 1];
+    }
+}
+```
 
 由于每一行的`dp`值都只与上一行的`dp`值有关，因此可以降低数组量。此时的转移方程为
 $$

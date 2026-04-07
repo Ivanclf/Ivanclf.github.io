@@ -12,7 +12,6 @@ category: 数据库
 - [https://javabetter.cn/sidebar/sanfene/mysql.html](https://javabetter.cn/sidebar/sanfene/mysql.html)
 - 阿里巴巴 Java 开发手册（黄山版）
 
-{% note success %}
 SQL和NoSQL有什么区别？
 ||SQL|NoSQL|
 |-|-|-|
@@ -21,8 +20,6 @@ SQL和NoSQL有什么区别？
 |ACID 属性|提供原子性、一致性、隔离性和持久性 (ACID) 属性|通常不支持 ACID 事务，为了可扩展、高性能进行了权衡，少部分支持比如 MongoDB |
 |性能|性能通常取决于磁盘子系统。要获得最佳性能，通常需要优化查询、索引和表结构|性能通常由底层硬件集群大小、网络延迟以及调用应用程序来决定|
 |扩展|垂直（使用性能更强大的服务器进行扩展）、读写分离、分库分表|横向（增加服务器的方式横向扩展，通常是基于分片机制）|
-
-{% endnote %}
 
 ## 数据库概念
 

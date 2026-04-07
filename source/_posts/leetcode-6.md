@@ -848,8 +848,7 @@ class Solution {
     ]
     输出：1
 
-{% note info %}
-使用万能的dfs
+本人的 dfs 做法. 官解直接让计算过的点"淹掉", 从而节省了空间.
 
 ```java
 class Solution {
@@ -883,51 +882,6 @@ class Solution {
     }
 }
 ```
-
-{% endnote %}
-
-而官解直接让计算完的岛直接“淹掉”，节省了标记的空间
-
-```java
-class Solution {
-    void dfs(char[][] grid, int r, int c) {
-        int nr = grid.length;
-        int nc = grid[0].length;
-
-        if (r < 0 || c < 0 || r >= nr || c >= nc || grid[r][c] == '0') {
-            return;
-        }
-
-        grid[r][c] = '0';
-        dfs(grid, r - 1, c);
-        dfs(grid, r + 1, c);
-        dfs(grid, r, c - 1);
-        dfs(grid, r, c + 1);
-    }
-
-    public int numIslands(char[][] grid) {
-        if (grid == null || grid.length == 0) {
-            return 0;
-        }
-
-        int nr = grid.length;
-        int nc = grid[0].length;
-        int num_islands = 0;
-        for (int r = 0; r < nr; ++r) {
-            for (int c = 0; c < nc; ++c) {
-                if (grid[r][c] == '1') {
-                    ++num_islands;
-                    dfs(grid, r, c);
-                }
-            }
-        }
-
-        return num_islands;
-    }
-}
-```
-
-{% note primary %}
 
 也可以使用bfs，其实就是用队列代替迭代了
 
@@ -977,87 +931,7 @@ class Solution {
 
 此处使用特殊算法，使得只用一个数存储两个变量（纵横坐标）成为可能。
 
-{% endnote %}
-
 或者可以使用并查集代替搜索。为了求出岛屿的数量，可以扫描整个二位网络。若一个位置是1，那么将其相邻4个方向上的1在并查集中进行合并。为此我们需要另外一个并查集对象。
-
-```java
-class Solution {
-    class UnionFind {
-        int count;
-        int[] parent;
-        int[] rank;
-
-        public UnionFind(char[][] grid) {
-            count = 0;
-            int m = grid.length;
-            int n = grid[0].length;
-            parent = new int[m * n];
-            rank = new int[m * n];
-            for (int i = 0; i < m; ++i) {
-                for (int j = 0; j < n; ++j) {
-                    if (grid[i][j] == '1') {
-                        parent[i * n + j] = i * n + j;
-                        ++count;
-                    }
-                    rank[i * n + j] = 0;
-                }
-            }
-        }
-
-        public int find(int i) {
-            if (parent[i] != i)
-                parent[i] = find(parent[i]);
-            return parent[i];
-        }
-
-        public void union(int x, int y) {
-            int rootx = find(x);
-            int rooty = find(y);
-            if (rootx != rooty) {
-                if (rank[rootx] > rank[rooty])
-                    parent[rooty] = rootx;
-                else if (rank[rootx] < rank[rooty])
-                    parent[rootx] = rooty;
-                else {
-                    parent[rooty] = rootx;
-                    rank[rootx] += 1;
-                }
-                --count;
-            }
-        }
-
-        public int getCount() {
-            return count;
-        }
-    }
-
-    public int numIslands(char[][] grid) {
-        if (grid == null || grid.length == 0)
-            return 0;
-
-        int nr = grid.length;
-        int nc = grid[0].length;
-        int num_islands = 0;
-        UnionFind uf = new UnionFind(grid);
-        for (int r = 0; r < nr; ++r)
-            for (int c = 0; c < nc; ++c)
-                if (grid[r][c] == '1') {
-                    grid[r][c] = '0';
-                    if (r - 1 >= 0 && grid[r-1][c] == '1')
-                        uf.union(r * nc + c, (r-1) * nc + c);
-                    if (r + 1 < nr && grid[r+1][c] == '1')
-                        uf.union(r * nc + c, (r+1) * nc + c);
-                    if (c - 1 >= 0 && grid[r][c-1] == '1')
-                        uf.union(r * nc + c, r * nc + c - 1);
-                    if (c + 1 < nc && grid[r][c+1] == '1')
-                        uf.union(r * nc + c, r * nc + c + 1);
-                }
-
-        return uf.getCount();
-    }
-}
-```
 
 #### 腐烂的橘子
 
@@ -1070,8 +944,6 @@ class Solution {
 每分钟，腐烂的橘子 周围 `4` 个方向上相邻 的新鲜橘子都会腐烂。
 返回 *直到单元格中没有新鲜橘子为止所必须经过的最小分钟数*。如果不可能，返回 `-1` 。
 
-{% note info %}
-官解在叽里咕噜干嘛呢？
 其实最简单的办法就是多次循环。第一次找出腐烂的橘子，第二次开始bfs，第三次开始查看是否还有没腐烂的橘子。足矣
 
 ```java
@@ -1119,55 +991,6 @@ class Solution {
 ```
 
 为什么不能使用dfs呢？因为初始腐烂的橘子不止一个，需要在某一步将所有可能的腐烂的情况都考虑进去，这种情况下拿dfs就不太好解决了。
-{% endnote %}
-
-以下是官解的写法
-
-```java
-class Solution {
-    int[] dr = new int[]{-1, 0, 1, 0};
-    int[] dc = new int[]{0, -1, 0, 1};
-
-    public int orangesRotting(int[][] grid) {
-        int R = grid.length, C = grid[0].length;
-        Queue<Integer> queue = new ArrayDeque<Integer>();
-        Map<Integer, Integer> depth = new HashMap<Integer, Integer>();
-        for (int r = 0; r < R; ++r) {
-            for (int c = 0; c < C; ++c) {
-                if (grid[r][c] == 2) {
-                    int code = r * C + c;
-                    queue.add(code);
-                    depth.put(code, 0);
-                }
-            }
-        }
-        int ans = 0;
-        while (!queue.isEmpty()) {
-            int code = queue.remove();
-            int r = code / C, c = code % C;
-            for (int k = 0; k < 4; ++k) {
-                int nr = r + dr[k];
-                int nc = c + dc[k];
-                if (0 <= nr && nr < R && 0 <= nc && nc < C && grid[nr][nc] == 1) {
-                    grid[nr][nc] = 2;
-                    int ncode = nr * C + nc;
-                    queue.add(ncode);
-                    depth.put(ncode, depth.get(code) + 1);
-                    ans = depth.get(ncode);
-                }
-            }
-        }
-        for (int[] row: grid) {
-            for (int v: row) {
-                if (v == 1) {
-                    return -1;
-                }
-            }
-        }
-        return ans;
-    }
-}
-```
 
 #### 课程表
 
@@ -1176,7 +999,7 @@ class Solution {
 例如，先修课程对 `[0, 1]` 表示：想要学习课程 `0` ，你需要先完成课程 `1` 。
 请你判断是否可能完成所有课程的学习？如果可以，返回 `true` ；否则，返回 `false` 。
 
-给定一格包含$n$个节点的有向图$G$，若$G$中的任一条有向边$(u,v)$，$u$的排列中都出现在$v$的前面，那么称该排列是图$G$的**拓补排序**。由该定义我们可以得出两个结论
+给定一格包含 $n$ 个节点的有向图 $G$，若 $G$ 中的任一条有向边 $(u,v)$，$u$ 的排列中都出现在 $v$ 的前面，那么称该排列是图 $G$ 的**拓补排序**。由该定义我们可以得出两个结论
 
 - 若$G$存在环，那么$G$不存在拓补排序
 - 若$G$是有序无环图，那么其拓补排序可能不止一种

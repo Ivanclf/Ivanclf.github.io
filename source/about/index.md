@@ -4,6 +4,8 @@ date: 2025-07-12 16:01:17
 layout: about
 ---
 
-该网站主要是个人技术类文章以及各种笔记。具体的部署工作则交给我的.com网站了。当然，既然该网站不受监管，那我可能也会发点其他东西😋
+本站主要收录个人技术文章与各类学习笔记。
+如发现文中表述有误或存在知识性偏差，欢迎直接前往 GitHub 源码处提交 Issue。
 
-若发现我的博客中有表述不准确或知识性错误，请发至邮箱 1121846957@qq.com 。
+This website features personal technical articles and assorted notes.
+If you spot inaccurate statements or factual errors, feel free to submit an Issue on its GitHub repository.

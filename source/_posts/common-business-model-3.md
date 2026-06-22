@@ -9,29 +9,7 @@ category: 业务
 
 ### 创建配置类
 
-使用以下方法，创建 OSS 的内网或外网客户端
-
-```java
-/**
- * 创建OSS客户端（用于外网访问）
- */
-private OSS createPublicOssClient() {
-    String publicEndpointToUse = StringUtils.hasText(publicEndpoint) ? publicEndpoint : endpoint;
-    log.debug("创建外网OSS客户端: endpoint={}, accessKeyId={}, bucketName={}", publicEndpointToUse, accessKeyId, bucketName);
-    return new OSSClientBuilder().build(publicEndpointToUse, accessKeyId, accessKeySecret);
-}
-
-/**
- * 创建OSS客户端（用于内网操作）
- */
-private OSS createOssClient() {
-    log.debug("创建内网OSS客户端: endpoint={}, accessKeyId={}, bucketName={}", endpoint, accessKeyId, bucketName);
-    return new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-}
-```
-
-{% note info %}
-但这里没有注册到 Bean 里，而是每次请求都新建一个 OSS 对象，显然比较浪费。因此比较好的做法是将内网和外网的 OSS 统一注册到 Spring 里。
+使用以下方法，创建 OSS 的内网或外网客户端, 并将其统一注册到 spring 里.
 
 ```java
 @Configuration
@@ -80,36 +58,33 @@ public class OssConfig {
     }
 }
 ```
-{% endnote %}
 
 ### 一次传输
 
 #### 上传文件
 
-上传文件的方法中，需要指明文件本身（即 `MultipartFile` 对象）和传输路径。首先需要进行校验
+上传文件时的入参为 `MultipartFile` 文件对象, 传输路径 `path`. 步骤如下
+
+##### 参数校验
 
 ```java
-if (file == null || file.isEmpty()) {
-    // 抛异常或返回错误信息
-}
-
+// 文件非空校验
+if (file == null || file.isEmpty()) // 抛异常或返回错误信息
 // 校验路径参数
-if (!StringUtils.hasText(path)) {
-    // 抛异常或使用默认路径
-}
+if (!StringUtils.hasText(path)) // 抛异常或使用默认路径
 ```
 
-然后生成对象的键
+##### 生成对象唯一键
+
+代码处的规则是 `path/yyyyMMdd/uuid_原始文件名`
 
 ```java
-// 生成对象键: path/yyyyMMdd/uuid_原始文件名
-String originalFilename = file.getOriginalFilename();
-String dateFolder = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-String uuid = UUID.randomUUID().toString().replace("-", "");
-String key = String.format("%s/%s/%s_%s", path, dateFolder, uuid, originalFilename);
+String dateFolder = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")); // 日期
+String uuid = UUID.randomUUID().toString().replace("-", ""); // uuid 部分
+String key = String.format("%s/%s/%s_%s", path, dateFolder, uuid, file.getOriginalFilename()); // 最后的键
 ```
 
-上传文件流本身
+##### 执行上传
 
 ```java
 // 上传文件流
@@ -123,19 +98,16 @@ try (InputStream inputStream = file.getInputStream()) {
 }
 ```
 
-获取文件 url
+##### 获取文件 url
 
 ```java
-String fileUrl = "";
-try {
-    fileUrl = idpUrl + "/api/oss/url/get?objectKey=" + key;
-} catch (Exception e) {
-    log.error("获取文件访问URL失败", e);
-}
+fileUrl = url + "/api/oss/url/get?objectKey=" + key;
 log.info("文件上传成功: objectKey={}, fileUrl={}", key, fileUrl);
 ```
 
-无论如何，在打开 OSS 配置类后，都要注意关闭资源。但如果注册在 Bean 中，只需要打注释就好了。
+##### 关闭资源
+
+无论如何，在打开 OSS 配置类后，都要注意关闭资源。但如果注册在 Bean 中，只需要打相关注释就好了。
 
 ```java
 finally {
@@ -147,12 +119,11 @@ finally {
 
 #### 下载文件
 
-传入的参数为文件的 key 和响应体。
+入参为文件的 `key` 和响应体。步骤如下
 
-首先需要检查文件是否存在
+##### 检查文件是否存在
 
 ```java
-// 检查文件是否存在
 if (!ossClient.doesObjectExist(bucketName, objectKey)) {
     log.warn("文件不存在: objectKey={}", objectKey);
     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -161,23 +132,22 @@ if (!ossClient.doesObjectExist(bucketName, objectKey)) {
 }
 ```
 
-下载的流程比上传的简单很多，不需要完整拼接全部的 url
+##### 获取 OSS 文件流
 
 ```java
-// 下载OSS文件
 OSSObject ossObject = ossClient.getObject(bucketName, objectKey);
 ```
 
-然后包装请求体，将其变成特定的格式
+##### 写入响应流
 
 ```java
-// 设置响应头
+// 设置下载响应头
 String fileName = objectKey.substring(objectKey.lastIndexOf("/") + 1);
 response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
 response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
     "attachment; filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
 
-// 写入响应流
+// 流拷贝
 try (InputStream inputStream = ossObject.getObjectContent();
         OutputStream outputStream = response.getOutputStream()) {
 
@@ -188,25 +158,12 @@ try (InputStream inputStream = ossObject.getObjectContent();
     }
     outputStream.flush();
 }
-
 log.info("文件下载成功: objectKey={}", objectKey);
 ```
 
-#### 检查是否存在
+#### 通过文件 key 获取临时访问 url (带签名, 1 小时过期)
 
-这个人家包装好了
-
-```java
-boolean exists = ossClient.doesObjectExist(bucketName, objectKey);
-```
-
-#### 删除文件
-
-```java
-ossClient.deleteObject(bucketName, objectKey);
-```
-
-#### 通过文件 key 获取 url
+客户端配置为: 开启了 CNAME, 使用 V4 签名, 用完关闭客户端.
 
 ```java
 public String getFileUrl(String objectKey) {
@@ -214,29 +171,21 @@ public String getFileUrl(String objectKey) {
     OSS ossClient = createPublicOssClient();
 
     // 创建客户端配置
-        ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
-        // 请注意，设置true开启CNAME选项
-        clientBuilderConfiguration.setSupportCname(true);
-        // 显式声明使用 V4 签名算法
-        clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
+    ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
+    clientBuilderConfiguration.setSupportCname(true);
+    clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
 
     try {
-        // 指定生成的预签名URL过期时间，单位为毫秒
+        // 指定生成的预签名URL过期时间，1 小时
         Date expiration = new Date(new Date().getTime() + 3600 * 1000L);
-        // 生成预签名URL
         GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucketName, objectKey, HttpMethod.GET);
-        // 设置过期时间
         request.setExpiration(expiration);
 
         // 通过HTTP GET请求生成预签名URL
         URL signedUrl = ossClient.generatePresignedUrl(request);
-        // 打印预签名URL
-        log.info("{}预签名URL: {}", objectKey, signedUrl);
         return signedUrl.toString();
-    } catch (OSSException oe) {
-        log.error("获取OSS数据异常", oe);
-    } catch (ClientException ce) {
-        log.error("连接OSS异常", ce);
+    } catch (Exception e) {
+        log.error("获取 URL 数据异常", e);
     } finally {
         if (ossClient != null) {
             ossClient.shutdown();
@@ -252,9 +201,9 @@ public String getFileUrl(String objectKey) {
 
 ## 系统
 
-若不使用 Hutool 之类的工具，则使用 JDK 内置的方法获取系统内置信息
+### 系统属性信息
 
-### 属性信息
+通过 `System.getProperties()` 获取操作系统, JVM, 用户等基础环境信息. 直接通过键名取值即可.
 
 ```java
 Properties props = System.getProperties();
@@ -268,26 +217,24 @@ System.out.println("用户名称: " + props.getProperty("user.name"));
 System.out.println("用户工作目录: " + props.getProperty("user.dir"));
 ```
 
-运行时信息（内存、CPU 等）
+### 运行时信息
+
+通过 `Runtime` 获取 JVM 内存使用, CPU 核心数等运行时信息（内存、CPU 等）
 
 ```java
 Runtime runtime = Runtime.getRuntime();
-// 总内存（JVM初始分配的内存）
-long totalMemory = runtime.totalMemory() / 1024 / 1024;
-// 最大可用内存（JVM能申请的最大内存）
-long maxMemory = runtime.maxMemory() / 1024 / 1024;
-// 空闲内存
-long freeMemory = runtime.freeMemory() / 1024 / 1024;
-// 已使用内存
-long usedMemory = totalMemory - freeMemory;
-// CPU核心数
-int processors = runtime.availableProcessors();
-
+long totalMemory = runtime.totalMemory() / 1024 / 1024; // 总内存（JVM初始分配的内存）
+long maxMemory = runtime.maxMemory() / 1024 / 1024;     // 最大可用内存（JVM能申请的最大内存）
+long freeMemory = runtime.freeMemory() / 1024 / 1024;   // 空闲内存
+long usedMemory = totalMemory - freeMemory;             // 已使用内存
+int processors = runtime.availableProcessors();         // CPU核心数
 ```
 
 ### 执行系统命令
 
-一般使用 `Runtime.getRuntime().exec(command)` 函数执行系统命令。以下以 `ping` 命令为例。首先我们需要一个 `Precess` 对象来接收执行的结果
+一般使用 `Runtime.getRuntime().exec(command)` 函数执行系统命令, 并使用一个 `Precess` 对象来接收执行的结果.
+
+以 `ping` 命令为例。
 
 ```java
 String command = "ping www.baidu.com";
@@ -300,7 +247,7 @@ Process process = Runtime.getRuntime().exec(command);
 - 等待进程执行完成
 - 获取进程的退出码
 
-输出流和错误流均为 `InputStream`，注意一定要及时读取，否则新进程的输出缓冲区可能会被占满，从而导致进程阻塞，无法结束
+输出流和错误流均为 `InputStream`，注意一定要及时读取，否则新进程的输出缓冲区可能会被占满，从而导致进程阻塞, 直接卡死, 无法结束
 
 ```java
 BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -319,25 +266,21 @@ while ((errorLine = errorReader.readLine()) != null) {
 }
 ```
 
-通过逐行读取，并且查询每一行中有没有特定的字符串，有则设置对应的参数
+其他两种操作为
 
 ```java
-if (line.contains("mono")) {
-    map.put(STR_CHANNELS, 1);
-    break;
-}
+process.waitFor();                  // 等待命令执行完成
+int exitCode = process.exitValue(); // 获取执行退出码
 ```
 
 ### 正则表达式匹配
 
-正则表达式作为一种3型文法，在使用时不能直接用于匹配。在 Java 中，对正则表达式有一个编译的过程，该过程中，JVM 会将正则表达式转换为 NFA，然后简化为 DFA，以数组-哈希表的方式存储。当然，为了支持反向引用、零宽断言等复杂语法，Java 中放着的是尽量 DFA 简化过的 NFA。
-
-因此面对一个新的正则表达式，Java 都会尝试编译一遍。因此使用最简单的 `String.matches()` 在大量匹配的场景中极为低效。更好的办法就是提前编译。这个需要定义一个 `Patten` 类。
+Java 中的正则必须先编译为 NFA/DFA 结构才能匹配, 若单纯使用 `String.matches()` 方法, 则每次调用都需要重新编译, 在大量匹配的场景下性能极差. 因此推荐提前编译 Patten 并复用.
 
 ```java
 // 定义正则表达式模式
-final String hz = "(?<=,)[0-9]+(?=Hz)";
-final String bit_rate = "(?<=,)[0-9]+(?=kb)";
+final String hz = "(?<=,)[0-9]+(?=Hz)";         // 提取采样率
+final String bit_rate = "(?<=,)[0-9]+(?=kb)";   // 提取比特率
 Pattern bit_rate_pattern = Pattern.compile(bit_rate);
 Pattern hz_pattern = Pattern.compile(hz);
 ```
@@ -348,8 +291,6 @@ Pattern hz_pattern = Pattern.compile(hz);
 // 解析错误输出中的音频信息
 String errorLine;
 while ((errorLine = errorReader.readLine()) != null) {
-    log.info("debug-->{}", errorLine);
-    System.out.println("ff" + errorLine);
     errorLine = errorLine.replace(" ", "");
     
     // 检测声道
@@ -405,32 +346,25 @@ public static String convertMp3ToWav(String tempPath, String fileName, boolean i
 
 ```java
 public static String decodeVideo(File videoFile, String outPath) {
-    String result = null;
     try {
-        log.info("音频提取-->视频地址路径-->{}", videoFile.getAbsolutePath());
         if (!videoFile.exists()) {
-            log.error("视频文件不存在-->{}",videoFile.getAbsolutePath());
-            return result;
+            return null;
         }
-        
         // 生成输出文件名
         String fileName = videoFile.getName();
         String name = fileName.substring(0, fileName.lastIndexOf("."));
         String outFile = outPath + name + "_" + DateUtil.current() + ".wav";
         
         String command =  ffmpegPath + File.separator + "ffmpeg -i " + videoFile.getAbsolutePath() + " -c:a pcm_s16le " + outFile;
-        log.info("音频提取-->转换命令-->{}", command);
         Process proc = Runtime.getRuntime().exec(command);
         handleProcessOutput(proc);
         proc.waitFor();
-        log.debug("解码文件 {}", outFile);
-        result = outFile;
+        return outFile;
 
     } catch (Exception e) {
         log.error("视频音频提取失败", e);
-        result = null;
+        return null;
     }
-    return result;
 }
 ```
 
@@ -438,28 +372,20 @@ public static String decodeVideo(File videoFile, String outPath) {
 
 ```java
 public static String extractFrames(File videoFile, String outPath) {
-    String result = null;
     try {
-        log.info("截取图片-->视频地址路径-->{}", videoFile.getAbsolutePath());
         if (!videoFile.exists()) {
-            log.error("视频文件不存在-->{}",videoFile.getAbsolutePath());
-            return result;
+            return null;
         }
-        
         String outFile = outPath + "%05d.png";
         String command =  ffmpegPath + File.separator + "ffmpeg -i " + videoFile.getAbsolutePath() + " -r 1/5 " + outFile;
-        log.info("截取图片-->转换命令-->{}", command);
         Process proc = Runtime.getRuntime().exec(command);
         handleProcessOutput(proc);
         proc.waitFor();
-        log.debug("截取图片 {}", outPath);
-        result = outPath;
-
+        return outPath;
     } catch (Exception e) {
         log.error("视频截图失败", e);
-        result = null;
+        return null;
     }
-    return result;
 }
 ```
 
@@ -478,18 +404,10 @@ public static boolean cropVideo(String inputVideoPath, String outputVideoPath,
                 "-y",                           // 覆盖输出文件
                 outputVideoPath                 // 输出文件
         };
-        log.info("视频裁剪命令: {}", String.join(" ", command));
-        
-        // 执行命令
+
         Process process = new ProcessBuilder(command).start();
-        
-        // 处理命令输出
         handleProcessOutput(process);
-        
-        // 等待进程执行完成
         int exitCode = process.waitFor();
-        
-        // 退出码为0表示成功
         return exitCode == 0;
     } catch (Exception e) {
         log.error("视频裁剪失败: {}", e.getMessage(), e);

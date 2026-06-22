@@ -1,5 +1,5 @@
 ---
-title: 常见业务模型 - 企业系统部分外连接口
+title: 常见业务模型 - Oauth2 和邮件发送
 date: 2026-01-24 12:48:49
 tags: [java]
 category: 业务
@@ -48,11 +48,10 @@ sequenceDiagram
 ```java
 @GetMapping("/oauth2/authorize")
 public String authorize() {
-    String url = oauth2Properties.getAuthorizeUrl() +
-        "?redirect_uri=" + oauth2Properties.getRedirectUrl() +
-        "&state=123&client_id=" + oauth2Properties.getClientId() +
-        "&response_type=code";
-    log.info("授权url:{}", url);
+    String url = oauth2Properties.getAuthorizeUrl() +               // 第三方服务器的授权端点
+        "?redirect_uri=" + oauth2Properties.getRedirectUrl() +      // 授权成功后, 第三方服务器调用的回调地址
+        "&state=123&client_id=" + oauth2Properties.getClientId() +  // 传客户端 ID, 而 state 参数用于传一个随机数, 放 CSRF 攻击
+        "&response_type=code";                                      // 固定值, 告诉服务器返回授权码
     return "redirect:" + url;
 }
 ```
@@ -62,19 +61,24 @@ public String authorize() {
 ```java
 @GetMapping("/oauth2/callback")
 public void callback(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
-    // 用code获取token
+    // 用 code 获取 token, 详细实现见下
     JSONObject tokenResponse = getAccessToken(code);
     if (ObjectUtil.isNotEmpty(tokenResponse)) {
+        // 从结果中取出令牌和用户 uid
         String accessToken = tokenResponse.getString("access_token");
         String uid = tokenResponse.getString("uid");
 
+        // 如果这里的用户来的 uid 不是我们存的数据, 那就回数据库去查
         if(!oauth2Properties.getUserIdKey().equals("uid")) {
             uid = getUserInfo(oauth2Properties.getClientId(), accessToken, uid);
         }
 
-        String redirectUrl = ssoUrl + "/login.html?" + "token=" + accessToken + "tenantId=default&userId=" + uid;
+        // 拼接跳转地址, 跳转到自己系统的登录页
+        String redirectUrl = ssoUrl + "/login.html?" 
+            + "token=" + accessToken 
+            + "tenantId=default&userId=" + uid;
         redisTemplate.opsForValue().set(REDIS_KEY + accessToken, "true", 6, TimeUnit.HOURS);
-        log.info("获取到access_token: {},重定向到login.html, {}", accessToken, redirectUrl);
+        // 重定向到登录页, 完成登录
         response.sendRedirect(redirectUrl);
     } else {
         response.getWriter().write("获取token失败");
@@ -84,22 +88,20 @@ public void callback(@RequestParam("code") String code, HttpServletResponse resp
 
 授权接口和回调接口的请求方法强制为 GET。
 
-其中需要的获取 token 的方法，通过授权码获取访问令牌。
+其中需要的获取 token 的方法，通过授权码获取访问令牌。这是整个流程最关键的一步.
 
 ```java
 private JSONObject getAccessToken(String code) {
     String url = oauth2Properties.getAccessTokenUrl() +
-        "?client_id=" + oauth2Properties.getClientId() +
-        "&grant_type=authorization_code" +
-        "&code=" + code +
-        "&client_secret=" + oauth2Properties.getClientSecret();
+        "?client_id=" + oauth2Properties.getClientId() +        // 应用 id
+        "&grant_type=authorization_code" +                      // 固定值, 代表用授权码换令牌
+        "&code=" + code +                                       // 上一步拿到的临时授权码
+        "&client_secret=" + oauth2Properties.getClientSecret(); // 应用密钥
     // 构建请求头
     HttpHeaders requestHeaders = new HttpHeaders();
-    // 指定响应返回json格式
     requestHeaders.add("accept", "application/json");
-    // 构建请求实体
+    // 发送 post 请求
     HttpEntity<String> requestEntity = new HttpEntity<>(requestHeaders);
-    // post 请求方式
     ResponseEntity<JSONObject> response = restTemplate.postForEntity(url, requestEntity, JSONObject.class);
 
     // 解析响应json字符串
@@ -107,7 +109,7 @@ private JSONObject getAccessToken(String code) {
 }
 ```
 
-通过访问令牌获取用户信息。
+最后, 通过访问令牌获取用户信息。
 
 ```java
 private String getUserInfo(String clientId, String accessToken, String uid) {
@@ -128,9 +130,9 @@ private String getUserInfo(String clientId, String accessToken, String uid) {
 
 ### 授权给第三方
 
-此处的写法就比较多样了。此处列举使用 GET 方法和 POST 方法的情况。
+此处的写法就比较多样了。此处列举使用 GET 方法和 POST 方法的情况。GET 方法使用参数传递, 而 POST 方法使用请求体传递, 二者没有差别
 
-GET 方法
+**GET 方法**
 
 ```java
 @Operation(summary = "第三方token校验接口")
@@ -146,7 +148,7 @@ public ApiResponse<ThdLoginResponse> checkLogin(@RequestParam(name = "userId", r
 }
 ```
 
-POST 方法
+**POST 方法**
 
 ```java
 @Operation(summary = "第三方token校验接口")
@@ -180,25 +182,17 @@ spring:
   flyway:
     enabled: false
   mail:
-    # 邮件服务器地址
-    host: smtp.qq.com
-    # 协议 默认就是smtp
-    protocol: smtps
-    # 编码格式 默认就是utf-8
-    default-encoding: utf-8
-    # 邮箱
-    username: example@qq.com
-    # 16位授权码 不是邮箱密码
-    password: 1145141919815000
-    # smtp的指定端口 25端口默认不启用ssl 也就是protoc为smtp, 使用465要将protocol改为smtps并且开启ssl为true
-    port: 465   #465
-    # 设置开启ssl
+    host: smtp.qq.com               # 邮件服务器地址
+    protocol: smtps                 # 发送协议
+    default-encoding: utf-8         # 编码格式
+    username: example@qq.com        # 发件邮箱
+    password: 1145141919815000      # 16位授权码 不是邮箱密码
+    port: 465   #465              # smtp 的指定端口 25 端口默认不启用 ssl 也就是 protocol 为 smtp, 使用 465 要将 protocol 改为 smtps 并且开启 ssl 为 true
     properties:
       mail:
         stmp:
           ssl:
             enable: false
-        # 收邮件配置
         receive:
           enable: false
           protocol: pop3
@@ -207,24 +201,19 @@ spring:
           port: 995     #997
 ```
 
-### 文字信息
+### 纯文本邮件发送
 
 如果信件只是简单的文字信息，则只需要配置好相关信息，直接抄送即可。
 
 ```java
 public void sendNormalEmailMessage(TextEmailVO mail) {
-    // 创建简单邮件消息
+    // 创建简单邮件对象
     SimpleMailMessage message = new SimpleMailMessage();
-    // 发件箱
-    message.setFrom(mailUserName);
-    // 谁要接收
-    message.setTo(mail.getTo());
-    // 邮件标题
-    message.setSubject(mail.getSubject());
-    // 邮件内容
-    message.setText(mail.getContent());
-    // 抄送的人
-    message.setCc(mail.getCc());
+    message.setFrom(mailUserName);          // 发件箱
+    message.setTo(mail.getTo());            // 谁要接收
+    message.setSubject(mail.getSubject());  // 邮件标题
+    message.setText(mail.getContent());     // 邮件内容
+    message.setCc(mail.getCc());            // 抄送
     // 发送邮件
     javaMailSender.send(message);
     operatorOfEmail.insert(EmailEntityUtil.convertVo2Do(mail));
@@ -233,41 +222,41 @@ public void sendNormalEmailMessage(TextEmailVO mail) {
 
 注意，在发送的同时也要在数据库中同步一份数据记录。数据库中应该存放其租户 id、邮件发送时间、消息类型、发送者邮箱、主题、邮件内容、接收者、发送人姓名、发送人用户 id、邮件的附件 OSS 存储地址（或其比特流）、邮件的传输方向、邮件的系统来源这些信息。
 
-### 富文本
+### 富文本邮件发送
 
-富文本相比纯文字多出了图片、表格等信息。此处假设发送的是 HTML 文本文件（足够丰富了），而走的也是纯粹的比特流而非文件流。
+富文本邮件支持 **HTML 格式**（图片、表格等），同时兼容**前端上传文件**和**文件服务器**文件两种附件来源，附件以二进制流形式处理。
 
 ```java
 public String sendMimeMessage(EmailVO mail, MultipartFile multipartFile) throws MessagingException, IOException {
     MimeMessage message = javaMailSender.createMimeMessage();
 
+    // 创建一个复杂邮件对象, 参数 true 表示开启多媒体支持
     MimeMessageHelper helper = new MimeMessageHelper(message, true);
-    helper.setFrom(mailUserName);
-    // 谁要接收
-    helper.setTo(mail.getTo());
-    // 邮件标题
-    helper.setSubject(mail.getSubject());
-    // 抄送的人
-    helper.setCc(mail.getCc());
-    // 邮件内容   true 表示带有附件或html
-    helper.setText(mail.getContent(), true);
+    helper.setFrom(mailUserName);               // 发件人
+    helper.setTo(mail.getTo());                 // 收件人
+    helper.setSubject(mail.getSubject());       // 标题
+    helper.setCc(mail.getCc());                 // 抄送
+    helper.setText(mail.getContent(), true);    // 邮件内容, true 表示带有附件或 html
 
-    // 直接走二进制流，不走文件流，上传的是文件流，不是文件服务器的文件地址
+    // 附件来源一: 前端上传的文件
     if (!ObjectUtils.isEmpty(multipartFile)) {
         log.info("send email: store email attachment file stream to database");
         byte[] bytes = multipartFile.getBytes();
         String fileName = Optional.ofNullable(multipartFile.getOriginalFilename()).orElse("");
+
+        // 把附件二进制存到邮件对象里, 方便后面放数据库
         mail.setBinaryEmailAttachment(bytes);
         mail.setFileName(fileName);
         helper.addAttachment(fileName, new ByteArrayResource(bytes));
-    } else {
-        if (StringUtils.hasText(mail.getFileAddress())){
+    // 附件来源二: 文件服务器地址
+    } else if (StringUtils.hasText(mail.getFileAddress())){
             try {
                 // 以流的形式下载文件服务器文件
                 InputStream fis = new BufferedInputStream(Files.newInputStream(Paths.get(mail.getFileAddress())));
                 byte[] buffer = new byte[fis.available()];
                 fis.read(buffer);
                 fis.close();
+                // 附件二进制写入邮件对象, 添加为邮件附件
                 mail.setBinaryEmailAttachment(buffer);
                 helper.addAttachment(mail.getFileName(), new ByteArrayResource(buffer));
             } catch (IOException ex) {
@@ -275,7 +264,9 @@ public String sendMimeMessage(EmailVO mail, MultipartFile multipartFile) throws 
             }
         }
     }
+    // 真正执行发送操作
     javaMailSender.send(message);
+    // 存到数据库
     EmailDO emailDO = EmailEntityUtil.convertVo2Do(mail);
     operatorOfEmail.insert(emailDO);
     // 查询该邮件的id
@@ -284,55 +275,3 @@ public String sendMimeMessage(EmailVO mail, MultipartFile multipartFile) throws 
 ```
 
 其中的 `MultipartFile` 是 Spring Web 中用于处理客户端上传文件的核心接口。用于接收用户上传的文件并封装其元信息（如文件名、大小、字节流等）。
-
-### 附件
-
-单纯传附件的话就更简单了，就是正常的将文件上传到 OSS 或本地存储二进制文件流的操作。
-
-```java
-@PostMapping(value ="/uplode/file")
-@ResponseBody
-public ApiResponse<String> upFileToFileServer(
-    @Parameter(description= "文件名") @RequestParam String fileName,
-    @Parameter(description= "文件流") @RequestParam(required = false) MultipartFile multipartFile) {
-    ApiResponse<String> apiResponse = ApiResponse.successResponse();
-    try {
-        String url = "http://fileserver/fileserver/put?filechannel=wechat&filetype=doc";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        RestTemplateUtil.postMessage(restTemplate, url,fileName , headers);
-        apiResponse.setMessage("文件上传成功");
-    } catch (Exception e) {
-        apiResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        apiResponse.setStatus("fail");
-        apiResponse.setMessage(e.getMessage());
-        log.error("upload file failed {}", e.getMessage(), e);
-    }
-    return apiResponse;
-}
-```
-
-若文件中既有附件又有富文本，则需要两者共同上传，这考验数据库表的设计能力。
-
-```java
-@Operation(summary = "发送富文本含附件邮件")
-@PostMapping(value = "/mime/send")
-@ResponseBody
-public ApiResponse<String> sendAttachmentsMail(
-    @Parameter(description= "消息体", required = true) @RequestParam String mail,
-    @Parameter(description= "消息附件") @RequestParam(required = false) MultipartFile multipartFile) {
-    ApiResponse<String> apiResponse = ApiResponse.successResponse();
-    try {
-        EmailVO eMailVO = JSONObject.parseObject(mail, EmailVO.class);
-        String emailId = mailSendService.sendMimeMessage(eMailVO, multipartFile);
-        apiResponse.setData(emailId);
-        apiResponse.setMessage("邮件发送成功");
-    } catch (Exception e) {
-        apiResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        apiResponse.setStatus("fail");
-        apiResponse.setMessage(e.getMessage());
-        log.error("send attachments mail {}", e.getMessage(), e);
-    }
-    return apiResponse;
-}
-```
